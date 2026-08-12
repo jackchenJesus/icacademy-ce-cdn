@@ -1,7 +1,7 @@
 /**
  * ICAcademy Student Artwork Gallery Hub – Custom Element
  * Tag name: gallery-hub
- * Version: 2026-08-12-v2 (mobile polish: 375 / 768 / 1024)
+ * Version: 2026-08-12-v3 (mobile course cards: keep side-by-side, fix CTA wrap)
  * Design system: matches courses-hub / kids-art-hub / drawing-painting-hub (coral / teal)
  * Route: /zh/gallery
  */
@@ -381,7 +381,7 @@ const COURSE_CARDS = [
     title: "Drawing & Painting",
     desc: "素描、繪畫、塑膠彩與綜合美術技巧，按興趣與程度選擇合適方向。",
     href: DRAWING_URL,
-    cta: "探索 Drawing & Painting",
+    cta: "探索繪畫及素描課程",
     imageId: "b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg",
     imageAlt: "ICAcademy 繪畫及素描學員作品",
   },
@@ -712,6 +712,7 @@ h3 { font-size: 1.12rem; }
   display: grid;
   grid-template-columns: 140px minmax(0, 1fr);
   gap: 0;
+  align-items: stretch;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -727,8 +728,9 @@ h3 { font-size: 1.12rem; }
 }
 .course-media {
   background: #eef2f6;
-  min-height: 140px;
+  min-height: 100%;
   min-width: 0;
+  align-self: stretch;
 }
 .course-media img {
   width: 100%;
@@ -741,22 +743,31 @@ h3 { font-size: 1.12rem; }
   flex-direction: column;
   gap: 8px;
   min-width: 0;
+  overflow: visible;
 }
 .course-body h3 {
   margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.3;
   overflow-wrap: anywhere;
+  word-break: keep-all;
 }
 .course-body p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
   flex: 1;
   overflow-wrap: anywhere;
 }
 .course-cta {
+  display: block;
   color: var(--teal);
   font-weight: 800;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* —— Trust —— */
@@ -936,9 +947,11 @@ h3 { font-size: 1.12rem; }
   .art-item { margin-bottom: 10px; }
   .art-meta { padding: 8px 10px 10px; }
   .art-cat { font-size: 0.72rem; }
-  .course-card { grid-template-columns: 120px minmax(0, 1fr); }
-  .course-body { padding: 14px 14px 12px; gap: 6px; }
-  .course-body p { font-size: 0.9rem; }
+  .course-card { grid-template-columns: 112px minmax(0, 1fr); }
+  .course-body { padding: 12px 12px 12px; gap: 6px; }
+  .course-body h3 { font-size: 1rem; }
+  .course-body p { font-size: 0.86rem; }
+  .course-cta { font-size: 0.86rem; }
   .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .trust-item { padding: 14px 12px; }
   .trial {
@@ -961,12 +974,14 @@ h3 { font-size: 1.12rem; }
   .hero-collage figure { min-height: 0; }
   .hero-collage figure:first-child { grid-row: auto; }
   .hero-collage figure:last-child { display: none; }
-  .course-card {
-    grid-template-columns: 1fr;
-  }
-  .course-media {
-    min-height: 160px;
-    aspect-ratio: 16 / 10;
+  /* Keep side-by-side course cards (image left / copy right) */
+  .course-card { grid-template-columns: 104px minmax(0, 1fr); }
+  .course-body { padding: 12px 12px 11px; }
+  .course-body p {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .trust-item span { font-size: 0.86rem; }
   .lightbox {
@@ -1000,6 +1015,9 @@ h3 { font-size: 1.12rem; }
   .hero h1 { font-size: 1.45rem; }
   .hero-en { font-size: 0.95rem; }
   .filters button { font-size: 0.84rem; padding: 8px 12px; }
+  .course-card { grid-template-columns: 96px minmax(0, 1fr); }
+  .course-body h3 { font-size: 0.98rem; }
+  .course-cta { font-size: 0.84rem; }
   .trust-grid { gap: 8px; }
 }
 
