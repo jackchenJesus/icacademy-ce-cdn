@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-12-v4 (unique Media Manager photos per course)
+ * Version: 2026-08-12-v5 (full-bleed layout, centered trial price, no hero top border)
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 const GALLERY_URL = "/zh/gallery";
@@ -253,7 +253,10 @@ const STYLES = `
 :host {
   display: block;
   width: 100%;
+  max-width: none;
   min-height: 3200px;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
   --bg: #ffffff;
   --bg-soft: #f4f8f9;
@@ -278,12 +281,23 @@ const STYLES = `
   line-height: 1.7;
   font-size: 16px;
   background: var(--bg);
+  overflow-x: clip;
 }
 *, *::before, *::after { box-sizing: border-box; }
 a { color: inherit; }
 img { max-width: 100%; display: block; }
-.wrap { width: min(1100px, calc(100% - 40px)); margin: 0 auto; }
-.section { padding: 64px 0; background: var(--bg); }
+.hub {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+.wrap {
+  width: min(1200px, calc(100% - 48px));
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section { padding: 64px 0; background: var(--bg); width: 100%; }
 .section-soft { background: var(--bg-soft); }
 .section-title {
   text-align: center;
@@ -342,13 +356,15 @@ h3 { font-size: 1.12rem; }
   border: 1px solid var(--line);
 }
 
-/* —— Hero (mockup: light photo overlay + title chip) —— */
+/* —— Hero (full-bleed; no top coral strip) —— */
 .hero {
   position: relative;
-  min-height: clamp(420px, 72vw, 560px);
+  width: 100%;
+  min-height: clamp(460px, 58vw, 620px);
   display: flex;
   align-items: center;
-  border-top: 4px solid var(--coral);
+  border: 0;
+  margin: 0;
   overflow: hidden;
   background: #f3f3f3;
 }
@@ -357,16 +373,25 @@ h3 { font-size: 1.12rem; }
   inset: 0;
   background-image: var(--hero-img);
   background-size: cover;
-  background-position: 70% center;
-  filter: grayscale(0.08);
+  background-position: 68% center;
+  filter: grayscale(0.05);
 }
 .hero-bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.78) 46%, rgba(255,255,255,.42) 100%);
+  background: linear-gradient(90deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.82) 42%, rgba(255,255,255,.28) 72%, rgba(255,255,255,.12) 100%);
 }
-.hero .wrap { position: relative; z-index: 1; padding: 56px 0; }
+.hero .wrap {
+  position: relative;
+  z-index: 1;
+  padding: 64px 0;
+  width: min(1200px, calc(100% - 48px));
+}
+.hero-copy {
+  max-width: 36rem;
+  text-align: left;
+}
 .hero-eyebrow {
   margin: 0 0 18px;
   color: var(--teal);
@@ -614,10 +639,11 @@ h3 { font-size: 1.12rem; }
 /* —— Trial card —— */
 .trial {
   background: var(--coral-soft);
-  border: 1px solid rgba(255, 142, 142, 0.25);
+  border: 0;
   border-radius: 28px;
   padding: clamp(32px, 6vw, 52px) clamp(22px, 5vw, 48px);
   text-align: center;
+  width: 100%;
 }
 .trial-badge {
   display: inline-flex;
@@ -627,29 +653,35 @@ h3 { font-size: 1.12rem; }
   padding: 8px 18px;
   font-weight: 800;
   font-size: 0.95rem;
-  margin-bottom: 18px;
+  margin: 0 auto 18px;
 }
 .trial h2 {
   margin: 0 0 14px;
   font-size: clamp(1.45rem, 3vw, 1.9rem);
+  text-align: center;
 }
-.trial p { margin: 0 auto 16px; max-width: 42ch; color: var(--muted); }
+.trial p { margin: 0 auto 16px; max-width: 42ch; color: var(--muted); text-align: center; }
 .trial-price {
-  margin: 0 0 22px !important;
+  display: block;
+  width: 100%;
+  max-width: none !important;
+  margin: 0 auto 22px !important;
+  text-align: center;
   font-size: 1.05rem;
   color: var(--muted);
   font-weight: 600;
 }
 .trial-price strong {
   display: block;
-  margin-top: 6px;
+  margin: 6px auto 0;
   color: var(--coral-deep);
   font-weight: 800;
   font-size: clamp(1.35rem, 2.5vw, 1.65rem);
   font-family: var(--font);
   letter-spacing: 0.02em;
+  text-align: center;
 }
-.trial .btn { min-width: min(100%, 360px); margin: 0 auto; }
+.trial .btn { min-width: min(100%, 360px); margin: 0 auto; display: inline-flex; }
 
 /* —— FAQ (flat Q/A list) —— */
 .faq-list { max-width: 820px; margin: 0 auto; }
@@ -675,6 +707,10 @@ h3 { font-size: 1.12rem; }
   color: #fff;
   text-align: center;
   padding: 64px 20px;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
 }
 .final h2 {
   color: #fff;
@@ -910,17 +946,19 @@ class CoursesHub extends HTMLElement {
         <section class="hero" aria-labelledby="hero-title" style="--hero-img:url('${IMG.hero}')">
           <div class="hero-bg" aria-hidden="true"></div>
           <div class="wrap">
-            <p class="hero-eyebrow">何文田 • 培正附近 • 小班藝術教學</p>
-            <div class="hero-title-chip">
-              <h1 id="hero-title">何文田<span class="accent">兒童藝術</span>課程</h1>
-              <p class="hero-sub">按年齡找到合適畫班</p>
-            </div>
-            <p class="hero-lead">
-              ICAcademy 為不同成長階段的兒童及青少年提供藝術課程。由幼兒創意啟蒙、繪畫基礎、漫畫及素描，到青少年專業藝術訓練，導師會按學生年齡與能力提供適切指導。
-            </p>
-            <div class="btn-row">
-              <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">WhatsApp 查詢</a>
-              <button type="button" class="btn btn-outline-teal" data-action="scroll-age">按年齡找課程</button>
+            <div class="hero-copy">
+              <p class="hero-eyebrow">何文田 • 培正附近 • 小班藝術教學</p>
+              <div class="hero-title-chip">
+                <h1 id="hero-title">何文田<span class="accent">兒童藝術</span>課程</h1>
+                <p class="hero-sub">按年齡找到合適畫班</p>
+              </div>
+              <p class="hero-lead">
+                ICAcademy 為不同成長階段的兒童及青少年提供藝術課程。由幼兒創意啟蒙、繪畫基礎、漫畫及素描，到青少年專業藝術訓練，導師會按學生年齡與能力提供適切指導。
+              </p>
+              <div class="btn-row">
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">WhatsApp 查詢</a>
+                <button type="button" class="btn btn-outline-teal" data-action="scroll-age">按年齡找課程</button>
+              </div>
             </div>
           </div>
         </section>
