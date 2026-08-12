@@ -1,20 +1,37 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-12-v3 (site theme colors, horizontal hero)
+ * Version: 2026-08-12-v4 (unique Media Manager photos per course)
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 const GALLERY_URL = "/zh/gallery";
 
+/** Build a Wix Media Manager fill URL from a site media file id. */
+function mediaUrl(id, w, h) {
+  return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_85,enc_auto/${id}`;
+}
+
+/**
+ * Photos sourced from IC Academy site Media Manager
+ * (already used on /zh course pages, home, gallery).
+ */
 const IMG = {
-  hero:
-    "https://static.wixstatic.com/media/b98cc9_169d3a5d148b4e7cb6c5dcdd66541734~mv2.jpeg/v1/fill/w_1600,h_1000,al_c,q_85,enc_avif,quality_auto/b98cc9_169d3a5d148b4e7cb6c5dcdd66541734~mv2.jpeg",
-  work1:
-    "https://static.wixstatic.com/media/4ea940_ffa9827e993b46ff8c39685739d93bf6~mv2.jpeg/v1/fill/w_800,h_800,al_c,q_85,enc_avif,quality_auto/4ea940_ffa9827e993b46ff8c39685739d93bf6~mv2.jpeg",
-  work2:
-    "https://static.wixstatic.com/media/b98cc9_0c14e8485e804aafb82d0470a5bbfbc9~mv2.jpeg/v1/fill/w_1200,h_600,al_c,q_85,enc_avif,quality_auto/b98cc9_0c14e8485e804aafb82d0470a5bbfbc9~mv2.jpeg",
-  work3:
-    "https://static.wixstatic.com/media/b98cc9_ca9ccd28333f4917b208b65fcf0fa49b~mv2.jpeg/v1/fill/w_1200,h_600,al_c,q_85,enc_avif,quality_auto/b98cc9_ca9ccd28333f4917b208b65fcf0fa49b~mv2.jpeg",
+  hero: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1600, 1000),
+  prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 800, 600),
+  foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 600),
+  creativeI: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 800, 600),
+  creativeII: mediaUrl("b98cc9_66611472f2134e0fa854d2914e4ae347~mv2.jpg", 800, 600),
+  creativeIII: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 800, 600),
+  comic: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 800, 600),
+  sketch: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 800, 600),
+  clay: mediaUrl("b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg", 800, 600),
+  visualArt: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 800, 600),
+  acrylic: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 800, 600),
+  gallery1: mediaUrl("b98cc9_49cb0c61e7664eaca996580443195ec9~mv2.jpeg", 800, 800),
+  gallery2: mediaUrl("4ea940_5867e3daf35f4f969495afa34a05f1a3~mv2.jpg", 800, 800),
+  gallery3: mediaUrl("b98cc9_9605c850cf4b47daafd611bb1215e1fd~mv2.jpeg", 800, 800),
+  gallery4: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 800, 800),
+  detail: mediaUrl("b98cc9_0d50c3e155ba4c4e92046d937a5c0c43~mv2.jpg", 800, 1000),
 };
 
 /** Verified course catalogue (names / ages / URLs audited 2026-08) */
@@ -30,7 +47,7 @@ const COURSES = [
     media: "蠟筆、水彩、剪貼、印畫",
     href: "/zh/courses/visual-art-skills-course",
     tags: ["foundation", "painting"],
-    image: IMG.work2,
+    image: IMG.prep,
     imageAlt: "ICAcademy幼兒創意繪畫課堂作品",
   },
   {
@@ -44,7 +61,7 @@ const COURSES = [
     media: "繪畫及混合媒介",
     href: "/zh/courses/visual-art-skills-course",
     tags: ["foundation", "painting"],
-    image: IMG.work2,
+    image: IMG.foundation,
     imageAlt: "ICAcademy視藝技巧基礎課程學生作品",
   },
   {
@@ -58,7 +75,7 @@ const COURSES = [
     media: "繪畫、拼貼、多元物料",
     href: "/zh/courses/creative-art-classes",
     tags: ["creative", "painting"],
-    image: IMG.work1,
+    image: IMG.creativeI,
     imageAlt: "ICAcademy兒童創意美術作品",
   },
   {
@@ -72,7 +89,7 @@ const COURSES = [
     media: "繪畫及多元媒介",
     href: "/zh/courses/creative-art-classes",
     tags: ["creative", "painting"],
-    image: IMG.work1,
+    image: IMG.creativeII,
     imageAlt: "ICAcademy小學創意繪畫作品",
   },
   {
@@ -86,7 +103,7 @@ const COURSES = [
     media: "多媒介創作",
     href: "/zh/courses/creative-art-classes",
     tags: ["creative", "painting", "teen"],
-    image: IMG.work3,
+    image: IMG.creativeIII,
     imageAlt: "ICAcademy青少年創意美術作品",
   },
   {
@@ -100,7 +117,7 @@ const COURSES = [
     media: "鉛筆、馬克筆、漫畫媒材",
     href: "/zh/courses/comic-drawing-class",
     tags: ["comic"],
-    image: IMG.work1,
+    image: IMG.comic,
     imageAlt: "ICAcademy學生漫畫角色設計作品",
   },
   {
@@ -114,7 +131,7 @@ const COURSES = [
     media: "鉛筆素描",
     href: "/zh/courses/sketching-class",
     tags: ["sketch", "teen"],
-    image: IMG.work3,
+    image: IMG.sketch,
     imageAlt: "何文田兒童素描課程學生作品",
   },
   {
@@ -128,7 +145,7 @@ const COURSES = [
     media: "輕黏土及專業黏土媒材",
     href: "/zh/courses/creative-art-and-clay-class",
     tags: ["clay"],
-    image: IMG.work2,
+    image: IMG.clay,
     imageAlt: "ICAcademy兒童黏土立體創作作品",
   },
   {
@@ -142,7 +159,7 @@ const COURSES = [
     media: "素描、塑膠彩、混合媒介",
     href: "/zh/courses/visual-art-class",
     tags: ["teen", "painting", "portfolio"],
-    image: IMG.work3,
+    image: IMG.visualArt,
     imageAlt: "ICAcademy青少年綜合美術作品",
   },
   {
@@ -156,7 +173,7 @@ const COURSES = [
     media: "塑膠彩",
     href: "/zh/courses/acrylic-painting-class",
     tags: ["teen", "painting"],
-    image: IMG.work1,
+    image: IMG.acrylic,
     imageAlt: "ICAcademy塑膠彩課程學生作品",
   },
 ];
@@ -942,7 +959,7 @@ class CoursesHub extends HTMLElement {
                 <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">查詢課程詳情</a>
               </div>
               <div class="detail-media">
-                <img src="${IMG.work3}" alt="ICAcademy學生藝術作品示例" width="800" height="1000" loading="lazy" />
+                <img src="${IMG.detail}" alt="ICAcademy學生藝術作品示例" width="800" height="1000" loading="lazy" />
               </div>
             </div>
           </div>
@@ -962,10 +979,10 @@ class CoursesHub extends HTMLElement {
             <h2 class="section-title" id="gallery-title">看看不同年齡學生的創作</h2>
             <p class="section-lead">以下為站內已刊出作品縮圖。想看更多，可前往學員作品頁。</p>
             <div class="gallery-grid">
-              <figure><img src="${IMG.work1}" alt="ICAcademy幼兒創意繪畫作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
-              <figure><img src="${IMG.work2}" alt="ICAcademy學生漫畫角色設計作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
-              <figure><img src="${IMG.work3}" alt="何文田兒童素描課程學生作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
-              <figure><img src="${IMG.hero}" alt="ICAcademy課堂創作氣氛" loading="lazy" /><figcaption>課堂氣氛</figcaption></figure>
+              <figure><img src="${IMG.gallery1}" alt="ICAcademy幼兒創意繪畫作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
+              <figure><img src="${IMG.gallery2}" alt="ICAcademy學生漫畫角色設計作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
+              <figure><img src="${IMG.gallery3}" alt="何文田兒童素描課程學生作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
+              <figure><img src="${IMG.gallery4}" alt="ICAcademy課堂創作氣氛" loading="lazy" /><figcaption>課堂氣氛</figcaption></figure>
             </div>
             <div class="center-actions">
               <a class="btn btn-outline-teal" data-action="course" href="${GALLERY_URL}">查看更多學員作品</a>
