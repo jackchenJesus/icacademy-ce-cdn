@@ -1,7 +1,7 @@
 /**
  * ICAcademy Kids Art Silo Hub – Custom Element
  * Tag name: kids-art-hub
- * Version: 2026-08-12-v4 (fix prep/foundation card crop — keep heads in frame)
+ * Version: 2026-08-12-v5 (prep/foundation use artwork photos, no head crop)
  * Design system: matches courses-hub (coral / teal)
  * Route: /zh/course/kids-art (Editor: Kids Art, yo1yl)
  */
@@ -17,9 +17,9 @@ function mediaUrl(id, w, h, align) {
 /** Photos rotated to kids course / gallery assets (audited 2026-08) */
 const IMG = {
   hero: mediaUrl("b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg", 1600, 1000),
-  // Portrait student photos: align top so heads stay in 16:10 crop
-  prep: mediaUrl("b98cc9_5af94fe0176b45298c01692764083e09~mv2.jpg", 800, 600, "t"),
-  foundation: mediaUrl("b98cc9_2e3b9e9b69d348a5a46b3e6b30a09f1a~mv2.jpg", 800, 600, "t"),
+  // Artwork-focused (no portrait crop issues)
+  prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 800, 600),
+  foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 600),
   creativeI: mediaUrl("b98cc9_9c6e5138d1fa40a7815d12218f642440~mv2.jpg", 800, 600),
   creativeII: mediaUrl("b98cc9_1e80c89215f84798a65eaedc03352cd5~mv2.jpg", 800, 600),
   creativeIII: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 800, 600),
