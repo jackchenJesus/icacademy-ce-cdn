@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-12-v6 (silo link: 兒童畫班 → /zh/courses/kids-art-classes)
+ * Version: 2026-08-12-v7 (silo link: 繪畫及素描 → /zh/courses/art-drawing)
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 const GALLERY_URL = "/zh/gallery";
@@ -186,16 +186,10 @@ const INTERESTS = [
     href: "/zh/courses/kids-art-classes",
   },
   {
-    id: "visual",
-    title: "視覺藝術課程",
-    desc: "雙語授課 · 創意與美感培養",
-    href: "/zh/courses/visual-art-skills-course",
-  },
-  {
-    id: "acrylic",
-    title: "塑膠彩班課程",
-    desc: "雙語授課 · 創意與美感培養",
-    href: "/zh/courses/acrylic-painting-class",
+    id: "drawing-painting",
+    title: "繪畫及素描",
+    desc: "素描、塑膠彩、視藝技巧及綜合美術",
+    href: "/zh/courses/art-drawing",
   },
   {
     id: "clay",
@@ -208,12 +202,6 @@ const INTERESTS = [
     title: "卡通漫畫班",
     desc: "人物、表情與角色設計",
     href: "/zh/courses/comic-drawing-class",
-  },
-  {
-    id: "sketch",
-    title: "素描技巧班",
-    desc: "觀察、比例、光暗與質感",
-    href: "/zh/courses/sketching-class",
   },
 ];
 
