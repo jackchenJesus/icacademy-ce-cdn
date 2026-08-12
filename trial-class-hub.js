@@ -1225,7 +1225,7 @@ class TrialClassHub extends HTMLElement {
       if (group === "type") this._typeFilter = value;
       if (group === "level") this._levelFilter = value;
       this._applyFilters();
-      this._syncHeight();
+      this._syncLayout();
       return;
     }
 
