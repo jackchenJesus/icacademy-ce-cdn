@@ -1,7 +1,7 @@
 /**
  * ICAcademy Kids Art Silo Hub – Custom Element
  * Tag name: kids-art-hub
- * Version: 2026-08-12-v5 (prep/foundation use artwork photos, no head crop)
+ * Version: 2026-08-12-v6 (remove English from course hub CTA)
  * Design system: matches courses-hub (coral / teal)
  * Route: /zh/course/kids-art (Editor: Kids Art, yo1yl)
  */
@@ -1002,7 +1002,7 @@ class KidsArtHub extends HTMLElement {
           <div class="wrap" style="text-align:center">
             <h2 class="section-title" id="back-title">探索更多藝術課程</h2>
             <p class="section-lead">返回課程總覽，查看素描、塑膠彩及其他年齡層課程。</p>
-            <a class="btn btn-outline-teal" data-action="hub" href="${COURSE_HUB_URL}">返回課程總覽 Course Hub</a>
+            <a class="btn btn-outline-teal" data-action="hub" href="${COURSE_HUB_URL}">返回課程總覽</a>
           </div>
         </section>
 
