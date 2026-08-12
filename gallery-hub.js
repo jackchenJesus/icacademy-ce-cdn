@@ -11,6 +11,7 @@ const KIDS_ART_URL = "/zh/courses/kids-art-classes";
 const DRAWING_URL = "/zh/courses/art-drawing";
 const COMIC_URL = "/zh/courses/comic-drawing-class";
 const CLAY_URL = "/zh/courses/creative-art-and-clay-class";
+const TRIAL_URL = "/zh/homantin-children-art-trial";
 
 /** Fit within box — preserves artwork aspect ratio (no aggressive crop). */
 function mediaFit(id, w, h) {
@@ -1406,7 +1407,7 @@ class GalleryHub extends HTMLElement {
               <p class="trial-price">單次試堂<strong>HK$100</strong></p>
               <div class="btn-row">
                 <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">預約 HK$100 試堂</a>
-                <a class="btn btn-ghost" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">WhatsApp 查詢</a>
+                <a class="btn btn-ghost" data-action="hub" href="${TRIAL_URL}">了解試堂詳情</a>
               </div>
             </div>
           </div>

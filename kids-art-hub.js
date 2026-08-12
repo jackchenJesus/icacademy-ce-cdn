@@ -8,6 +8,7 @@
 const WA_DEFAULT = "https://wa.me/85265808022";
 const COURSE_HUB_URL = "/zh/course-hub";
 const GALLERY_URL = "/zh/gallery";
+const TRIAL_URL = "/zh/homantin-children-art-trial";
 
 function mediaUrl(id, w, h, align) {
   const al = align || "c";
@@ -655,7 +656,8 @@ h3 { font-size: 1.12rem; }
   letter-spacing: 0.02em;
   text-align: center;
 }
-.trial .btn { min-width: min(100%, 360px); margin: 0 auto; display: inline-flex; }
+.trial .btn { min-width: min(100%, 280px); }
+.trial .btn-row { justify-content: center; }
 
 .faq-list { max-width: 820px; margin: 0 auto; }
 .faq-item {
@@ -1121,7 +1123,10 @@ class KidsArtHub extends HTMLElement {
                 WhatsApp 告訴我們小朋友年齡、繪畫經驗及方便時間，我們會協助了解合適程度與班別。
               </p>
               <p class="trial-price">單次試堂<strong>HK$100</strong></p>
-              <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">預約 HK$100 試堂</a>
+              <div class="btn-row" style="justify-content:center">
+                <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">預約 HK$100 試堂</a>
+                <a class="btn btn-ghost" data-action="hub" href="${TRIAL_URL}">了解試堂詳情</a>
+              </div>
             </div>
           </div>
         </section>

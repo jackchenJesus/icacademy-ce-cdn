@@ -5,6 +5,7 @@
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 const GALLERY_URL = "/zh/gallery";
+const TRIAL_URL = "/zh/homantin-children-art-trial";
 
 /** Build a Wix Media Manager fill URL from a site media file id. */
 function mediaUrl(id, w, h) {
@@ -669,7 +670,8 @@ h3 { font-size: 1.12rem; }
   letter-spacing: 0.02em;
   text-align: center;
 }
-.trial .btn { min-width: min(100%, 360px); margin: 0 auto; display: inline-flex; }
+.trial .btn { min-width: min(100%, 280px); }
+.trial .btn-row { justify-content: center; }
 
 /* —— FAQ (flat Q/A list) —— */
 .faq-list { max-width: 820px; margin: 0 auto; }
@@ -1025,7 +1027,10 @@ class CoursesHub extends HTMLElement {
                 讓孩子親身體驗課堂氣氛、教學方式及創作流程。WhatsApp 告訴我們孩子年齡、繪畫經驗及方便時間，我們會協助安排合適程度。
               </p>
               <p class="trial-price">單次試堂<strong>HK$100</strong></p>
-              <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">WhatsApp 預約試堂</a>
+              <div class="btn-row" style="justify-content:center">
+                <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">WhatsApp 預約試堂</a>
+                <a class="btn btn-ghost" data-action="hub" href="${TRIAL_URL}">了解試堂詳情</a>
+              </div>
             </div>
           </div>
         </section>

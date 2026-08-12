@@ -1,0 +1,1316 @@
+/**
+ * ICAcademy Trial Class Landing – Custom Element
+ * Tag name: trial-class-hub
+ * Version: 2026-08-12-v1
+ * Design system: matches kids-art-hub / courses-hub (coral / teal)
+ * Route: /zh/homantin-children-art-trial (Editor: Trial Class, doeel)
+ *
+ * Course catalogue reused from existing hub constants (no CMS in this repo).
+ * Booking flow: WhatsApp enquiry (same as other hubs).
+ */
+const WA_DEFAULT = "https://wa.me/85265808022";
+const COURSE_HUB_URL = "/zh/course-hub";
+const KIDS_ART_URL = "/zh/course/kids-art";
+const DRAWING_URL = "/zh/courses/art-drawing";
+const GALLERY_URL = "/zh/gallery";
+
+function mediaUrl(id, w, h, align) {
+  const al = align || "c";
+  return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_${al},q_85,enc_auto/${id}`;
+}
+
+const IMG = {
+  hero: mediaUrl("b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg", 1600, 1000),
+  prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 800, 600),
+  foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 600),
+  creativeI: mediaUrl("b98cc9_9c6e5138d1fa40a7815d12218f642440~mv2.jpg", 800, 600),
+  creativeII: mediaUrl("b98cc9_1e80c89215f84798a65eaedc03352cd5~mv2.jpg", 800, 600),
+  creativeIII: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 800, 600),
+  comic: mediaUrl("b98cc9_a62d943a779d4ddb8e85227dc0872726~mv2.jpg", 800, 600),
+  clay: mediaUrl("b98cc9_f417962750fd4399b1ee38c775da9a4e~mv2.jpeg", 800, 600),
+  sketch: mediaUrl("b98cc9_e67c1877a803495fa45ccea725f0f7ce~mv2.jpg", 800, 600),
+  visualArt: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 800, 600),
+  acrylic: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 800, 600),
+  gallery1: mediaUrl("b98cc9_169d3a5d148b4e7cb6c5dcdd66541734~mv2.jpeg", 800, 800),
+  gallery2: mediaUrl("b98cc9_bcc7d1f85fd7431c933ad24f568c4a9b~mv2.jpg", 800, 800),
+  gallery3: mediaUrl("b98cc9_f73677a0ad284e10b85772ce1fbecae5~mv2.jpg", 800, 800),
+  gallery4: mediaUrl("b98cc9_5d9714fc876f42ba8b02b5b5d4b08923~mv2.jpg", 800, 800),
+  experience: mediaUrl("b98cc9_9c6489b3ccfa47f0adc205c472aa87e7~mv2.jpg", 800, 1000),
+};
+
+/** Active programmes from Kids Art + Drawing hubs (audited catalogue). */
+const COURSES = [
+  {
+    id: "prep",
+    name: "視藝技巧（預備課程）",
+    age: "3–5歲",
+    ageMin: 3,
+    ageMax: 5,
+    focus: "幼兒創意啟蒙與感官探索",
+    media: "蠟筆、水彩、剪貼、印畫",
+    href: "/zh/courses/visual-art-skills-course",
+    category: "kids",
+    tags: ["kids", "painting", "beginner", "age-3-5"],
+    image: IMG.prep,
+    imageAlt: "ICAcademy幼兒創意繪畫課堂作品",
+  },
+  {
+    id: "foundation",
+    name: "視藝技巧（基礎課程）",
+    age: "5–7歲",
+    ageMin: 5,
+    ageMax: 7,
+    focus: "建立觀察、造型與基本構圖能力",
+    media: "繪畫及混合媒介",
+    href: "/zh/courses/visual-art-skills-course",
+    category: "kids",
+    tags: ["kids", "painting", "beginner", "age-5-7"],
+    image: IMG.foundation,
+    imageAlt: "ICAcademy視藝技巧基礎課程學生作品",
+  },
+  {
+    id: "creative-i",
+    name: "兒童創意美術 Level I",
+    age: "7–9歲",
+    ageMin: 7,
+    ageMax: 9,
+    focus: "鞏固繪畫基礎，建立創作信心",
+    media: "繪畫、拼貼、多元物料",
+    href: "/zh/courses/creative-art-classes",
+    category: "kids",
+    tags: ["kids", "painting", "beginner", "age-7-11"],
+    image: IMG.creativeI,
+    imageAlt: "ICAcademy兒童創意美術作品",
+  },
+  {
+    id: "creative-ii",
+    name: "兒童創意美術 Level II",
+    age: "9–11歲",
+    ageMin: 9,
+    ageMax: 11,
+    focus: "加強比例、空間與畫面完整度",
+    media: "繪畫及多元媒介",
+    href: "/zh/courses/creative-art-classes",
+    category: "kids",
+    tags: ["kids", "painting", "age-7-11"],
+    image: IMG.creativeII,
+    imageAlt: "ICAcademy小學創意繪畫作品",
+  },
+  {
+    id: "creative-iii",
+    name: "兒童創意美術 Level III",
+    age: "11–14歲",
+    ageMin: 11,
+    ageMax: 14,
+    focus: "深化技巧與個人風格",
+    media: "多媒介創作",
+    href: "/zh/courses/creative-art-classes",
+    category: "kids",
+    tags: ["kids", "painting", "age-11plus"],
+    image: IMG.creativeIII,
+    imageAlt: "ICAcademy青少年創意美術作品",
+  },
+  {
+    id: "comic",
+    name: "卡通漫畫班",
+    age: "8歲以上",
+    ageMin: 8,
+    ageMax: 99,
+    focus: "人物比例、表情與原創角色設計",
+    media: "鉛筆、馬克筆、漫畫媒材",
+    href: "/zh/courses/comic-drawing-class",
+    category: "comic",
+    tags: ["comic", "drawing", "age-7-11", "age-11plus"],
+    image: IMG.comic,
+    imageAlt: "ICAcademy學生漫畫角色設計作品",
+  },
+  {
+    id: "clay",
+    name: "輕黏土課程",
+    age: "3–16歲",
+    ageMin: 3,
+    ageMax: 16,
+    focus: "立體塑形、結構與色彩美感",
+    media: "輕黏土及專業黏土媒材",
+    href: "/zh/courses/creative-art-and-clay-class",
+    category: "clay",
+    tags: ["clay", "beginner", "age-3-5", "age-5-7", "age-7-11", "age-11plus"],
+    image: IMG.clay,
+    imageAlt: "ICAcademy兒童黏土立體創作作品",
+  },
+  {
+    id: "sketch",
+    name: "素描技巧班",
+    age: "9歲以上",
+    ageMin: 9,
+    ageMax: 99,
+    focus: "觀察、比例、光暗與質感",
+    media: "鉛筆素描",
+    href: "/zh/courses/sketching-class",
+    category: "drawing",
+    tags: ["drawing", "sketch", "age-7-11", "age-11plus"],
+    image: IMG.sketch,
+    imageAlt: "何文田兒童素描課程學生作品",
+  },
+  {
+    id: "acrylic",
+    name: "塑膠彩班",
+    age: "14歲以上",
+    ageMin: 14,
+    ageMax: 99,
+    focus: "調色、筆觸與構圖技巧",
+    media: "塑膠彩",
+    href: "/zh/courses/acrylic-painting-class",
+    category: "drawing",
+    tags: ["painting", "drawing", "age-11plus"],
+    image: IMG.acrylic,
+    imageAlt: "ICAcademy塑膠彩課程學生作品",
+  },
+  {
+    id: "visual-art",
+    name: "綜合美術課程",
+    age: "14歲以上",
+    ageMin: 14,
+    ageMax: 99,
+    focus: "多媒介探索與個人創作方向",
+    media: "素描、塑膠彩、混合媒介",
+    href: "/zh/courses/visual-art-class",
+    category: "drawing",
+    tags: ["painting", "drawing", "age-11plus"],
+    image: IMG.visualArt,
+    imageAlt: "ICAcademy青少年綜合美術作品",
+  },
+];
+
+const BENEFITS = [
+  { title: "HK$100 試堂", desc: "先體驗再決定" },
+  { title: "按年齡選班", desc: "幼兒至青少年" },
+  { title: "專業導師指導", desc: "小班教學" },
+  { title: "適合初學者", desc: "零基礎亦可" },
+  { title: "多種藝術媒介", desc: "繪畫・漫畫・黏土" },
+];
+
+const STEPS = [
+  {
+    step: "1",
+    title: "選擇課程",
+    desc: "按小朋友年齡及興趣，先了解合適方向。未確定亦可直接查詢。",
+  },
+  {
+    step: "2",
+    title: "預約 HK$100 試堂",
+    desc: "透過 WhatsApp 告訴我們年齡、繪畫經驗和方便時間，協助安排合適班別。",
+  },
+  {
+    step: "3",
+    title: "到校體驗",
+    desc: "完成試堂後，再決定是否報讀恆常課程。決定權在家長。",
+  },
+];
+
+const EXPERIENCE = [
+  "認識導師，感受課堂氣氛與節奏",
+  "完成一個適合年齡的短小創作練習",
+  "接觸繪畫／相關媒介的基本技法",
+  "導師觀察小朋友的興趣與現有能力",
+  "試堂後可與家長簡短交流，了解較合適課程方向",
+];
+
+const CONCERNS = [
+  {
+    q: "小朋友完全未學過畫畫，可以嗎？",
+    a: "可以。相關課程均接受初學者；亦可先預約 HK$100 試堂，由導師觀察後再建議合適程度。",
+  },
+  {
+    q: "不知道應該選哪一班？",
+    a: "不用先搞清楚全部課程。WhatsApp 告訴我們小朋友年齡、興趣與方便時間，課程顧問會協助了解方向；亦可先試堂再決定。",
+  },
+  {
+    q: "試堂後一定要報名嗎？",
+    a: "不必。試堂是雙向了解的機會——決定繼續與否由家長自行決定，不設強迫報名。",
+  },
+  {
+    q: "要自己準備畫具嗎？",
+    a: "一般課堂使用的畫材及工具由畫室提供，孩子無需自備（如有個別課程特別要求，預約時可再確認）。",
+  },
+];
+
+const FAQ = [
+  {
+    q: "IC Academy 試堂幾錢？",
+    a: "單次試堂為 HK$100。歡迎先透過 WhatsApp 查詢及預約。",
+  },
+  {
+    q: "HK$100 試堂包括甚麼？",
+    a: "試堂讓小朋友親身體驗課堂氣氛、認識導師，並完成適合年齡的短小創作。試堂後導師可與家長簡短交流，協助了解較合適班別。",
+  },
+  {
+    q: "幾多歲可以參加？",
+    a: "視藝技巧預備課程適合約 3–5 歲開始接觸美術；其他課程按年齡及興趣設有不同適合範圍。實際安排可 WhatsApp 查詢。",
+  },
+  {
+    q: "完全沒有畫畫經驗可以參加嗎？",
+    a: "可以。初學者歡迎先試堂或 WhatsApp 說明年齡與經驗，我們會協助了解較合適方向。",
+  },
+  {
+    q: "應該選哪一個美術課程？",
+    a: "可先按年齡、興趣（繪畫／漫畫／黏土／素描）瀏覽本頁建議課程，或前往兒童美術、繪畫及素描專頁比較。未確定時可先試堂或 WhatsApp 查詢。",
+  },
+  {
+    q: "試堂需要預約嗎？",
+    a: "需要。請透過 WhatsApp 預約，並提供小朋友年齡、繪畫經驗及方便時間，以便安排合適班別。",
+  },
+  {
+    q: "試堂後如何報讀恆常課程？",
+    a: "試堂後如決定報讀，我們會按觀察協助配對合適班別與時間。是否報讀由家長自行決定。",
+  },
+  {
+    q: "上課地點在哪裡？",
+    a: "ICAcademy 位於何文田，九龍窩打老道79F地下3號鋪（培正小學附近）。",
+  },
+  {
+    q: "需要準備畫具嗎？",
+    a: "一般課堂畫材及工具由畫室提供。如有個別安排，預約時可再確認。",
+  },
+];
+
+const STYLES = `
+:host {
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-height: 1px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  --bg: #ffffff;
+  --bg-soft: #f4f8f9;
+  --surface: #ffffff;
+  --ink: #162b48;
+  --muted: #4a5568;
+  --line: #e2e8f0;
+  --navy: #162b48;
+  --coral: #ff8e8e;
+  --coral-deep: #f05a5a;
+  --coral-soft: #fff0f0;
+  --teal: #00a9b7;
+  --teal-deep: #008f9b;
+  --teal-soft: #e8f7f8;
+  --title-chip: rgba(255, 240, 240, 0.92);
+  --check: #00a9b7;
+  --radius: 18px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --font: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Segoe UI", sans-serif;
+  color: var(--ink);
+  font-family: var(--font);
+  line-height: 1.7;
+  font-size: 16px;
+  background: var(--bg);
+  overflow-x: clip;
+}
+*, *::before, *::after { box-sizing: border-box; }
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+.hub { width: 100%; max-width: none; margin: 0; padding: 0 0 72px; }
+.wrap {
+  width: min(1200px, calc(100% - 48px));
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section { padding: 64px 0; background: var(--bg); width: 100%; }
+.section-soft { background: var(--bg-soft); }
+.section-title {
+  text-align: center;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  font-weight: 800;
+  margin: 0 0 12px;
+  letter-spacing: 0.01em;
+}
+.section-lead {
+  text-align: center;
+  color: var(--muted);
+  max-width: 46ch;
+  margin: 0 auto 36px;
+  font-size: 1.02rem;
+}
+h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
+h3 { font-size: 1.12rem; }
+.accent { color: var(--coral); }
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0 0 18px;
+}
+.crumbs a { color: var(--teal); font-weight: 700; text-decoration: none; }
+.crumbs span[aria-hidden="true"] { opacity: 0.55; }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 14px; }
+.btn {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  min-height: 50px;
+  padding: 12px 28px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .15s ease, background .15s ease, opacity .15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:focus-visible { outline: 3px solid rgba(0,169,183,.35); outline-offset: 3px; }
+.btn-coral { background: var(--coral); color: #fff; }
+.btn-coral:hover { background: var(--coral-deep); }
+.btn-teal { background: var(--teal); color: #fff; }
+.btn-teal:hover { background: var(--teal-deep); }
+.btn-outline-teal {
+  background: transparent;
+  color: var(--teal);
+  border: 2px solid var(--teal);
+}
+.btn-outline-white {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+.btn-ghost {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.btn-link {
+  background: transparent;
+  color: var(--teal);
+  border: 0;
+  min-height: auto;
+  padding: 0;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 0;
+}
+.btn-link:hover { transform: none; text-decoration: underline; }
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: clamp(420px, 52vw, 560px);
+  display: flex;
+  align-items: center;
+  border: 0;
+  margin: 0;
+  overflow: hidden;
+  background: #f3f3f3;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: var(--hero-img);
+  background-size: cover;
+  background-position: 68% center;
+  filter: grayscale(0.05);
+}
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.82) 42%, rgba(255,255,255,.28) 72%, rgba(255,255,255,.12) 100%);
+}
+.hero .wrap {
+  position: relative;
+  z-index: 1;
+  padding: 56px 0;
+  width: min(1200px, calc(100% - 48px));
+}
+.hero-copy { max-width: 38rem; text-align: left; }
+.hero-eyebrow {
+  margin: 0 0 14px;
+  color: var(--teal);
+  font-weight: 800;
+  font-size: 1.02rem;
+  letter-spacing: 0.02em;
+}
+.hero-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--coral);
+  color: #fff;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  margin: 0 0 16px;
+}
+.hero-title-chip {
+  display: block;
+  background: var(--title-chip);
+  border-radius: 22px;
+  padding: 20px 24px 18px;
+  margin: 0 0 18px;
+  max-width: min(680px, 100%);
+}
+.hero-title-chip h1 {
+  margin: 0;
+  font-size: clamp(1.55rem, 3.8vw, 2.35rem);
+  line-height: 1.3;
+  word-break: keep-all;
+}
+.hero-sub {
+  margin: 10px 0 0;
+  font-size: clamp(1.1rem, 2.6vw, 1.45rem);
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--navy);
+}
+.hero-lead {
+  margin: 0 0 24px;
+  max-width: 38em;
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+.hero-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.hero-points li {
+  position: relative;
+  padding-left: 1.2rem;
+}
+.hero-points li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+  font-weight: 800;
+}
+
+.benefit-strip {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: -28px;
+  position: relative;
+  z-index: 2;
+}
+@media (min-width: 720px) {
+  .benefit-strip { grid-template-columns: repeat(5, 1fr); gap: 14px; }
+}
+.benefit {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px 14px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.benefit strong {
+  display: block;
+  font-size: 0.98rem;
+  margin: 0 0 4px;
+  color: var(--navy);
+}
+.benefit span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+.filter-label {
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+.filter-tabs button {
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  padding: 8px 18px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--ink);
+}
+.filter-tabs button[aria-pressed="true"] {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: #fff;
+}
+
+.card-grid { display: grid; gap: 20px; }
+@media (min-width: 720px) {
+  .card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.card.is-dimmed { opacity: 0.28; pointer-events: none; }
+.card.is-hidden { display: none; }
+.card-media { aspect-ratio: 16 / 10; background: #ececec; overflow: hidden; }
+.card-media img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.card-body { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.meta {
+  display: inline-flex;
+  align-self: flex-start;
+  background: var(--coral-soft);
+  color: var(--coral-deep);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+.media-tag {
+  margin: 0;
+  color: var(--teal-deep);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.card-actions { margin-top: auto; padding-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; }
+.trial-chip {
+  display: inline-flex;
+  align-self: flex-start;
+  background: var(--teal-soft);
+  color: var(--teal-deep);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.path {
+  display: grid;
+  gap: 14px;
+}
+@media (min-width: 860px) {
+  .path { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+}
+.path-step {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 26px 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.path-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--teal-soft);
+  color: var(--teal-deep);
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.path-step h3 { margin: 0 0 8px; font-size: 1.1rem; }
+.path-step p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+.detail {
+  display: grid;
+  gap: 36px;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .detail { grid-template-columns: 1.1fr 0.9fr; gap: 48px; }
+}
+.detail h2 {
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  margin: 0 0 10px;
+  text-align: left;
+}
+.detail-lead { color: var(--muted); margin: 0 0 18px; max-width: 50ch; }
+.check-list { margin: 0 0 28px; padding: 0; list-style: none; }
+.check-list li {
+  position: relative;
+  padding: 0.35rem 0 0.35rem 1.7rem;
+  color: var(--ink);
+}
+.check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  color: var(--check);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+.detail-media {
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: #eee;
+  aspect-ratio: 4 / 5;
+  max-height: 480px;
+}
+.detail-media img { width: 100%; height: 100%; object-fit: cover; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 800px) { .gallery-grid { grid-template-columns: repeat(4, 1fr); } }
+.gallery-grid figure {
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ddd;
+  aspect-ratio: 1;
+}
+.gallery-grid img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-grid figcaption {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
+.center-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+.concern-grid {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 800px) {
+  .concern-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.concern {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px 22px;
+  box-shadow: var(--shadow);
+}
+.concern h3 {
+  margin: 0 0 10px;
+  font-size: 1.08rem;
+  color: var(--navy);
+}
+.concern p { margin: 0; color: var(--muted); }
+
+.silo-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.silo-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--teal-deep);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.faq-list { max-width: 820px; margin: 0 auto; }
+.faq-item {
+  padding: 22px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+.faq-item:first-child { border-top: 1px solid #e5e5e5; }
+.faq-q {
+  margin: 0 0 8px;
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+.faq-a {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.final {
+  background: var(--teal);
+  color: #fff;
+  text-align: center;
+  padding: 64px 20px;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+.final h2 {
+  color: #fff;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  margin: 0 0 12px;
+}
+.final p {
+  color: rgba(255,255,255,.92);
+  max-width: 40ch;
+  margin: 0 auto 12px;
+}
+.final-price {
+  display: block;
+  margin: 0 auto 24px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fff;
+}
+.final .btn-row { justify-content: center; }
+
+.sticky-cta {
+  display: none;
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 40;
+  background: var(--coral);
+  color: #fff;
+  border-radius: 999px;
+  min-height: 52px;
+  padding: 12px 20px;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 28px rgba(240, 90, 90, 0.35);
+}
+.sticky-cta.is-visible { display: flex; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+@media (max-width: 860px) {
+  .wrap { width: min(1200px, calc(100% - 32px)); }
+  .section { padding: 48px 0; }
+  .section-lead { margin-bottom: 28px; padding: 0 4px; }
+  .hero { min-height: 0; align-items: stretch; }
+  .hero-bg { background-position: 70% center; }
+  .hero-bg::after {
+    background: linear-gradient(
+      180deg,
+      rgba(255,255,255,.94) 0%,
+      rgba(255,255,255,.90) 55%,
+      rgba(255,255,255,.72) 100%
+    );
+  }
+  .benefit-strip { margin-top: -18px; }
+}
+
+@media (max-width: 640px) {
+  .hub { padding-bottom: 88px; }
+  .wrap { width: min(1200px, calc(100% - 24px)); }
+  .section { padding: 40px 0; }
+  .section-title {
+    font-size: clamp(1.35rem, 6vw, 1.7rem);
+    padding: 0 4px;
+    word-break: keep-all;
+  }
+  .hero .wrap { padding: 32px 0 36px; }
+  .hero-title-chip {
+    padding: 16px 16px 14px;
+    border-radius: 18px;
+    margin-bottom: 14px;
+  }
+  .hero-title-chip h1 {
+    font-size: clamp(1.35rem, 6.2vw, 1.75rem);
+    line-height: 1.35;
+  }
+  .hero-sub { font-size: clamp(1.02rem, 4.6vw, 1.28rem); }
+  .hero-lead { font-size: 0.98rem; margin-bottom: 18px; }
+  .btn-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .btn {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 18px;
+  }
+  .filter-tabs {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+    margin: 0 0 12px;
+    padding: 2px 2px 10px;
+    scrollbar-width: none;
+  }
+  .filter-tabs::-webkit-scrollbar { display: none; }
+  .filter-tabs button {
+    flex: 0 0 auto;
+    min-height: 42px;
+    padding: 8px 14px;
+    font-size: 0.92rem;
+  }
+  .card-actions { flex-direction: column; }
+  .card-actions .btn { width: 100%; }
+  .path-step { text-align: left; padding: 20px 16px; }
+  .detail-media { max-height: 360px; }
+  .final { padding: 48px 16px; }
+  .sticky-cta.is-visible { display: flex; }
+}
+
+@media (max-width: 380px) {
+  .wrap { width: calc(100% - 16px); }
+  .hero-title-chip h1 { font-size: 1.25rem; }
+}
+`;
+
+class TrialClassHub extends HTMLElement {
+  static get observedAttributes() {
+    return ["wa-url", "locale"];
+  }
+
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this._ageFilter = "all";
+    this._typeFilter = "all";
+    this._levelFilter = "all";
+    this._onClick = this._onClick.bind(this);
+    this._onScroll = this._onScroll.bind(this);
+    this._syncHeight = this._syncHeight.bind(this);
+    this._ro = null;
+  }
+
+  connectedCallback() {
+    this.render();
+    this.shadowRoot.addEventListener("click", this._onClick);
+    window.addEventListener("resize", this._syncHeight);
+    window.addEventListener("scroll", this._onScroll, { passive: true });
+  }
+
+  disconnectedCallback() {
+    this.shadowRoot.removeEventListener("click", this._onClick);
+    window.removeEventListener("resize", this._syncHeight);
+    window.removeEventListener("scroll", this._onScroll);
+    if (this._ro) {
+      this._ro.disconnect();
+      this._ro = null;
+    }
+  }
+
+  attributeChangedCallback() {
+    if (this.isConnected) this.render();
+  }
+
+  get waUrl() {
+    return this.getAttribute("wa-url") || WA_DEFAULT;
+  }
+
+  _observeHeight() {
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub) return;
+    if (this._ro) this._ro.disconnect();
+    this._ro = new ResizeObserver(this._syncHeight);
+    this._ro.observe(hub);
+    this._syncHeight();
+    requestAnimationFrame(this._syncHeight);
+    setTimeout(this._syncHeight, 300);
+    setTimeout(this._syncHeight, 1200);
+  }
+
+  _syncHeight() {
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub) return;
+    const h = Math.ceil(hub.getBoundingClientRect().height);
+    if (h > 0) {
+      this.style.height = `${h}px`;
+      this.style.minHeight = `${h}px`;
+    }
+  }
+
+  _onScroll() {
+    const sticky = this.shadowRoot && this.shadowRoot.querySelector(".sticky-cta");
+    const hero = this.shadowRoot && this.shadowRoot.querySelector(".hero");
+    const final = this.shadowRoot && this.shadowRoot.querySelector(".final");
+    if (!sticky || !hero) return;
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    const finalTop = final ? final.getBoundingClientRect().top : Infinity;
+    const show = heroBottom < 40 && finalTop > window.innerHeight - 40;
+    sticky.classList.toggle("is-visible", show);
+  }
+
+  _emitCta(type, href) {
+    this.dispatchEvent(
+      new CustomEvent("hub-cta", {
+        detail: { type, href },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  _matchesFilters(card) {
+    const tags = (card.dataset.tags || "").split(",");
+    const ageOk =
+      this._ageFilter === "all" || tags.includes(this._ageFilter);
+    const typeOk =
+      this._typeFilter === "all" || tags.includes(this._typeFilter);
+    const levelOk =
+      this._levelFilter === "all" || tags.includes(this._levelFilter);
+    return ageOk && typeOk && levelOk;
+  }
+
+  _applyFilters() {
+    const ageButtons = this.shadowRoot.querySelectorAll("[data-filter-group='age'] button");
+    ageButtons.forEach((btn) => {
+      btn.setAttribute("aria-pressed", String(btn.dataset.filter === this._ageFilter));
+    });
+    const typeButtons = this.shadowRoot.querySelectorAll("[data-filter-group='type'] button");
+    typeButtons.forEach((btn) => {
+      btn.setAttribute("aria-pressed", String(btn.dataset.filter === this._typeFilter));
+    });
+    const levelButtons = this.shadowRoot.querySelectorAll("[data-filter-group='level'] button");
+    levelButtons.forEach((btn) => {
+      btn.setAttribute("aria-pressed", String(btn.dataset.filter === this._levelFilter));
+    });
+
+    const cards = Array.from(this.shadowRoot.querySelectorAll("[data-course-card]"));
+    let visible = 0;
+    cards.forEach((card) => {
+      const show = this._matchesFilters(card);
+      card.classList.toggle("is-hidden", !show);
+      card.classList.toggle("is-dimmed", false);
+      card.setAttribute("aria-hidden", show ? "false" : "true");
+      if (show) visible += 1;
+    });
+
+    // Soft-highlight: if many still visible after age/type, prefer beginner when chosen
+    if (visible > 4 && this._levelFilter === "beginner") {
+      // already filtered by beginner tag
+    } else if (visible > 4) {
+      // keep all matching; parents can refine
+    }
+
+    const empty = this.shadowRoot.querySelector("[data-empty]");
+    if (empty) empty.hidden = visible !== 0;
+  }
+
+  _onClick(event) {
+    const target = event.target.closest("[data-action]");
+    if (!target) return;
+    const action = target.dataset.action;
+
+    if (action === "scroll-courses") {
+      event.preventDefault();
+      const sec = this.shadowRoot.getElementById("secCourses");
+      if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    if (action === "filter") {
+      event.preventDefault();
+      const group = target.dataset.filterGroup;
+      const value = target.dataset.filter || "all";
+      if (group === "age") this._ageFilter = value;
+      if (group === "type") this._typeFilter = value;
+      if (group === "level") this._levelFilter = value;
+      this._applyFilters();
+      this._syncHeight();
+      return;
+    }
+
+    if (action === "whatsapp") {
+      this._emitCta("whatsapp", this.waUrl);
+      return;
+    }
+
+    if (action === "course" || action === "hub") {
+      this._emitCta(action, target.getAttribute("href"));
+    }
+  }
+
+  _courseCardsHtml() {
+    return COURSES.map(
+      (c) => `
+      <article
+        class="card"
+        data-course-card
+        data-tags="${c.tags.join(",")}"
+        data-age-min="${c.ageMin}"
+        data-age-max="${c.ageMax}"
+        data-category="${c.category}"
+      >
+        <div class="card-media">
+          <img src="${c.image}" alt="${c.imageAlt}" loading="lazy" decoding="async" width="640" height="400" />
+        </div>
+        <div class="card-body">
+          <span class="meta">${c.age}</span>
+          <span class="trial-chip">可預約 HK$100 試堂</span>
+          <h3>${c.name}</h3>
+          <p style="margin:0;color:var(--muted)">${c.focus}</p>
+          <p class="media-tag">${c.media}</p>
+          <div class="card-actions">
+            <a class="btn btn-coral" data-action="whatsapp" href="${this._waPrefill(
+              `你好，我想預約「${c.name}」的 HK$100 試堂。小朋友年齡：＿＿；繪畫經驗：＿＿；方便時間：＿＿。`
+            )}" target="_blank" rel="noopener noreferrer">預約這個試堂</a>
+            <a class="btn btn-ghost" data-action="course" href="${c.href}">了解課程</a>
+          </div>
+        </div>
+      </article>`
+    ).join("");
+  }
+
+  _benefitsHtml() {
+    return BENEFITS.map(
+      (b) => `
+      <div class="benefit">
+        <strong>${b.title}</strong>
+        <span>${b.desc}</span>
+      </div>`
+    ).join("");
+  }
+
+  _stepsHtml() {
+    return STEPS.map(
+      (s) => `
+      <div class="path-step">
+        <div class="path-num">${s.step}</div>
+        <h3>${s.title}</h3>
+        <p>${s.desc}</p>
+      </div>`
+    ).join("");
+  }
+
+  _concernsHtml() {
+    return CONCERNS.map(
+      (item) => `
+      <article class="concern">
+        <h3>${item.q}</h3>
+        <p>${item.a}</p>
+      </article>`
+    ).join("");
+  }
+
+  _faqHtml() {
+    return FAQ.map(
+      (item) => `
+      <div class="faq-item">
+        <p class="faq-q">Q : ${item.q}</p>
+        <p class="faq-a">${item.a}</p>
+      </div>`
+    ).join("");
+  }
+
+  _waPrefill(text) {
+    return `${this.waUrl}?text=${encodeURIComponent(text)}`;
+  }
+
+  render() {
+    const waPrefill = this._waPrefill(
+      "你好，我想預約 HK$100 藝術試堂。小朋友年齡：＿＿；繪畫經驗：＿＿；方便時間：＿＿。"
+    );
+    const waAsk = this._waPrefill(
+      "你好，我想查詢適合小朋友的藝術課程／HK$100 試堂安排。小朋友年齡：＿＿；興趣：＿＿。"
+    );
+
+    this.shadowRoot.innerHTML = `
+      <style>${STYLES}</style>
+      <div class="hub">
+        <section class="hero" aria-labelledby="hero-title" style="--hero-img:url('${IMG.hero}')">
+          <div class="hero-bg" aria-hidden="true"></div>
+          <div class="wrap">
+            <div class="hero-copy">
+              <nav class="crumbs" aria-label="麵包屑">
+                <a data-action="hub" href="${COURSE_HUB_URL}">課程總覽</a>
+                <span aria-hidden="true">/</span>
+                <span>試堂</span>
+              </nav>
+              <p class="hero-eyebrow">何文田 • 培正附近 • 美術試堂</p>
+              <div class="hero-price">單次試堂 HK$100</div>
+              <div class="hero-title-chip">
+                <h1 id="hero-title">HK$100 藝術試堂</h1>
+                <p class="hero-sub">先試堂，再選最適合小朋友的藝術課程</p>
+              </div>
+              <p class="hero-lead">
+                讓小朋友先體驗課堂氣氛與教學方式，再決定是否報讀恆常課程。家長無需先搞懂全部班別——告訴我們年齡與興趣，即可協助安排合適試堂。
+              </p>
+              <ul class="hero-points">
+                <li>適合初學者</li>
+                <li>按年齡／興趣選班</li>
+                <li>WhatsApp 輕鬆預約</li>
+              </ul>
+              <div class="btn-row">
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">立即預約 HK$100 試堂</a>
+                <button type="button" class="btn btn-outline-teal" data-action="scroll-courses">查看適合課程</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="試堂重點">
+          <div class="wrap">
+            <div class="benefit-strip">
+              ${this._benefitsHtml()}
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-soft" id="secCourses" aria-labelledby="guide-title">
+          <div class="wrap">
+            <h2 class="section-title" id="guide-title">唔知應該揀邊班？</h2>
+            <p class="section-lead">
+              不用先理解全部課程。按年齡、興趣或是否初學快速篩選，找出約 2–4 個較相關的試堂方向。
+            </p>
+
+            <p class="filter-label">年齡</p>
+            <div class="filter-tabs" role="group" aria-label="按年齡篩選" data-filter-group="age">
+              <button type="button" data-action="filter" data-filter-group="age" data-filter="all" aria-pressed="true">全部</button>
+              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-3-5" aria-pressed="false">3–5歲</button>
+              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-5-7" aria-pressed="false">5–7歲</button>
+              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-7-11" aria-pressed="false">7–11歲</button>
+              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-11plus" aria-pressed="false">11歲以上</button>
+            </div>
+
+            <p class="filter-label">興趣／媒介</p>
+            <div class="filter-tabs" role="group" aria-label="按興趣篩選" data-filter-group="type">
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="all" aria-pressed="true">全部</button>
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="painting" aria-pressed="false">繪畫</button>
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="drawing" aria-pressed="false">素描／繪畫技巧</button>
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="comic" aria-pressed="false">漫畫</button>
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="clay" aria-pressed="false">黏土</button>
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="kids" aria-pressed="false">兒童美術</button>
+            </div>
+
+            <p class="filter-label">經驗</p>
+            <div class="filter-tabs" role="group" aria-label="按經驗篩選" data-filter-group="level">
+              <button type="button" data-action="filter" data-filter-group="level" data-filter="all" aria-pressed="true">不限</button>
+              <button type="button" data-action="filter" data-filter-group="level" data-filter="beginner" aria-pressed="false">初學者</button>
+            </div>
+
+            <h3 class="sr-only">建議試堂課程</h3>
+            <div class="card-grid cols-2" style="margin-top:28px">
+              ${this._courseCardsHtml()}
+            </div>
+            <p data-empty hidden class="section-lead" style="margin-top:24px">
+              目前沒有完全符合的組合。可放寬篩選，或
+              <a data-action="whatsapp" href="${waAsk}" target="_blank" rel="noopener noreferrer" style="color:var(--teal);font-weight:800">WhatsApp 查詢適合課程</a>。
+            </p>
+
+            <div class="silo-links" style="margin-top:28px">
+              <a data-action="hub" href="${KIDS_ART_URL}">兒童美術課程總覽</a>
+              <a data-action="hub" href="${DRAWING_URL}">繪畫及素描課程</a>
+              <a data-action="hub" href="${COURSE_HUB_URL}">全部課程</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="steps-title">
+          <div class="wrap">
+            <h2 class="section-title" id="steps-title">試堂流程</h2>
+            <p class="section-lead">三步完成預約，過程簡單、低壓力。</p>
+            <div class="path">
+              ${this._stepsHtml()}
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-soft" aria-labelledby="experience-title">
+          <div class="wrap">
+            <div class="detail">
+              <div>
+                <h2 id="experience-title">試堂當日會做甚麼？</h2>
+                <p class="detail-lead">
+                  試堂不是評核考試，而是雙向了解：小朋友感受課堂，導師觀察興趣與程度，家長再決定是否報讀。
+                </p>
+                <ul class="check-list">
+                  ${EXPERIENCE.map((item) => `<li>${item}</li>`).join("")}
+                </ul>
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">預約 HK$100 試堂</a>
+              </div>
+              <div class="detail-media">
+                <img src="${IMG.experience}" alt="ICAcademy美術課堂作品" width="800" height="1000" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="gallery-title">
+          <div class="wrap">
+            <h2 class="section-title" id="gallery-title">看看學生的作品</h2>
+            <p class="section-lead">真實學員作品，讓家長更放心了解課堂創作方向。</p>
+            <div class="gallery-grid">
+              <figure><img src="${IMG.gallery1}" alt="ICAcademy幼兒創意繪畫作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
+              <figure><img src="${IMG.gallery2}" alt="ICAcademy學生漫畫角色設計作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
+              <figure><img src="${IMG.gallery3}" alt="何文田兒童素描課程學生作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
+              <figure><img src="${IMG.gallery4}" alt="ICAcademy課堂創作氣氛" loading="lazy" /><figcaption>課堂氣氛</figcaption></figure>
+            </div>
+            <div class="center-actions">
+              <a class="btn btn-outline-teal" data-action="course" href="${GALLERY_URL}">查看更多學員作品</a>
+              <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">預約 HK$100 試堂</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-soft" aria-labelledby="concerns-title">
+          <div class="wrap">
+            <h2 class="section-title" id="concerns-title">家長常見顧慮</h2>
+            <p class="section-lead">先了解重點，再輕鬆預約試堂。</p>
+            <div class="concern-grid">
+              ${this._concernsHtml()}
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="faq-title">
+          <div class="wrap">
+            <h2 class="section-title" id="faq-title">美術試堂常見問題</h2>
+            <div class="faq-list">
+              ${this._faqHtml()}
+            </div>
+          </div>
+        </section>
+
+        <section class="final" aria-labelledby="final-title">
+          <h2 id="final-title">先試一堂，再決定最適合的藝術課程</h2>
+          <p>告訴我們小朋友年齡與興趣，即可協助安排合適的 HK$100 試堂。</p>
+          <span class="final-price">HK$100 試堂</span>
+          <div class="btn-row">
+            <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">立即預約試堂</a>
+            <a class="btn btn-outline-white" data-action="whatsapp" href="${waAsk}" target="_blank" rel="noopener noreferrer">WhatsApp 查詢適合課程</a>
+          </div>
+        </section>
+      </div>
+
+      <a class="sticky-cta" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">HK$100 試堂｜立即預約</a>
+    `;
+
+    this._applyFilters();
+    this._observeHeight();
+    this._onScroll();
+  }
+}
+
+customElements.define("trial-class-hub", TrialClassHub);
