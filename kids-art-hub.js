@@ -1,7 +1,7 @@
 /**
  * ICAcademy Kids Art Silo Hub – Custom Element
  * Tag name: kids-art-hub
- * Version: 2026-08-12-v6 (remove English from course hub CTA)
+ * Version: 2026-08-12-v7 (mobile responsive + host height sync)
  * Design system: matches courses-hub (coral / teal)
  * Route: /zh/course/kids-art (Editor: Kids Art, yo1yl)
  */
@@ -243,7 +243,7 @@ const STYLES = `
   display: block;
   width: 100%;
   max-width: none;
-  min-height: 3200px;
+  min-height: 1px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -701,12 +701,119 @@ h3 { font-size: 1.12rem; }
   overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 
+@media (max-width: 860px) {
+  .wrap {
+    width: min(1200px, calc(100% - 32px));
+  }
+  .section { padding: 48px 0; }
+  .section-lead { margin-bottom: 28px; padding: 0 4px; }
+  .hero {
+    min-height: 0;
+    align-items: stretch;
+  }
+  .hero-bg {
+    background-position: 70% center;
+  }
+  .hero-bg::after {
+    background: linear-gradient(
+      180deg,
+      rgba(255,255,255,.94) 0%,
+      rgba(255,255,255,.90) 55%,
+      rgba(255,255,255,.72) 100%
+    );
+  }
+  .path {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 640px) {
-  .hero .wrap { padding: 40px 0; }
-  .btn-row { flex-direction: column; align-items: stretch; }
-  .btn { width: 100%; }
+  .wrap {
+    width: min(1200px, calc(100% - 24px));
+  }
+  .section { padding: 40px 0; }
+  .section-title {
+    font-size: clamp(1.35rem, 6vw, 1.7rem);
+    padding: 0 4px;
+    word-break: keep-all;
+  }
+  .section-lead {
+    font-size: 0.98rem;
+    margin-bottom: 24px;
+  }
+  .hero .wrap { padding: 36px 0 40px; }
+  .hero-eyebrow { font-size: 0.95rem; margin-bottom: 14px; }
+  .hero-title-chip {
+    padding: 16px 16px 14px;
+    border-radius: 18px;
+    margin-bottom: 14px;
+  }
+  .hero-title-chip h1 {
+    font-size: clamp(1.28rem, 6.2vw, 1.7rem);
+    line-height: 1.4;
+  }
+  .hero-sub {
+    font-size: clamp(1.05rem, 4.8vw, 1.35rem);
+  }
+  .hero-lead {
+    font-size: 0.98rem;
+    margin-bottom: 22px;
+  }
+  .btn-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .btn {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 18px;
+  }
+  .age-tabs {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+    margin: 0 0 22px;
+    padding: 2px 2px 10px;
+    scrollbar-width: none;
+  }
+  .age-tabs::-webkit-scrollbar { display: none; }
+  .age-tabs button {
+    flex: 0 0 auto;
+    min-height: 42px;
+    padding: 8px 14px;
+    font-size: 0.92rem;
+  }
   .card-actions { flex-direction: column; }
   .card-actions .btn { width: 100%; }
+  .guide-card {
+    min-height: 0;
+    padding: 22px 18px;
+  }
+  .detail h2 { font-size: clamp(1.3rem, 5.5vw, 1.65rem); }
+  .detail-media {
+    max-height: 360px;
+    aspect-ratio: 4 / 5;
+  }
+  .path-step { padding: 18px 14px; text-align: left; }
+  .path-num { margin-bottom: 8px; }
+  .trial {
+    border-radius: 22px;
+    padding: 28px 18px;
+  }
+  .trial .btn {
+    min-width: 0;
+    width: 100%;
+  }
+  .faq-q { font-size: 1rem; }
+  .faq-a { font-size: 0.95rem; }
+  .final { padding: 48px 16px; }
+  .final h2 { font-size: clamp(1.35rem, 6vw, 1.75rem); }
+  .crumbs { font-size: 0.88rem; margin-bottom: 14px; }
+}
+
+@media (max-width: 380px) {
+  .wrap { width: calc(100% - 16px); }
+  .hero-title-chip h1 { font-size: 1.2rem; }
+  .age-tabs button { padding: 7px 12px; font-size: 0.88rem; }
 }
 `;
 
@@ -720,15 +827,23 @@ class KidsArtHub extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this._filter = "all";
     this._onClick = this._onClick.bind(this);
+    this._syncHeight = this._syncHeight.bind(this);
+    this._ro = null;
   }
 
   connectedCallback() {
     this.render();
     this.shadowRoot.addEventListener("click", this._onClick);
+    window.addEventListener("resize", this._syncHeight);
   }
 
   disconnectedCallback() {
     this.shadowRoot.removeEventListener("click", this._onClick);
+    window.removeEventListener("resize", this._syncHeight);
+    if (this._ro) {
+      this._ro.disconnect();
+      this._ro = null;
+    }
   }
 
   attributeChangedCallback() {
@@ -737,6 +852,28 @@ class KidsArtHub extends HTMLElement {
 
   get waUrl() {
     return this.getAttribute("wa-url") || WA_DEFAULT;
+  }
+
+  _observeHeight() {
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub) return;
+    if (this._ro) this._ro.disconnect();
+    this._ro = new ResizeObserver(this._syncHeight);
+    this._ro.observe(hub);
+    this._syncHeight();
+    requestAnimationFrame(this._syncHeight);
+    setTimeout(this._syncHeight, 300);
+    setTimeout(this._syncHeight, 1200);
+  }
+
+  _syncHeight() {
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub) return;
+    const h = Math.ceil(hub.getBoundingClientRect().height);
+    if (h > 0) {
+      this.style.height = `${h}px`;
+      this.style.minHeight = `${h}px`;
+    }
   }
 
   _emitCta(type, href) {
@@ -1018,6 +1155,7 @@ class KidsArtHub extends HTMLElement {
     `;
 
     this._applyFilter(this._filter || "all");
+    this._observeHeight();
   }
 }
 
