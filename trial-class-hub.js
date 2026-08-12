@@ -1,7 +1,7 @@
 /**
  * ICAcademy Trial Class Landing – Custom Element
  * Tag name: trial-class-hub
- * Version: 2026-08-12-v2 (mobile-first: readable type, stacked benefits, safe sticky CTA)
+ * Version: 2026-08-12-v3 (full-bleed breakout from narrow Wix Editor containers)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Route: /zh/homantin-children-art-trial (Editor: Trial Class, doeel)
  *
@@ -284,6 +284,7 @@ const STYLES = `
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  position: relative;
   --bg: #ffffff;
   --bg-soft: #f4f8f9;
   --surface: #ffffff;
@@ -310,6 +311,12 @@ const STYLES = `
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+:host([data-fullbleed="1"]) {
+  /* Applied by JS when Editor wraps the element in a narrow card */
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 *, *::before, *::after { box-sizing: border-box; }
 a { color: inherit; }
@@ -1022,21 +1029,23 @@ class TrialClassHub extends HTMLElement {
     this._levelFilter = "all";
     this._onClick = this._onClick.bind(this);
     this._onScroll = this._onScroll.bind(this);
-    this._syncHeight = this._syncHeight.bind(this);
+    this._syncLayout = this._syncLayout.bind(this);
     this._ro = null;
   }
 
   connectedCallback() {
     this.render();
     this.shadowRoot.addEventListener("click", this._onClick);
-    window.addEventListener("resize", this._syncHeight);
+    window.addEventListener("resize", this._syncLayout);
     window.addEventListener("scroll", this._onScroll, { passive: true });
+    window.addEventListener("orientationchange", this._syncLayout);
   }
 
   disconnectedCallback() {
     this.shadowRoot.removeEventListener("click", this._onClick);
-    window.removeEventListener("resize", this._syncHeight);
+    window.removeEventListener("resize", this._syncLayout);
     window.removeEventListener("scroll", this._onScroll);
+    window.removeEventListener("orientationchange", this._syncLayout);
     if (this._ro) {
       this._ro.disconnect();
       this._ro = null;
@@ -1051,19 +1060,75 @@ class TrialClassHub extends HTMLElement {
     return this.getAttribute("wa-url") || WA_DEFAULT;
   }
 
+  /**
+   * Escape narrow Wix Editor containers (rounded cards / padded strips)
+   * that otherwise leave large gutters and clip content on mobile.
+   */
+  _forceFullBleed() {
+    try {
+      this.style.removeProperty("left");
+      this.style.removeProperty("width");
+      this.style.removeProperty("max-width");
+      this.style.removeProperty("min-width");
+      this.style.removeProperty("margin-left");
+      this.style.removeProperty("transform");
+
+      const vw = Math.min(window.innerWidth || 0, document.documentElement.clientWidth || 0);
+      if (!vw) return;
+
+      const rect = this.getBoundingClientRect();
+      const needsBreakout = rect.width < vw - 6 || Math.abs(rect.left) > 2;
+
+      if (!needsBreakout) {
+        this.removeAttribute("data-fullbleed");
+        this.style.setProperty("width", "100%", "important");
+        this.style.setProperty("max-width", "100%", "important");
+        this.style.setProperty("position", "relative", "important");
+        this.style.setProperty("left", "0", "important");
+        return;
+      }
+
+      this.setAttribute("data-fullbleed", "1");
+      this.style.setProperty("position", "relative", "important");
+      this.style.setProperty("left", `${-rect.left}px`, "important");
+      this.style.setProperty("width", `${vw}px`, "important");
+      this.style.setProperty("max-width", `${vw}px`, "important");
+      this.style.setProperty("min-width", `${vw}px`, "important");
+      this.style.setProperty("margin-left", "0", "important");
+      this.style.setProperty("margin-right", "0", "important");
+      this.style.setProperty("box-sizing", "border-box", "important");
+      this.style.setProperty("overflow-x", "clip", "important");
+      this.style.setProperty("border-radius", "0", "important");
+      this.style.setProperty("box-shadow", "none", "important");
+
+      // Soften immediate wrappers so rounded Editor cards don't clip the hub
+      let el = this.parentElement;
+      for (let i = 0; i < 5 && el; i++) {
+        const tag = (el.tagName || "").toLowerCase();
+        if (tag === "body" || tag === "html" || tag === "main") break;
+        el.style.setProperty("overflow", "visible", "important");
+        el.style.setProperty("max-width", "100%", "important");
+        el = el.parentElement;
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
   _observeHeight() {
     const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
     if (!hub) return;
     if (this._ro) this._ro.disconnect();
-    this._ro = new ResizeObserver(this._syncHeight);
+    this._ro = new ResizeObserver(this._syncLayout);
     this._ro.observe(hub);
-    this._syncHeight();
-    requestAnimationFrame(this._syncHeight);
-    setTimeout(this._syncHeight, 300);
-    setTimeout(this._syncHeight, 1200);
+    this._syncLayout();
+    requestAnimationFrame(this._syncLayout);
+    setTimeout(this._syncLayout, 300);
+    setTimeout(this._syncLayout, 1200);
   }
 
-  _syncHeight() {
+  _syncLayout() {
+    this._forceFullBleed();
     const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
     if (!hub) return;
     const h = Math.ceil(hub.getBoundingClientRect().height);
