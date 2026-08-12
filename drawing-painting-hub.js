@@ -1,7 +1,7 @@
 /**
  * ICAcademy Drawing & Painting Silo Hub – Custom Element
  * Tag name: drawing-painting-hub
- * Version: 2026-08-12-v1
+ * Version: 2026-08-12-v2 (Chinese-only UI labels)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Route: /zh/courses/art-drawing
  */
@@ -45,7 +45,7 @@ const COURSES = [
   },
   {
     id: "acrylic",
-    name: "塑膠彩班 Acrylic Painting",
+    name: "塑膠彩班",
     age: "14歲以上",
     ageMin: 14,
     ageMax: 99,
@@ -89,16 +89,16 @@ const COURSES = [
 
 const GUIDE = [
   {
-    title: "素描 Sketching",
+    title: "素描",
     desc: "線條、形狀、比例、光影與觀察",
     href: "/zh/courses/sketching-class",
     cta: "查看素描技巧班",
   },
   {
-    title: "Acrylic Painting 塑膠彩",
+    title: "塑膠彩",
     desc: "色彩、構圖、筆觸與塑膠彩技法",
     href: "/zh/courses/acrylic-painting-class",
-    cta: "查看 Acrylic Painting 課程",
+    cta: "查看塑膠彩課程",
   },
   {
     title: "視藝技巧",
@@ -115,13 +115,13 @@ const GUIDE = [
 ];
 
 const PATH = [
-  { step: "1", title: "觀察 Observation", desc: "練習觀察物件形狀、輪廓與細節" },
-  { step: "2", title: "線條與形狀 Line & Form", desc: "以線條概括造型，建立基本形狀感" },
-  { step: "3", title: "比例與結構 Proportion & Structure", desc: "理解比例、透視與畫面結構" },
-  { step: "4", title: "光影與立體感 Light & Shadow", desc: "運用光暗表現立體與質感" },
-  { step: "5", title: "色彩 Colour", desc: "認識色彩關係、調色與畫面氛圍" },
-  { step: "6", title: "媒介與繪畫技巧 Painting Techniques", desc: "按媒介練習筆觸、層次與表現方法" },
-  { step: "7", title: "個人創作 Creative Application", desc: "整合技巧，發展個人創作方向" },
+  { step: "1", title: "觀察", desc: "練習觀察物件形狀、輪廓與細節" },
+  { step: "2", title: "線條與形狀", desc: "以線條概括造型，建立基本形狀感" },
+  { step: "3", title: "比例與結構", desc: "理解比例、透視與畫面結構" },
+  { step: "4", title: "光影與立體感", desc: "運用光暗表現立體與質感" },
+  { step: "5", title: "色彩", desc: "認識色彩關係、調色與畫面氛圍" },
+  { step: "6", title: "媒介與繪畫技巧", desc: "按媒介練習筆觸、層次與表現方法" },
+  { step: "7", title: "個人創作", desc: "整合技巧，發展個人創作方向" },
 ];
 
 const BEGINNER_POINTS = [
@@ -137,8 +137,8 @@ const SEO_TOPICS = [
     body: "素描技巧班著重觀察、比例、造型與光暗關係。學員會練習鉛筆控制、起稿、構圖與空間，以及材質表現，為後續繪畫建立紮實基礎。課程適合 9 歲以上、希望系統學習素描的學員。",
   },
   {
-    title: "Drawing 同 Painting 有咩分別？",
-    body: "Drawing（素描／繪畫基礎）較著重線條、造型、比例與光暗，常用鉛筆等乾媒材。Painting（繪畫／塑膠彩）則較著重色彩、筆觸、調色與畫面表達。兩者可以互相配合：有素描基礎有助理解造型，再進入色彩與媒介學習。",
+    title: "素描同繪畫有咩分別？",
+    body: "素描較著重線條、造型、比例與光暗，常用鉛筆等乾媒材。繪畫／塑膠彩則較著重色彩、筆觸、調色與畫面表達。兩者可以互相配合：有素描基礎有助理解造型，再進入色彩與媒介學習。",
   },
   {
     title: "初學者一定要先學素描？",
@@ -168,8 +168,8 @@ const FAQ = [
     a: "素描技巧班著重觀察、比例、光暗與質感。內容包括鉛筆控制與起稿、構圖與空間，以及光暗及材質表現。課程適合 9 歲以上，使用鉛筆素描為主要媒介。",
   },
   {
-    q: "Acrylic Painting 同一般繪畫有咩分別？",
-    a: "塑膠彩班（Acrylic Painting）使用塑膠彩為主要媒介，著重調色、筆觸與構圖技巧，以及完整畫面表達。課程適合 14 歲以上，較一般混合媒介繪畫課程更聚焦於塑膠彩技法與色彩運用。",
+    q: "塑膠彩班同一般繪畫有咩分別？",
+    a: "塑膠彩班使用塑膠彩為主要媒介，著重調色、筆觸與構圖技巧，以及完整畫面表達。課程適合 14 歲以上，較一般混合媒介繪畫課程更聚焦於塑膠彩技法與色彩運用。",
   },
   {
     q: "完全冇畫畫經驗可以參加嗎？",
@@ -991,7 +991,7 @@ class DrawingPaintingHub extends HTMLElement {
               </nav>
               <p class="hero-eyebrow">何文田 • 繪畫及素描課程</p>
               <div class="hero-title-chip">
-                <h1 id="hero-title">繪畫及素描課程｜Drawing & Painting Classes</h1>
+                <h1 id="hero-title">繪畫及素描課程</h1>
                 <p class="hero-sub">按興趣及學習方向選擇適合課程</p>
               </div>
               <p class="hero-lead">
@@ -1137,8 +1137,8 @@ class DrawingPaintingHub extends HTMLElement {
             <h2 class="section-title" id="cross-title">探索更多藝術課程</h2>
             <p class="section-lead">為小朋友選班？可前往兒童美術專頁。亦可返回課程總覽瀏覽其他課程。</p>
             <div class="center-actions">
-              <a class="btn btn-outline-teal" data-action="course" href="${KIDS_ART_URL}">兒童美術課程 Kids Art</a>
-              <a class="btn btn-ghost" data-action="hub" href="${COURSE_HUB_URL}">返回課程總覽 Course Hub</a>
+              <a class="btn btn-outline-teal" data-action="course" href="${KIDS_ART_URL}">兒童美術課程</a>
+              <a class="btn btn-ghost" data-action="hub" href="${COURSE_HUB_URL}">返回課程總覽</a>
             </div>
           </div>
         </section>
