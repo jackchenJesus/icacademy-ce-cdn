@@ -1,9 +1,9 @@
 /**
  * ICAcademy Kids Art Silo Hub – Custom Element
  * Tag name: kids-art-hub
- * Version: 2026-08-12-v2 (rotated kids course photos)
+ * Version: 2026-08-12-v3 (cache-bust; pin CDN with @cdc89e0 or later)
  * Design system: matches courses-hub (coral / teal)
- * Route: /zh/courses/kids-art-classes (existing page nylf1)
+ * Route: /zh/course/kids-art (Editor: Kids Art, yo1yl)
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 const COURSE_HUB_URL = "/zh/course-hub";

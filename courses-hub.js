@@ -183,7 +183,7 @@ const INTERESTS = [
     id: "kids",
     title: "兒童畫班",
     desc: "兒童美術選班指南 · 創意／漫畫／黏土",
-    href: "/zh/courses/kids-art-classes",
+    href: "/zh/course/kids-art",
   },
   {
     id: "drawing-painting",
