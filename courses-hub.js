@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Visual system aligned to ICAcademy sketching-page mockups (coral + teal).
+ * Version: 2026-08-12-v3 (site theme colors, horizontal hero)
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 const GALLERY_URL = "/zh/gallery";
