@@ -239,18 +239,20 @@ const STYLES = `
   min-height: 3200px;
   box-sizing: border-box;
   --bg: #ffffff;
-  --bg-soft: #f5f5f5;
+  --bg-soft: #f4f8f9;
   --surface: #ffffff;
-  --ink: #1a1a1a;
-  --muted: #555555;
-  --line: #e8e8e8;
+  --ink: #162b48;
+  --muted: #4a5568;
+  --line: #e2e8f0;
+  --navy: #162b48;
   --coral: #ff8e8e;
-  --coral-deep: #f06a6a;
+  --coral-deep: #f05a5a;
+  --coral-soft: #fff0f0;
   --teal: #00a9b7;
   --teal-deep: #008f9b;
-  --pink-soft: #fdecef;
-  --title-chip: rgba(232, 226, 242, 0.78);
-  --check: #74c041;
+  --teal-soft: #e8f7f8;
+  --title-chip: rgba(255, 240, 240, 0.92);
+  --check: #00a9b7;
   --radius: 18px;
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   --font: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Segoe UI", sans-serif;
@@ -356,23 +358,30 @@ h3 { font-size: 1.12rem; }
   letter-spacing: 0.02em;
 }
 .hero-title-chip {
-  display: inline-block;
+  display: block;
   background: var(--title-chip);
-  backdrop-filter: blur(4px);
   border-radius: 22px;
-  padding: 18px 22px 16px;
+  padding: 20px 24px 18px;
   margin: 0 0 18px;
-  max-width: 16ch;
+  max-width: min(640px, 100%);
 }
 .hero-title-chip h1 {
   margin: 0;
-  font-size: clamp(1.7rem, 4.2vw, 2.55rem);
-  max-width: none;
+  font-size: clamp(1.65rem, 4vw, 2.45rem);
+  line-height: 1.35;
+  word-break: keep-all;
+}
+.hero-sub {
+  margin: 10px 0 0;
+  font-size: clamp(1.35rem, 3vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--navy);
 }
 .hero-lead {
   margin: 0 0 28px;
-  max-width: 40ch;
-  color: #333;
+  max-width: 36em;
+  color: var(--muted);
   font-size: 1.02rem;
 }
 
@@ -427,7 +436,7 @@ h3 { font-size: 1.12rem; }
 .meta {
   display: inline-flex;
   align-self: flex-start;
-  background: var(--pink-soft);
+  background: var(--coral-soft);
   color: var(--coral-deep);
   border-radius: 999px;
   padding: 4px 12px;
@@ -527,16 +536,42 @@ h3 { font-size: 1.12rem; }
 }
 .compare-table th { background: #f0fafb; color: var(--teal-deep); font-size: 0.92rem; }
 .compare-table a { color: var(--teal); font-weight: 700; text-decoration: none; }
-.compare-cards { display: grid; gap: 12px; }
+.compare-cards { display: grid; gap: 14px; }
 .compare-card {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow);
 }
-.compare-card dl { margin: 0; }
-.compare-card dt { font-size: 0.78rem; color: var(--muted); margin-top: 8px; }
-.compare-card dd { margin: 2px 0 0; font-weight: 700; }
+.compare-card h3 {
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 1.08rem;
+}
+.compare-rows { display: grid; gap: 0; margin: 0 0 16px; }
+.compare-row {
+  display: grid;
+  grid-template-columns: 5.5em 1fr;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+}
+.compare-row:last-child { border-bottom: 0; }
+.compare-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.compare-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.compare-card .btn { width: 100%; }
 
 /* —— Gallery —— */
 .gallery-grid {
@@ -559,9 +594,10 @@ h3 { font-size: 1.12rem; }
 }
 .center-actions { display: flex; justify-content: center; margin-top: 28px; }
 
-/* —— Trial card (pink) —— */
+/* —— Trial card —— */
 .trial {
-  background: var(--pink-soft);
+  background: var(--coral-soft);
+  border: 1px solid rgba(255, 142, 142, 0.25);
   border-radius: 28px;
   padding: clamp(32px, 6vw, 52px) clamp(22px, 5vw, 48px);
   text-align: center;
@@ -582,12 +618,21 @@ h3 { font-size: 1.12rem; }
 }
 .trial p { margin: 0 auto 16px; max-width: 42ch; color: var(--muted); }
 .trial-price {
+  margin: 0 0 22px !important;
+  font-size: 1.05rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.trial-price strong {
+  display: block;
+  margin-top: 6px;
   color: var(--coral-deep);
   font-weight: 800;
-  font-size: clamp(1.25rem, 2.5vw, 1.55rem);
-  margin: 0 0 22px !important;
+  font-size: clamp(1.35rem, 2.5vw, 1.65rem);
+  font-family: var(--font);
+  letter-spacing: 0.02em;
 }
-.trial .btn { min-width: min(100%, 360px); }
+.trial .btn { min-width: min(100%, 360px); margin: 0 auto; }
 
 /* —— FAQ (flat Q/A list) —— */
 .faq-list { max-width: 820px; margin: 0 auto; }
@@ -633,9 +678,9 @@ h3 { font-size: 1.12rem; }
 
 @media (max-width: 640px) {
   .hero .wrap { padding: 40px 0; }
-  .hero-title-chip { max-width: 100%; }
   .btn-row { flex-direction: column; align-items: stretch; }
   .btn { width: 100%; }
+  .compare-row { grid-template-columns: 1fr; gap: 4px; }
 }
 `;
 
@@ -806,14 +851,21 @@ class CoursesHub extends HTMLElement {
           (c) => `
           <article class="compare-card">
             <h3>${c.name}</h3>
-            <dl>
-              <dt>適合年齡</dt><dd>${c.age}</dd>
-              <dt>學習重點</dt><dd>${c.focus}</dd>
-              <dt>媒介或技巧</dt><dd>${c.media}</dd>
-            </dl>
-            <p style="margin:14px 0 0">
-              <a class="btn btn-ghost" data-action="course" href="${c.href}">查看詳情</a>
-            </p>
+            <div class="compare-rows">
+              <div class="compare-row">
+                <span class="compare-label">適合年齡</span>
+                <span class="compare-value">${c.age}</span>
+              </div>
+              <div class="compare-row">
+                <span class="compare-label">學習重點</span>
+                <span class="compare-value">${c.focus}</span>
+              </div>
+              <div class="compare-row">
+                <span class="compare-label">媒介或技巧</span>
+                <span class="compare-value">${c.media}</span>
+              </div>
+            </div>
+            <a class="btn btn-coral" data-action="course" href="${c.href}">查看詳情</a>
           </article>`
         ).join("")}
       </div>`;
@@ -843,7 +895,8 @@ class CoursesHub extends HTMLElement {
           <div class="wrap">
             <p class="hero-eyebrow">何文田 • 培正附近 • 小班藝術教學</p>
             <div class="hero-title-chip">
-              <h1 id="hero-title">何文田<span class="accent">兒童藝術</span>課程<br />按年齡找到合適畫班</h1>
+              <h1 id="hero-title">何文田<span class="accent">兒童藝術</span>課程</h1>
+              <p class="hero-sub">按年齡找到合適畫班</p>
             </div>
             <p class="hero-lead">
               ICAcademy 為不同成長階段的兒童及青少年提供藝術課程。由幼兒創意啟蒙、繪畫基礎、漫畫及素描，到青少年專業藝術訓練，導師會按學生年齡與能力提供適切指導。
@@ -928,7 +981,7 @@ class CoursesHub extends HTMLElement {
               <p>
                 讓孩子親身體驗課堂氣氛、教學方式及創作流程。WhatsApp 告訴我們孩子年齡、繪畫經驗及方便時間，我們會協助安排合適程度。
               </p>
-              <p class="trial-price">試堂 HK$100</p>
+              <p class="trial-price">單次試堂<strong>HK$100</strong></p>
               <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">WhatsApp 預約試堂</a>
             </div>
           </div>
