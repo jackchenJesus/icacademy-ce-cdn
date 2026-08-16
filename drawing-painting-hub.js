@@ -1,14 +1,15 @@
 /**
  * ICAcademy Drawing & Painting Silo Hub – Custom Element
  * Tag name: drawing-painting-hub
- * Version: 2026-08-12-v2 (Chinese-only UI labels)
+ * Version: 2026-08-16-v4 (viewport full-bleed breakout)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Route: /zh/courses/art-drawing
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 const COURSE_HUB_URL = "/zh/course-hub";
 const KIDS_ART_URL = "/zh/course/kids-art";
-const GALLERY_URL = "/zh/gallery";
+const KIDS_LISTING_URL = "/zh/course/kids-art/kids-art-classes-homantin";
+const GALLERY_URL = "/zh/studentartwork";
 const TRIAL_URL = "/zh/homantin-children-art-trial";
 
 function mediaUrl(id, w, h) {
@@ -21,6 +22,7 @@ const IMG = {
   acrylic: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 800, 600),
   visualSkills: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 600),
   visualArt: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 800, 600),
+  paintSquare: mediaUrl("4ea940_9933a9bae4884170a5bf9bd5355e340f~mv2.jpg", 800, 600),
   gallery1: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 800, 800),
   gallery2: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 800, 800),
   gallery3: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 800, 800),
@@ -86,6 +88,20 @@ const COURSES = [
     image: IMG.visualArt,
     imageAlt: "ICAcademy綜合美術課程學生作品",
   },
+  {
+    id: "paint-square",
+    name: "成人繪畫課程 Paint Square",
+    age: "所有程度",
+    ageMin: 16,
+    ageMax: 99,
+    focus: "按喜好選擇題材與媒介",
+    points: ["西洋畫、水彩、素描", "漫畫、插畫及時裝設計", "初學者亦可，最多6人"],
+    media: "多元繪畫媒介",
+    href: "/zh/courses/paint-square",
+    tags: ["painting", "mixed"],
+    image: IMG.paintSquare,
+    imageAlt: "ICAcademy成人繪畫課程學員作品",
+  },
 ];
 
 const GUIDE = [
@@ -113,6 +129,12 @@ const GUIDE = [
     href: "/zh/courses/visual-art-class",
     cta: "查看綜合美術課程",
   },
+  {
+    title: "成人繪畫",
+    desc: "按喜好學習西洋畫、水彩、素描、漫畫或插畫（所有程度）",
+    href: "/zh/courses/paint-square",
+    cta: "查看成人繪畫課程",
+  },
 ];
 
 const PATH = [
@@ -130,6 +152,7 @@ const BEGINNER_POINTS = [
   { goal: "想學色彩及繪畫", course: "塑膠彩班", href: "/zh/courses/acrylic-painting-class" },
   { goal: "想系統建立視藝基礎（幼兒／兒童）", course: "視藝技巧", href: "/zh/courses/visual-art-skills-course" },
   { goal: "想接觸不同媒介", course: "綜合美術", href: "/zh/courses/visual-art-class" },
+  { goal: "想按自己喜好學成人繪畫", course: "Paint Square", href: "/zh/courses/paint-square" },
 ];
 
 const SEO_TOPICS = [
@@ -193,12 +216,14 @@ const FAQ = [
 const STYLES = `
 :host {
   display: block;
-  width: 100%;
-  max-width: none;
-  min-height: 3200px;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0;
+  min-height: 1px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  position: relative;
   --bg: #ffffff;
   --bg-soft: #f4f8f9;
   --surface: #ffffff;
@@ -222,12 +247,19 @@ const STYLES = `
   line-height: 1.7;
   font-size: 16px;
   background: var(--bg);
-  overflow-x: clip;
+  overflow-x: visible;
+}
+:host([data-fullbleed="1"]) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 *, *::before, *::after { box-sizing: border-box; }
 a { color: inherit; }
 img { max-width: 100%; display: block; }
-.hub { width: 100%; max-width: none; margin: 0; padding: 0; }
+.hub { width: 100%; max-width: 100%; min-width: 0; margin: 0; padding: 0; overflow-x: visible; }
 .wrap {
   width: min(1200px, calc(100% - 48px));
   max-width: 1200px;
@@ -307,6 +339,7 @@ h3 { font-size: 1.12rem; }
 .hero {
   position: relative;
   width: 100%;
+  max-width: 100%;
   min-height: clamp(460px, 58vw, 620px);
   display: flex;
   align-items: center;
@@ -759,15 +792,23 @@ class DrawingPaintingHub extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this._filter = "all";
     this._onClick = this._onClick.bind(this);
+    this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
   }
 
   connectedCallback() {
     this.render();
     this.shadowRoot.addEventListener("click", this._onClick);
+    window.addEventListener("resize", this._applyFullBleedCss);
+    window.addEventListener("orientationchange", this._applyFullBleedCss);
+    this._applyFullBleedCss();
   }
 
   disconnectedCallback() {
     this.shadowRoot.removeEventListener("click", this._onClick);
+    window.removeEventListener("resize", this._applyFullBleedCss);
+    window.removeEventListener("orientationchange", this._applyFullBleedCss);
+    const bleed = document.getElementById("drawing-painting-hub-page-bleed");
+    if (bleed) bleed.remove();
   }
 
   attributeChangedCallback() {
@@ -974,7 +1015,87 @@ class DrawingPaintingHub extends HTMLElement {
     return `${this.waUrl}?text=${encodeURIComponent(text)}`;
   }
 
+  _injectPageBleedCss() {
+    const id = "drawing-painting-hub-page-bleed";
+    if (document.getElementById(id)) return;
+    const style = document.createElement("style");
+    style.id = id;
+    style.textContent = `
+      html, body {
+        overflow-x: hidden !important;
+      }
+      drawing-painting-hub {
+        display: block !important;
+        box-sizing: border-box !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      #SITE_PAGES,
+      #PAGES_CONTAINER,
+      #SITE_FOOTER,
+      #masterPage {
+        overflow: visible !important;
+        overflow-x: visible !important;
+        max-width: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  _viewportWidth() {
+    return document.documentElement.clientWidth || window.innerWidth || 0;
+  }
+
+  _applyFullBleedCss() {
+    try {
+      this._injectPageBleedCss();
+      this.style.removeProperty("left");
+      this.style.removeProperty("right");
+      this.style.removeProperty("transform");
+
+      const vw = this._viewportWidth();
+      if (!vw) return;
+
+      this.setAttribute("data-fullbleed", "1");
+      this.style.setProperty("position", "relative", "important");
+      this.style.setProperty("left", "0", "important");
+      this.style.setProperty("width", `${vw}px`, "important");
+      this.style.setProperty("max-width", `${vw}px`, "important");
+      this.style.setProperty("min-width", `${vw}px`, "important");
+      this.style.setProperty("margin-left", `calc(50% - ${vw / 2}px)`, "important");
+      this.style.setProperty("margin-right", "0", "important");
+      this.style.setProperty("padding", "0", "important");
+      this.style.setProperty("box-sizing", "border-box", "important");
+      this.style.setProperty("overflow-x", "visible", "important");
+      this.style.setProperty("border-radius", "0", "important");
+      this.style.setProperty("box-shadow", "none", "important");
+
+      let el = this.parentElement;
+      for (let i = 0; i < 8 && el; i++) {
+        const tag = (el.tagName || "").toLowerCase();
+        const id = el.id || "";
+        if (tag === "body" || tag === "html") break;
+        el.style.setProperty("overflow", "visible", "important");
+        el.style.setProperty("overflow-x", "visible", "important");
+        el.style.setProperty("max-width", "none", "important");
+        el.style.setProperty("width", "100%", "important");
+        el.style.setProperty("margin-left", "0", "important");
+        el.style.setProperty("margin-right", "0", "important");
+        el.style.setProperty("padding-left", "0", "important");
+        el.style.setProperty("padding-right", "0", "important");
+        el.style.setProperty("border-radius", "0", "important");
+        el.style.setProperty("left", "0", "important");
+        if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
+        el = el.parentElement;
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
   render() {
+    this._applyFullBleedCss();
     const waPrefill = this._waPrefill(
       "你好，我想查詢繪畫／素描課程／HK$100試堂安排。"
     );
@@ -1140,9 +1261,10 @@ class DrawingPaintingHub extends HTMLElement {
         <section class="section" aria-labelledby="cross-title">
           <div class="wrap" style="text-align:center">
             <h2 class="section-title" id="cross-title">探索更多藝術課程</h2>
-            <p class="section-lead">為小朋友選班？可前往兒童美術專頁。亦可返回課程總覽瀏覽其他課程。</p>
+            <p class="section-lead">為小朋友選班？可前往兒童美術總覽，或進入何文田兒童畫班課程頁。</p>
             <div class="center-actions">
-              <a class="btn btn-outline-teal" data-action="course" href="${KIDS_ART_URL}">兒童美術課程</a>
+              <a class="btn btn-outline-teal" data-action="course" href="${KIDS_ART_URL}">兒童美術（上層）</a>
+              <a class="btn btn-coral" data-action="course" href="${KIDS_LISTING_URL}">何文田兒童畫班</a>
               <a class="btn btn-ghost" data-action="hub" href="${COURSE_HUB_URL}">返回課程總覽</a>
             </div>
           </div>
@@ -1160,6 +1282,7 @@ class DrawingPaintingHub extends HTMLElement {
     `;
 
     this._applyFilter(this._filter || "all");
+    this._applyFullBleedCss();
   }
 }
 
