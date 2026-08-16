@@ -1,13 +1,15 @@
 /**
  * ICAcademy Kids Art Silo Hub – Custom Element
  * Tag name: kids-art-hub
- * Version: 2026-08-12-v7 (mobile responsive + host height sync)
+ * Version: 2026-08-16-v8 (full-width bleed)
  * Design system: matches courses-hub (coral / teal)
  * Route: /zh/course/kids-art (Editor: Kids Art, yo1yl)
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 const COURSE_HUB_URL = "/zh/course-hub";
-const GALLERY_URL = "/zh/gallery";
+const LISTING_URL = "/zh/course/kids-art/kids-art-classes-homantin";
+const DRAWING_URL = "/zh/courses/art-drawing";
+const GALLERY_URL = "/zh/studentartwork";
 const TRIAL_URL = "/zh/homantin-children-art-trial";
 
 function mediaUrl(id, w, h, align) {
@@ -242,12 +244,14 @@ const FAQ = [
 const STYLES = `
 :host {
   display: block;
-  width: 100%;
-  max-width: none;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0;
   min-height: 1px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  position: relative;
   --bg: #ffffff;
   --bg-soft: #f4f8f9;
   --surface: #ffffff;
@@ -271,12 +275,19 @@ const STYLES = `
   line-height: 1.7;
   font-size: 16px;
   background: var(--bg);
-  overflow-x: clip;
+  overflow-x: visible;
+}
+:host([data-fullbleed="1"]) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 *, *::before, *::after { box-sizing: border-box; }
 a { color: inherit; }
 img { max-width: 100%; display: block; }
-.hub { width: 100%; max-width: none; margin: 0; padding: 0; }
+.hub { width: 100%; max-width: 100%; min-width: 0; margin: 0; padding: 0; overflow-x: visible; }
 .wrap {
   width: min(1200px, calc(100% - 48px));
   max-width: 1200px;
@@ -610,7 +621,7 @@ h3 { font-size: 1.12rem; }
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0,0,0,0); border: 0;
 }
-.center-actions { display: flex; justify-content: center; margin-top: 28px; }
+.center-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
 .trial {
   background: var(--coral-soft);
@@ -830,6 +841,7 @@ class KidsArtHub extends HTMLElement {
     this._filter = "all";
     this._onClick = this._onClick.bind(this);
     this._syncHeight = this._syncHeight.bind(this);
+    this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
     this._ro = null;
   }
 
@@ -837,15 +849,22 @@ class KidsArtHub extends HTMLElement {
     this.render();
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._syncHeight);
+    window.addEventListener("resize", this._applyFullBleedCss);
+    window.addEventListener("orientationchange", this._applyFullBleedCss);
+    this._applyFullBleedCss();
   }
 
   disconnectedCallback() {
     this.shadowRoot.removeEventListener("click", this._onClick);
     window.removeEventListener("resize", this._syncHeight);
+    window.removeEventListener("resize", this._applyFullBleedCss);
+    window.removeEventListener("orientationchange", this._applyFullBleedCss);
     if (this._ro) {
       this._ro.disconnect();
       this._ro = null;
     }
+    const bleed = document.getElementById("kids-art-hub-page-bleed");
+    if (bleed) bleed.remove();
   }
 
   attributeChangedCallback() {
@@ -1005,7 +1024,87 @@ class KidsArtHub extends HTMLElement {
     return `${this.waUrl}?text=${encodeURIComponent(text)}`;
   }
 
+  _injectPageBleedCss() {
+    const id = "kids-art-hub-page-bleed";
+    if (document.getElementById(id)) return;
+    const style = document.createElement("style");
+    style.id = id;
+    style.textContent = `
+      html, body {
+        overflow-x: hidden !important;
+      }
+      kids-art-hub {
+        display: block !important;
+        box-sizing: border-box !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      #SITE_PAGES,
+      #PAGES_CONTAINER,
+      #SITE_FOOTER,
+      #masterPage {
+        overflow: visible !important;
+        overflow-x: visible !important;
+        max-width: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  _viewportWidth() {
+    return document.documentElement.clientWidth || window.innerWidth || 0;
+  }
+
+  _applyFullBleedCss() {
+    try {
+      this._injectPageBleedCss();
+      this.style.removeProperty("left");
+      this.style.removeProperty("right");
+      this.style.removeProperty("transform");
+
+      const vw = this._viewportWidth();
+      if (!vw) return;
+
+      this.setAttribute("data-fullbleed", "1");
+      this.style.setProperty("position", "relative", "important");
+      this.style.setProperty("left", "0", "important");
+      this.style.setProperty("width", `${vw}px`, "important");
+      this.style.setProperty("max-width", `${vw}px`, "important");
+      this.style.setProperty("min-width", `${vw}px`, "important");
+      this.style.setProperty("margin-left", `calc(50% - ${vw / 2}px)`, "important");
+      this.style.setProperty("margin-right", "0", "important");
+      this.style.setProperty("padding", "0", "important");
+      this.style.setProperty("box-sizing", "border-box", "important");
+      this.style.setProperty("overflow-x", "visible", "important");
+      this.style.setProperty("border-radius", "0", "important");
+      this.style.setProperty("box-shadow", "none", "important");
+
+      let el = this.parentElement;
+      for (let i = 0; i < 8 && el; i++) {
+        const tag = (el.tagName || "").toLowerCase();
+        const id = el.id || "";
+        if (tag === "body" || tag === "html") break;
+        el.style.setProperty("overflow", "visible", "important");
+        el.style.setProperty("overflow-x", "visible", "important");
+        el.style.setProperty("max-width", "none", "important");
+        el.style.setProperty("width", "100%", "important");
+        el.style.setProperty("margin-left", "0", "important");
+        el.style.setProperty("margin-right", "0", "important");
+        el.style.setProperty("padding-left", "0", "important");
+        el.style.setProperty("padding-right", "0", "important");
+        el.style.setProperty("border-radius", "0", "important");
+        el.style.setProperty("left", "0", "important");
+        if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
+        el = el.parentElement;
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
   render() {
+    this._applyFullBleedCss();
     const waPrefill = this._waPrefill(
       "你好，我想為小朋友查詢兒童美術課程／HK$100試堂安排。"
     );
@@ -1033,6 +1132,7 @@ class KidsArtHub extends HTMLElement {
               <div class="btn-row">
                 <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">HK$100 試堂</a>
                 <button type="button" class="btn btn-outline-teal" data-action="scroll-courses">查看兒童美術課程</button>
+              <a class="btn btn-ghost" data-action="hub" href="${LISTING_URL}">何文田兒童畫班</a>
               </div>
             </div>
           </div>
@@ -1143,8 +1243,14 @@ class KidsArtHub extends HTMLElement {
         <section class="section section-soft" aria-labelledby="back-title">
           <div class="wrap" style="text-align:center">
             <h2 class="section-title" id="back-title">探索更多藝術課程</h2>
-            <p class="section-lead">返回課程總覽，查看素描、塑膠彩及其他年齡層課程。</p>
-            <a class="btn btn-outline-teal" data-action="hub" href="${COURSE_HUB_URL}">返回課程總覽</a>
+            <p class="section-lead">想了解何文田兒童畫班課程，或橫向前往繪畫及素描、試堂與學員作品。</p>
+            <div class="center-actions">
+              <a class="btn btn-coral" data-action="hub" href="${LISTING_URL}">何文田兒童畫班</a>
+              <a class="btn btn-outline-teal" data-action="hub" href="${DRAWING_URL}">繪畫及素描</a>
+              <a class="btn btn-ghost" data-action="hub" href="${TRIAL_URL}">試堂詳情</a>
+              <a class="btn btn-ghost" data-action="hub" href="${GALLERY_URL}">學員作品</a>
+              <a class="btn btn-ghost" data-action="hub" href="${COURSE_HUB_URL}">返回課程總覽</a>
+            </div>
           </div>
         </section>
 
