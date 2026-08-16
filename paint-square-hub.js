@@ -1,7 +1,7 @@
 /**
  * ICAcademy Adult Painting Course Paint Square — course landing (not a hub)
  * Tag name: paint-square-hub
- * Version: 2026-08-16-v1
+ * Version: 2026-08-16-v2 (Paint Square Wix gallery photos)
  *
  * Parent silo hub: Drawing & Painting
  * Canonical:
@@ -15,12 +15,42 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  hero: mediaUrl("b98cc9_0c14e8485e804aafb82d0470a5bbfbc9~mv2.jpeg", 1600, 1000),
-  gallery1: mediaUrl("b98cc9_0c14e8485e804aafb82d0470a5bbfbc9~mv2.jpeg", 800, 800),
-  gallery2: mediaUrl("4ea940_ffa9827e993b46ff8c39685739d93bf6~mv2.jpeg", 800, 800),
-  gallery3: mediaUrl("4ea940_5867e3daf35f4f969495afa34a05f1a3~mv2.jpg", 800, 800),
-  gallery4: mediaUrl("b98cc9_fecc97ffe797441790ba2a579dcb36bb~mv2.jpeg", 800, 800),
-  detail: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 800, 1000),
+  hero: mediaUrl("4ea940_abc39ed616844e3e9dfc221b74ddc3c0~mv2.jpg", 1600, 1000),
+  detail: mediaUrl("4ea940_9933a9bae4884170a5bf9bd5355e340f~mv2.jpg", 800, 1000),
+  gallery: [
+    {
+      id: "4ea940_abc39ed616844e3e9dfc221b74ddc3c0~mv2.jpg",
+      alt: { en: "Adult painting class in the Ho Man Tin studio", zh: "何文田成人繪畫課堂" },
+    },
+    {
+      id: "4ea940_a395efb223e443d9b89010698227ef24~mv2.jpg",
+      alt: { en: "Paint Square student artwork", zh: "成人繪畫學員作品" },
+    },
+    {
+      id: "4ea940_f3c8a439a70f4b76bc6aba33d9b5a798~mv2.jpg",
+      alt: { en: "Paint Square student artwork", zh: "成人繪畫學員作品" },
+    },
+    {
+      id: "4ea940_981de8a688bf46d9badedc21c5be41b0~mv2.jpg",
+      alt: { en: "Student painting in class", zh: "課堂中的學員作品" },
+    },
+    {
+      id: "4ea940_6316c00d08ba47a7b83ef177b68f18c3~mv2.jpg",
+      alt: { en: "Paint Square student artwork", zh: "成人繪畫學員作品" },
+    },
+    {
+      id: "4ea940_9125bc2a85514aea8b50e21043a92580~mv2.jpg",
+      alt: { en: "Rabbit painting by a Paint Square student", zh: "成人繪畫學員作品（動物）" },
+    },
+    {
+      id: "4ea940_1b0968b86c634aae81860fdedb5e1c95~mv2.jpg",
+      alt: { en: "Still-life painting by a Paint Square student", zh: "成人繪畫學員作品（靜物）" },
+    },
+    {
+      id: "4ea940_9ac998d9630943198d74ce40d7441b94~mv2.jpg",
+      alt: { en: "Space painting by a Paint Square student", zh: "成人繪畫學員作品（太空）" },
+    },
+  ],
 };
 
 const WHY = [
@@ -763,7 +793,7 @@ class PaintSquareHub extends HTMLElement {
                 <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about this class", "查詢課程詳情")}</a>
               </div>
               <div class="detail-media">
-                <img src="${IMG.detail}" alt="${t("ICAcademy adult painting student work", "ICAcademy成人繪畫課程學員作品")}" width="800" height="1000" loading="lazy" />
+                <img src="${IMG.detail}" alt="${t("Paint Square student landscape painting", "成人繪畫課程學員風景作品")}" width="800" height="1000" loading="lazy" />
               </div>
             </div>
           </div>
@@ -787,12 +817,14 @@ class PaintSquareHub extends HTMLElement {
         <section class="section" aria-labelledby="gallery-title">
           <div class="wrap">
             <h2 class="section-title" id="gallery-title">${t("Student artwork", "學員作品展示")}</h2>
-            <p class="section-lead">${t("Landscapes, still life, animals and illustration — work made in the Ho Man Tin studio.", "風景、靜物、動物與插畫 —— 何文田畫室學員作品")}</p>
+            <p class="section-lead">${t("Studio class and student paintings from Paint Square — landscapes, still life, animals and more.", "課堂實況與學員作品：風景、靜物、動物及不同題材")}</p>
             <div class="gallery-grid">
-              <figure><img src="${IMG.gallery1}" alt="${t("Adult painting student work", "成人繪畫學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery2}" alt="${t("Adult painting student work", "成人繪畫學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery3}" alt="${t("Adult painting student work", "成人繪畫學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery4}" alt="${t("Adult painting student work", "成人繪畫學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              ${IMG.gallery
+                .map(
+                  (item) =>
+                    `<figure><img src="${mediaUrl(item.id, 800, 800)}" alt="${this.pick(item.alt)}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>`
+                )
+                .join("")}
             </div>
             <div class="center-actions">
               <a class="btn btn-outline-teal" data-action="hub" href="${galleryUrl}">${t("See more student work →", "查看更多學員作品 →")}</a>
