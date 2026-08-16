@@ -1,9 +1,8 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-08-16-v2
- * Rebuilds homepage body below the native Editor hero slideshow.
- * Keep the Wix Slideshow section; this element starts at "Why IC Academy".
+ * Version: 2026-08-16-v3
+ * Full homepage including hero slideshow (for Home V2 / pages without Editor slideshow).
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
@@ -13,8 +12,23 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
+  heroSm: mediaUrl("b98cc9_9dc8b25109994d1582cf45ab4cba461f~mv2.jpg", 960, 540, 70),
+  hero: mediaUrl("b98cc9_9dc8b25109994d1582cf45ab4cba461f~mv2.jpg", 1600, 900, 75),
+  slide2: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 1280, 900, 75),
+  slide3: mediaUrl("b98cc9_eafb6e8a188a4b06a688d513daf9e9f4~mv2.jpg", 1280, 900, 75),
+  slide4: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1280, 900, 75),
+  slide5: mediaUrl("b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg", 1280, 900, 75),
   why: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 800, 1000, 75),
 };
+
+const SLIDES = [IMG.hero, IMG.slide2, IMG.slide3, IMG.slide4, IMG.slide5];
+
+const HIGHLIGHTS = [
+  { en: "5-minute walk from Pui Ching Primary", zh: "培正小學正對面，步行5分鐘" },
+  { en: "School Net 34 families' top choice", zh: "34校網學童首選興趣班" },
+  { en: "Art wellbeing × visual arts training", zh: "藝術心理輔導 × 視覺藝術課程" },
+  { en: "Secondary Portfolio — end-to-end support", zh: "升中 Portfolio 一條龍支援" },
+];
 
 const WHY_CARDS = [
   {
@@ -302,6 +316,56 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 }
 .btn-outline-white { background: transparent; color: #fff; border: 2px solid #fff; }
 
+.hero {
+  position: relative; width: 100%;
+  min-height: clamp(520px, 68vw, 680px);
+  display: flex; align-items: center; overflow: hidden; background: #f3f3f3;
+}
+.hero-slides { position: absolute; inset: 0; }
+.hero-slides img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  opacity: 0; transition: opacity .7s ease;
+}
+.hero-slides img.is-active { opacity: 1; }
+.hero-slides::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.82) 40%, rgba(255,255,255,.28) 72%, rgba(255,255,255,.12) 100%);
+}
+.hero .wrap { position: relative; z-index: 1; padding: 72px 0 88px; }
+.hero-eyebrow { margin: 0 0 16px; color: var(--muted); font-weight: 700; font-size: 0.98rem; }
+.hero-title-chip {
+  display: block; background: var(--title-chip); border-radius: 22px;
+  padding: 20px 24px 18px; margin: 0 0 16px; max-width: min(680px, 100%);
+}
+.hero-title-chip h1 {
+  margin: 0; font-size: clamp(1.55rem, 3.6vw, 2.35rem); line-height: 1.32; word-break: keep-all;
+}
+.hero-sub { margin: 8px 0 0; font-size: clamp(1.15rem, 2.4vw, 1.55rem); font-weight: 800; color: var(--navy); }
+.hero-lead { margin: 0 0 24px; max-width: 40em; color: var(--muted); }
+.hero-points {
+  display: grid; gap: 8px 28px; margin-top: 28px;
+  color: var(--teal-deep); font-weight: 700; font-size: 0.95rem;
+}
+@media (min-width: 720px) { .hero-points { grid-template-columns: 1fr 1fr; max-width: 44rem; } }
+.hero-nav {
+  position: absolute; z-index: 2; left: 0; right: 0; bottom: 22px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.hero-dot {
+  width: 10px; height: 10px; border-radius: 50%; border: 0;
+  background: #ffc4c4; cursor: pointer; padding: 0;
+}
+.hero-dot[aria-current="true"] { background: var(--coral); transform: scale(1.15); }
+.hero-arrow {
+  position: absolute; z-index: 2; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.75); color: var(--coral-deep);
+  font-size: 1.4rem; cursor: pointer; line-height: 1;
+}
+.hero-arrow.prev { left: 12px; }
+.hero-arrow.next { right: 12px; }
+
 .why-grid {
   display: grid; gap: 16px;
 }
@@ -342,6 +406,7 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 .path-card span { color: var(--teal); font-weight: 800; }
 
 .compare-table { width: 100%; border-collapse: collapse; display: none; }
+.compare-cards { display: grid; gap: 14px; }
 @media (min-width: 860px) {
   .compare-table { display: table; background: #fff; border-radius: 16px; overflow: hidden; }
   .compare-cards { display: none; }
@@ -351,7 +416,6 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 }
 .compare-table th { background: #f0fafb; color: var(--teal-deep); font-size: 0.92rem; }
 .compare-table td:last-child { font-weight: 700; color: var(--navy); }
-.compare-cards { display: grid; gap: 14px; }
 .compare-card {
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px;
 }
@@ -418,9 +482,11 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 .final .btn-row { justify-content: center; }
 
 @media (max-width: 640px) {
+  .hero .wrap { padding: 40px 0 80px; }
   .btn-row { flex-direction: column; align-items: stretch; }
   .btn { width: 100%; }
   .compare-row { grid-template-columns: 1fr; gap: 4px; }
+  .hero-arrow { display: none; }
 }
 `;
 
@@ -432,6 +498,8 @@ class HomeHub extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
+    this._slide = 0;
+    this._timer = null;
     this._onClick = this._onClick.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
   }
@@ -441,12 +509,14 @@ class HomeHub extends HTMLElement {
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._applyFullBleedCss);
     window.addEventListener("orientationchange", this._applyFullBleedCss);
+    this._startSlideshow();
   }
 
   disconnectedCallback() {
     this.shadowRoot.removeEventListener("click", this._onClick);
     window.removeEventListener("resize", this._applyFullBleedCss);
     window.removeEventListener("orientationchange", this._applyFullBleedCss);
+    this._stopSlideshow();
     const bleed = document.getElementById("home-hub-page-bleed");
     if (bleed) bleed.remove();
   }
@@ -577,11 +647,50 @@ class HomeHub extends HTMLElement {
     );
   }
 
+  _startSlideshow() {
+    this._stopSlideshow();
+    this._timer = window.setInterval(() => this._goSlide(this._slide + 1), 5500);
+  }
+
+  _stopSlideshow() {
+    if (this._timer) {
+      window.clearInterval(this._timer);
+      this._timer = null;
+    }
+  }
+
+  _goSlide(next) {
+    const total = SLIDES.length;
+    this._slide = ((next % total) + total) % total;
+    const imgs = this.shadowRoot.querySelectorAll(".hero-slides img");
+    const dots = this.shadowRoot.querySelectorAll(".hero-dot");
+    imgs.forEach((img, i) => img.classList.toggle("is-active", i === this._slide));
+    dots.forEach((dot, i) => dot.setAttribute("aria-current", i === this._slide ? "true" : "false"));
+  }
+
   _onClick(event) {
     const target = event.target.closest("[data-action]");
     if (!target) return;
     const action = target.dataset.action;
 
+    if (action === "slide") {
+      event.preventDefault();
+      this._goSlide(Number(target.dataset.index || 0));
+      this._startSlideshow();
+      return;
+    }
+    if (action === "prev") {
+      event.preventDefault();
+      this._goSlide(this._slide - 1);
+      this._startSlideshow();
+      return;
+    }
+    if (action === "next") {
+      event.preventDefault();
+      this._goSlide(this._slide + 1);
+      this._startSlideshow();
+      return;
+    }
     if (action === "scroll-faq") {
       event.preventDefault();
       const sec = this.shadowRoot.getElementById("secFaq");
@@ -607,11 +716,47 @@ class HomeHub extends HTMLElement {
     const stories = this.isEn ? STORIES_EN : STORIES_ZH;
     const faqs = this.isEn ? FAQ_EN : FAQ_ZH;
     const trialHref = this.path("/homantin-children-art-trial");
+    const courseHref = this.path("/course-hub");
     const aboutHref = this.path("/about-us");
 
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
       <div class="hub">
+        <section class="hero" aria-label="${t("Homepage slideshow", "首頁圖片輪播")}">
+          <div class="hero-slides">
+            ${SLIDES.map(
+              (src, i) =>
+                `<img src="${src}" alt="" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} class="${i === this._slide ? "is-active" : ""}" width="1600" height="900" />`
+            ).join("")}
+          </div>
+          <button class="hero-arrow prev" type="button" data-action="prev" aria-label="${t("Previous", "上一張")}">‹</button>
+          <button class="hero-arrow next" type="button" data-action="next" aria-label="${t("Next", "下一張")}">›</button>
+          <div class="wrap">
+            <p class="hero-eyebrow">${t("Ho Man Tin · Opposite Pui Ching Primary · Art & Wellbeing", "何文田 · 培正對面 · 兒童藝術心理成長")}</p>
+            <div class="hero-title-chip">
+              <h1>${t("IC Academy | Ho Man Tin Kids Art Class — Opposite Pui Ching", "IC Academy 何文田兒童畫班")}</h1>
+              <p class="hero-sub">${t("Building Confidence Through Art", "培正對面｜幼兒及兒童藝術啟蒙首選")}</p>
+            </div>
+            <p class="hero-lead">${t(
+              "IC Academy is a premier children's art studio in Ho Man Tin, Kowloon City. We help primary school students manage HKBPE exam stress through guided art-making — building emotional resilience, self-identity, and a genuine love of visual art. From first brushstrokes to secondary school Portfolio, every child belongs here.",
+              "IC Academy 何文田畫室（藝術心理成長中心），位處九龍城區，專為面對呈分試壓力的小學生設計。以藝術創作為媒介，幫助孩子疏導情緒、建立自我認同感，同時提供由塗鴉至升中 Portfolio 的全面視覺藝術課程。"
+            )}</p>
+            <div class="btn-row">
+              <a class="btn btn-navy" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial class", "預約首堂試堂體驗")}</a>
+              <a class="btn btn-outline-navy" data-action="hub" href="${courseHref}">${t("Explore programmes", "了解課程路線")}</a>
+            </div>
+            <div class="hero-points">
+              ${HIGHLIGHTS.map((item) => `<div>${this.pick(item)}</div>`).join("")}
+            </div>
+          </div>
+          <div class="hero-nav" role="tablist" aria-label="${t("Slides", "輪播")}">
+            ${SLIDES.map(
+              (_, i) =>
+                `<button class="hero-dot" type="button" data-action="slide" data-index="${i}" aria-label="${t("Slide", "投影片")} ${i + 1}" aria-current="${i === this._slide ? "true" : "false"}"></button>`
+            ).join("")}
+          </div>
+        </section>
+
         <section class="section">
           <div class="wrap">
             <p class="kicker">${t("Why IC Academy", "為什麼選擇我們?")}</p>
@@ -822,6 +967,7 @@ class HomeHub extends HTMLElement {
 
     this._applyFullBleedCss();
     this._collapseTrailingGap();
+    this._goSlide(this._slide);
   }
 }
 
