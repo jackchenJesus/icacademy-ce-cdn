@@ -1,11 +1,11 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-12-v7 (silo link: 繪畫及素描 → /zh/courses/art-drawing)
+ * Version: 2026-08-16-v8 (EN/ZH multilingual + gallery → /studentartwork)
+ * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
+ * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
-const GALLERY_URL = "/zh/gallery";
-const TRIAL_URL = "/zh/homantin-children-art-trial";
 
 /** Build a Wix Media Manager fill URL from a site media file id. */
 function mediaUrl(id, w, h) {
@@ -39,203 +39,290 @@ const IMG = {
 const COURSES = [
   {
     id: "prep",
-    name: "視藝技巧（預備課程）",
-    age: "3–5歲",
+    name: { en: "Visual Art Skills (Preparatory)", zh: "視藝技巧（預備課程）" },
+    age: { en: "Ages 3–5", zh: "3–5歲" },
     ageMin: 3,
     ageMax: 5,
-    focus: "幼兒創意啟蒙與感官探索",
-    points: ["線條、形狀與色彩入門", "小手肌與手眼協調", "課堂常規與獨立完成作品"],
-    media: "蠟筆、水彩、剪貼、印畫",
-    href: "/zh/courses/visual-art-skills-course",
+    focus: {
+      en: "Creative play and sensory exploration for young children",
+      zh: "幼兒創意啟蒙與感官探索",
+    },
+    points: {
+      en: ["Lines, shapes and colour basics", "Fine motor and hand–eye coordination", "Class routine and finishing artwork independently"],
+      zh: ["線條、形狀與色彩入門", "小手肌與手眼協調", "課堂常規與獨立完成作品"],
+    },
+    media: { en: "Crayons, watercolour, collage, printmaking", zh: "蠟筆、水彩、剪貼、印畫" },
+    hrefSlug: "/courses/visual-art-skills-course",
     tags: ["foundation", "painting"],
     image: IMG.prep,
-    imageAlt: "ICAcademy幼兒創意繪畫課堂作品",
+    imageAlt: { en: "ICAcademy young children’s creative painting class artwork", zh: "ICAcademy幼兒創意繪畫課堂作品" },
   },
   {
     id: "foundation",
-    name: "視藝技巧（基礎課程）",
-    age: "5–7歲",
+    name: { en: "Visual Art Skills (Foundation)", zh: "視藝技巧（基礎課程）" },
+    age: { en: "Ages 5–7", zh: "5–7歲" },
     ageMin: 5,
     ageMax: 7,
-    focus: "建立觀察、造型與基本構圖能力",
-    points: ["觀察與造型練習", "比例與畫面組織", "多元媒介創作"],
-    media: "繪畫及混合媒介",
-    href: "/zh/courses/visual-art-skills-course",
+    focus: {
+      en: "Build observation, form and basic composition skills",
+      zh: "建立觀察、造型與基本構圖能力",
+    },
+    points: {
+      en: ["Observation and form practice", "Proportion and picture organisation", "Mixed-media creation"],
+      zh: ["觀察與造型練習", "比例與畫面組織", "多元媒介創作"],
+    },
+    media: { en: "Drawing and mixed media", zh: "繪畫及混合媒介" },
+    hrefSlug: "/courses/visual-art-skills-course",
     tags: ["foundation", "painting"],
     image: IMG.foundation,
-    imageAlt: "ICAcademy視藝技巧基礎課程學生作品",
+    imageAlt: { en: "ICAcademy Visual Art Skills Foundation student artwork", zh: "ICAcademy視藝技巧基礎課程學生作品" },
   },
   {
     id: "creative-i",
-    name: "兒童創意美術 Level I",
-    age: "7–9歲",
+    name: { en: "Creative Art Level I", zh: "兒童創意美術 Level I" },
+    age: { en: "Ages 7–9", zh: "7–9歲" },
     ageMin: 7,
     ageMax: 9,
-    focus: "鞏固繪畫基礎，建立創作信心",
-    points: ["線條、色彩、基本構圖", "主題觀察與想像", "簡單多媒介創作"],
-    media: "繪畫、拼貼、多元物料",
-    href: "/zh/courses/creative-art-classes",
+    focus: {
+      en: "Strengthen drawing basics and creative confidence",
+      zh: "鞏固繪畫基礎，建立創作信心",
+    },
+    points: {
+      en: ["Line, colour and basic composition", "Observation and imagination", "Simple mixed-media work"],
+      zh: ["線條、色彩、基本構圖", "主題觀察與想像", "簡單多媒介創作"],
+    },
+    media: { en: "Drawing, collage and mixed materials", zh: "繪畫、拼貼、多元物料" },
+    hrefSlug: "/courses/creative-art-classes",
     tags: ["creative", "painting"],
     image: IMG.creativeI,
-    imageAlt: "ICAcademy兒童創意美術作品",
+    imageAlt: { en: "ICAcademy Creative Art student artwork", zh: "ICAcademy兒童創意美術作品" },
   },
   {
     id: "creative-ii",
-    name: "兒童創意美術 Level II",
-    age: "9–11歲",
+    name: { en: "Creative Art Level II", zh: "兒童創意美術 Level II" },
+    age: { en: "Ages 9–11", zh: "9–11歲" },
     ageMin: 9,
     ageMax: 11,
-    focus: "加強比例、空間與畫面完整度",
-    points: ["比例與構圖進階", "色彩配搭", "個人想法融入主題"],
-    media: "繪畫及多元媒介",
-    href: "/zh/courses/creative-art-classes",
+    focus: {
+      en: "Strengthen proportion, space and finished compositions",
+      zh: "加強比例、空間與畫面完整度",
+    },
+    points: {
+      en: ["Advanced proportion and composition", "Colour combinations", "Personal ideas in themed work"],
+      zh: ["比例與構圖進階", "色彩配搭", "個人想法融入主題"],
+    },
+    media: { en: "Drawing and mixed media", zh: "繪畫及多元媒介" },
+    hrefSlug: "/courses/creative-art-classes",
     tags: ["creative", "painting"],
     image: IMG.creativeII,
-    imageAlt: "ICAcademy小學創意繪畫作品",
+    imageAlt: { en: "ICAcademy primary Creative Art painting", zh: "ICAcademy小學創意繪畫作品" },
   },
   {
     id: "creative-iii",
-    name: "兒童創意美術 Level III",
-    age: "11–14歲",
+    name: { en: "Creative Art Level III", zh: "兒童創意美術 Level III" },
+    age: { en: "Ages 11–14", zh: "11–14歲" },
     ageMin: 11,
     ageMax: 14,
-    focus: "深化技巧與個人風格",
-    points: ["畫面層次與造型", "主題研究", "為進階美術建立基礎"],
-    media: "多媒介創作",
-    href: "/zh/courses/creative-art-classes",
+    focus: { en: "Deepen technique and personal style", zh: "深化技巧與個人風格" },
+    points: {
+      en: ["Layering and form", "Themed studies", "Foundation for more advanced art"],
+      zh: ["畫面層次與造型", "主題研究", "為進階美術建立基礎"],
+    },
+    media: { en: "Multi-media creation", zh: "多媒介創作" },
+    hrefSlug: "/courses/creative-art-classes",
     tags: ["creative", "painting", "teen"],
     image: IMG.creativeIII,
-    imageAlt: "ICAcademy青少年創意美術作品",
+    imageAlt: { en: "ICAcademy teen Creative Art artwork", zh: "ICAcademy青少年創意美術作品" },
   },
   {
     id: "comic",
-    name: "卡通漫畫班",
-    age: "8歲以上",
+    name: { en: "Comic Drawing Class", zh: "卡通漫畫班" },
+    age: { en: "Ages 8+", zh: "8歲以上" },
     ageMin: 8,
     ageMax: 99,
-    focus: "人物比例、表情與原創角色設計",
-    points: ["漫畫人物比例與五官", "角色造型與故事背景", "畫面構圖表達"],
-    media: "鉛筆、馬克筆、漫畫媒材",
-    href: "/zh/courses/comic-drawing-class",
+    focus: {
+      en: "Figure proportion, expression and original character design",
+      zh: "人物比例、表情與原創角色設計",
+    },
+    points: {
+      en: ["Comic figure proportion and features", "Character design and story background", "Panel composition"],
+      zh: ["漫畫人物比例與五官", "角色造型與故事背景", "畫面構圖表達"],
+    },
+    media: { en: "Pencil, markers and comic media", zh: "鉛筆、馬克筆、漫畫媒材" },
+    hrefSlug: "/courses/comic-drawing-class",
     tags: ["comic"],
     image: IMG.comic,
-    imageAlt: "ICAcademy學生漫畫角色設計作品",
+    imageAlt: { en: "ICAcademy student comic character design", zh: "ICAcademy學生漫畫角色設計作品" },
   },
   {
     id: "sketch",
-    name: "素描技巧班",
-    age: "9歲以上",
+    name: { en: "Sketching Class", zh: "素描技巧班" },
+    age: { en: "Ages 9+", zh: "9歲以上" },
     ageMin: 9,
     ageMax: 99,
-    focus: "觀察、比例、光暗與質感",
-    points: ["鉛筆控制與起稿", "構圖與空間", "光暗及材質表現"],
-    media: "鉛筆素描",
-    href: "/zh/courses/sketching-class",
+    focus: {
+      en: "Observation, proportion, light and texture",
+      zh: "觀察、比例、光暗與質感",
+    },
+    points: {
+      en: ["Pencil control and underdrawing", "Composition and space", "Light, shade and materials"],
+      zh: ["鉛筆控制與起稿", "構圖與空間", "光暗及材質表現"],
+    },
+    media: { en: "Pencil sketching", zh: "鉛筆素描" },
+    hrefSlug: "/courses/sketching-class",
     tags: ["sketch", "teen"],
     image: IMG.sketch,
-    imageAlt: "何文田兒童素描課程學生作品",
+    imageAlt: { en: "Ho Man Tin children’s sketching class student work", zh: "何文田兒童素描課程學生作品" },
   },
   {
     id: "clay",
-    name: "輕黏土課程",
-    age: "3–16歲",
+    name: { en: "Soft Clay Class", zh: "輕黏土課程" },
+    age: { en: "Ages 3–16", zh: "3–16歲" },
     ageMin: 3,
     ageMax: 16,
-    focus: "立體塑形、結構與色彩美感",
-    points: ["基礎塑形與混色", "分齡主題創作", "完成立體作品帶回家"],
-    media: "輕黏土及專業黏土媒材",
-    href: "/zh/courses/creative-art-and-clay-class",
+    focus: {
+      en: "3D modelling, structure and colour aesthetics",
+      zh: "立體塑形、結構與色彩美感",
+    },
+    points: {
+      en: ["Basic modelling and colour mixing", "Age-based themed projects", "Take home a 3D artwork"],
+      zh: ["基礎塑形與混色", "分齡主題創作", "完成立體作品帶回家"],
+    },
+    media: { en: "Soft clay and professional clay media", zh: "輕黏土及專業黏土媒材" },
+    hrefSlug: "/courses/creative-art-and-clay-class",
     tags: ["clay"],
     image: IMG.clay,
-    imageAlt: "ICAcademy兒童黏土立體創作作品",
+    imageAlt: { en: "ICAcademy children’s soft clay 3D artwork", zh: "ICAcademy兒童黏土立體創作作品" },
   },
   {
     id: "visual-art",
-    name: "綜合美術課程",
-    age: "14歲以上",
+    name: { en: "Visual Art Class", zh: "綜合美術課程" },
+    age: { en: "Ages 14+", zh: "14歲以上" },
     ageMin: 14,
     ageMax: 99,
-    focus: "多媒介探索與個人創作方向",
-    points: ["素描、塑膠彩及混合媒介", "主題構思至完成作品", "按程度個別指導"],
-    media: "素描、塑膠彩、混合媒介",
-    href: "/zh/courses/visual-art-class",
+    focus: {
+      en: "Multi-media exploration and personal creative direction",
+      zh: "多媒介探索與個人創作方向",
+    },
+    points: {
+      en: ["Sketching, acrylic and mixed media", "From idea to finished work", "Guidance matched to level"],
+      zh: ["素描、塑膠彩及混合媒介", "主題構思至完成作品", "按程度個別指導"],
+    },
+    media: { en: "Sketching, acrylic and mixed media", zh: "素描、塑膠彩、混合媒介" },
+    hrefSlug: "/courses/visual-art-class",
     tags: ["teen", "painting", "portfolio"],
     image: IMG.visualArt,
-    imageAlt: "ICAcademy青少年綜合美術作品",
+    imageAlt: { en: "ICAcademy teen Visual Art Class artwork", zh: "ICAcademy青少年綜合美術作品" },
   },
   {
     id: "acrylic",
-    name: "塑膠彩班",
-    age: "14歲以上",
+    name: { en: "Acrylic Painting Class", zh: "塑膠彩班" },
+    age: { en: "Ages 14+", zh: "14歲以上" },
     ageMin: 14,
     ageMax: 99,
-    focus: "調色、筆觸與構圖技巧",
-    points: ["塑膠彩基礎運用", "色彩與筆觸練習", "完整畫面表達"],
-    media: "塑膠彩",
-    href: "/zh/courses/acrylic-painting-class",
+    focus: { en: "Colour mixing, brushwork and composition", zh: "調色、筆觸與構圖技巧" },
+    points: {
+      en: ["Acrylic fundamentals", "Colour and brushwork practice", "Complete picture-making"],
+      zh: ["塑膠彩基礎運用", "色彩與筆觸練習", "完整畫面表達"],
+    },
+    media: { en: "Acrylic paint", zh: "塑膠彩" },
+    hrefSlug: "/courses/acrylic-painting-class",
     tags: ["teen", "painting"],
     image: IMG.acrylic,
-    imageAlt: "ICAcademy塑膠彩課程學生作品",
+    imageAlt: { en: "ICAcademy acrylic painting class student work", zh: "ICAcademy塑膠彩課程學生作品" },
   },
 ];
 
 const INTERESTS = [
   {
     id: "kids",
-    title: "兒童畫班",
-    desc: "兒童美術選班指南 · 創意／漫畫／黏土",
-    href: "/zh/course/kids-art",
+    title: { en: "Kids Art Classes", zh: "兒童畫班" },
+    desc: { en: "Kids art guide · creative / comics / clay", zh: "兒童美術選班指南 · 創意／漫畫／黏土" },
+    hrefSlug: "/course/kids-art",
   },
   {
     id: "drawing-painting",
-    title: "繪畫及素描",
-    desc: "素描、塑膠彩、視藝技巧及綜合美術",
-    href: "/zh/courses/art-drawing",
+    title: { en: "Drawing & Painting", zh: "繪畫及素描" },
+    desc: { en: "Sketching, acrylic, visual art skills and mixed media", zh: "素描、塑膠彩、視藝技巧及綜合美術" },
+    hrefSlug: "/courses/art-drawing",
   },
   {
     id: "clay",
-    title: "黏土與立體創作",
-    desc: "塑形、結構與空間感",
-    href: "/zh/courses/creative-art-and-clay-class",
+    title: { en: "Clay & 3D Creation", zh: "黏土與立體創作" },
+    desc: { en: "Modelling, structure and spatial sense", zh: "塑形、結構與空間感" },
+    hrefSlug: "/courses/creative-art-and-clay-class",
   },
   {
     id: "comic",
-    title: "卡通漫畫班",
-    desc: "人物、表情與角色設計",
-    href: "/zh/courses/comic-drawing-class",
+    title: { en: "Comic Drawing Class", zh: "卡通漫畫班" },
+    desc: { en: "Figures, expressions and character design", zh: "人物、表情與角色設計" },
+    hrefSlug: "/courses/comic-drawing-class",
   },
 ];
 
 const FAQ = [
   {
-    q: "小朋友沒有學過畫畫，可以參加嗎？",
-    a: "可以。不同課程適合不同年齡及程度；初學者可由基礎技巧開始。報名前亦可先提供小朋友的年齡和經驗作查詢。",
+    q: { en: "My child has never learned drawing — is that OK?", zh: "小朋友沒有學過畫畫，可以參加嗎？" },
+    a: {
+      en: "Yes. Different courses suit different ages and levels; beginners can start with foundation skills. You can also WhatsApp us with your child’s age and experience before enrolling.",
+      zh: "可以。不同課程適合不同年齡及程度；初學者可由基礎技巧開始。報名前亦可先提供小朋友的年齡和經驗作查詢。",
+    },
   },
   {
-    q: "應該怎樣選擇課程？",
-    a: "可按小朋友的年齡、現有經驗及興趣方向選擇。未確定的家長可透過 WhatsApp 查詢，我們會協助了解較合適的方向。",
+    q: { en: "How should we choose a course?", zh: "應該怎樣選擇課程？" },
+    a: {
+      en: "Choose by age, current experience and interests. If you are unsure, WhatsApp us and we will help suggest a suitable direction.",
+      zh: "可按小朋友的年齡、現有經驗及興趣方向選擇。未確定的家長可透過 WhatsApp 查詢，我們會協助了解較合適的方向。",
+    },
   },
   {
-    q: "每班有多少人？",
-    a: "大多數課程以小班形式進行，讓導師可以觀察每位學員，提供較充足的個別指導。實際人數請向課程顧問查詢。",
+    q: { en: "How many students are in a class?", zh: "每班有多少人？" },
+    a: {
+      en: "Most classes are small groups so teachers can observe each student and give more individual guidance. Please ask our advisors for current class sizes.",
+      zh: "大多數課程以小班形式進行，讓導師可以觀察每位學員，提供較充足的個別指導。實際人數請向課程顧問查詢。",
+    },
   },
   {
-    q: "可以先預約試堂嗎？",
-    a: "歡迎先透過 WhatsApp 查詢試堂安排。告訴我們小朋友年齡、繪畫經驗和方便時間，我們會協助了解合適班別。",
+    q: { en: "Can we book a trial class first?", zh: "可以先預約試堂嗎？" },
+    a: {
+      en: "Yes. Please enquire via WhatsApp. Tell us your child’s age, drawing experience and preferred times, and we will help arrange a suitable class.",
+      zh: "歡迎先透過 WhatsApp 查詢試堂安排。告訴我們小朋友年齡、繪畫經驗和方便時間，我們會協助了解合適班別。",
+    },
   },
   {
-    q: "在哪裏上課？",
-    a: "IC Academy 位於九龍窩打老道79F地下3號鋪（何文田），鄰近培正中學及小學。",
+    q: { en: "Where are classes held?", zh: "在哪裏上課？" },
+    a: {
+      en: "IC Academy is at Ground Floor Shop 3, 79F Waterloo Road, Kowloon (Ho Man Tin), near Pui Ching Middle School and Primary School.",
+      zh: "IC Academy 位於九龍窩打老道79F地下3號鋪（何文田），鄰近培正中學及小學。",
+    },
   },
 ];
 
 const APPROACH = [
-  "按年齡及程度分班，因應能力調整指導方式",
-  "由觀察、線條、形狀、色彩和構圖建立藝術基礎",
-  "鼓勵個人表達，把觀察與想法放進作品",
-  "探索多元媒介，累積更豐富的藝術經驗",
-  "小班教學，方便導師個別觀察與跟進",
-  "位於何文田，方便培正一帶家長",
+  {
+    en: "Classes grouped by age and level, with guidance adjusted to ability",
+    zh: "按年齡及程度分班，因應能力調整指導方式",
+  },
+  {
+    en: "Build art foundations through observation, line, shape, colour and composition",
+    zh: "由觀察、線條、形狀、色彩和構圖建立藝術基礎",
+  },
+  {
+    en: "Encourage personal expression — putting observation and ideas into artwork",
+    zh: "鼓勵個人表達，把觀察與想法放進作品",
+  },
+  {
+    en: "Explore many media to build richer art experience",
+    zh: "探索多元媒介，累積更豐富的藝術經驗",
+  },
+  {
+    en: "Small-group teaching so teachers can observe and follow up individually",
+    zh: "小班教學，方便導師個別觀察與跟進",
+  },
+  {
+    en: "Located in Ho Man Tin, convenient for families around Pui Ching",
+    zh: "位於何文田，方便培正一帶家長",
+  },
 ];
 
 const STYLES = `
@@ -742,6 +829,17 @@ class CoursesHub extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    const syncLocale = () => {
+      try {
+        if (this.localeCode === "zh") {
+          const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
+          if (h1 && /Kids Art Courses/i.test(h1.textContent || "")) this.render();
+        }
+      } catch (e) {}
+    };
+    setTimeout(syncLocale, 0);
+    setTimeout(syncLocale, 500);
+
     this.shadowRoot.addEventListener("click", this._onClick);
     this.shadowRoot.addEventListener("keydown", this._onKeydown);
   }
@@ -757,6 +855,48 @@ class CoursesHub extends HTMLElement {
 
   get waUrl() {
     return this.getAttribute("wa-url") || WA_DEFAULT;
+  }
+
+  get localeCode() {
+    try {
+      const href = String((window.location && (window.location.href || window.location.pathname)) || "");
+      if (/\/zh(\/|$|\?|#)/i.test(href)) return "zh";
+    } catch (e) {}
+    try {
+      const lang = String(
+        (document.documentElement && (document.documentElement.getAttribute("lang") || document.documentElement.lang)) || ""
+      ).toLowerCase();
+      if (lang.startsWith("zh")) return "zh";
+    } catch (e) {}
+    try {
+      const htmlHead = (document.documentElement && document.documentElement.innerHTML)
+        ? document.documentElement.innerHTML.slice(0, 120000)
+        : "";
+      if (/userLanguage"\s*:\s*"zh"/i.test(htmlHead)) return "zh";
+    } catch (e) {}
+    const attr = String(this.getAttribute("locale") || "").toLowerCase();
+    if (attr.startsWith("zh")) return "zh";
+    if (attr.startsWith("en")) return "en";
+    return "en";
+  }
+
+  get isEn() {
+    return this.localeCode !== "zh";
+  }
+
+  path(slug) {
+    return this.isEn ? slug : `/zh${slug}`;
+  }
+
+  pick(obj) {
+    if (obj == null) return "";
+    if (typeof obj === "string") return obj;
+    if (Array.isArray(obj)) return obj;
+    return this.isEn ? obj.en : obj.zh;
+  }
+
+  _waPrefill(text) {
+    return `${this.waUrl}?text=${encodeURIComponent(text)}`;
   }
 
   _emitCta(type, href) {
@@ -814,8 +954,8 @@ class CoursesHub extends HTMLElement {
       return;
     }
 
-    if (action === "course") {
-      this._emitCta("course", target.getAttribute("href"));
+    if (action === "course" || action === "hub") {
+      this._emitCta(action, target.getAttribute("href"));
     }
   }
 
@@ -824,8 +964,9 @@ class CoursesHub extends HTMLElement {
   }
 
   _courseCardsHtml() {
-    return COURSES.map(
-      (c) => `
+    return COURSES.map((c) => {
+      const points = this.pick(c.points) || [];
+      return `
       <article
         class="card"
         data-course-card
@@ -834,53 +975,54 @@ class CoursesHub extends HTMLElement {
         data-age-max="${c.ageMax}"
       >
         <div class="card-media">
-          <img src="${c.image}" alt="${c.imageAlt}" loading="lazy" decoding="async" width="640" height="400" />
+          <img src="${c.image}" alt="${this.pick(c.imageAlt)}" loading="lazy" decoding="async" width="640" height="400" />
         </div>
         <div class="card-body">
-          <span class="meta">${c.age}</span>
-          <h3>${c.name}</h3>
-          <p style="margin:0;color:var(--muted)">${c.focus}</p>
+          <span class="meta">${this.pick(c.age)}</span>
+          <h3>${this.pick(c.name)}</h3>
+          <p style="margin:0;color:var(--muted)">${this.pick(c.focus)}</p>
           <ul class="points">
-            ${c.points.map((p) => `<li>${p}</li>`).join("")}
+            ${points.map((p) => `<li>${p}</li>`).join("")}
           </ul>
           <div class="card-actions">
-            <a class="btn btn-ghost" data-action="course" href="${c.href}">查看課程</a>
+            <a class="btn btn-ghost" data-action="course" href="${this.path(c.hrefSlug)}">${this.isEn ? "View course" : "查看課程"}</a>
           </div>
         </div>
-      </article>`
-    ).join("");
+      </article>`;
+    }).join("");
   }
 
   _interestHtml() {
     return INTERESTS.map(
       (i) => `
-      <a class="interest-card" data-action="course" href="${i.href}">
-        <h3>${i.title}</h3>
-        <p>${i.desc}</p>
+      <a class="interest-card" data-action="course" href="${this.path(i.hrefSlug)}">
+        <h3>${this.pick(i.title)}</h3>
+        <p>${this.pick(i.desc)}</p>
       </a>`
     ).join("");
   }
 
   _compareDesktopHtml() {
+    const t = (en, zh) => (this.isEn ? en : zh);
     const rows = COURSES.map(
       (c) => `
       <tr>
-        <td>${c.name}</td>
-        <td>${c.age}</td>
-        <td>${c.focus}</td>
-        <td>${c.media}</td>
-        <td><a data-action="course" href="${c.href}">查看詳情</a></td>
+        <td>${this.pick(c.name)}</td>
+        <td>${this.pick(c.age)}</td>
+        <td>${this.pick(c.focus)}</td>
+        <td>${this.pick(c.media)}</td>
+        <td><a data-action="course" href="${this.path(c.hrefSlug)}">${t("Details", "查看詳情")}</a></td>
       </tr>`
     ).join("");
     return `
-      <table class="compare-table" aria-label="藝術課程比較">
+      <table class="compare-table" aria-label="${t("Art course comparison", "藝術課程比較")}">
         <thead>
           <tr>
-            <th>課程</th>
-            <th>適合年齡</th>
-            <th>學習重點</th>
-            <th>媒介或技巧</th>
-            <th>詳情</th>
+            <th>${t("Course", "課程")}</th>
+            <th>${t("Age", "適合年齡")}</th>
+            <th>${t("Focus", "學習重點")}</th>
+            <th>${t("Media / skills", "媒介或技巧")}</th>
+            <th>${t("Details", "詳情")}</th>
           </tr>
         </thead>
         <tbody>${rows}</tbody>
@@ -888,27 +1030,28 @@ class CoursesHub extends HTMLElement {
   }
 
   _compareMobileHtml() {
+    const t = (en, zh) => (this.isEn ? en : zh);
     return `
       <div class="compare-cards">
         ${COURSES.map(
           (c) => `
           <article class="compare-card">
-            <h3>${c.name}</h3>
+            <h3>${this.pick(c.name)}</h3>
             <div class="compare-rows">
               <div class="compare-row">
-                <span class="compare-label">適合年齡</span>
-                <span class="compare-value">${c.age}</span>
+                <span class="compare-label">${t("Age", "適合年齡")}</span>
+                <span class="compare-value">${this.pick(c.age)}</span>
               </div>
               <div class="compare-row">
-                <span class="compare-label">學習重點</span>
-                <span class="compare-value">${c.focus}</span>
+                <span class="compare-label">${t("Focus", "學習重點")}</span>
+                <span class="compare-value">${this.pick(c.focus)}</span>
               </div>
               <div class="compare-row">
-                <span class="compare-label">媒介或技巧</span>
-                <span class="compare-value">${c.media}</span>
+                <span class="compare-label">${t("Media / skills", "媒介或技巧")}</span>
+                <span class="compare-value">${this.pick(c.media)}</span>
               </div>
             </div>
-            <a class="btn btn-coral" data-action="course" href="${c.href}">查看詳情</a>
+            <a class="btn btn-coral" data-action="course" href="${this.path(c.hrefSlug)}">${t("View details", "查看詳情")}</a>
           </article>`
         ).join("")}
       </div>`;
@@ -918,17 +1061,24 @@ class CoursesHub extends HTMLElement {
     return FAQ.map(
       (item) => `
       <div class="faq-item">
-        <p class="faq-q">Q : ${item.q}</p>
-        <p class="faq-a">${item.a}</p>
+        <p class="faq-q">Q : ${this.pick(item.q)}</p>
+        <p class="faq-a">${this.pick(item.a)}</p>
       </div>`
     ).join("");
   }
 
   render() {
-    const wa = this.waUrl;
-    const waPrefill = `${wa}?text=${encodeURIComponent(
-      "你好，我想查詢ICAcademy恆常藝術課程／試堂安排。"
-    )}`;
+    const t = (en, zh) => (this.isEn ? en : zh);
+    const galleryUrl = this.isEn
+      ? "https://www.icacademy.com.hk/studentartwork"
+      : "https://www.icacademy.com.hk/zh/studentartwork";
+    const trialUrl = this.path("/homantin-children-art-trial");
+    const waPrefill = this._waPrefill(
+      t(
+        "Hi, I’d like to enquire about ICAcademy regular art courses / a trial class.",
+        "你好，我想查詢ICAcademy恆常藝術課程／試堂安排。"
+      )
+    );
 
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
@@ -937,17 +1087,20 @@ class CoursesHub extends HTMLElement {
           <div class="hero-bg" aria-hidden="true"></div>
           <div class="wrap">
             <div class="hero-copy">
-              <p class="hero-eyebrow">何文田 • 培正附近 • 小班藝術教學</p>
+              <p class="hero-eyebrow">${t("Ho Man Tin • Near Pui Ching • Small-group art", "何文田 • 培正附近 • 小班藝術教學")}</p>
               <div class="hero-title-chip">
-                <h1 id="hero-title">何文田<span class="accent">兒童藝術</span>課程</h1>
-                <p class="hero-sub">按年齡找到合適畫班</p>
+                <h1 id="hero-title">${t("Ho Man Tin ", "何文田")}<span class="accent">${t("Kids Art", "兒童藝術")}</span>${t(" Courses", "課程")}</h1>
+                <p class="hero-sub">${t("Find the right art class by age", "按年齡找到合適畫班")}</p>
               </div>
               <p class="hero-lead">
-                ICAcademy 為不同成長階段的兒童及青少年提供藝術課程。由幼兒創意啟蒙、繪畫基礎、漫畫及素描，到青少年專業藝術訓練，導師會按學生年齡與能力提供適切指導。
+                ${t(
+                  "ICAcademy offers art courses for children and teens at every stage. From early creative play, drawing foundations, comics and sketching, to more advanced teen training, teachers guide students by age and ability.",
+                  "ICAcademy 為不同成長階段的兒童及青少年提供藝術課程。由幼兒創意啟蒙、繪畫基礎、漫畫及素描，到青少年專業藝術訓練，導師會按學生年齡與能力提供適切指導。"
+                )}
               </p>
               <div class="btn-row">
-                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">WhatsApp 查詢</a>
-                <button type="button" class="btn btn-outline-teal" data-action="scroll-age">按年齡找課程</button>
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("WhatsApp enquiry", "WhatsApp 查詢")}</a>
+                <button type="button" class="btn btn-outline-teal" data-action="scroll-age">${t("Find courses by age", "按年齡找課程")}</button>
               </div>
             </div>
           </div>
@@ -955,16 +1108,16 @@ class CoursesHub extends HTMLElement {
 
         <section class="section" id="secAgeNav" aria-labelledby="age-title">
           <div class="wrap">
-            <h2 class="section-title" id="age-title">小朋友現時屬於哪個學習階段？</h2>
-            <p class="section-lead">先按年齡瀏覽恆常課程。點選篩選會突出相關卡片。</p>
-            <div class="age-tabs" role="group" aria-label="按年齡篩選課程">
-              <button type="button" data-action="filter" data-filter="all" aria-pressed="true">全部</button>
-              <button type="button" data-action="filter" data-filter="age-3-7" aria-pressed="false">3–7歲</button>
-              <button type="button" data-action="filter" data-filter="age-7-14" aria-pressed="false">7–14歲</button>
-              <button type="button" data-action="filter" data-filter="age-8plus" aria-pressed="false">8歲以上</button>
-              <button type="button" data-action="filter" data-filter="clay" aria-pressed="false">黏土</button>
-              <button type="button" data-action="filter" data-filter="comic" aria-pressed="false">漫畫</button>
-              <button type="button" data-action="filter" data-filter="sketch" aria-pressed="false">素描</button>
+            <h2 class="section-title" id="age-title">${t("Which learning stage is your child in?", "小朋友現時屬於哪個學習階段？")}</h2>
+            <p class="section-lead">${t("Browse regular courses by age. Filters highlight matching cards.", "先按年齡瀏覽恆常課程。點選篩選會突出相關卡片。")}</p>
+            <div class="age-tabs" role="group" aria-label="${t("Filter courses by age", "按年齡篩選課程")}">
+              <button type="button" data-action="filter" data-filter="all" aria-pressed="true">${t("All", "全部")}</button>
+              <button type="button" data-action="filter" data-filter="age-3-7" aria-pressed="false">${t("Ages 3–7", "3–7歲")}</button>
+              <button type="button" data-action="filter" data-filter="age-7-14" aria-pressed="false">${t("Ages 7–14", "7–14歲")}</button>
+              <button type="button" data-action="filter" data-filter="age-8plus" aria-pressed="false">${t("Ages 8+", "8歲以上")}</button>
+              <button type="button" data-action="filter" data-filter="clay" aria-pressed="false">${t("Clay", "黏土")}</button>
+              <button type="button" data-action="filter" data-filter="comic" aria-pressed="false">${t("Comics", "漫畫")}</button>
+              <button type="button" data-action="filter" data-filter="sketch" aria-pressed="false">${t("Sketching", "素描")}</button>
             </div>
             <div class="card-grid cols-2">
               ${this._courseCardsHtml()}
@@ -976,18 +1129,21 @@ class CoursesHub extends HTMLElement {
           <div class="wrap">
             <div class="detail">
               <div>
-                <h2 id="approach-title">不只完成作品，更重視孩子的學習過程</h2>
-                <p class="detail-meta">適合幼兒至青少年｜小班指導</p>
+                <h2 id="approach-title">${t("More than finished artwork — we value how children learn", "不只完成作品，更重視孩子的學習過程")}</h2>
+                <p class="detail-meta">${t("Toddlers to teens · Small-group teaching", "適合幼兒至青少年｜小班指導")}</p>
                 <p class="detail-lead">
-                  家長可以先按年齡及興趣方向了解合適課程，再透過 WhatsApp 查詢試堂與上課時間。
+                  ${t(
+                    "Start with age and interests, then WhatsApp us about a trial class and timetable.",
+                    "家長可以先按年齡及興趣方向了解合適課程，再透過 WhatsApp 查詢試堂與上課時間。"
+                  )}
                 </p>
                 <ul class="check-list">
-                  ${APPROACH.map((item) => `<li>${item}</li>`).join("")}
+                  ${APPROACH.map((item) => `<li>${this.pick(item)}</li>`).join("")}
                 </ul>
-                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">查詢課程詳情</a>
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about courses", "查詢課程詳情")}</a>
               </div>
               <div class="detail-media">
-                <img src="${IMG.detail}" alt="ICAcademy學生藝術作品示例" width="800" height="1000" loading="lazy" />
+                <img src="${IMG.detail}" alt="${t("ICAcademy student artwork example", "ICAcademy學生藝術作品示例")}" width="800" height="1000" loading="lazy" />
               </div>
             </div>
           </div>
@@ -995,8 +1151,8 @@ class CoursesHub extends HTMLElement {
 
         <section class="section" aria-labelledby="compare-title">
           <div class="wrap">
-            <h2 class="section-title" id="compare-title">快速比較藝術課程</h2>
-            <p class="section-lead">以下只顯示網站已核實的課程重點。上課時間、學費及名額請查詢最新安排。</p>
+            <h2 class="section-title" id="compare-title">${t("Quick course comparison", "快速比較藝術課程")}</h2>
+            <p class="section-lead">${t("Key points of verified courses only. Please ask for current timetable, fees and places.", "以下只顯示網站已核實的課程重點。上課時間、學費及名額請查詢最新安排。")}</p>
             ${this._compareDesktopHtml()}
             ${this._compareMobileHtml()}
           </div>
@@ -1004,16 +1160,16 @@ class CoursesHub extends HTMLElement {
 
         <section class="section section-soft" aria-labelledby="gallery-title">
           <div class="wrap">
-            <h2 class="section-title" id="gallery-title">看看不同年齡學生的創作</h2>
-            <p class="section-lead">以下為站內已刊出作品縮圖。想看更多，可前往學員作品頁。</p>
+            <h2 class="section-title" id="gallery-title">${t("See artwork by students of different ages", "看看不同年齡學生的創作")}</h2>
+            <p class="section-lead">${t("Thumbnails from published student work. Visit the gallery for more.", "以下為站內已刊出作品縮圖。想看更多，可前往學員作品頁。")}</p>
             <div class="gallery-grid">
-              <figure><img src="${IMG.gallery1}" alt="ICAcademy幼兒創意繪畫作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
-              <figure><img src="${IMG.gallery2}" alt="ICAcademy學生漫畫角色設計作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
-              <figure><img src="${IMG.gallery3}" alt="何文田兒童素描課程學生作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
-              <figure><img src="${IMG.gallery4}" alt="ICAcademy課堂創作氣氛" loading="lazy" /><figcaption>課堂氣氛</figcaption></figure>
+              <figure><img src="${IMG.gallery1}" alt="${t("ICAcademy young children’s creative painting", "ICAcademy幼兒創意繪畫作品")}" loading="lazy" /><figcaption>${t("Student artwork", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery2}" alt="${t("ICAcademy student comic character design", "ICAcademy學生漫畫角色設計作品")}" loading="lazy" /><figcaption>${t("Student artwork", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery3}" alt="${t("Ho Man Tin children’s sketching class work", "何文田兒童素描課程學生作品")}" loading="lazy" /><figcaption>${t("Student artwork", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery4}" alt="${t("ICAcademy classroom atmosphere", "ICAcademy課堂創作氣氛")}" loading="lazy" /><figcaption>${t("Class atmosphere", "課堂氣氛")}</figcaption></figure>
             </div>
             <div class="center-actions">
-              <a class="btn btn-outline-teal" data-action="course" href="${GALLERY_URL}">查看更多學員作品</a>
+              <a class="btn btn-outline-teal" data-action="course" href="${galleryUrl}">${t("View more student artwork", "查看更多學員作品")}</a>
             </div>
           </div>
         </section>
@@ -1021,15 +1177,18 @@ class CoursesHub extends HTMLElement {
         <section class="section" aria-labelledby="trial-title">
           <div class="wrap">
             <div class="trial">
-              <div class="trial-badge">先體驗，再決定</div>
-              <h2 id="trial-title">恆常藝術課程試堂</h2>
+              <div class="trial-badge">${t("Try first, then decide", "先體驗，再決定")}</div>
+              <h2 id="trial-title">${t("Art course trial class", "恆常藝術課程試堂")}</h2>
               <p>
-                讓孩子親身體驗課堂氣氛、教學方式及創作流程。WhatsApp 告訴我們孩子年齡、繪畫經驗及方便時間，我們會協助安排合適程度。
+                ${t(
+                  "Let your child experience the class atmosphere, teaching style and creative process. WhatsApp us with age, drawing experience and preferred times — we will help arrange a suitable level.",
+                  "讓孩子親身體驗課堂氣氛、教學方式及創作流程。WhatsApp 告訴我們孩子年齡、繪畫經驗及方便時間，我們會協助安排合適程度。"
+                )}
               </p>
-              <p class="trial-price">單次試堂<strong>HK$100</strong></p>
+              <p class="trial-price">${t("Single trial", "單次試堂")}<strong>HK$100</strong></p>
               <div class="btn-row" style="justify-content:center">
-                <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">WhatsApp 預約試堂</a>
-                <a class="btn btn-ghost" data-action="hub" href="${TRIAL_URL}">了解試堂詳情</a>
+                <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial on WhatsApp", "WhatsApp 預約試堂")}</a>
+                <a class="btn btn-ghost" data-action="hub" href="${trialUrl}">${t("Trial class details", "了解試堂詳情")}</a>
               </div>
             </div>
           </div>
@@ -1037,7 +1196,7 @@ class CoursesHub extends HTMLElement {
 
         <section class="section" aria-labelledby="faq-title">
           <div class="wrap">
-            <h2 class="section-title" id="faq-title">常見問題</h2>
+            <h2 class="section-title" id="faq-title">${t("FAQ", "常見問題")}</h2>
             <div class="faq-list">
               ${this._faqHtml()}
             </div>
@@ -1046,8 +1205,8 @@ class CoursesHub extends HTMLElement {
 
         <section class="section section-soft" aria-labelledby="interest-title">
           <div class="wrap">
-            <h2 class="section-title" id="interest-title">探索更多課程</h2>
-            <p class="section-lead">按方向進入對應課程頁，了解更多教學內容與適合程度。</p>
+            <h2 class="section-title" id="interest-title">${t("Explore more courses", "探索更多課程")}</h2>
+            <p class="section-lead">${t("Go to a course page by interest to see teaching content and suitable levels.", "按方向進入對應課程頁，了解更多教學內容與適合程度。")}</p>
             <div class="card-grid cols-3">
               ${this._interestHtml()}
             </div>
@@ -1055,11 +1214,11 @@ class CoursesHub extends HTMLElement {
         </section>
 
         <section class="final" aria-labelledby="final-title">
-          <h2 id="final-title">立即查詢藝術課程</h2>
-          <p>小班教學，歡迎 WhatsApp 查詢合適程度、上課時間及試堂安排。</p>
+          <h2 id="final-title">${t("Enquire about art courses", "立即查詢藝術課程")}</h2>
+          <p>${t("Small-group teaching. WhatsApp us about level, timetable and trial classes.", "小班教學，歡迎 WhatsApp 查詢合適程度、上課時間及試堂安排。")}</p>
           <div class="btn-row">
-            <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">WhatsApp 查詢</a>
-            <a class="btn btn-outline-white" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">立即預約體驗</a>
+            <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("WhatsApp enquiry", "WhatsApp 查詢")}</a>
+            <a class="btn btn-outline-white" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial now", "立即預約體驗")}</a>
           </div>
         </section>
       </div>
