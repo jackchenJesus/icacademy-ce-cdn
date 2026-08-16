@@ -1618,8 +1618,8 @@ class TrialClassHub extends HTMLElement {
     const drawingUrl = this.path("/courses/art-drawing");
     // Live gallery slug (EN); Multilingual ZH mirrors the same slug under /zh/
     const galleryUrl = this.isEn
-      ? "https://www.icacademy.com.hk/studentartworkgallery"
-      : "https://www.icacademy.com.hk/zh/studentartworkgallery";
+      ? "https://www.icacademy.com.hk/studentartwork"
+      : "https://www.icacademy.com.hk/zh/studentartwork";
 
     const waPrefill = this._waPrefill(
       t(
