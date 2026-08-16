@@ -1,7 +1,7 @@
 /**
  * ICAcademy Adult Painting Course Paint Square — course landing (not a hub)
  * Tag name: paint-square-hub
- * Version: 2026-08-16-v2 (Paint Square Wix gallery photos)
+ * Version: 2026-08-16-v3 (hero uses Paint Square cover painting)
  *
  * Parent silo hub: Drawing & Painting
  * Canonical:
@@ -15,8 +15,8 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  hero: mediaUrl("4ea940_abc39ed616844e3e9dfc221b74ddc3c0~mv2.jpg", 1600, 1000),
-  detail: mediaUrl("4ea940_9933a9bae4884170a5bf9bd5355e340f~mv2.jpg", 800, 1000),
+  hero: mediaUrl("4ea940_9933a9bae4884170a5bf9bd5355e340f~mv2.jpg", 1600, 1000),
+  detail: mediaUrl("4ea940_abc39ed616844e3e9dfc221b74ddc3c0~mv2.jpg", 800, 1000),
   gallery: [
     {
       id: "4ea940_abc39ed616844e3e9dfc221b74ddc3c0~mv2.jpg",
@@ -793,7 +793,7 @@ class PaintSquareHub extends HTMLElement {
                 <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about this class", "查詢課程詳情")}</a>
               </div>
               <div class="detail-media">
-                <img src="${IMG.detail}" alt="${t("Paint Square student landscape painting", "成人繪畫課程學員風景作品")}" width="800" height="1000" loading="lazy" />
+                <img src="${IMG.detail}" alt="${t("Adult painting class in the Ho Man Tin studio", "何文田成人繪畫課堂")}" width="800" height="1000" loading="lazy" />
               </div>
             </div>
           </div>
