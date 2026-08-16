@@ -1,7 +1,7 @@
 /**
  * ICAcademy Trial Class Landing – Custom Element
  * Tag name: trial-class-hub
- * Version: 2026-08-16-v7 (CTA/footer edge-to-edge + gallery URL)
+ * Version: 2026-08-16-v8 (fix sideways shift: margin-based full-bleed)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Routes: /homantin-children-art-trial (EN) | /zh/homantin-children-art-trial (ZH)
  *
@@ -491,7 +491,7 @@ const STYLES = `
   line-height: 1.7;
   font-size: 16px;
   background: var(--bg);
-  overflow-x: clip;
+  overflow-x: visible;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -510,7 +510,7 @@ img { max-width: 100%; height: auto; display: block; }
   min-width: 0;
   margin: 0;
   padding: 0;
-  overflow-x: clip;
+  overflow-x: visible;
 }
 .wrap {
   width: min(1200px, calc(100% - 48px));
@@ -1296,9 +1296,9 @@ class TrialClassHub extends HTMLElement {
   }
 
   /**
-   * Escape narrow Wix Editor containers (rounded cards / padded strips)
-   * that otherwise leave large gutters and clip content on mobile.
-   * Also zero page/footer gutters so CTA + site footer sit edge-to-edge.
+   * Escape narrow Wix Editor containers without sideways shift.
+   * Uses margin-left: calc(50% - halfViewport) instead of left:-rect.left
+   * (left-offset + ancestor overflow-x:clip was clipping the right edge).
    */
   _injectPageBleedCss() {
     const id = "trial-class-hub-page-bleed";
@@ -1306,11 +1306,12 @@ class TrialClassHub extends HTMLElement {
     const style = document.createElement("style");
     style.id = id;
     style.textContent = `
+      html, body {
+        overflow-x: hidden !important;
+      }
       trial-class-hub {
         display: block !important;
-        width: 100% !important;
-        max-width: none !important;
-        margin: 0 !important;
+        box-sizing: border-box !important;
         padding: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
@@ -1319,97 +1320,89 @@ class TrialClassHub extends HTMLElement {
       #PAGES_CONTAINER,
       #SITE_FOOTER,
       #masterPage {
-        overflow-x: clip !important;
+        overflow: visible !important;
+        overflow-x: visible !important;
+        max-width: none !important;
       }
       #SITE_FOOTER {
-        margin: 0 !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
         padding-left: 0 !important;
         padding-right: 0 !important;
         padding-bottom: 0 !important;
         width: 100% !important;
-        max-width: 100% !important;
-        left: 0 !important;
-        right: 0 !important;
+        max-width: none !important;
         box-sizing: border-box !important;
-      }
-      #SITE_FOOTER > * {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        max-width: 100% !important;
       }
     `;
     document.head.appendChild(style);
+  }
+
+  _viewportWidth() {
+    return document.documentElement.clientWidth || window.innerWidth || 0;
   }
 
   _forceFullBleed() {
     try {
       this._injectPageBleedCss();
 
+      // Clear legacy left-based breakout that caused the sideways shift
       this.style.removeProperty("left");
-      this.style.removeProperty("width");
-      this.style.removeProperty("max-width");
-      this.style.removeProperty("min-width");
-      this.style.removeProperty("margin-left");
+      this.style.removeProperty("right");
       this.style.removeProperty("transform");
 
-      const vw = Math.min(window.innerWidth || 0, document.documentElement.clientWidth || 0);
+      const vw = this._viewportWidth();
       if (!vw) return;
 
-      const rect = this.getBoundingClientRect();
-      const needsBreakout = rect.width < vw - 2 || Math.abs(rect.left) > 1 || Math.abs(vw - (rect.left + rect.width)) > 1;
+      // Always use stable viewport-centered breakout (no cumulative left offset)
+      this.setAttribute("data-fullbleed", "1");
+      this.style.setProperty("position", "relative", "important");
+      this.style.setProperty("left", "0", "important");
+      this.style.setProperty("width", `${vw}px`, "important");
+      this.style.setProperty("max-width", `${vw}px`, "important");
+      this.style.setProperty("min-width", `${vw}px`, "important");
+      this.style.setProperty("margin-left", `calc(50% - ${vw / 2}px)`, "important");
+      this.style.setProperty("margin-right", "0", "important");
+      this.style.setProperty("padding", "0", "important");
+      this.style.setProperty("box-sizing", "border-box", "important");
+      this.style.setProperty("overflow-x", "visible", "important");
+      this.style.setProperty("border-radius", "0", "important");
+      this.style.setProperty("box-shadow", "none", "important");
 
-      if (!needsBreakout) {
-        this.removeAttribute("data-fullbleed");
-        this.style.setProperty("width", "100%", "important");
-        this.style.setProperty("max-width", "100%", "important");
-        this.style.setProperty("position", "relative", "important");
-        this.style.setProperty("left", "0", "important");
-        this.style.setProperty("margin", "0", "important");
-        this.style.setProperty("padding", "0", "important");
-        this.style.setProperty("border-radius", "0", "important");
-      } else {
-        this.setAttribute("data-fullbleed", "1");
-        this.style.setProperty("position", "relative", "important");
-        this.style.setProperty("left", `${-rect.left}px`, "important");
-        this.style.setProperty("width", `${vw}px`, "important");
-        this.style.setProperty("max-width", `${vw}px`, "important");
-        this.style.setProperty("min-width", `${vw}px`, "important");
-        this.style.setProperty("margin-left", "0", "important");
-        this.style.setProperty("margin-right", "0", "important");
-        this.style.setProperty("box-sizing", "border-box", "important");
-        this.style.setProperty("overflow-x", "clip", "important");
-        this.style.setProperty("border-radius", "0", "important");
-        this.style.setProperty("box-shadow", "none", "important");
-      }
-
-      // Soften immediate wrappers so padded Editor cards don't leave white gutters
+      // Soften wrappers: visible overflow (never clip) + full width
       let el = this.parentElement;
       for (let i = 0; i < 8 && el; i++) {
         const tag = (el.tagName || "").toLowerCase();
+        const id = el.id || "";
         if (tag === "body" || tag === "html") break;
         el.style.setProperty("overflow", "visible", "important");
-        el.style.setProperty("overflow-x", "clip", "important");
-        el.style.setProperty("max-width", "100%", "important");
+        el.style.setProperty("overflow-x", "visible", "important");
+        el.style.setProperty("max-width", "none", "important");
+        el.style.setProperty("width", "100%", "important");
         el.style.setProperty("margin-left", "0", "important");
         el.style.setProperty("margin-right", "0", "important");
         el.style.setProperty("padding-left", "0", "important");
         el.style.setProperty("padding-right", "0", "important");
         el.style.setProperty("border-radius", "0", "important");
-        if (tag === "main" || (el.id || "") === "SITE_PAGES" || (el.id || "") === "PAGES_CONTAINER") break;
+        el.style.setProperty("left", "0", "important");
+        if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
         el = el.parentElement;
       }
 
-      // Pull site footer flush under the teal CTA (no white page strip)
       const footer = document.getElementById("SITE_FOOTER");
       if (footer) {
-        footer.style.setProperty("margin", "0", "important");
+        footer.style.setProperty("margin-top", "0", "important");
+        footer.style.setProperty("margin-left", "0", "important");
+        footer.style.setProperty("margin-right", "0", "important");
         footer.style.setProperty("padding-left", "0", "important");
         footer.style.setProperty("padding-right", "0", "important");
         footer.style.setProperty("padding-bottom", "0", "important");
         footer.style.setProperty("width", "100%", "important");
-        footer.style.setProperty("max-width", "100%", "important");
-        footer.style.setProperty("left", "0", "important");
+        footer.style.setProperty("max-width", "none", "important");
         footer.style.setProperty("box-sizing", "border-box", "important");
+        footer.style.removeProperty("left");
+        footer.style.removeProperty("right");
       }
     } catch (e) {
       // ignore
