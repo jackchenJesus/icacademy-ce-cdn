@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-16-v13 (one-shot render for CLS; stretch to SITE_PAGES, no 100vw clip)
+ * Version: 2026-08-16-v14 (Paint Square links to adult-art-class-hong-kong)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -30,6 +30,7 @@ const IMG = {
   clay: mediaUrl("b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg", 640, 400, 70),
   visualArt: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 640, 400, 70),
   acrylic: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 640, 400, 70),
+  paintSquare: mediaUrl("4ea940_9933a9bae4884170a5bf9bd5355e340f~mv2.jpg", 640, 400, 70),
   gallery1: mediaUrl("b98cc9_49cb0c61e7664eaca996580443195ec9~mv2.jpeg", 480, 480, 70),
   gallery2: mediaUrl("4ea940_5867e3daf35f4f969495afa34a05f1a3~mv2.jpg", 480, 480, 70),
   gallery3: mediaUrl("b98cc9_9605c850cf4b47daafd611bb1215e1fd~mv2.jpeg", 480, 480, 70),
@@ -249,6 +250,26 @@ const COURSES = [
     tags: ["teen", "painting"],
     image: IMG.acrylic,
     imageAlt: { en: "ICAcademy acrylic painting class student work", zh: "ICAcademy塑膠彩課程學生作品" },
+  },
+  {
+    id: "paint-square",
+    name: { en: "Paint Square", zh: "成人繪畫課程 Paint Square" },
+    age: { en: "All levels", zh: "所有程度" },
+    ageMin: 16,
+    ageMax: 99,
+    focus: {
+      en: "Adult painting — subject and medium matched to you",
+      zh: "成人繪畫 · 按喜好選擇題材與媒介",
+    },
+    points: {
+      en: ["Western painting, watercolour, sketching", "Comics, illustration and fashion drawing", "Beginners welcome · max 6"],
+      zh: ["西洋畫、水彩、素描", "漫畫、插畫及時裝設計", "初學者亦可 · 最多6人"],
+    },
+    media: { en: "Mixed painting media", zh: "多元繪畫媒介" },
+    hrefSlug: "/course/drawing-and-painting/adult-art-class-hong-kong",
+    tags: ["teen", "painting"],
+    image: IMG.paintSquare,
+    imageAlt: { en: "ICAcademy adult painting Paint Square student work", zh: "ICAcademy成人繪畫課程學員作品" },
   },
 ];
 

@@ -1,7 +1,7 @@
 /**
  * ICAcademy Drawing & Painting Silo Hub – Custom Element
  * Tag name: drawing-painting-hub
- * Version: 2026-08-16-v4 (viewport full-bleed breakout)
+ * Version: 2026-08-16-v5 (Paint Square links to adult-art-class-hong-kong)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Route: /zh/courses/art-drawing
  */
@@ -97,7 +97,7 @@ const COURSES = [
     focus: "按喜好選擇題材與媒介",
     points: ["西洋畫、水彩、素描", "漫畫、插畫及時裝設計", "初學者亦可，最多6人"],
     media: "多元繪畫媒介",
-    href: "/zh/courses/paint-square",
+    href: "/zh/course/drawing-and-painting/adult-art-class-hong-kong",
     tags: ["painting", "mixed"],
     image: IMG.paintSquare,
     imageAlt: "ICAcademy成人繪畫課程學員作品",
@@ -132,7 +132,7 @@ const GUIDE = [
   {
     title: "成人繪畫",
     desc: "按喜好學習西洋畫、水彩、素描、漫畫或插畫（所有程度）",
-    href: "/zh/courses/paint-square",
+    href: "/zh/course/drawing-and-painting/adult-art-class-hong-kong",
     cta: "查看成人繪畫課程",
   },
 ];
@@ -152,7 +152,7 @@ const BEGINNER_POINTS = [
   { goal: "想學色彩及繪畫", course: "塑膠彩班", href: "/zh/courses/acrylic-painting-class" },
   { goal: "想系統建立視藝基礎（幼兒／兒童）", course: "視藝技巧", href: "/zh/courses/visual-art-skills-course" },
   { goal: "想接觸不同媒介", course: "綜合美術", href: "/zh/courses/visual-art-class" },
-  { goal: "想按自己喜好學成人繪畫", course: "Paint Square", href: "/zh/courses/paint-square" },
+  { goal: "想按自己喜好學成人繪畫", course: "Paint Square", href: "/zh/course/drawing-and-painting/adult-art-class-hong-kong" },
 ];
 
 const SEO_TOPICS = [
