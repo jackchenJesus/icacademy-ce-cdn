@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-16-v10 (LCP hero img + fewer forced reflows)
+ * Version: 2026-08-16-v11 (paint hero first; CSS full-bleed; no layout reads on load)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -43,7 +43,7 @@ const IMG = {
     const link = document.createElement("link");
     link.rel = "preload";
     link.as = "image";
-    link.href = IMG.hero;
+    link.href = IMG.heroSm;
     link.setAttribute("fetchpriority", "high");
     link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
     link.setAttribute("imagesizes", "100vw");
@@ -347,11 +347,12 @@ const APPROACH = [
 const STYLES = `
 :host {
   display: block;
-  width: 100% !important;
-  max-width: 100% !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
   min-width: 0;
   min-height: 1px;
   margin: 0;
+  margin-left: calc(50% - 50vw) !important;
   padding: 0;
   box-sizing: border-box;
   position: relative;
@@ -381,7 +382,10 @@ const STYLES = `
   overflow-x: visible;
 }
 :host([data-fullbleed="1"]) {
-  margin: 0 !important;
+  margin-top: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: calc(50% - 50vw) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
@@ -401,7 +405,13 @@ img { max-width: 100%; display: block; }
   max-width: 1200px;
   margin: 0 auto;
 }
-.section { padding: 64px 0; background: var(--bg); width: 100%; }
+.section {
+  padding: 64px 0;
+  background: var(--bg);
+  width: 100%;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
 .section-soft { background: var(--bg-soft); }
 .section-title {
   text-align: center;
@@ -482,7 +492,6 @@ h3 { font-size: 1.12rem; }
   height: 100%;
   object-fit: cover;
   object-position: 68% center;
-  filter: grayscale(0.05);
 }
 .hero-bg::after {
   content: "";
@@ -859,21 +868,22 @@ class CoursesHub extends HTMLElement {
     this._filter = "all";
     this._onClick = this._onClick.bind(this);
     this._onKeydown = this._onKeydown.bind(this);
-    this._syncLayout = this._syncLayout.bind(this);
-    this._ro = null;
-    this._layoutRaf = 0;
-    this._lastHeight = 0;
-    this._lastVw = 0;
-    this._collapsedOnce = false;
+    this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
+    this._restPainted = false;
   }
 
   connectedCallback() {
-    this.render();
+    this._paintHero();
+    this._idle(() => this._paintRest());
     const syncLocale = () => {
       try {
         if (this.localeCode === "zh") {
           const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
-          if (h1 && /Kids Art Courses/i.test(h1.textContent || "")) this.render();
+          if (h1 && /Kids Art Courses/i.test(h1.textContent || "")) {
+            this._restPainted = false;
+            this._paintHero();
+            this._idle(() => this._paintRest());
+          }
         }
       } catch (e) {}
     };
@@ -882,29 +892,25 @@ class CoursesHub extends HTMLElement {
 
     this.shadowRoot.addEventListener("click", this._onClick);
     this.shadowRoot.addEventListener("keydown", this._onKeydown);
-    window.addEventListener("resize", this._syncLayout);
-    window.addEventListener("orientationchange", this._syncLayout);
+    window.addEventListener("resize", this._applyFullBleedCss);
+    window.addEventListener("orientationchange", this._applyFullBleedCss);
   }
 
   disconnectedCallback() {
     this.shadowRoot.removeEventListener("click", this._onClick);
     this.shadowRoot.removeEventListener("keydown", this._onKeydown);
-    window.removeEventListener("resize", this._syncLayout);
-    window.removeEventListener("orientationchange", this._syncLayout);
-    if (this._ro) {
-      this._ro.disconnect();
-      this._ro = null;
-    }
-    if (this._layoutRaf) {
-      cancelAnimationFrame(this._layoutRaf);
-      this._layoutRaf = 0;
-    }
+    window.removeEventListener("resize", this._applyFullBleedCss);
+    window.removeEventListener("orientationchange", this._applyFullBleedCss);
     const bleed = document.getElementById("courses-hub-page-bleed");
     if (bleed) bleed.remove();
   }
 
   attributeChangedCallback() {
-    if (this.isConnected) this.render();
+    if (this.isConnected) {
+      this._restPainted = false;
+      this._paintHero();
+      this._idle(() => this._paintRest());
+    }
   }
 
   get waUrl() {
@@ -999,13 +1005,17 @@ class CoursesHub extends HTMLElement {
     document.head.appendChild(style);
   }
 
-  _viewportWidth() {
-    return window.innerWidth || 0;
+  _idle(fn) {
+    try {
+      if (typeof requestIdleCallback === "function") {
+        requestIdleCallback(fn, { timeout: 1800 });
+        return;
+      }
+    } catch (e) {}
+    setTimeout(fn, 1);
   }
 
   _collapseTrailingGap() {
-    if (this._collapsedOnce) return;
-    this._collapsedOnce = true;
     try {
       let el = this.parentElement;
       for (let i = 0; i < 10 && el; i++) {
@@ -1028,50 +1038,34 @@ class CoursesHub extends HTMLElement {
       }
       if (!node || node.parentElement !== pages) return;
 
-      const hide = [];
       let sib = node.nextElementSibling;
       while (sib && sib !== footer) {
-        hide.push(sib);
-        sib = sib.nextElementSibling;
-      }
-      const heights = hide.map((n) => n.getBoundingClientRect().height);
-      hide.forEach((n, i) => {
-        const text = (n.textContent || "").replace(/\s+/g, "");
-        if (heights[i] < 48 && text.length < 8) {
-          n.style.setProperty("display", "none", "important");
-          n.style.setProperty("height", "0", "important");
-          n.style.setProperty("min-height", "0", "important");
-          n.style.setProperty("margin", "0", "important");
-          n.style.setProperty("padding", "0", "important");
+        const next = sib.nextElementSibling;
+        const text = (sib.textContent || "").replace(/\s+/g, "");
+        if (text.length < 8) {
+          sib.style.setProperty("display", "none", "important");
+          sib.style.setProperty("height", "0", "important");
+          sib.style.setProperty("min-height", "0", "important");
+          sib.style.setProperty("margin", "0", "important");
+          sib.style.setProperty("padding", "0", "important");
         }
-      });
+        sib = next;
+      }
     } catch (e) {
       // ignore
     }
   }
 
-  _forceFullBleed() {
+  _applyFullBleedCss() {
     try {
       this._injectPageBleedCss();
-
-      const vw = this._viewportWidth();
-      if (!vw) return;
-      if (vw === this._lastVw && this.getAttribute("data-fullbleed") === "1") {
-        return;
-      }
-      this._lastVw = vw;
-
       this.setAttribute("data-fullbleed", "1");
       this.style.setProperty("position", "relative", "important");
-      this.style.setProperty("left", "0", "important");
-      this.style.setProperty("width", `${vw}px`, "important");
-      this.style.setProperty("max-width", `${vw}px`, "important");
-      this.style.setProperty("min-width", `${vw}px`, "important");
-      this.style.setProperty("margin-left", `calc(50% - ${vw / 2}px)`, "important");
+      this.style.setProperty("width", "100vw", "important");
+      this.style.setProperty("max-width", "100vw", "important");
+      this.style.setProperty("margin-left", "calc(50% - 50vw)", "important");
       this.style.setProperty("margin-right", "0", "important");
       this.style.setProperty("padding", "0", "important");
-      this.style.setProperty("box-sizing", "border-box", "important");
-      this.style.setProperty("overflow-x", "visible", "important");
       this.style.setProperty("border-radius", "0", "important");
       this.style.setProperty("box-shadow", "none", "important");
 
@@ -1084,12 +1078,8 @@ class CoursesHub extends HTMLElement {
         el.style.setProperty("overflow-x", "visible", "important");
         el.style.setProperty("max-width", "none", "important");
         el.style.setProperty("width", "100%", "important");
-        el.style.setProperty("margin-left", "0", "important");
-        el.style.setProperty("margin-right", "0", "important");
         el.style.setProperty("padding-left", "0", "important");
         el.style.setProperty("padding-right", "0", "important");
-        el.style.setProperty("border-radius", "0", "important");
-        el.style.setProperty("left", "0", "important");
         if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
         el = el.parentElement;
       }
@@ -1097,46 +1087,11 @@ class CoursesHub extends HTMLElement {
       const footer = document.getElementById("SITE_FOOTER");
       if (footer) {
         footer.style.setProperty("margin-top", "0", "important");
-        footer.style.setProperty("margin-left", "0", "important");
-        footer.style.setProperty("margin-right", "0", "important");
-        footer.style.setProperty("padding-left", "0", "important");
-        footer.style.setProperty("padding-right", "0", "important");
-        footer.style.setProperty("padding-bottom", "0", "important");
         footer.style.setProperty("width", "100%", "important");
-        footer.style.setProperty("max-width", "none", "important");
-        footer.style.setProperty("box-sizing", "border-box", "important");
       }
     } catch (e) {
       // ignore
     }
-  }
-
-  _observeHeight() {
-    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
-    if (!hub) return;
-    if (this._ro) this._ro.disconnect();
-    this._ro = new ResizeObserver(() => this._syncLayout());
-    this._ro.observe(hub);
-    this._syncLayout();
-  }
-
-  _syncLayout() {
-    if (this._layoutRaf) return;
-    this._layoutRaf = requestAnimationFrame(() => {
-      this._layoutRaf = 0;
-      this._forceFullBleed();
-      requestAnimationFrame(() => {
-        const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
-        if (!hub) return;
-        const h = Math.ceil(hub.getBoundingClientRect().height);
-        if (h > 0 && h !== this._lastHeight) {
-          this._lastHeight = h;
-          this.style.height = `${h}px`;
-          this.style.minHeight = `${h}px`;
-        }
-        this._collapseTrailingGap();
-      });
-    });
   }
 
   _emitCta(type, href) {
@@ -1307,18 +1262,16 @@ class CoursesHub extends HTMLElement {
     ).join("");
   }
 
-  render() {
+  _paintHero() {
     const t = (en, zh) => (this.isEn ? en : zh);
-    const galleryUrl = this.isEn
-      ? "https://www.icacademy.com.hk/studentartwork"
-      : "https://www.icacademy.com.hk/zh/studentartwork";
-    const trialUrl = this.path("/homantin-children-art-trial");
     const waPrefill = this._waPrefill(
       t(
         "Hi, I’d like to enquire about ICAcademy regular art courses / a trial class.",
         "你好，我想查詢ICAcademy恆常藝術課程／試堂安排。"
       )
     );
+    this._t = t;
+    this._waPrefillCached = waPrefill;
 
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
@@ -1326,14 +1279,13 @@ class CoursesHub extends HTMLElement {
         <section class="hero" aria-labelledby="hero-title">
           <div class="hero-bg" aria-hidden="true">
             <img
-              src="${IMG.hero}"
+              src="${IMG.heroSm}"
               srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
               sizes="100vw"
-              width="1200"
-              height="750"
+              width="800"
+              height="500"
               alt=""
               fetchpriority="high"
-              decoding="async"
             />
           </div>
           <div class="wrap">
@@ -1356,7 +1308,31 @@ class CoursesHub extends HTMLElement {
             </div>
           </div>
         </section>
+      </div>
+    `;
+    this._applyFullBleedCss();
+  }
 
+  _paintRest() {
+    if (this._restPainted) return;
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub) return;
+    this._restPainted = true;
+    const t = this._t || ((en, zh) => (this.isEn ? en : zh));
+    const waPrefill = this._waPrefillCached || this._waPrefill(
+      t(
+        "Hi, I’d like to enquire about ICAcademy regular art courses / a trial class.",
+        "你好，我想查詢ICAcademy恆常藝術課程／試堂安排。"
+      )
+    );
+    const galleryUrl = this.isEn
+      ? "https://www.icacademy.com.hk/studentartwork"
+      : "https://www.icacademy.com.hk/zh/studentartwork";
+    const trialUrl = this.path("/homantin-children-art-trial");
+
+    hub.insertAdjacentHTML(
+      "beforeend",
+      `
         <section class="section" id="secAgeNav" aria-labelledby="age-title">
           <div class="wrap">
             <h2 class="section-title" id="age-title">${t("Which learning stage is your child in?", "小朋友現時屬於哪個學習階段？")}</h2>
@@ -1375,7 +1351,20 @@ class CoursesHub extends HTMLElement {
             </div>
           </div>
         </section>
+      `
+    );
+    this._applyFilter(this._filter || "all");
+    this._idle(() => {
+      this._paintRestMore(t, waPrefill, galleryUrl, trialUrl);
+    });
+  }
 
+  _paintRestMore(t, waPrefill, galleryUrl, trialUrl) {
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub || hub.querySelector(".final")) return;
+    hub.insertAdjacentHTML(
+      "beforeend",
+      `
         <section class="section section-soft" aria-labelledby="approach-title">
           <div class="wrap">
             <div class="detail">
@@ -1472,13 +1461,15 @@ class CoursesHub extends HTMLElement {
             <a class="btn btn-outline-white" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial now", "立即預約體驗")}</a>
           </div>
         </section>
-      </div>
-    `;
+      `
+    );
+    this._idle(() => this._collapseTrailingGap());
+  }
 
-    this._lastHeight = 0;
-    this._lastVw = 0;
-    this._applyFilter(this._filter || "all");
-    this._observeHeight();
+  render() {
+    this._restPainted = false;
+    this._paintHero();
+    this._idle(() => this._paintRest());
   }
 }
 
