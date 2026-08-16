@@ -1,7 +1,7 @@
 /**
  * ICAcademy Student Artwork Gallery Hub – Custom Element
  * Tag name: gallery-hub
- * Version: 2026-08-16-v6 (canonical routes /studentartwork + EN locale fix)
+ * Version: 2026-08-16-v7 (center filters + EN locale from pathname)
  * Design system: matches courses-hub / kids-art-hub / drawing-painting-hub / trial-class-hub
  * Routes: /studentartwork (EN) | /zh/studentartwork (ZH)
  * Locale via attribute: locale="en" | "zh" (default en = site primary).
@@ -632,18 +632,14 @@ h3 { font-size: 1.12rem; }
 }
 .filters {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x proximity;
-  scrollbar-width: none;
+  overflow-x: visible;
+  overflow-y: visible;
   padding: 2px var(--page-pad) 12px;
-  mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
 }
-.filters::-webkit-scrollbar { display: none; }
 .filters button {
   appearance: none;
   flex: 0 0 auto;
@@ -658,7 +654,6 @@ h3 { font-size: 1.12rem; }
   font-size: 0.92rem;
   cursor: pointer;
   white-space: nowrap;
-  scroll-snap-align: start;
   touch-action: manipulation;
   transition: background .15s ease, color .15s ease, border-color .15s ease;
 }
@@ -1124,27 +1119,20 @@ class GalleryHub extends HTMLElement {
   }
 
   get localeCode() {
-    // Published Multilingual: /zh/* = Chinese. Without /zh = English (site primary).
-    // Do NOT let html[lang] / userLanguage override this — on Wix Editor/preview those
-    // often stay "zh" even on the English page, which made EN UI never appear.
+    // Site primary = EN (no prefix). ZH uses /zh/... subdirectory.
+    // Pathname is the source of truth on published pages — do not let a stale
+    // locale="zh" attribute (or html lang) keep English URLs on Chinese UI.
     try {
-      const href = String((window.location && (window.location.href || window.location.pathname)) || "");
-      if (/\/zh(\/|$|\?|#)/i.test(href)) return "zh";
+      const path = String((window.location && window.location.pathname) || "");
+      if (/^\/zh(\/|$)/i.test(path)) return "zh";
+      // Any real site path without /zh prefix → English
+      if (path && path !== "/") return "en";
     } catch (e) {}
 
-    // Velo galleryHubPage sets locale from wixWindowFrontend.multilingual (Editor + live).
+    // Editor / iframe edge cases (empty or non-site path): trust Velo attribute.
     const attr = String(this.getAttribute("locale") || "").toLowerCase();
     if (attr.startsWith("zh")) return "zh";
     if (attr.startsWith("en")) return "en";
-
-    // Soft fallbacks only when attribute not set yet (first paint before Velo wiring).
-    try {
-      const lang = String(
-        (document.documentElement && (document.documentElement.getAttribute("lang") || document.documentElement.lang)) || ""
-      ).toLowerCase();
-      if (lang.startsWith("en")) return "en";
-    } catch (e) {}
-
     return "en";
   }
 
