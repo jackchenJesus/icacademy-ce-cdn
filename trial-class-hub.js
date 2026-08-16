@@ -1,7 +1,7 @@
 /**
  * ICAcademy Trial Class Landing – Custom Element
  * Tag name: trial-class-hub
- * Version: 2026-08-16-v8 (fix sideways shift: margin-based full-bleed)
+ * Version: 2026-08-16-v9 (Drawing & Sketching silo → /course/drawing-and-painting)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Routes: /homantin-children-art-trial (EN) | /zh/homantin-children-art-trial (ZH)
  *
@@ -1615,7 +1615,7 @@ class TrialClassHub extends HTMLElement {
     const t = (en, zh) => (this.isEn ? en : zh);
     const courseHubUrl = this.path("/course-hub");
     const kidsArtUrl = this.path("/course/kids-art");
-    const drawingUrl = this.path("/courses/art-drawing");
+    const drawingUrl = this.path("/course/drawing-and-painting");
     // Live gallery slug (EN); Multilingual ZH mirrors the same slug under /zh/
     const galleryUrl = this.isEn
       ? "https://www.icacademy.com.hk/studentartwork"
