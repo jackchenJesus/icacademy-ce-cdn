@@ -1,18 +1,15 @@
 /**
  * ICAcademy Trial Class Landing – Custom Element
  * Tag name: trial-class-hub
- * Version: 2026-08-12-v3 (full-bleed breakout from narrow Wix Editor containers)
+ * Version: 2026-08-16-v4 (EN/ZH Multilingual)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
- * Route: /zh/homantin-children-art-trial (Editor: Trial Class, doeel)
+ * Routes: /homantin-children-art-trial (EN) | /zh/homantin-children-art-trial (ZH)
  *
  * Course catalogue reused from existing hub constants (no CMS in this repo).
  * Booking flow: WhatsApp enquiry (same as other hubs).
+ * Locale via attribute: locale="en" | "zh" (default en = site primary).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
-const COURSE_HUB_URL = "/zh/course-hub";
-const KIDS_ART_URL = "/zh/course/kids-art";
-const DRAWING_URL = "/zh/courses/art-drawing";
-const GALLERY_URL = "/zh/gallery";
 
 function mediaUrl(id, w, h, align) {
   const al = align || "c";
@@ -42,235 +39,421 @@ const IMG = {
 const COURSES = [
   {
     id: "prep",
-    name: "視藝技巧（預備課程）",
-    age: "3–5歲",
+    name: { en: "Visual Art Skills (Preparatory)", zh: "視藝技巧（預備課程）" },
+    age: { en: "Ages 3–5", zh: "3–5歲" },
     ageMin: 3,
     ageMax: 5,
-    focus: "幼兒創意啟蒙與感官探索",
-    media: "蠟筆、水彩、剪貼、印畫",
-    href: "/zh/courses/visual-art-skills-course",
+    focus: {
+      en: "Creative play and sensory exploration for young children",
+      zh: "幼兒創意啟蒙與感官探索",
+    },
+    media: {
+      en: "Crayons, watercolour, collage, printmaking",
+      zh: "蠟筆、水彩、剪貼、印畫",
+    },
+    hrefSlug: "/courses/visual-art-skills-course",
     category: "kids",
     tags: ["kids", "painting", "beginner", "age-3-5"],
     image: IMG.prep,
-    imageAlt: "ICAcademy幼兒創意繪畫課堂作品",
+    imageAlt: {
+      en: "ICAcademy young children’s creative painting class artwork",
+      zh: "ICAcademy幼兒創意繪畫課堂作品",
+    },
   },
   {
     id: "foundation",
-    name: "視藝技巧（基礎課程）",
-    age: "5–7歲",
+    name: { en: "Visual Art Skills (Foundation)", zh: "視藝技巧（基礎課程）" },
+    age: { en: "Ages 5–7", zh: "5–7歲" },
     ageMin: 5,
     ageMax: 7,
-    focus: "建立觀察、造型與基本構圖能力",
-    media: "繪畫及混合媒介",
-    href: "/zh/courses/visual-art-skills-course",
+    focus: {
+      en: "Build observation, form and basic composition skills",
+      zh: "建立觀察、造型與基本構圖能力",
+    },
+    media: { en: "Drawing and mixed media", zh: "繪畫及混合媒介" },
+    hrefSlug: "/courses/visual-art-skills-course",
     category: "kids",
     tags: ["kids", "painting", "beginner", "age-5-7"],
     image: IMG.foundation,
-    imageAlt: "ICAcademy視藝技巧基礎課程學生作品",
+    imageAlt: {
+      en: "ICAcademy Visual Art Skills Foundation student artwork",
+      zh: "ICAcademy視藝技巧基礎課程學生作品",
+    },
   },
   {
     id: "creative-i",
-    name: "兒童創意美術 Level I",
-    age: "7–9歲",
+    name: { en: "Creative Art Level I", zh: "兒童創意美術 Level I" },
+    age: { en: "Ages 7–9", zh: "7–9歲" },
     ageMin: 7,
     ageMax: 9,
-    focus: "鞏固繪畫基礎，建立創作信心",
-    media: "繪畫、拼貼、多元物料",
-    href: "/zh/courses/creative-art-classes",
+    focus: {
+      en: "Strengthen drawing basics and creative confidence",
+      zh: "鞏固繪畫基礎，建立創作信心",
+    },
+    media: {
+      en: "Drawing, collage and mixed materials",
+      zh: "繪畫、拼貼、多元物料",
+    },
+    hrefSlug: "/courses/creative-art-classes",
     category: "kids",
     tags: ["kids", "painting", "beginner", "age-7-11"],
     image: IMG.creativeI,
-    imageAlt: "ICAcademy兒童創意美術作品",
+    imageAlt: {
+      en: "ICAcademy Creative Art student artwork",
+      zh: "ICAcademy兒童創意美術作品",
+    },
   },
   {
     id: "creative-ii",
-    name: "兒童創意美術 Level II",
-    age: "9–11歲",
+    name: { en: "Creative Art Level II", zh: "兒童創意美術 Level II" },
+    age: { en: "Ages 9–11", zh: "9–11歲" },
     ageMin: 9,
     ageMax: 11,
-    focus: "加強比例、空間與畫面完整度",
-    media: "繪畫及多元媒介",
-    href: "/zh/courses/creative-art-classes",
+    focus: {
+      en: "Strengthen proportion, space and finished compositions",
+      zh: "加強比例、空間與畫面完整度",
+    },
+    media: { en: "Drawing and mixed media", zh: "繪畫及多元媒介" },
+    hrefSlug: "/courses/creative-art-classes",
     category: "kids",
     tags: ["kids", "painting", "age-7-11"],
     image: IMG.creativeII,
-    imageAlt: "ICAcademy小學創意繪畫作品",
+    imageAlt: {
+      en: "ICAcademy primary Creative Art painting",
+      zh: "ICAcademy小學創意繪畫作品",
+    },
   },
   {
     id: "creative-iii",
-    name: "兒童創意美術 Level III",
-    age: "11–14歲",
+    name: { en: "Creative Art Level III", zh: "兒童創意美術 Level III" },
+    age: { en: "Ages 11–14", zh: "11–14歲" },
     ageMin: 11,
     ageMax: 14,
-    focus: "深化技巧與個人風格",
-    media: "多媒介創作",
-    href: "/zh/courses/creative-art-classes",
+    focus: {
+      en: "Deepen technique and personal style",
+      zh: "深化技巧與個人風格",
+    },
+    media: { en: "Multi-media creation", zh: "多媒介創作" },
+    hrefSlug: "/courses/creative-art-classes",
     category: "kids",
     tags: ["kids", "painting", "age-11plus"],
     image: IMG.creativeIII,
-    imageAlt: "ICAcademy青少年創意美術作品",
+    imageAlt: {
+      en: "ICAcademy teen Creative Art artwork",
+      zh: "ICAcademy青少年創意美術作品",
+    },
   },
   {
     id: "comic",
-    name: "卡通漫畫班",
-    age: "8歲以上",
+    name: { en: "Comic Drawing Class", zh: "卡通漫畫班" },
+    age: { en: "Ages 8+", zh: "8歲以上" },
     ageMin: 8,
     ageMax: 99,
-    focus: "人物比例、表情與原創角色設計",
-    media: "鉛筆、馬克筆、漫畫媒材",
-    href: "/zh/courses/comic-drawing-class",
+    focus: {
+      en: "Figure proportion, expression and original character design",
+      zh: "人物比例、表情與原創角色設計",
+    },
+    media: {
+      en: "Pencil, markers and comic media",
+      zh: "鉛筆、馬克筆、漫畫媒材",
+    },
+    hrefSlug: "/courses/comic-drawing-class",
     category: "comic",
     tags: ["comic", "drawing", "age-7-11", "age-11plus"],
     image: IMG.comic,
-    imageAlt: "ICAcademy學生漫畫角色設計作品",
+    imageAlt: {
+      en: "ICAcademy student comic character design",
+      zh: "ICAcademy學生漫畫角色設計作品",
+    },
   },
   {
     id: "clay",
-    name: "輕黏土課程",
-    age: "3–16歲",
+    name: { en: "Soft Clay Class", zh: "輕黏土課程" },
+    age: { en: "Ages 3–16", zh: "3–16歲" },
     ageMin: 3,
     ageMax: 16,
-    focus: "立體塑形、結構與色彩美感",
-    media: "輕黏土及專業黏土媒材",
-    href: "/zh/courses/creative-art-and-clay-class",
+    focus: {
+      en: "3D modelling, structure and colour aesthetics",
+      zh: "立體塑形、結構與色彩美感",
+    },
+    media: {
+      en: "Soft clay and professional clay media",
+      zh: "輕黏土及專業黏土媒材",
+    },
+    hrefSlug: "/courses/creative-art-and-clay-class",
     category: "clay",
     tags: ["clay", "beginner", "age-3-5", "age-5-7", "age-7-11", "age-11plus"],
     image: IMG.clay,
-    imageAlt: "ICAcademy兒童黏土立體創作作品",
+    imageAlt: {
+      en: "ICAcademy children’s soft clay 3D artwork",
+      zh: "ICAcademy兒童黏土立體創作作品",
+    },
   },
   {
     id: "sketch",
-    name: "素描技巧班",
-    age: "9歲以上",
+    name: { en: "Sketching Class", zh: "素描技巧班" },
+    age: { en: "Ages 9+", zh: "9歲以上" },
     ageMin: 9,
     ageMax: 99,
-    focus: "觀察、比例、光暗與質感",
-    media: "鉛筆素描",
-    href: "/zh/courses/sketching-class",
+    focus: {
+      en: "Observation, proportion, light and texture",
+      zh: "觀察、比例、光暗與質感",
+    },
+    media: { en: "Pencil sketching", zh: "鉛筆素描" },
+    hrefSlug: "/courses/sketching-class",
     category: "drawing",
     tags: ["drawing", "sketch", "age-7-11", "age-11plus"],
     image: IMG.sketch,
-    imageAlt: "何文田兒童素描課程學生作品",
+    imageAlt: {
+      en: "Ho Man Tin children’s sketching class student work",
+      zh: "何文田兒童素描課程學生作品",
+    },
   },
   {
     id: "acrylic",
-    name: "塑膠彩班",
-    age: "14歲以上",
+    name: { en: "Acrylic Painting Class", zh: "塑膠彩班" },
+    age: { en: "Ages 14+", zh: "14歲以上" },
     ageMin: 14,
     ageMax: 99,
-    focus: "調色、筆觸與構圖技巧",
-    media: "塑膠彩",
-    href: "/zh/courses/acrylic-painting-class",
+    focus: {
+      en: "Colour mixing, brushwork and composition",
+      zh: "調色、筆觸與構圖技巧",
+    },
+    media: { en: "Acrylic paint", zh: "塑膠彩" },
+    hrefSlug: "/courses/acrylic-painting-class",
     category: "drawing",
     tags: ["painting", "drawing", "age-11plus"],
     image: IMG.acrylic,
-    imageAlt: "ICAcademy塑膠彩課程學生作品",
+    imageAlt: {
+      en: "ICAcademy acrylic painting class student work",
+      zh: "ICAcademy塑膠彩課程學生作品",
+    },
   },
   {
     id: "visual-art",
-    name: "綜合美術課程",
-    age: "14歲以上",
+    name: { en: "Visual Art Class", zh: "綜合美術課程" },
+    age: { en: "Ages 14+", zh: "14歲以上" },
     ageMin: 14,
     ageMax: 99,
-    focus: "多媒介探索與個人創作方向",
-    media: "素描、塑膠彩、混合媒介",
-    href: "/zh/courses/visual-art-class",
+    focus: {
+      en: "Multi-media exploration and personal creative direction",
+      zh: "多媒介探索與個人創作方向",
+    },
+    media: {
+      en: "Sketching, acrylic and mixed media",
+      zh: "素描、塑膠彩、混合媒介",
+    },
+    hrefSlug: "/courses/visual-art-class",
     category: "drawing",
     tags: ["painting", "drawing", "age-11plus"],
     image: IMG.visualArt,
-    imageAlt: "ICAcademy青少年綜合美術作品",
+    imageAlt: {
+      en: "ICAcademy teen Visual Art Class artwork",
+      zh: "ICAcademy青少年綜合美術作品",
+    },
   },
 ];
 
 const BENEFITS = [
-  { title: "HK$100 試堂", desc: "先體驗再決定" },
-  { title: "按年齡選班", desc: "幼兒至青少年" },
-  { title: "專業導師指導", desc: "小班教學" },
-  { title: "適合初學者", desc: "零基礎亦可" },
-  { title: "多種藝術媒介", desc: "繪畫・漫畫・黏土" },
+  {
+    title: { en: "HK$100 Trial", zh: "HK$100 試堂" },
+    desc: { en: "Try first, then decide", zh: "先體驗再決定" },
+  },
+  {
+    title: { en: "Age-based classes", zh: "按年齡選班" },
+    desc: { en: "Toddlers to teens", zh: "幼兒至青少年" },
+  },
+  {
+    title: { en: "Professional teachers", zh: "專業導師指導" },
+    desc: { en: "Small-group teaching", zh: "小班教學" },
+  },
+  {
+    title: { en: "Beginner-friendly", zh: "適合初學者" },
+    desc: { en: "No experience needed", zh: "零基礎亦可" },
+  },
+  {
+    title: { en: "Many art media", zh: "多種藝術媒介" },
+    desc: { en: "Painting · Comics · Clay", zh: "繪畫・漫畫・黏土" },
+  },
 ];
 
 const STEPS = [
   {
     step: "1",
-    title: "選擇課程",
-    desc: "按小朋友年齡及興趣，先了解合適方向。未確定亦可直接查詢。",
+    title: { en: "Choose a course", zh: "選擇課程" },
+    desc: {
+      en: "Start from your child’s age and interests. If unsure, just ask us.",
+      zh: "按小朋友年齡及興趣，先了解合適方向。未確定亦可直接查詢。",
+    },
   },
   {
     step: "2",
-    title: "預約 HK$100 試堂",
-    desc: "透過 WhatsApp 告訴我們年齡、繪畫經驗和方便時間，協助安排合適班別。",
+    title: { en: "Book HK$100 trial", zh: "預約 HK$100 試堂" },
+    desc: {
+      en: "Tell us age, drawing experience and preferred times on WhatsApp so we can arrange a suitable class.",
+      zh: "透過 WhatsApp 告訴我們年齡、繪畫經驗和方便時間，協助安排合適班別。",
+    },
   },
   {
     step: "3",
-    title: "到校體驗",
-    desc: "完成試堂後，再決定是否報讀恆常課程。決定權在家長。",
+    title: { en: "Visit and try", zh: "到校體驗" },
+    desc: {
+      en: "After the trial, decide whether to join a regular course. The choice is yours.",
+      zh: "完成試堂後，再決定是否報讀恆常課程。決定權在家長。",
+    },
   },
 ];
 
 const EXPERIENCE = [
-  "認識導師，感受課堂氣氛與節奏",
-  "完成一個適合年齡的短小創作練習",
-  "接觸繪畫／相關媒介的基本技法",
-  "導師觀察小朋友的興趣與現有能力",
-  "試堂後可與家長簡短交流，了解較合適課程方向",
+  {
+    en: "Meet the teacher and feel the class atmosphere and pace",
+    zh: "認識導師，感受課堂氣氛與節奏",
+  },
+  {
+    en: "Complete a short age-appropriate creative exercise",
+    zh: "完成一個適合年齡的短小創作練習",
+  },
+  {
+    en: "Try basic techniques in painting or related media",
+    zh: "接觸繪畫／相關媒介的基本技法",
+  },
+  {
+    en: "Teacher observes your child’s interests and current ability",
+    zh: "導師觀察小朋友的興趣與現有能力",
+  },
+  {
+    en: "Brief chat with parents after class about suitable course options",
+    zh: "試堂後可與家長簡短交流，了解較合適課程方向",
+  },
 ];
 
 const CONCERNS = [
   {
-    q: "小朋友完全未學過畫畫，可以嗎？",
-    a: "可以。相關課程均接受初學者；亦可先預約 HK$100 試堂，由導師觀察後再建議合適程度。",
+    q: {
+      en: "My child has never learned drawing — is that OK?",
+      zh: "小朋友完全未學過畫畫，可以嗎？",
+    },
+    a: {
+      en: "Yes. Related courses welcome beginners. You can also book an HK$100 trial first so the teacher can observe and suggest a suitable level.",
+      zh: "可以。相關課程均接受初學者；亦可先預約 HK$100 試堂，由導師觀察後再建議合適程度。",
+    },
   },
   {
-    q: "不知道應該選哪一班？",
-    a: "不用先搞清楚全部課程。WhatsApp 告訴我們小朋友年齡、興趣與方便時間，課程顧問會協助了解方向；亦可先試堂再決定。",
+    q: {
+      en: "I don’t know which class to choose.",
+      zh: "不知道應該選哪一班？",
+    },
+    a: {
+      en: "You don’t need to understand every course first. WhatsApp us with age, interests and preferred times — or try a trial class first, then decide.",
+      zh: "不用先搞清楚全部課程。WhatsApp 告訴我們小朋友年齡、興趣與方便時間，課程顧問會協助了解方向；亦可先試堂再決定。",
+    },
   },
   {
-    q: "試堂後一定要報名嗎？",
-    a: "不必。試堂是雙向了解的機會——決定繼續與否由家長自行決定，不設強迫報名。",
+    q: {
+      en: "Must we enrol after the trial?",
+      zh: "試堂後一定要報名嗎？",
+    },
+    a: {
+      en: "No. The trial is a two-way introduction — whether to continue is entirely up to parents. There is no pressure to enrol.",
+      zh: "不必。試堂是雙向了解的機會——決定繼續與否由家長自行決定，不設強迫報名。",
+    },
   },
   {
-    q: "要自己準備畫具嗎？",
-    a: "一般課堂使用的畫材及工具由畫室提供，孩子無需自備（如有個別課程特別要求，預約時可再確認）。",
+    q: {
+      en: "Do we need to bring art materials?",
+      zh: "要自己準備畫具嗎？",
+    },
+    a: {
+      en: "Materials and tools for regular classes are usually provided by the studio (any special course requirements can be confirmed when booking).",
+      zh: "一般課堂使用的畫材及工具由畫室提供，孩子無需自備（如有個別課程特別要求，預約時可再確認）。",
+    },
   },
 ];
 
 const FAQ = [
   {
-    q: "IC Academy 試堂幾錢？",
-    a: "單次試堂為 HK$100。歡迎先透過 WhatsApp 查詢及預約。",
+    q: {
+      en: "How much is an IC Academy trial class?",
+      zh: "IC Academy 試堂幾錢？",
+    },
+    a: {
+      en: "A single trial class is HK$100. You are welcome to enquire and book via WhatsApp first.",
+      zh: "單次試堂為 HK$100。歡迎先透過 WhatsApp 查詢及預約。",
+    },
   },
   {
-    q: "HK$100 試堂包括甚麼？",
-    a: "試堂讓小朋友親身體驗課堂氣氛、認識導師，並完成適合年齡的短小創作。試堂後導師可與家長簡短交流，協助了解較合適班別。",
+    q: {
+      en: "What does the HK$100 trial include?",
+      zh: "HK$100 試堂包括甚麼？",
+    },
+    a: {
+      en: "The trial lets your child experience the class atmosphere, meet the teacher, and complete a short age-appropriate creative exercise. Afterwards the teacher can briefly chat with parents to help suggest a suitable class.",
+      zh: "試堂讓小朋友親身體驗課堂氣氛、認識導師，並完成適合年齡的短小創作。試堂後導師可與家長簡短交流，協助了解較合適班別。",
+    },
   },
   {
-    q: "幾多歲可以參加？",
-    a: "視藝技巧預備課程適合約 3–5 歲開始接觸美術；其他課程按年齡及興趣設有不同適合範圍。實際安排可 WhatsApp 查詢。",
+    q: { en: "What ages can join?", zh: "幾多歲可以參加？" },
+    a: {
+      en: "Visual Art Skills Preparatory is suitable from about ages 3–5 for first art experiences; other courses have different age ranges by interest. WhatsApp us for the best fit.",
+      zh: "視藝技巧預備課程適合約 3–5 歲開始接觸美術；其他課程按年齡及興趣設有不同適合範圍。實際安排可 WhatsApp 查詢。",
+    },
   },
   {
-    q: "完全沒有畫畫經驗可以參加嗎？",
-    a: "可以。初學者歡迎先試堂或 WhatsApp 說明年齡與經驗，我們會協助了解較合適方向。",
+    q: {
+      en: "Can complete beginners join?",
+      zh: "完全沒有畫畫經驗可以參加嗎？",
+    },
+    a: {
+      en: "Yes. Beginners are welcome to try a trial class, or tell us age and experience on WhatsApp and we will help suggest a suitable direction.",
+      zh: "可以。初學者歡迎先試堂或 WhatsApp 說明年齡與經驗，我們會協助了解較合適方向。",
+    },
   },
   {
-    q: "應該選哪一個美術課程？",
-    a: "可先按年齡、興趣（繪畫／漫畫／黏土／素描）瀏覽本頁建議課程，或前往兒童美術、繪畫及素描專頁比較。未確定時可先試堂或 WhatsApp 查詢。",
+    q: {
+      en: "Which art course should we choose?",
+      zh: "應該選哪一個美術課程？",
+    },
+    a: {
+      en: "Browse suggested courses on this page by age and interest (painting / comics / clay / sketching), or compare the Kids Art and Drawing & Sketching pages. If unsure, start with a trial or WhatsApp us.",
+      zh: "可先按年齡、興趣（繪畫／漫畫／黏土／素描）瀏覽本頁建議課程，或前往兒童美術、繪畫及素描專頁比較。未確定時可先試堂或 WhatsApp 查詢。",
+    },
   },
   {
-    q: "試堂需要預約嗎？",
-    a: "需要。請透過 WhatsApp 預約，並提供小朋友年齡、繪畫經驗及方便時間，以便安排合適班別。",
+    q: {
+      en: "Do I need to book the trial in advance?",
+      zh: "試堂需要預約嗎？",
+    },
+    a: {
+      en: "Yes. Please book via WhatsApp and share your child’s age, drawing experience, and preferred times so we can arrange a suitable class.",
+      zh: "需要。請透過 WhatsApp 預約，並提供小朋友年齡、繪畫經驗及方便時間，以便安排合適班別。",
+    },
   },
   {
-    q: "試堂後如何報讀恆常課程？",
-    a: "試堂後如決定報讀，我們會按觀察協助配對合適班別與時間。是否報讀由家長自行決定。",
+    q: {
+      en: "How do we enrol in a regular course after the trial?",
+      zh: "試堂後如何報讀恆常課程？",
+    },
+    a: {
+      en: "If you decide to enrol after the trial, we help match a suitable class and schedule based on what we observed. Enrolment is always the parents’ choice.",
+      zh: "試堂後如決定報讀，我們會按觀察協助配對合適班別與時間。是否報讀由家長自行決定。",
+    },
   },
   {
-    q: "上課地點在哪裡？",
-    a: "ICAcademy 位於何文田，九龍窩打老道79F地下3號鋪（培正小學附近）。",
+    q: { en: "Where are classes held?", zh: "上課地點在哪裡？" },
+    a: {
+      en: "ICAcademy is in Ho Man Tin — Ground Floor Shop 3, 79F Waterloo Road, Kowloon (near Pui Ching Primary School).",
+      zh: "ICAcademy 位於何文田，九龍窩打老道79F地下3號鋪（培正小學附近）。",
+    },
   },
   {
-    q: "需要準備畫具嗎？",
-    a: "一般課堂畫材及工具由畫室提供。如有個別安排，預約時可再確認。",
+    q: {
+      en: "Do we need to bring art materials?",
+      zh: "需要準備畫具嗎？",
+    },
+    a: {
+      en: "Materials and tools for regular classes are usually provided by the studio. Any special arrangements can be confirmed when booking.",
+      zh: "一般課堂畫材及工具由畫室提供。如有個別安排，預約時可再確認。",
+    },
   },
 ];
 
@@ -1060,6 +1243,20 @@ class TrialClassHub extends HTMLElement {
     return this.getAttribute("wa-url") || WA_DEFAULT;
   }
 
+  get isEn() {
+    return !(this.getAttribute("locale") || "en").toLowerCase().startsWith("zh");
+  }
+
+  path(slug) {
+    return this.isEn ? slug : `/zh${slug}`;
+  }
+
+  pick(obj) {
+    if (obj == null) return "";
+    if (typeof obj === "string") return obj;
+    return this.isEn ? obj.en : obj.zh;
+  }
+
   /**
    * Escape narrow Wix Editor containers (rounded cards / padded strips)
    * that otherwise leave large gutters and clip content on mobile.
@@ -1240,8 +1437,12 @@ class TrialClassHub extends HTMLElement {
   }
 
   _courseCardsHtml() {
-    return COURSES.map(
-      (c) => `
+    return COURSES.map((c) => {
+      const name = this.pick(c.name);
+      const waText = this.isEn
+        ? `Hi, I’d like to book an HK$100 trial for “${name}”. Child’s age: ____; drawing experience: ____; preferred times: ____.`
+        : `你好，我想預約「${name}」的 HK$100 試堂。小朋友年齡：＿＿；繪畫經驗：＿＿；方便時間：＿＿。`;
+      return `
       <article
         class="card"
         data-course-card
@@ -1251,31 +1452,29 @@ class TrialClassHub extends HTMLElement {
         data-category="${c.category}"
       >
         <div class="card-media">
-          <img src="${c.image}" alt="${c.imageAlt}" loading="lazy" decoding="async" width="640" height="400" />
+          <img src="${c.image}" alt="${this.pick(c.imageAlt)}" loading="lazy" decoding="async" width="640" height="400" />
         </div>
         <div class="card-body">
-          <span class="meta">${c.age}</span>
-          <span class="trial-chip">可預約 HK$100 試堂</span>
-          <h3>${c.name}</h3>
-          <p style="margin:0;color:var(--muted)">${c.focus}</p>
-          <p class="media-tag">${c.media}</p>
+          <span class="meta">${this.pick(c.age)}</span>
+          <span class="trial-chip">${this.isEn ? "HK$100 trial available" : "可預約 HK$100 試堂"}</span>
+          <h3>${name}</h3>
+          <p style="margin:0;color:var(--muted)">${this.pick(c.focus)}</p>
+          <p class="media-tag">${this.pick(c.media)}</p>
           <div class="card-actions">
-            <a class="btn btn-coral" data-action="whatsapp" href="${this._waPrefill(
-              `你好，我想預約「${c.name}」的 HK$100 試堂。小朋友年齡：＿＿；繪畫經驗：＿＿；方便時間：＿＿。`
-            )}" target="_blank" rel="noopener noreferrer">預約這個試堂</a>
-            <a class="btn btn-ghost" data-action="course" href="${c.href}">了解課程</a>
+            <a class="btn btn-coral" data-action="whatsapp" href="${this._waPrefill(waText)}" target="_blank" rel="noopener noreferrer">${this.isEn ? "Book this trial" : "預約這個試堂"}</a>
+            <a class="btn btn-ghost" data-action="course" href="${this.path(c.hrefSlug)}">${this.isEn ? "Learn more" : "了解課程"}</a>
           </div>
         </div>
-      </article>`
-    ).join("");
+      </article>`;
+    }).join("");
   }
 
   _benefitsHtml() {
     return BENEFITS.map(
       (b) => `
       <div class="benefit">
-        <strong>${b.title}</strong>
-        <span>${b.desc}</span>
+        <strong>${this.pick(b.title)}</strong>
+        <span>${this.pick(b.desc)}</span>
       </div>`
     ).join("");
   }
@@ -1285,8 +1484,8 @@ class TrialClassHub extends HTMLElement {
       (s) => `
       <div class="path-step">
         <div class="path-num">${s.step}</div>
-        <h3>${s.title}</h3>
-        <p>${s.desc}</p>
+        <h3>${this.pick(s.title)}</h3>
+        <p>${this.pick(s.desc)}</p>
       </div>`
     ).join("");
   }
@@ -1295,8 +1494,8 @@ class TrialClassHub extends HTMLElement {
     return CONCERNS.map(
       (item) => `
       <article class="concern">
-        <h3>${item.q}</h3>
-        <p>${item.a}</p>
+        <h3>${this.pick(item.q)}</h3>
+        <p>${this.pick(item.a)}</p>
       </article>`
     ).join("");
   }
@@ -1305,8 +1504,8 @@ class TrialClassHub extends HTMLElement {
     return FAQ.map(
       (item) => `
       <div class="faq-item">
-        <p class="faq-q">Q : ${item.q}</p>
-        <p class="faq-a">${item.a}</p>
+        <p class="faq-q">Q : ${this.pick(item.q)}</p>
+        <p class="faq-a">${this.pick(item.a)}</p>
       </div>`
     ).join("");
   }
@@ -1316,11 +1515,23 @@ class TrialClassHub extends HTMLElement {
   }
 
   render() {
+    const t = (en, zh) => (this.isEn ? en : zh);
+    const courseHubUrl = this.path("/course-hub");
+    const kidsArtUrl = this.path("/course/kids-art");
+    const drawingUrl = this.path("/courses/art-drawing");
+    const galleryUrl = this.path("/gallery");
+
     const waPrefill = this._waPrefill(
-      "你好，我想預約 HK$100 藝術試堂。小朋友年齡：＿＿；繪畫經驗：＿＿；方便時間：＿＿。"
+      t(
+        "Hi, I’d like to book an HK$100 art trial class. Child’s age: ____; drawing experience: ____; preferred times: ____.",
+        "你好，我想預約 HK$100 藝術試堂。小朋友年齡：＿＿；繪畫經驗：＿＿；方便時間：＿＿。"
+      )
     );
     const waAsk = this._waPrefill(
-      "你好，我想查詢適合小朋友的藝術課程／HK$100 試堂安排。小朋友年齡：＿＿；興趣：＿＿。"
+      t(
+        "Hi, I’d like to ask about a suitable art course / HK$100 trial for my child. Child’s age: ____; interests: ____.",
+        "你好，我想查詢適合小朋友的藝術課程／HK$100 試堂安排。小朋友年齡：＿＿；興趣：＿＿。"
+      )
     );
 
     this.shadowRoot.innerHTML = `
@@ -1330,34 +1541,37 @@ class TrialClassHub extends HTMLElement {
           <div class="hero-bg" aria-hidden="true"></div>
           <div class="wrap">
             <div class="hero-copy">
-              <nav class="crumbs" aria-label="麵包屑">
-                <a data-action="hub" href="${COURSE_HUB_URL}">課程總覽</a>
+              <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">
+                <a data-action="hub" href="${courseHubUrl}">${t("Courses", "課程總覽")}</a>
                 <span aria-hidden="true">/</span>
-                <span>試堂</span>
+                <span>${t("Trial Class", "試堂")}</span>
               </nav>
-              <p class="hero-eyebrow">何文田 • 培正附近 • 美術試堂</p>
-              <div class="hero-price">單次試堂 HK$100</div>
+              <p class="hero-eyebrow">${t("Ho Man Tin • Near Pui Ching • Art Trial", "何文田 • 培正附近 • 美術試堂")}</p>
+              <div class="hero-price">${t("Single trial HK$100", "單次試堂 HK$100")}</div>
               <div class="hero-title-chip">
-                <h1 id="hero-title">HK$100 藝術試堂</h1>
-                <p class="hero-sub">先試堂，再選最適合小朋友的藝術課程</p>
+                <h1 id="hero-title">${t("HK$100 Art Trial Class", "HK$100 藝術試堂")}</h1>
+                <p class="hero-sub">${t("Try a class first, then choose the best art course for your child", "先試堂，再選最適合小朋友的藝術課程")}</p>
               </div>
               <p class="hero-lead">
-                讓小朋友先體驗課堂氣氛與教學方式，再決定是否報讀恆常課程。家長無需先搞懂全部班別——告訴我們年齡與興趣，即可協助安排合適試堂。
+                ${t(
+                  "Let your child experience the class atmosphere and teaching style first, then decide whether to join a regular course. You don’t need to understand every class — tell us age and interests and we’ll help arrange a suitable trial.",
+                  "讓小朋友先體驗課堂氣氛與教學方式，再決定是否報讀恆常課程。家長無需先搞懂全部班別——告訴我們年齡與興趣，即可協助安排合適試堂。"
+                )}
               </p>
               <ul class="hero-points">
-                <li>適合初學者</li>
-                <li>按年齡／興趣選班</li>
-                <li>WhatsApp 輕鬆預約</li>
+                <li>${t("Beginner-friendly", "適合初學者")}</li>
+                <li>${t("Choose by age / interest", "按年齡／興趣選班")}</li>
+                <li>${t("Easy WhatsApp booking", "WhatsApp 輕鬆預約")}</li>
               </ul>
               <div class="btn-row">
-                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">立即預約 HK$100 試堂</a>
-                <button type="button" class="btn btn-outline-teal" data-action="scroll-courses">查看適合課程</button>
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book HK$100 Trial Class", "立即預約 HK$100 試堂")}</a>
+                <button type="button" class="btn btn-outline-teal" data-action="scroll-courses">${t("See suitable courses", "查看適合課程")}</button>
               </div>
             </div>
           </div>
         </section>
 
-        <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="試堂重點">
+        <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="${t("Trial highlights", "試堂重點")}">
           <div class="wrap">
             <div class="benefit-strip">
               ${this._benefitsHtml()}
@@ -1367,57 +1581,60 @@ class TrialClassHub extends HTMLElement {
 
         <section class="section section-soft" id="secCourses" aria-labelledby="guide-title">
           <div class="wrap">
-            <h2 class="section-title" id="guide-title">唔知應該揀邊班？</h2>
+            <h2 class="section-title" id="guide-title">${t("Not sure which class?", "唔知應該揀邊班？")}</h2>
             <p class="section-lead">
-              不用先理解全部課程。按年齡、興趣或是否初學快速篩選，找出約 2–4 個較相關的試堂方向。
+              ${t(
+                "You don’t need to understand every course first. Filter by age, interest or beginner level to find about 2–4 relevant trial options.",
+                "不用先理解全部課程。按年齡、興趣或是否初學快速篩選，找出約 2–4 個較相關的試堂方向。"
+              )}
             </p>
 
-            <p class="filter-label">年齡</p>
-            <div class="filter-tabs" role="group" aria-label="按年齡篩選" data-filter-group="age">
-              <button type="button" data-action="filter" data-filter-group="age" data-filter="all" aria-pressed="true">全部</button>
-              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-3-5" aria-pressed="false">3–5歲</button>
-              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-5-7" aria-pressed="false">5–7歲</button>
-              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-7-11" aria-pressed="false">7–11歲</button>
-              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-11plus" aria-pressed="false">11歲以上</button>
+            <p class="filter-label">${t("Age", "年齡")}</p>
+            <div class="filter-tabs" role="group" aria-label="${t("Filter by age", "按年齡篩選")}" data-filter-group="age">
+              <button type="button" data-action="filter" data-filter-group="age" data-filter="all" aria-pressed="true">${t("All", "全部")}</button>
+              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-3-5" aria-pressed="false">${t("Ages 3–5", "3–5歲")}</button>
+              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-5-7" aria-pressed="false">${t("Ages 5–7", "5–7歲")}</button>
+              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-7-11" aria-pressed="false">${t("Ages 7–11", "7–11歲")}</button>
+              <button type="button" data-action="filter" data-filter-group="age" data-filter="age-11plus" aria-pressed="false">${t("Ages 11+", "11歲以上")}</button>
             </div>
 
-            <p class="filter-label">興趣／媒介</p>
-            <div class="filter-tabs" role="group" aria-label="按興趣篩選" data-filter-group="type">
-              <button type="button" data-action="filter" data-filter-group="type" data-filter="all" aria-pressed="true">全部</button>
-              <button type="button" data-action="filter" data-filter-group="type" data-filter="painting" aria-pressed="false">繪畫</button>
-              <button type="button" data-action="filter" data-filter-group="type" data-filter="drawing" aria-pressed="false">素描／繪畫技巧</button>
-              <button type="button" data-action="filter" data-filter-group="type" data-filter="comic" aria-pressed="false">漫畫</button>
-              <button type="button" data-action="filter" data-filter-group="type" data-filter="clay" aria-pressed="false">黏土</button>
-              <button type="button" data-action="filter" data-filter-group="type" data-filter="kids" aria-pressed="false">兒童美術</button>
+            <p class="filter-label">${t("Interest / medium", "興趣／媒介")}</p>
+            <div class="filter-tabs" role="group" aria-label="${t("Filter by interest", "按興趣篩選")}" data-filter-group="type">
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="all" aria-pressed="true">${t("All", "全部")}</button>
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="painting" aria-pressed="false">${t("Painting", "繪畫")}</button>
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="drawing" aria-pressed="false">${t("Drawing/Sketching", "素描／繪畫技巧")}</button>
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="comic" aria-pressed="false">${t("Comics", "漫畫")}</button>
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="clay" aria-pressed="false">${t("Clay", "黏土")}</button>
+              <button type="button" data-action="filter" data-filter-group="type" data-filter="kids" aria-pressed="false">${t("Kids Art", "兒童美術")}</button>
             </div>
 
-            <p class="filter-label">經驗</p>
-            <div class="filter-tabs" role="group" aria-label="按經驗篩選" data-filter-group="level">
-              <button type="button" data-action="filter" data-filter-group="level" data-filter="all" aria-pressed="true">不限</button>
-              <button type="button" data-action="filter" data-filter-group="level" data-filter="beginner" aria-pressed="false">初學者</button>
+            <p class="filter-label">${t("Experience", "經驗")}</p>
+            <div class="filter-tabs" role="group" aria-label="${t("Filter by experience", "按經驗篩選")}" data-filter-group="level">
+              <button type="button" data-action="filter" data-filter-group="level" data-filter="all" aria-pressed="true">${t("Any level", "不限")}</button>
+              <button type="button" data-action="filter" data-filter-group="level" data-filter="beginner" aria-pressed="false">${t("Beginner", "初學者")}</button>
             </div>
 
-            <h3 class="sr-only">建議試堂課程</h3>
+            <h3 class="sr-only">${t("Suggested trial courses", "建議試堂課程")}</h3>
             <div class="card-grid cols-2" style="margin-top:28px">
               ${this._courseCardsHtml()}
             </div>
             <p data-empty hidden class="section-lead" style="margin-top:24px">
-              目前沒有完全符合的組合。可放寬篩選，或
-              <a data-action="whatsapp" href="${waAsk}" target="_blank" rel="noopener noreferrer" style="color:var(--teal);font-weight:800">WhatsApp 查詢適合課程</a>。
+              ${t("No exact match for this combination. Widen your filters, or ", "目前沒有完全符合的組合。可放寬篩選，或")}
+              <a data-action="whatsapp" href="${waAsk}" target="_blank" rel="noopener noreferrer" style="color:var(--teal);font-weight:800">${t("WhatsApp us for a suitable course", "WhatsApp 查詢適合課程")}</a>.
             </p>
 
             <div class="silo-links" style="margin-top:28px">
-              <a data-action="hub" href="${KIDS_ART_URL}">兒童美術課程總覽</a>
-              <a data-action="hub" href="${DRAWING_URL}">繪畫及素描課程</a>
-              <a data-action="hub" href="${COURSE_HUB_URL}">全部課程</a>
+              <a data-action="hub" href="${kidsArtUrl}">${t("Kids Art courses", "兒童美術課程總覽")}</a>
+              <a data-action="hub" href="${drawingUrl}">${t("Drawing & Sketching", "繪畫及素描課程")}</a>
+              <a data-action="hub" href="${courseHubUrl}">${t("All courses", "全部課程")}</a>
             </div>
           </div>
         </section>
 
         <section class="section" aria-labelledby="steps-title">
           <div class="wrap">
-            <h2 class="section-title" id="steps-title">試堂流程</h2>
-            <p class="section-lead">三步完成預約，過程簡單、低壓力。</p>
+            <h2 class="section-title" id="steps-title">${t("How the trial works", "試堂流程")}</h2>
+            <p class="section-lead">${t("Three simple, low-pressure steps to book.", "三步完成預約，過程簡單、低壓力。")}</p>
             <div class="path">
               ${this._stepsHtml()}
             </div>
@@ -1428,17 +1645,20 @@ class TrialClassHub extends HTMLElement {
           <div class="wrap">
             <div class="detail">
               <div>
-                <h2 id="experience-title">試堂當日會做甚麼？</h2>
+                <h2 id="experience-title">${t("What happens on the trial day?", "試堂當日會做甚麼？")}</h2>
                 <p class="detail-lead">
-                  試堂不是評核考試，而是雙向了解：小朋友感受課堂，導師觀察興趣與程度，家長再決定是否報讀。
+                  ${t(
+                    "The trial is not an exam — it’s a two-way introduction: your child feels the class, the teacher observes interest and level, and parents decide whether to enrol.",
+                    "試堂不是評核考試，而是雙向了解：小朋友感受課堂，導師觀察興趣與程度，家長再決定是否報讀。"
+                  )}
                 </p>
                 <ul class="check-list">
-                  ${EXPERIENCE.map((item) => `<li>${item}</li>`).join("")}
+                  ${EXPERIENCE.map((item) => `<li>${this.pick(item)}</li>`).join("")}
                 </ul>
-                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">預約 HK$100 試堂</a>
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book HK$100 Trial Class", "預約 HK$100 試堂")}</a>
               </div>
               <div class="detail-media">
-                <img src="${IMG.experience}" alt="ICAcademy美術課堂作品" width="800" height="1000" loading="lazy" />
+                <img src="${IMG.experience}" alt="${t("ICAcademy art class artwork", "ICAcademy美術課堂作品")}" width="800" height="1000" loading="lazy" />
               </div>
             </div>
           </div>
@@ -1446,25 +1666,25 @@ class TrialClassHub extends HTMLElement {
 
         <section class="section" aria-labelledby="gallery-title">
           <div class="wrap">
-            <h2 class="section-title" id="gallery-title">看看學生的作品</h2>
-            <p class="section-lead">真實學員作品，讓家長更放心了解課堂創作方向。</p>
+            <h2 class="section-title" id="gallery-title">${t("See student artwork", "看看學生的作品")}</h2>
+            <p class="section-lead">${t("Real student work so parents can better understand the creative direction of our classes.", "真實學員作品，讓家長更放心了解課堂創作方向。")}</p>
             <div class="gallery-grid">
-              <figure><img src="${IMG.gallery1}" alt="ICAcademy幼兒創意繪畫作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
-              <figure><img src="${IMG.gallery2}" alt="ICAcademy學生漫畫角色設計作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
-              <figure><img src="${IMG.gallery3}" alt="何文田兒童素描課程學生作品" loading="lazy" /><figcaption>學員作品</figcaption></figure>
-              <figure><img src="${IMG.gallery4}" alt="ICAcademy課堂創作氣氛" loading="lazy" /><figcaption>課堂氣氛</figcaption></figure>
+              <figure><img src="${IMG.gallery1}" alt="${t("ICAcademy young children’s creative painting", "ICAcademy幼兒創意繪畫作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery2}" alt="${t("ICAcademy student comic character design", "ICAcademy學生漫畫角色設計作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery3}" alt="${t("Ho Man Tin children’s sketching student work", "何文田兒童素描課程學生作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery4}" alt="${t("ICAcademy classroom creative atmosphere", "ICAcademy課堂創作氣氛")}" loading="lazy" /><figcaption>${t("Class atmosphere", "課堂氣氛")}</figcaption></figure>
             </div>
             <div class="center-actions">
-              <a class="btn btn-outline-teal" data-action="course" href="${GALLERY_URL}">查看更多學員作品</a>
-              <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">預約 HK$100 試堂</a>
+              <a class="btn btn-outline-teal" data-action="course" href="${galleryUrl}">${t("See more student work", "查看更多學員作品")}</a>
+              <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book HK$100 Trial Class", "預約 HK$100 試堂")}</a>
             </div>
           </div>
         </section>
 
         <section class="section section-soft" aria-labelledby="concerns-title">
           <div class="wrap">
-            <h2 class="section-title" id="concerns-title">家長常見顧慮</h2>
-            <p class="section-lead">先了解重點，再輕鬆預約試堂。</p>
+            <h2 class="section-title" id="concerns-title">${t("Common parent concerns", "家長常見顧慮")}</h2>
+            <p class="section-lead">${t("Know the essentials, then book a trial with ease.", "先了解重點，再輕鬆預約試堂。")}</p>
             <div class="concern-grid">
               ${this._concernsHtml()}
             </div>
@@ -1473,7 +1693,7 @@ class TrialClassHub extends HTMLElement {
 
         <section class="section" aria-labelledby="faq-title">
           <div class="wrap">
-            <h2 class="section-title" id="faq-title">美術試堂常見問題</h2>
+            <h2 class="section-title" id="faq-title">${t("Art trial FAQ", "美術試堂常見問題")}</h2>
             <div class="faq-list">
               ${this._faqHtml()}
             </div>
@@ -1481,17 +1701,17 @@ class TrialClassHub extends HTMLElement {
         </section>
 
         <section class="final" aria-labelledby="final-title">
-          <h2 id="final-title">先試一堂，再決定最適合的藝術課程</h2>
-          <p>告訴我們小朋友年齡與興趣，即可協助安排合適的 HK$100 試堂。</p>
-          <span class="final-price">HK$100 試堂</span>
+          <h2 id="final-title">${t("Try one class first, then choose the best art course", "先試一堂，再決定最適合的藝術課程")}</h2>
+          <p>${t("Tell us your child’s age and interests and we’ll help arrange a suitable HK$100 trial.", "告訴我們小朋友年齡與興趣，即可協助安排合適的 HK$100 試堂。")}</p>
+          <span class="final-price">${t("HK$100 Trial", "HK$100 試堂")}</span>
           <div class="btn-row">
-            <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">立即預約試堂</a>
-            <a class="btn btn-outline-white" data-action="whatsapp" href="${waAsk}" target="_blank" rel="noopener noreferrer">WhatsApp 查詢適合課程</a>
+            <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book trial now", "立即預約試堂")}</a>
+            <a class="btn btn-outline-white" data-action="whatsapp" href="${waAsk}" target="_blank" rel="noopener noreferrer">${t("WhatsApp suitable courses", "WhatsApp 查詢適合課程")}</a>
           </div>
         </section>
       </div>
 
-      <a class="sticky-cta" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">HK$100 試堂｜立即預約</a>
+      <a class="sticky-cta" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("HK$100 Trial | Book now", "HK$100 試堂｜立即預約")}</a>
     `;
 
     this._applyFilters();
@@ -1500,4 +1720,6 @@ class TrialClassHub extends HTMLElement {
   }
 }
 
-customElements.define("trial-class-hub", TrialClassHub);
+if (!customElements.get("trial-class-hub")) {
+  customElements.define("trial-class-hub", TrialClassHub);
+}
