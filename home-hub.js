@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-08-16-v3
+ * Version: 2026-08-16-v4
  * Full homepage including hero slideshow (for Home V2 / pages without Editor slideshow).
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
  */
@@ -260,6 +260,8 @@ const STYLES = `
   font-size: 16px;
   background: var(--bg);
   overflow-x: visible;
+  height: auto !important;
+  min-height: 0 !important;
 }
 :host([data-fullbleed="1"]) {
   width: 100% !important;
@@ -510,6 +512,9 @@ class HomeHub extends HTMLElement {
     window.addEventListener("resize", this._applyFullBleedCss);
     window.addEventListener("orientationchange", this._applyFullBleedCss);
     this._startSlideshow();
+    window.setTimeout(() => this._collapseTrailingGap(), 50);
+    window.setTimeout(() => this._collapseTrailingGap(), 400);
+    window.setTimeout(() => this._collapseTrailingGap(), 1200);
   }
 
   disconnectedCallback() {
@@ -575,6 +580,8 @@ class HomeHub extends HTMLElement {
         box-sizing: border-box !important;
         width: 100% !important;
         max-width: none !important;
+        height: auto !important;
+        min-height: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
         border-radius: 0 !important;
@@ -587,21 +594,55 @@ class HomeHub extends HTMLElement {
         padding-left: 0 !important;
         padding-right: 0 !important;
       }
+      #SITE_FOOTER {
+        margin-top: 0 !important;
+      }
     `;
     document.head.appendChild(style);
   }
 
   _collapseTrailingGap() {
     try {
+      this.style.setProperty("height", "auto", "important");
+      this.style.setProperty("min-height", "0", "important");
+
       let el = this.parentElement;
       for (let i = 0; i < 10 && el; i++) {
         el.style.setProperty("min-height", "0", "important");
+        el.style.setProperty("height", "auto", "important");
         el.style.setProperty("padding-bottom", "0", "important");
         el.style.setProperty("margin-bottom", "0", "important");
         const id = el.id || "";
         const tag = (el.tagName || "").toLowerCase();
         if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
         el = el.parentElement;
+      }
+
+      const pages = document.getElementById("SITE_PAGES") || document.getElementById("PAGES_CONTAINER");
+      const footer = document.getElementById("SITE_FOOTER");
+      if (footer) {
+        footer.style.setProperty("margin-top", "0", "important");
+      }
+      if (!pages || !footer) return;
+
+      let node = this;
+      while (node && node.parentElement && node.parentElement !== pages) {
+        node = node.parentElement;
+      }
+      if (!node || node.parentElement !== pages) return;
+
+      let sib = node.nextElementSibling;
+      while (sib && sib !== footer) {
+        const next = sib.nextElementSibling;
+        const text = (sib.textContent || "").replace(/\s+/g, "");
+        if (text.length < 8) {
+          sib.style.setProperty("display", "none", "important");
+          sib.style.setProperty("height", "0", "important");
+          sib.style.setProperty("min-height", "0", "important");
+          sib.style.setProperty("margin", "0", "important");
+          sib.style.setProperty("padding", "0", "important");
+        }
+        sib = next;
       }
     } catch (e) {
       // ignore
@@ -617,6 +658,8 @@ class HomeHub extends HTMLElement {
       this.style.setProperty("max-width", "none", "important");
       this.style.setProperty("margin", "0", "important");
       this.style.setProperty("padding", "0", "important");
+      this.style.setProperty("height", "auto", "important");
+      this.style.setProperty("min-height", "0", "important");
       const pages = document.getElementById("SITE_PAGES") || document.getElementById("PAGES_CONTAINER");
       let el = this.parentElement;
       for (let i = 0; i < 12 && el; i++) {
@@ -629,12 +672,17 @@ class HomeHub extends HTMLElement {
         el.style.setProperty("margin-right", "0", "important");
         el.style.setProperty("padding-left", "0", "important");
         el.style.setProperty("padding-right", "0", "important");
+        el.style.setProperty("min-height", "0", "important");
+        if (el !== pages && id !== "SITE_PAGES" && id !== "PAGES_CONTAINER") {
+          el.style.setProperty("height", "auto", "important");
+        }
         if (el === pages || id === "SITE_PAGES" || id === "PAGES_CONTAINER") break;
         el = el.parentElement;
       }
     } catch (e) {
       // ignore
     }
+    this._collapseTrailingGap();
   }
 
   _emitCta(type, href) {
