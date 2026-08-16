@@ -1,8 +1,9 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-08-16-v4
- * Full homepage including hero slideshow (for Home V2 / pages without Editor slideshow).
+ * Version: 2026-08-16-v5
+ * Full homepage including hero slideshow.
+ * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
@@ -264,9 +265,6 @@ const STYLES = `
   min-height: 0 !important;
 }
 :host([data-fullbleed="1"]) {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
@@ -575,30 +573,44 @@ class HomeHub extends HTMLElement {
     const style = document.createElement("style");
     style.id = id;
     style.textContent = `
+      html, body {
+        overflow-x: hidden !important;
+      }
       home-hub {
         display: block !important;
         box-sizing: border-box !important;
-        width: 100% !important;
-        max-width: none !important;
         height: auto !important;
         min-height: 0 !important;
-        margin: 0 !important;
         padding: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
+      }
+      #SITE_PAGES,
+      #PAGES_CONTAINER,
+      #SITE_FOOTER,
+      #masterPage {
+        overflow: visible !important;
+        overflow-x: visible !important;
+        max-width: none !important;
       }
       #SITE_PAGES, #PAGES_CONTAINER, .wixui-page {
         min-height: 0 !important;
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
       }
       #SITE_FOOTER {
         margin-top: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
       }
     `;
     document.head.appendChild(style);
+  }
+
+  _viewportWidth() {
+    return document.documentElement.clientWidth || window.innerWidth || 0;
   }
 
   _collapseTrailingGap() {
@@ -652,31 +664,47 @@ class HomeHub extends HTMLElement {
   _applyFullBleedCss() {
     try {
       this._injectPageBleedCss();
+      this.style.removeProperty("left");
+      this.style.removeProperty("right");
+      this.style.removeProperty("transform");
+
+      const vw = this._viewportWidth();
+      if (!vw) return;
+
       this.setAttribute("data-fullbleed", "1");
       this.style.setProperty("position", "relative", "important");
-      this.style.setProperty("width", "100%", "important");
-      this.style.setProperty("max-width", "none", "important");
-      this.style.setProperty("margin", "0", "important");
+      this.style.setProperty("left", "0", "important");
+      this.style.setProperty("width", `${vw}px`, "important");
+      this.style.setProperty("max-width", `${vw}px`, "important");
+      this.style.setProperty("min-width", `${vw}px`, "important");
+      this.style.setProperty("margin-left", `calc(50% - ${vw / 2}px)`, "important");
+      this.style.setProperty("margin-right", "0", "important");
       this.style.setProperty("padding", "0", "important");
       this.style.setProperty("height", "auto", "important");
       this.style.setProperty("min-height", "0", "important");
-      const pages = document.getElementById("SITE_PAGES") || document.getElementById("PAGES_CONTAINER");
+      this.style.setProperty("box-sizing", "border-box", "important");
+      this.style.setProperty("overflow-x", "visible", "important");
+      this.style.setProperty("border-radius", "0", "important");
+      this.style.setProperty("box-shadow", "none", "important");
+
       let el = this.parentElement;
-      for (let i = 0; i < 12 && el; i++) {
+      for (let i = 0; i < 8 && el; i++) {
         const tag = (el.tagName || "").toLowerCase();
         const id = el.id || "";
-        if (tag === "body" || tag === "html" || id === "masterPage" || id === "SITE_HEADER") break;
-        el.style.setProperty("width", "100%", "important");
+        if (tag === "body" || tag === "html") break;
+        el.style.setProperty("overflow", "visible", "important");
+        el.style.setProperty("overflow-x", "visible", "important");
         el.style.setProperty("max-width", "none", "important");
+        el.style.setProperty("width", "100%", "important");
         el.style.setProperty("margin-left", "0", "important");
         el.style.setProperty("margin-right", "0", "important");
         el.style.setProperty("padding-left", "0", "important");
         el.style.setProperty("padding-right", "0", "important");
+        el.style.setProperty("border-radius", "0", "important");
+        el.style.setProperty("left", "0", "important");
         el.style.setProperty("min-height", "0", "important");
-        if (el !== pages && id !== "SITE_PAGES" && id !== "PAGES_CONTAINER") {
-          el.style.setProperty("height", "auto", "important");
-        }
-        if (el === pages || id === "SITE_PAGES" || id === "PAGES_CONTAINER") break;
+        if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
+        el.style.setProperty("height", "auto", "important");
         el = el.parentElement;
       }
     } catch (e) {
