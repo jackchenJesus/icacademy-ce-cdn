@@ -1,7 +1,7 @@
 /**
  * ICAcademy Student Artwork Gallery Hub – Custom Element
  * Tag name: gallery-hub
- * Version: 2026-08-16-v4 (EN/ZH multilingual + footer gap fix)
+ * Version: 2026-08-16-v5 (fix EN locale: trust URL + locale attr over html lang)
  * Design system: matches courses-hub / kids-art-hub / drawing-painting-hub / trial-class-hub
  * Routes: /gallery (EN) | /zh/gallery (ZH)
  * Locale via attribute: locale="en" | "zh" (default en = site primary).
@@ -1084,10 +1084,13 @@ class GalleryHub extends HTMLElement {
     this.render();
     const syncLocale = () => {
       try {
-        if (this.localeCode === "zh") {
-          const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
-          if (h1 && /Student Artwork Gallery/i.test(h1.textContent || "")) this.render();
-        }
+        const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
+        if (!h1) return;
+        const text = h1.textContent || "";
+        const wantZh = this.localeCode === "zh";
+        const showingEn = /Student Artwork Gallery/i.test(text);
+        const showingZh = /學員作品畫廊/.test(text);
+        if ((wantZh && showingEn) || (!wantZh && showingZh)) this.render();
       } catch (e) {}
     };
     setTimeout(syncLocale, 0);
@@ -1121,25 +1124,27 @@ class GalleryHub extends HTMLElement {
   }
 
   get localeCode() {
+    // Published Multilingual: /zh/* = Chinese. Without /zh = English (site primary).
+    // Do NOT let html[lang] / userLanguage override this — on Wix Editor/preview those
+    // often stay "zh" even on the English page, which made EN UI never appear.
     try {
       const href = String((window.location && (window.location.href || window.location.pathname)) || "");
       if (/\/zh(\/|$|\?|#)/i.test(href)) return "zh";
     } catch (e) {}
+
+    // Velo galleryHubPage sets locale from wixWindowFrontend.multilingual (Editor + live).
+    const attr = String(this.getAttribute("locale") || "").toLowerCase();
+    if (attr.startsWith("zh")) return "zh";
+    if (attr.startsWith("en")) return "en";
+
+    // Soft fallbacks only when attribute not set yet (first paint before Velo wiring).
     try {
       const lang = String(
         (document.documentElement && (document.documentElement.getAttribute("lang") || document.documentElement.lang)) || ""
       ).toLowerCase();
-      if (lang.startsWith("zh")) return "zh";
+      if (lang.startsWith("en")) return "en";
     } catch (e) {}
-    try {
-      const htmlHead = (document.documentElement && document.documentElement.innerHTML)
-        ? document.documentElement.innerHTML.slice(0, 120000)
-        : "";
-      if (/userLanguage"\s*:\s*"zh"/i.test(htmlHead)) return "zh";
-    } catch (e) {}
-    const attr = String(this.getAttribute("locale") || "").toLowerCase();
-    if (attr.startsWith("zh")) return "zh";
-    if (attr.startsWith("en")) return "en";
+
     return "en";
   }
 
@@ -1442,12 +1447,21 @@ class GalleryHub extends HTMLElement {
     ).join("");
   }
 
+  _escAttr(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;");
+  }
+
   _artItemHtml(item, eager) {
     const thumb = this._thumb(item.imageId);
     const alt = this.altFor(item);
     const loading = eager ? "eager" : "lazy";
     const fetchPriority = eager ? 'fetchpriority="high"' : "";
     const viewLabel = this.isEn ? `View larger: ${alt}` : `放大查看：${alt}`;
+    const altAttr = this._escAttr(alt);
+    const viewAttr = this._escAttr(viewLabel);
     return `
       <div
         class="art-item"
@@ -1460,11 +1474,11 @@ class GalleryHub extends HTMLElement {
           class="art-card"
           data-action="open-art"
           data-art-id="${item.id}"
-          aria-label="${viewLabel}"
+          aria-label="${viewAttr}"
         >
           <img
             src="${thumb}"
-            alt="${alt}"
+            alt="${altAttr}"
             loading="${loading}"
             decoding="async"
             width="640"
@@ -1472,7 +1486,7 @@ class GalleryHub extends HTMLElement {
             ${fetchPriority}
           />
           <div class="art-meta">
-            <span class="art-cat">${this.categoryLabel(item.category)}</span>
+            <span class="art-cat">${this._escAttr(this.categoryLabel(item.category))}</span>
           </div>
         </button>
       </div>`;
