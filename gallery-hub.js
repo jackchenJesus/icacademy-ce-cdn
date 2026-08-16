@@ -1,17 +1,12 @@
 /**
  * ICAcademy Student Artwork Gallery Hub – Custom Element
  * Tag name: gallery-hub
- * Version: 2026-08-12-v3 (mobile course cards: keep side-by-side, fix CTA wrap)
- * Design system: matches courses-hub / kids-art-hub / drawing-painting-hub (coral / teal)
- * Route: /zh/gallery
+ * Version: 2026-08-16-v4 (EN/ZH multilingual + footer gap fix)
+ * Design system: matches courses-hub / kids-art-hub / drawing-painting-hub / trial-class-hub
+ * Routes: /gallery (EN) | /zh/gallery (ZH)
+ * Locale via attribute: locale="en" | "zh" (default en = site primary).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
-const COURSE_HUB_URL = "/zh/course-hub";
-const KIDS_ART_URL = "/zh/courses/kids-art-classes";
-const DRAWING_URL = "/zh/courses/art-drawing";
-const COMIC_URL = "/zh/courses/comic-drawing-class";
-const CLAY_URL = "/zh/courses/creative-art-and-clay-class";
-const TRIAL_URL = "/zh/homantin-children-art-trial";
 
 /** Fit within box — preserves artwork aspect ratio (no aggressive crop). */
 function mediaFit(id, w, h) {
@@ -356,64 +351,95 @@ const ARTWORK = [
 ];
 
 const CATEGORIES = [
-  { id: "all", label: "全部作品" },
-  { id: "kids", label: "兒童美術" },
-  { id: "drawing-painting", label: "Drawing & Painting" },
-  { id: "comic", label: "漫畫及數碼藝術" },
-  { id: "clay", label: "黏土及創意手作" },
-  { id: "sketch", label: "素描" },
-  { id: "acrylic", label: "Acrylic Painting" },
+  { id: "all", label: { en: "All artwork", zh: "全部作品" } },
+  { id: "kids", label: { en: "Kids Art", zh: "兒童美術" } },
+  { id: "drawing-painting", label: { en: "Drawing & Painting", zh: "Drawing & Painting" } },
+  { id: "comic", label: { en: "Comics & Digital Art", zh: "漫畫及數碼藝術" } },
+  { id: "clay", label: { en: "Clay & Creative Crafts", zh: "黏土及創意手作" } },
+  { id: "sketch", label: { en: "Sketching", zh: "素描" } },
+  { id: "acrylic", label: { en: "Acrylic Painting", zh: "Acrylic Painting" } },
 ];
 
-const CATEGORY_LABEL = Object.fromEntries(CATEGORIES.map((c) => [c.id, c.label]));
+const ALT_BY_CATEGORY = {
+  kids: { en: "ICAcademy kids creative art student artwork", zh: "ICAcademy 兒童創意美術學員作品" },
+  "drawing-painting": { en: "ICAcademy Drawing & Painting student artwork", zh: "ICAcademy 繪畫課程學員作品" },
+  comic: { en: "ICAcademy comics & digital art student artwork", zh: "ICAcademy 漫畫及數碼藝術學員作品" },
+  clay: { en: "ICAcademy clay & craft student artwork", zh: "ICAcademy 黏土及創意手作學員作品" },
+  sketch: { en: "ICAcademy sketching course student artwork", zh: "ICAcademy 素描課程學生作品" },
+  acrylic: { en: "ICAcademy Acrylic Painting student artwork", zh: "ICAcademy Acrylic Painting 學員作品" },
+};
 
 const COURSE_CARDS = [
   {
     id: "kids",
-    title: "兒童創意美術",
-    desc: "適合年幼學員發展創意與美術基礎，包括視藝技巧及兒童創意美術課程。",
-    href: KIDS_ART_URL,
-    cta: "查看兒童美術課程",
+    title: { en: "Kids Creative Art", zh: "兒童創意美術" },
+    desc: {
+      en: "Ideal for younger students building creativity and art foundations, including Visual Art Skills and Creative Art.",
+      zh: "適合年幼學員發展創意與美術基礎，包括視藝技巧及兒童創意美術課程。",
+    },
+    hrefSlug: "/courses/kids-art-classes",
+    cta: { en: "View kids art courses", zh: "查看兒童美術課程" },
     imageId: "b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg",
-    imageAlt: "ICAcademy 兒童創意美術學員作品",
+    imageAlt: {
+      en: "ICAcademy kids creative art student artwork",
+      zh: "ICAcademy 兒童創意美術學員作品",
+    },
   },
   {
     id: "drawing",
-    title: "Drawing & Painting",
-    desc: "素描、繪畫、塑膠彩與綜合美術技巧，按興趣與程度選擇合適方向。",
-    href: DRAWING_URL,
-    cta: "探索繪畫及素描課程",
+    title: { en: "Drawing & Painting", zh: "Drawing & Painting" },
+    desc: {
+      en: "Sketching, painting, acrylic and mixed-media skills — choose by interest and level.",
+      zh: "素描、繪畫、塑膠彩與綜合美術技巧，按興趣與程度選擇合適方向。",
+    },
+    hrefSlug: "/courses/art-drawing",
+    cta: { en: "Explore Drawing & Painting", zh: "探索繪畫及素描課程" },
     imageId: "b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg",
-    imageAlt: "ICAcademy 繪畫及素描學員作品",
+    imageAlt: {
+      en: "ICAcademy Drawing & Painting student artwork",
+      zh: "ICAcademy 繪畫及素描學員作品",
+    },
   },
   {
     id: "comic",
-    title: "漫畫及數碼藝術",
-    desc: "角色設計、漫畫人物、表情動作與畫面構圖，激發故事與創意表達。",
-    href: COMIC_URL,
-    cta: "查看漫畫及數碼藝術課程",
+    title: { en: "Comics & Digital Art", zh: "漫畫及數碼藝術" },
+    desc: {
+      en: "Character design, comic figures, expression, action and composition for storytelling.",
+      zh: "角色設計、漫畫人物、表情動作與畫面構圖，激發故事與創意表達。",
+    },
+    hrefSlug: "/courses/comic-drawing-class",
+    cta: { en: "View comics & digital art", zh: "查看漫畫及數碼藝術課程" },
     imageId: "b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg",
-    imageAlt: "ICAcademy 漫畫學員作品",
+    imageAlt: {
+      en: "ICAcademy comics student artwork",
+      zh: "ICAcademy 漫畫學員作品",
+    },
   },
   {
     id: "clay",
-    title: "黏土及創意手作",
-    desc: "輕黏土與立體手作，訓練塑形、結構與色彩美感。",
-    href: CLAY_URL,
-    cta: "查看黏土課程",
+    title: { en: "Clay & Creative Crafts", zh: "黏土及創意手作" },
+    desc: {
+      en: "Soft clay and 3D crafts that build modelling, structure and colour sense.",
+      zh: "輕黏土與立體手作，訓練塑形、結構與色彩美感。",
+    },
+    hrefSlug: "/courses/creative-art-and-clay-class",
+    cta: { en: "View clay courses", zh: "查看黏土課程" },
     imageId: "b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg",
-    imageAlt: "ICAcademy 黏土學員作品",
+    imageAlt: {
+      en: "ICAcademy clay student artwork",
+      zh: "ICAcademy 黏土學員作品",
+    },
   },
 ];
 
 const TRUST_POINTS = [
-  { title: "觀察", desc: "細心觀察形狀、色彩與空間" },
-  { title: "創意", desc: "把想像轉化為個人創作" },
-  { title: "技巧", desc: "循序學習藝術技法" },
-  { title: "色彩", desc: "認識配色與畫面氛圍" },
-  { title: "構圖", desc: "組織畫面與視覺焦點" },
-  { title: "自信", desc: "完成作品並勇於表達" },
-  { title: "表達", desc: "發展個人藝術語言" },
+  { title: { en: "Observation", zh: "觀察" }, desc: { en: "Notice shape, colour and space", zh: "細心觀察形狀、色彩與空間" } },
+  { title: { en: "Creativity", zh: "創意" }, desc: { en: "Turn imagination into original work", zh: "把想像轉化為個人創作" } },
+  { title: { en: "Technique", zh: "技巧" }, desc: { en: "Build art skills step by step", zh: "循序學習藝術技法" } },
+  { title: { en: "Colour", zh: "色彩" }, desc: { en: "Understand colour and mood", zh: "認識配色與畫面氛圍" } },
+  { title: { en: "Composition", zh: "構圖" }, desc: { en: "Organise the picture and focus", zh: "組織畫面與視覺焦點" } },
+  { title: { en: "Confidence", zh: "自信" }, desc: { en: "Finish work and share boldly", zh: "完成作品並勇於表達" } },
+  { title: { en: "Expression", zh: "表達" }, desc: { en: "Develop a personal artistic voice", zh: "發展個人藝術語言" } },
 ];
 
 const STYLES = `
@@ -421,7 +447,7 @@ const STYLES = `
   display: block;
   width: 100%;
   max-width: 100%;
-  min-height: 2400px;
+  min-height: 1px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -466,6 +492,9 @@ img { max-width: 100%; display: block; height: auto; }
 }
 .section { padding: 56px 0; background: var(--bg); width: 100%; }
 .section-soft { background: var(--bg-soft); }
+.section-last {
+  padding-bottom: 40px;
+}
 .section-title {
   text-align: center;
   font-size: clamp(1.45rem, 3vw, 1.95rem);
@@ -1047,17 +1076,40 @@ class GalleryHub extends HTMLElement {
     this._activeId = null;
     this._onClick = this._onClick.bind(this);
     this._onKeydown = this._onKeydown.bind(this);
+    this._syncLayout = this._syncLayout.bind(this);
+    this._ro = null;
   }
 
   connectedCallback() {
     this.render();
+    const syncLocale = () => {
+      try {
+        if (this.localeCode === "zh") {
+          const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
+          if (h1 && /Student Artwork Gallery/i.test(h1.textContent || "")) this.render();
+        }
+      } catch (e) {}
+    };
+    setTimeout(syncLocale, 0);
+    setTimeout(syncLocale, 500);
+
     this.shadowRoot.addEventListener("click", this._onClick);
     document.addEventListener("keydown", this._onKeydown);
+    window.addEventListener("resize", this._syncLayout);
+    window.addEventListener("orientationchange", this._syncLayout);
   }
 
   disconnectedCallback() {
     this.shadowRoot.removeEventListener("click", this._onClick);
     document.removeEventListener("keydown", this._onKeydown);
+    window.removeEventListener("resize", this._syncLayout);
+    window.removeEventListener("orientationchange", this._syncLayout);
+    if (this._ro) {
+      this._ro.disconnect();
+      this._ro = null;
+    }
+    const bleed = document.getElementById("gallery-hub-page-bleed");
+    if (bleed) bleed.remove();
   }
 
   attributeChangedCallback() {
@@ -1066,6 +1118,183 @@ class GalleryHub extends HTMLElement {
 
   get waUrl() {
     return this.getAttribute("wa-url") || WA_DEFAULT;
+  }
+
+  get localeCode() {
+    try {
+      const href = String((window.location && (window.location.href || window.location.pathname)) || "");
+      if (/\/zh(\/|$|\?|#)/i.test(href)) return "zh";
+    } catch (e) {}
+    try {
+      const lang = String(
+        (document.documentElement && (document.documentElement.getAttribute("lang") || document.documentElement.lang)) || ""
+      ).toLowerCase();
+      if (lang.startsWith("zh")) return "zh";
+    } catch (e) {}
+    try {
+      const htmlHead = (document.documentElement && document.documentElement.innerHTML)
+        ? document.documentElement.innerHTML.slice(0, 120000)
+        : "";
+      if (/userLanguage"\s*:\s*"zh"/i.test(htmlHead)) return "zh";
+    } catch (e) {}
+    const attr = String(this.getAttribute("locale") || "").toLowerCase();
+    if (attr.startsWith("zh")) return "zh";
+    if (attr.startsWith("en")) return "en";
+    return "en";
+  }
+
+  get isEn() {
+    return this.localeCode !== "zh";
+  }
+
+  path(slug) {
+    return this.isEn ? slug : `/zh${slug}`;
+  }
+
+  pick(obj) {
+    if (obj == null) return "";
+    if (typeof obj === "string") return obj;
+    return this.isEn ? obj.en : obj.zh;
+  }
+
+  categoryLabel(id) {
+    const cat = CATEGORIES.find((c) => c.id === id);
+    return cat ? this.pick(cat.label) : "";
+  }
+
+  altFor(item) {
+    const fromCat = ALT_BY_CATEGORY[item.category];
+    if (fromCat) return this.pick(fromCat);
+    return this.pick(item.altText) || (this.isEn ? "ICAcademy student artwork" : "ICAcademy 學員作品");
+  }
+
+  _injectPageBleedCss() {
+    const id = "gallery-hub-page-bleed";
+    if (document.getElementById(id)) return;
+    const style = document.createElement("style");
+    style.id = id;
+    style.textContent = `
+      html, body {
+        overflow-x: hidden !important;
+      }
+      gallery-hub {
+        display: block !important;
+        box-sizing: border-box !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      #SITE_PAGES,
+      #PAGES_CONTAINER,
+      #SITE_FOOTER,
+      #masterPage {
+        overflow: visible !important;
+        overflow-x: visible !important;
+        max-width: none !important;
+      }
+      #SITE_FOOTER {
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        padding-bottom: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+        box-sizing: border-box !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  _viewportWidth() {
+    return document.documentElement.clientWidth || window.innerWidth || 0;
+  }
+
+  _forceFullBleed() {
+    try {
+      this._injectPageBleedCss();
+
+      this.style.removeProperty("left");
+      this.style.removeProperty("right");
+      this.style.removeProperty("transform");
+
+      const vw = this._viewportWidth();
+      if (!vw) return;
+
+      this.setAttribute("data-fullbleed", "1");
+      this.style.setProperty("position", "relative", "important");
+      this.style.setProperty("left", "0", "important");
+      this.style.setProperty("width", `${vw}px`, "important");
+      this.style.setProperty("max-width", `${vw}px`, "important");
+      this.style.setProperty("min-width", `${vw}px`, "important");
+      this.style.setProperty("margin-left", `calc(50% - ${vw / 2}px)`, "important");
+      this.style.setProperty("margin-right", "0", "important");
+      this.style.setProperty("padding", "0", "important");
+      this.style.setProperty("box-sizing", "border-box", "important");
+      this.style.setProperty("overflow-x", "visible", "important");
+      this.style.setProperty("border-radius", "0", "important");
+      this.style.setProperty("box-shadow", "none", "important");
+
+      let el = this.parentElement;
+      for (let i = 0; i < 8 && el; i++) {
+        const tag = (el.tagName || "").toLowerCase();
+        const id = el.id || "";
+        if (tag === "body" || tag === "html") break;
+        el.style.setProperty("overflow", "visible", "important");
+        el.style.setProperty("overflow-x", "visible", "important");
+        el.style.setProperty("max-width", "none", "important");
+        el.style.setProperty("width", "100%", "important");
+        el.style.setProperty("margin-left", "0", "important");
+        el.style.setProperty("margin-right", "0", "important");
+        el.style.setProperty("padding-left", "0", "important");
+        el.style.setProperty("padding-right", "0", "important");
+        el.style.setProperty("border-radius", "0", "important");
+        el.style.setProperty("left", "0", "important");
+        if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
+        el = el.parentElement;
+      }
+
+      const footer = document.getElementById("SITE_FOOTER");
+      if (footer) {
+        footer.style.setProperty("margin-top", "0", "important");
+        footer.style.setProperty("margin-left", "0", "important");
+        footer.style.setProperty("margin-right", "0", "important");
+        footer.style.setProperty("padding-left", "0", "important");
+        footer.style.setProperty("padding-right", "0", "important");
+        footer.style.setProperty("padding-bottom", "0", "important");
+        footer.style.setProperty("width", "100%", "important");
+        footer.style.setProperty("max-width", "none", "important");
+        footer.style.setProperty("box-sizing", "border-box", "important");
+        footer.style.removeProperty("left");
+        footer.style.removeProperty("right");
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  _observeHeight() {
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub) return;
+    if (this._ro) this._ro.disconnect();
+    this._ro = new ResizeObserver(this._syncLayout);
+    this._ro.observe(hub);
+    this._syncLayout();
+    requestAnimationFrame(this._syncLayout);
+    setTimeout(this._syncLayout, 300);
+    setTimeout(this._syncLayout, 1200);
+  }
+
+  _syncLayout() {
+    this._forceFullBleed();
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub) return;
+    const h = Math.ceil(hub.getBoundingClientRect().height);
+    if (h > 0) {
+      this.style.height = `${h}px`;
+      this.style.minHeight = `${h}px`;
+    }
   }
 
   _emitCta(type, href) {
@@ -1088,18 +1317,6 @@ class GalleryHub extends HTMLElement {
 
   _full(id) {
     return mediaFit(id, 1400, 1400);
-  }
-
-  _matchesFilter(item, filter) {
-    if (filter === "all") return true;
-    if (filter === "drawing-painting") {
-      return (
-        item.category === "drawing-painting" ||
-        item.category === "sketch" ||
-        item.category === "acrylic"
-      );
-    }
-    return item.category === filter;
   }
 
   _applyFilter(filter) {
@@ -1143,8 +1360,8 @@ class GalleryHub extends HTMLElement {
     const cat = this.shadowRoot.getElementById("lightboxCat");
     if (!lb || !img) return;
     img.src = this._full(item.imageId);
-    img.alt = item.altText;
-    if (cat) cat.textContent = CATEGORY_LABEL[item.category] || "";
+    img.alt = this.altFor(item);
+    if (cat) cat.textContent = this.categoryLabel(item.category);
     lb.classList.add("is-open");
     lb.setAttribute("aria-hidden", "false");
     document.documentElement.style.overflow = "hidden";
@@ -1204,7 +1421,7 @@ class GalleryHub extends HTMLElement {
     }
 
     if (action === "whatsapp") {
-      this._emitCta("whatsapp", this.waUrl);
+      this._emitCta("whatsapp", target.getAttribute("href") || this.waUrl);
       return;
     }
 
@@ -1221,14 +1438,16 @@ class GalleryHub extends HTMLElement {
         data-action="filter"
         data-filter="${c.id}"
         aria-pressed="${c.id === "all" ? "true" : "false"}"
-      >${c.label}</button>`
+      >${this.categoryLabel(c.id)}</button>`
     ).join("");
   }
 
   _artItemHtml(item, eager) {
     const thumb = this._thumb(item.imageId);
+    const alt = this.altFor(item);
     const loading = eager ? "eager" : "lazy";
     const fetchPriority = eager ? 'fetchpriority="high"' : "";
+    const viewLabel = this.isEn ? `View larger: ${alt}` : `放大查看：${alt}`;
     return `
       <div
         class="art-item"
@@ -1241,11 +1460,11 @@ class GalleryHub extends HTMLElement {
           class="art-card"
           data-action="open-art"
           data-art-id="${item.id}"
-          aria-label="放大查看：${item.altText}"
+          aria-label="${viewLabel}"
         >
           <img
             src="${thumb}"
-            alt="${item.altText}"
+            alt="${alt}"
             loading="${loading}"
             decoding="async"
             width="640"
@@ -1253,7 +1472,7 @@ class GalleryHub extends HTMLElement {
             ${fetchPriority}
           />
           <div class="art-meta">
-            <span class="art-cat">${CATEGORY_LABEL[item.category] || ""}</span>
+            <span class="art-cat">${this.categoryLabel(item.category)}</span>
           </div>
         </button>
       </div>`;
@@ -1268,11 +1487,11 @@ class GalleryHub extends HTMLElement {
   _courseCardsHtml() {
     return COURSE_CARDS.map(
       (c) => `
-      <a class="course-card" data-action="course" href="${c.href}">
+      <a class="course-card" data-action="course" href="${this.path(c.hrefSlug)}">
         <div class="course-media">
           <img
             src="${mediaFill(c.imageId, 400, 400)}"
-            alt="${c.imageAlt}"
+            alt="${this.pick(c.imageAlt)}"
             loading="lazy"
             decoding="async"
             width="400"
@@ -1280,9 +1499,9 @@ class GalleryHub extends HTMLElement {
           />
         </div>
         <div class="course-body">
-          <h3>${c.title}</h3>
-          <p>${c.desc}</p>
-          <span class="course-cta">${c.cta} →</span>
+          <h3>${this.pick(c.title)}</h3>
+          <p>${this.pick(c.desc)}</p>
+          <span class="course-cta">${this.pick(c.cta)} →</span>
         </div>
       </a>`
     ).join("");
@@ -1290,18 +1509,32 @@ class GalleryHub extends HTMLElement {
 
   _trustHtml() {
     return TRUST_POINTS.map(
-      (t) => `
+      (tp) => `
       <div class="trust-item">
-        <strong>${t.title}</strong>
-        <span>${t.desc}</span>
+        <strong>${this.pick(tp.title)}</strong>
+        <span>${this.pick(tp.desc)}</span>
       </div>`
     ).join("");
   }
 
   render() {
-    const waPrefill = this._waPrefill(
-      "你好，我想預約 HK$100 試堂／查詢美術課程安排。"
+    const t = (en, zh) => (this.isEn ? en : zh);
+    const courseHubUrl = this.path("/course-hub");
+    const trialUrl = this.path("/homantin-children-art-trial");
+
+    const waBook = this._waPrefill(
+      t(
+        "Hi, I'd like to book an HK$100 art trial class. Child's age: ____; drawing experience: ____; preferred times: ____.",
+        "你好，我想預約 HK$100 試堂。小朋友年齡：＿＿；繪畫經驗：＿＿；方便時間：＿＿。"
+      )
     );
+    const waEnquiry = this._waPrefill(
+      t(
+        "Hi, I'd like to ask about a suitable art course / HK$100 trial for my child. Child's age: ____; interests: ____.",
+        "你好，我想查詢適合小朋友的藝術課程／HK$100 試堂安排。小朋友年齡：＿＿；興趣：＿＿。"
+      )
+    );
+
     const heroImgs = ARTWORK.filter((a) => a.featured).slice(0, 3);
 
     this.shadowRoot.innerHTML = `
@@ -1311,15 +1544,18 @@ class GalleryHub extends HTMLElement {
           <div class="wrap">
             <div class="hero-grid">
               <div class="hero-copy">
-                <p class="hero-eyebrow">ICAcademy · 何文田</p>
-                <h1 id="hero-title">學員作品畫廊</h1>
-                <p class="hero-en">ICAcademy Student Artwork Gallery</p>
+                <p class="hero-eyebrow">${t("ICAcademy · Ho Man Tin", "ICAcademy · 何文田")}</p>
+                <h1 id="hero-title">${t("Student Artwork Gallery", "學員作品畫廊")}</h1>
+                <p class="hero-en">${t("學員作品畫廊", "Student Artwork Gallery")}</p>
                 <p class="hero-lead">
-                  每一幅作品，都記錄著孩子的創意、觀察力與藝術成長。探索 ICAcademy 學員於不同美術課程中的作品。
+                  ${t(
+                    "Every piece captures a child's creativity, observation and artistic growth. Explore student work across ICAcademy's art programmes.",
+                    "每一幅作品，都記錄著孩子的創意、觀察力與藝術成長。探索 ICAcademy 學員於不同美術課程中的作品。"
+                  )}
                 </p>
                 <div class="btn-row">
-                  <a class="btn btn-coral" data-action="hub" href="${COURSE_HUB_URL}">探索課程</a>
-                  <a class="btn btn-outline-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">HK$100 試堂</a>
+                  <a class="btn btn-coral" data-action="hub" href="${courseHubUrl}">${t("Explore courses", "探索課程")}</a>
+                  <a class="btn btn-outline-teal" data-action="whatsapp" href="${waBook}" target="_blank" rel="noopener noreferrer">${t("HK$100 Trial", "HK$100 試堂")}</a>
                 </div>
               </div>
               <div class="hero-collage" aria-hidden="true">
@@ -1345,7 +1581,7 @@ class GalleryHub extends HTMLElement {
 
         <div class="filters-sticky">
           <div class="wrap">
-            <div class="filters" role="group" aria-label="按課程類別篩選作品">
+            <div class="filters" role="group" aria-label="${t("Filter artwork by course category", "按課程類別篩選作品")}">
               ${this._filtersHtml()}
             </div>
           </div>
@@ -1353,21 +1589,33 @@ class GalleryHub extends HTMLElement {
 
         <section class="section" id="secGallery" aria-labelledby="gallery1-title" data-gallery-block>
           <div class="wrap">
-            <h2 class="section-title" id="gallery1-title">學員作品精選</h2>
-            <p class="section-lead">點擊作品可放大瀏覽。畫面比例已保留，避免過度裁切。</p>
+            <h2 class="section-title" id="gallery1-title">${t("Featured student artwork", "學員作品精選")}</h2>
+            <p class="section-lead">${t(
+              "Tap any piece to view larger. Original aspect ratios are preserved — no aggressive cropping.",
+              "點擊作品可放大瀏覽。畫面比例已保留，避免過度裁切。"
+            )}</p>
             <div class="masonry" data-gallery-grid>
               ${this._galleryHtml(1)}
             </div>
           </div>
         </section>
         <div class="wrap">
-          <p class="gallery-empty" data-gallery-empty>此類別暫未顯示作品，請選擇其他篩選。</p>
+          <p class="gallery-empty" data-gallery-empty>${t(
+            "No artwork in this category yet. Try another filter.",
+            "此類別暫未顯示作品，請選擇其他篩選。"
+          )}</p>
         </div>
 
         <section class="section section-soft" aria-labelledby="courses-title">
           <div class="wrap">
-            <h2 class="section-title" id="courses-title">喜歡這些作品？探索相關美術課程</h2>
-            <p class="section-lead">按作品風格與興趣，前往對應課程專頁了解詳情。</p>
+            <h2 class="section-title" id="courses-title">${t(
+              "Love these pieces? Explore related art courses",
+              "喜歡這些作品？探索相關美術課程"
+            )}</h2>
+            <p class="section-lead">${t(
+              "Browse courses that match the style and interests shown in the gallery.",
+              "按作品風格與興趣，前往對應課程專頁了解詳情。"
+            )}</p>
             <div class="course-grid">
               ${this._courseCardsHtml()}
             </div>
@@ -1376,8 +1624,11 @@ class GalleryHub extends HTMLElement {
 
         <section class="section" aria-labelledby="gallery2-title" data-gallery-block>
           <div class="wrap">
-            <h2 class="section-title" id="gallery2-title">更多學員創作</h2>
-            <p class="section-lead">漫畫、黏土、素描與塑膠彩等不同媒介的學員作品。</p>
+            <h2 class="section-title" id="gallery2-title">${t("More student creations", "更多學員創作")}</h2>
+            <p class="section-lead">${t(
+              "Comics, clay, sketching, acrylic and other media from our students.",
+              "漫畫、黏土、素描與塑膠彩等不同媒介的學員作品。"
+            )}</p>
             <div class="masonry" data-gallery-grid>
               ${this._galleryHtml(2)}
             </div>
@@ -1386,9 +1637,15 @@ class GalleryHub extends HTMLElement {
 
         <section class="section section-soft" aria-labelledby="trust-title">
           <div class="wrap">
-            <h2 class="section-title" id="trust-title">不只是畫得漂亮，更重要是學懂觀察、創作與表達</h2>
+            <h2 class="section-title" id="trust-title">${t(
+              "More than pretty pictures — observation, creativity and expression",
+              "不只是畫得漂亮，更重要是學懂觀察、創作與表達"
+            )}</h2>
             <p class="section-lead">
-              ICAcademy 課程幫助學員在創作過程中建立觀察力、技巧與個人藝術表達。
+              ${t(
+                "ICAcademy courses help students build observation, technique and personal artistic voice through the creative process.",
+                "ICAcademy 課程幫助學員在創作過程中建立觀察力、技巧與個人藝術表達。"
+              )}
             </p>
             <div class="trust-grid">
               ${this._trustHtml()}
@@ -1396,18 +1653,24 @@ class GalleryHub extends HTMLElement {
           </div>
         </section>
 
-        <section class="section" aria-labelledby="trial-title">
+        <section class="section section-last" aria-labelledby="trial-title">
           <div class="wrap">
             <div class="trial">
-              <div class="trial-badge">先體驗，再決定</div>
-              <h2 id="trial-title">想親身體驗 ICAcademy 的美術課程？</h2>
+              <div class="trial-badge">${t("Try first, then decide", "先體驗，再決定")}</div>
+              <h2 id="trial-title">${t(
+                "Want to experience ICAcademy art classes in person?",
+                "想親身體驗 ICAcademy 的美術課程？"
+              )}</h2>
               <p>
-                由 HK$100 試堂開始，讓小朋友親身體驗課堂、認識導師及探索適合自己的藝術方向。
+                ${t(
+                  "Start with an HK$100 trial so your child can feel the class, meet the teacher and explore a suitable creative direction.",
+                  "由 HK$100 試堂開始，讓小朋友親身體驗課堂、認識導師及探索適合自己的藝術方向。"
+                )}
               </p>
-              <p class="trial-price">單次試堂<strong>HK$100</strong></p>
+              <p class="trial-price">${t("Single trial", "單次試堂")}<strong>HK$100</strong></p>
               <div class="btn-row">
-                <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">預約 HK$100 試堂</a>
-                <a class="btn btn-ghost" data-action="hub" href="${TRIAL_URL}">了解試堂詳情</a>
+                <a class="btn btn-teal" data-action="whatsapp" href="${waBook}" target="_blank" rel="noopener noreferrer">${t("Book HK$100 trial", "預約 HK$100 試堂")}</a>
+                <a class="btn btn-ghost" data-action="whatsapp" href="${waEnquiry}" target="_blank" rel="noopener noreferrer">${t("WhatsApp enquiry", "WhatsApp 查詢")}</a>
               </div>
             </div>
           </div>
@@ -1420,7 +1683,7 @@ class GalleryHub extends HTMLElement {
         role="dialog"
         aria-modal="true"
         aria-hidden="true"
-        aria-label="作品放大檢視"
+        aria-label="${t("Enlarged artwork view", "作品放大檢視")}"
       >
         <div class="lightbox-dialog">
           <button
@@ -1428,7 +1691,7 @@ class GalleryHub extends HTMLElement {
             class="lightbox-close"
             id="lightboxClose"
             data-action="close-lightbox"
-            aria-label="關閉"
+            aria-label="${t("Close", "關閉")}"
           >×</button>
           <div class="lightbox-img-wrap">
             <img id="lightboxImg" src="" alt="" />
@@ -1441,6 +1704,7 @@ class GalleryHub extends HTMLElement {
     `;
 
     this._applyFilter(this._filter || "all");
+    this._observeHeight();
   }
 }
 
