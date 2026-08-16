@@ -1,15 +1,15 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-16-v11 (paint hero first; CSS full-bleed; no layout reads on load)
+ * Version: 2026-08-16-v12 (no 100vw breakout — it shifted the Wix page right)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 
 /** Build a Wix Media Manager fill URL from a site media file id. */
-function mediaUrl(id, w, h) {
-  return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_85,enc_auto/${id}`;
+function mediaUrl(id, w, h, q = 70) {
+  return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
 }
 
 /**
@@ -17,24 +17,24 @@ function mediaUrl(id, w, h) {
  * (already used on /zh course pages, home, gallery).
  */
 const IMG = {
-  heroSm: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 800, 500),
-  hero: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1200, 750),
-  heroLg: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1600, 1000),
-  prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 800, 600),
-  foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 600),
-  creativeI: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 800, 600),
-  creativeII: mediaUrl("b98cc9_66611472f2134e0fa854d2914e4ae347~mv2.jpg", 800, 600),
-  creativeIII: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 800, 600),
-  comic: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 800, 600),
-  sketch: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 800, 600),
-  clay: mediaUrl("b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg", 800, 600),
-  visualArt: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 800, 600),
-  acrylic: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 800, 600),
-  gallery1: mediaUrl("b98cc9_49cb0c61e7664eaca996580443195ec9~mv2.jpeg", 800, 800),
-  gallery2: mediaUrl("4ea940_5867e3daf35f4f969495afa34a05f1a3~mv2.jpg", 800, 800),
-  gallery3: mediaUrl("b98cc9_9605c850cf4b47daafd611bb1215e1fd~mv2.jpeg", 800, 800),
-  gallery4: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 800, 800),
-  detail: mediaUrl("b98cc9_0d50c3e155ba4c4e92046d937a5c0c43~mv2.jpg", 800, 1000),
+  heroSm: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 640, 400, 70),
+  hero: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 960, 600, 75),
+  heroLg: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1280, 800, 75),
+  prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 640, 400, 70),
+  foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 640, 400, 70),
+  creativeI: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 640, 400, 70),
+  creativeII: mediaUrl("b98cc9_66611472f2134e0fa854d2914e4ae347~mv2.jpg", 640, 400, 70),
+  creativeIII: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 640, 400, 70),
+  comic: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 640, 400, 70),
+  sketch: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 640, 400, 70),
+  clay: mediaUrl("b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg", 640, 400, 70),
+  visualArt: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 640, 400, 70),
+  acrylic: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 640, 400, 70),
+  gallery1: mediaUrl("b98cc9_49cb0c61e7664eaca996580443195ec9~mv2.jpeg", 480, 480, 70),
+  gallery2: mediaUrl("4ea940_5867e3daf35f4f969495afa34a05f1a3~mv2.jpg", 480, 480, 70),
+  gallery3: mediaUrl("b98cc9_9605c850cf4b47daafd611bb1215e1fd~mv2.jpeg", 480, 480, 70),
+  gallery4: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 480, 480, 70),
+  detail: mediaUrl("b98cc9_0d50c3e155ba4c4e92046d937a5c0c43~mv2.jpg", 640, 800, 70),
 };
 
 (function preloadHeroLcp() {
@@ -347,12 +347,11 @@ const APPROACH = [
 const STYLES = `
 :host {
   display: block;
-  width: 100vw !important;
-  max-width: 100vw !important;
+  width: 100% !important;
+  max-width: 100% !important;
   min-width: 0;
   min-height: 1px;
   margin: 0;
-  margin-left: calc(50% - 50vw) !important;
   padding: 0;
   box-sizing: border-box;
   position: relative;
@@ -382,10 +381,9 @@ const STYLES = `
   overflow-x: visible;
 }
 :host([data-fullbleed="1"]) {
-  margin-top: 0 !important;
-  margin-right: 0 !important;
-  margin-bottom: 0 !important;
-  margin-left: calc(50% - 50vw) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
@@ -971,17 +969,13 @@ class CoursesHub extends HTMLElement {
       courses-hub {
         display: block !important;
         box-sizing: border-box !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
         padding: 0 !important;
+        left: auto !important;
         border-radius: 0 !important;
         box-shadow: none !important;
-      }
-      #SITE_PAGES,
-      #PAGES_CONTAINER,
-      #SITE_FOOTER,
-      #masterPage {
-        overflow: visible !important;
-        overflow-x: visible !important;
-        max-width: none !important;
       }
       #SITE_PAGES,
       #PAGES_CONTAINER,
@@ -989,17 +983,6 @@ class CoursesHub extends HTMLElement {
         min-height: 0 !important;
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
-      }
-      #SITE_FOOTER {
-        margin-top: 0 !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        padding-bottom: 0 !important;
-        width: 100% !important;
-        max-width: none !important;
-        box-sizing: border-box !important;
       }
     `;
     document.head.appendChild(style);
@@ -1060,35 +1043,17 @@ class CoursesHub extends HTMLElement {
     try {
       this._injectPageBleedCss();
       this.setAttribute("data-fullbleed", "1");
+      this.style.removeProperty("left");
+      this.style.removeProperty("right");
+      this.style.removeProperty("transform");
+      this.style.removeProperty("min-width");
       this.style.setProperty("position", "relative", "important");
-      this.style.setProperty("width", "100vw", "important");
-      this.style.setProperty("max-width", "100vw", "important");
-      this.style.setProperty("margin-left", "calc(50% - 50vw)", "important");
-      this.style.setProperty("margin-right", "0", "important");
+      this.style.setProperty("width", "100%", "important");
+      this.style.setProperty("max-width", "100%", "important");
+      this.style.setProperty("margin", "0", "important");
       this.style.setProperty("padding", "0", "important");
       this.style.setProperty("border-radius", "0", "important");
       this.style.setProperty("box-shadow", "none", "important");
-
-      let el = this.parentElement;
-      for (let i = 0; i < 8 && el; i++) {
-        const tag = (el.tagName || "").toLowerCase();
-        const id = el.id || "";
-        if (tag === "body" || tag === "html") break;
-        el.style.setProperty("overflow", "visible", "important");
-        el.style.setProperty("overflow-x", "visible", "important");
-        el.style.setProperty("max-width", "none", "important");
-        el.style.setProperty("width", "100%", "important");
-        el.style.setProperty("padding-left", "0", "important");
-        el.style.setProperty("padding-right", "0", "important");
-        if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
-        el = el.parentElement;
-      }
-
-      const footer = document.getElementById("SITE_FOOTER");
-      if (footer) {
-        footer.style.setProperty("margin-top", "0", "important");
-        footer.style.setProperty("width", "100%", "important");
-      }
     } catch (e) {
       // ignore
     }
