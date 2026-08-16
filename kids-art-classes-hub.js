@@ -1,7 +1,7 @@
 /**
  * ICAcademy Kids Art Classes — course landing (not a hub)
  * Tag name: kids-art-classes-hub (keep for Editor / CDN)
- * Version: 2026-08-16-v2
+ * Version: 2026-08-16-v3 (full-width bleed + new kids hero)
  *
  * This page is the Ho Man Tin Kids Art Classes course landing.
  * The Kids Art silo hub is /course/kids-art (yo1yl).
@@ -17,7 +17,7 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  hero: mediaUrl("b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg", 1600, 1000),
+  hero: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 1600, 1000),
   prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 640, 400, 70),
   foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 640, 400, 70),
   creativeI: mediaUrl("b98cc9_9c6e5138d1fa40a7815d12218f642440~mv2.jpg", 640, 400, 70),
@@ -329,12 +329,14 @@ const RELATED = [
 const STYLES = `
 :host {
   display: block;
-  width: 100%;
-  max-width: none;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0;
   min-height: 1px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  position: relative;
   --bg: #ffffff;
   --bg-soft: #f4f8f9;
   --surface: #ffffff;
@@ -358,12 +360,19 @@ const STYLES = `
   line-height: 1.7;
   font-size: 16px;
   background: var(--bg);
-  overflow-x: clip;
+  overflow-x: visible;
+}
+:host([data-fullbleed="1"]) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 *, *::before, *::after { box-sizing: border-box; }
 a { color: inherit; }
 img { max-width: 100%; display: block; }
-.hub { width: 100%; max-width: none; margin: 0; padding: 0; }
+.hub { width: 100%; max-width: 100%; min-width: 0; margin: 0; padding: 0; overflow-x: visible; }
 .wrap { width: min(1200px, calc(100% - 48px)); max-width: 1200px; margin: 0 auto; }
 .section { padding: 64px 0; background: var(--bg); width: 100%; }
 .section-soft { background: var(--bg-soft); }
@@ -409,12 +418,12 @@ h3 { font-size: 1.12rem; }
 .btn-ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
 
 .hero {
-  position: relative; width: 100%; min-height: clamp(460px, 58vw, 620px);
+  position: relative; width: 100%; max-width: 100%; min-height: clamp(460px, 58vw, 620px);
   display: flex; align-items: center; overflow: hidden; background: #f3f3f3;
 }
 .hero-bg {
   position: absolute; inset: 0;
-  background-image: var(--hero-img); background-size: cover; background-position: 68% center;
+  background-image: var(--hero-img); background-size: cover; background-position: center 30%;
 }
 .hero-bg::after {
   content: ""; position: absolute; inset: 0;
@@ -596,6 +605,7 @@ class KidsArtClassesHub extends HTMLElement {
     this._filter = "all";
     this._onClick = this._onClick.bind(this);
     this._syncHeight = this._syncHeight.bind(this);
+    this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
     this._ro = null;
   }
 
@@ -613,11 +623,14 @@ class KidsArtClassesHub extends HTMLElement {
     setTimeout(syncLocale, 500);
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._syncHeight);
+    window.addEventListener("resize", this._applyFullBleedCss);
+    this._applyFullBleedCss();
   }
 
   disconnectedCallback() {
     this.shadowRoot.removeEventListener("click", this._onClick);
     window.removeEventListener("resize", this._syncHeight);
+    window.removeEventListener("resize", this._applyFullBleedCss);
     if (this._ro) {
       this._ro.disconnect();
       this._ro = null;
@@ -683,15 +696,58 @@ class KidsArtClassesHub extends HTMLElement {
         max-width: none !important;
         margin: 0 !important;
         padding: 0 !important;
+        left: auto !important;
         border-radius: 0 !important;
         box-shadow: none !important;
       }
-      #SITE_PAGES, #PAGES_CONTAINER, .wixui-page {
+      #SITE_PAGES,
+      #PAGES_CONTAINER,
+      .wixui-page {
         min-height: 0 !important;
         padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
       }
     `;
     document.head.appendChild(style);
+  }
+
+  _applyFullBleedCss() {
+    try {
+      this._injectPageBleedCss();
+      this.setAttribute("data-fullbleed", "1");
+      this.style.removeProperty("left");
+      this.style.removeProperty("right");
+      this.style.removeProperty("transform");
+      this.style.removeProperty("min-width");
+      this.style.setProperty("position", "relative", "important");
+      this.style.setProperty("width", "100%", "important");
+      this.style.setProperty("max-width", "none", "important");
+      this.style.setProperty("margin", "0", "important");
+      this.style.setProperty("padding", "0", "important");
+      this.style.setProperty("border-radius", "0", "important");
+      this.style.setProperty("box-shadow", "none", "important");
+
+      const pages = document.getElementById("SITE_PAGES") || document.getElementById("PAGES_CONTAINER");
+      let el = this.parentElement;
+      for (let i = 0; i < 12 && el; i++) {
+        const tag = (el.tagName || "").toLowerCase();
+        const id = el.id || "";
+        if (tag === "body" || tag === "html" || id === "masterPage" || id === "SITE_HEADER") break;
+        el.style.setProperty("width", "100%", "important");
+        el.style.setProperty("max-width", "none", "important");
+        el.style.setProperty("margin-left", "0", "important");
+        el.style.setProperty("margin-right", "0", "important");
+        el.style.setProperty("padding-left", "0", "important");
+        el.style.setProperty("padding-right", "0", "important");
+        el.style.setProperty("left", "0", "important");
+        if (el === pages || id === "SITE_PAGES" || id === "PAGES_CONTAINER") break;
+        el = el.parentElement;
+      }
+    } catch (e) {
+      // ignore
+    }
   }
 
   _observeHeight() {
@@ -824,7 +880,7 @@ class KidsArtClassesHub extends HTMLElement {
 
   render() {
     const t = (en, zh) => (this.isEn ? en : zh);
-    this._injectPageBleedCss();
+    this._applyFullBleedCss();
 
     const courseHubUrl = this.path("/course-hub");
     const siloUrl = this.path("/course/kids-art");
@@ -1039,6 +1095,7 @@ class KidsArtClassesHub extends HTMLElement {
     `;
 
     this._applyFilter(this._filter || "all");
+    this._applyFullBleedCss();
     this._observeHeight();
   }
 }
