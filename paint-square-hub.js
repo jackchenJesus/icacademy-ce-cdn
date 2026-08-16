@@ -1,7 +1,7 @@
 /**
  * ICAcademy Adult Painting Course Paint Square — course landing (not a hub)
  * Tag name: paint-square-hub
- * Version: 2026-08-16-v3 (hero uses Paint Square cover painting)
+ * Version: 2026-08-16-v4 (breadcrumb silo → /course/drawing-and-painting)
  *
  * Parent silo hub: Drawing & Painting
  * Canonical:
@@ -234,7 +234,7 @@ const RELATED = [
   {
     title: { en: "Drawing & Painting", zh: "繪畫及素描" },
     desc: { en: "Compare sketching, acrylic and mixed-media courses", zh: "比較素描、塑膠彩及綜合美術課程" },
-    hrefSlug: "/courses/art-drawing",
+    hrefSlug: "/course/drawing-and-painting",
   },
 ];
 
@@ -688,7 +688,7 @@ class PaintSquareHub extends HTMLElement {
     this._applyFullBleedCss();
 
     const courseHubUrl = this.path("/course-hub");
-    const siloUrl = this.path("/courses/art-drawing");
+    const siloUrl = this.path("/course/drawing-and-painting");
     const trialUrl = this.path("/homantin-children-art-trial");
     const galleryUrl = this.isEn
       ? "https://www.icacademy.com.hk/studentartwork"
