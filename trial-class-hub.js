@@ -1,7 +1,7 @@
 /**
  * ICAcademy Trial Class Landing – Custom Element
  * Tag name: trial-class-hub
- * Version: 2026-08-16-v6 (force ZH when /zh URL or html lang=zh)
+ * Version: 2026-08-16-v7 (CTA/footer edge-to-edge + gallery URL)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Routes: /homantin-children-art-trial (EN) | /zh/homantin-children-art-trial (ZH)
  *
@@ -509,7 +509,7 @@ img { max-width: 100%; height: auto; display: block; }
   max-width: 100%;
   min-width: 0;
   margin: 0;
-  padding: 0 0 72px;
+  padding: 0;
   overflow-x: clip;
 }
 .wrap {
@@ -967,9 +967,11 @@ h3 { font-size: 1.12rem; }
   text-align: center;
   padding: 64px 20px;
   width: 100%;
+  max-width: none;
   margin: 0;
   border: 0;
   border-radius: 0;
+  box-sizing: border-box;
 }
 .final h2 {
   color: #fff;
@@ -1244,6 +1246,8 @@ class TrialClassHub extends HTMLElement {
       this._ro.disconnect();
       this._ro = null;
     }
+    const bleed = document.getElementById("trial-class-hub-page-bleed");
+    if (bleed) bleed.remove();
   }
 
   attributeChangedCallback() {
@@ -1294,9 +1298,53 @@ class TrialClassHub extends HTMLElement {
   /**
    * Escape narrow Wix Editor containers (rounded cards / padded strips)
    * that otherwise leave large gutters and clip content on mobile.
+   * Also zero page/footer gutters so CTA + site footer sit edge-to-edge.
    */
+  _injectPageBleedCss() {
+    const id = "trial-class-hub-page-bleed";
+    if (document.getElementById(id)) return;
+    const style = document.createElement("style");
+    style.id = id;
+    style.textContent = `
+      trial-class-hub {
+        display: block !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      #SITE_PAGES,
+      #PAGES_CONTAINER,
+      #SITE_FOOTER,
+      #masterPage {
+        overflow-x: clip !important;
+      }
+      #SITE_FOOTER {
+        margin: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        padding-bottom: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+        box-sizing: border-box !important;
+      }
+      #SITE_FOOTER > * {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        max-width: 100% !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   _forceFullBleed() {
     try {
+      this._injectPageBleedCss();
+
       this.style.removeProperty("left");
       this.style.removeProperty("width");
       this.style.removeProperty("max-width");
@@ -1308,7 +1356,7 @@ class TrialClassHub extends HTMLElement {
       if (!vw) return;
 
       const rect = this.getBoundingClientRect();
-      const needsBreakout = rect.width < vw - 6 || Math.abs(rect.left) > 2;
+      const needsBreakout = rect.width < vw - 2 || Math.abs(rect.left) > 1 || Math.abs(vw - (rect.left + rect.width)) > 1;
 
       if (!needsBreakout) {
         this.removeAttribute("data-fullbleed");
@@ -1316,30 +1364,52 @@ class TrialClassHub extends HTMLElement {
         this.style.setProperty("max-width", "100%", "important");
         this.style.setProperty("position", "relative", "important");
         this.style.setProperty("left", "0", "important");
-        return;
+        this.style.setProperty("margin", "0", "important");
+        this.style.setProperty("padding", "0", "important");
+        this.style.setProperty("border-radius", "0", "important");
+      } else {
+        this.setAttribute("data-fullbleed", "1");
+        this.style.setProperty("position", "relative", "important");
+        this.style.setProperty("left", `${-rect.left}px`, "important");
+        this.style.setProperty("width", `${vw}px`, "important");
+        this.style.setProperty("max-width", `${vw}px`, "important");
+        this.style.setProperty("min-width", `${vw}px`, "important");
+        this.style.setProperty("margin-left", "0", "important");
+        this.style.setProperty("margin-right", "0", "important");
+        this.style.setProperty("box-sizing", "border-box", "important");
+        this.style.setProperty("overflow-x", "clip", "important");
+        this.style.setProperty("border-radius", "0", "important");
+        this.style.setProperty("box-shadow", "none", "important");
       }
 
-      this.setAttribute("data-fullbleed", "1");
-      this.style.setProperty("position", "relative", "important");
-      this.style.setProperty("left", `${-rect.left}px`, "important");
-      this.style.setProperty("width", `${vw}px`, "important");
-      this.style.setProperty("max-width", `${vw}px`, "important");
-      this.style.setProperty("min-width", `${vw}px`, "important");
-      this.style.setProperty("margin-left", "0", "important");
-      this.style.setProperty("margin-right", "0", "important");
-      this.style.setProperty("box-sizing", "border-box", "important");
-      this.style.setProperty("overflow-x", "clip", "important");
-      this.style.setProperty("border-radius", "0", "important");
-      this.style.setProperty("box-shadow", "none", "important");
-
-      // Soften immediate wrappers so rounded Editor cards don't clip the hub
+      // Soften immediate wrappers so padded Editor cards don't leave white gutters
       let el = this.parentElement;
-      for (let i = 0; i < 5 && el; i++) {
+      for (let i = 0; i < 8 && el; i++) {
         const tag = (el.tagName || "").toLowerCase();
-        if (tag === "body" || tag === "html" || tag === "main") break;
+        if (tag === "body" || tag === "html") break;
         el.style.setProperty("overflow", "visible", "important");
+        el.style.setProperty("overflow-x", "clip", "important");
         el.style.setProperty("max-width", "100%", "important");
+        el.style.setProperty("margin-left", "0", "important");
+        el.style.setProperty("margin-right", "0", "important");
+        el.style.setProperty("padding-left", "0", "important");
+        el.style.setProperty("padding-right", "0", "important");
+        el.style.setProperty("border-radius", "0", "important");
+        if (tag === "main" || (el.id || "") === "SITE_PAGES" || (el.id || "") === "PAGES_CONTAINER") break;
         el = el.parentElement;
+      }
+
+      // Pull site footer flush under the teal CTA (no white page strip)
+      const footer = document.getElementById("SITE_FOOTER");
+      if (footer) {
+        footer.style.setProperty("margin", "0", "important");
+        footer.style.setProperty("padding-left", "0", "important");
+        footer.style.setProperty("padding-right", "0", "important");
+        footer.style.setProperty("padding-bottom", "0", "important");
+        footer.style.setProperty("width", "100%", "important");
+        footer.style.setProperty("max-width", "100%", "important");
+        footer.style.setProperty("left", "0", "important");
+        footer.style.setProperty("box-sizing", "border-box", "important");
       }
     } catch (e) {
       // ignore
@@ -1553,7 +1623,10 @@ class TrialClassHub extends HTMLElement {
     const courseHubUrl = this.path("/course-hub");
     const kidsArtUrl = this.path("/course/kids-art");
     const drawingUrl = this.path("/courses/art-drawing");
-    const galleryUrl = this.path("/gallery");
+    // Live gallery slug (EN); Multilingual ZH mirrors the same slug under /zh/
+    const galleryUrl = this.isEn
+      ? "https://www.icacademy.com.hk/studentartworkgallery"
+      : "https://www.icacademy.com.hk/zh/studentartworkgallery";
 
     const waPrefill = this._waPrefill(
       t(
