@@ -1,9 +1,9 @@
 /**
  * ICAcademy Student Artwork Gallery Hub – Custom Element
  * Tag name: gallery-hub
- * Version: 2026-08-16-v5 (fix EN locale: trust URL + locale attr over html lang)
+ * Version: 2026-08-16-v6 (canonical routes /studentartwork + EN locale fix)
  * Design system: matches courses-hub / kids-art-hub / drawing-painting-hub / trial-class-hub
- * Routes: /gallery (EN) | /zh/gallery (ZH)
+ * Routes: /studentartwork (EN) | /zh/studentartwork (ZH)
  * Locale via attribute: locale="en" | "zh" (default en = site primary).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
