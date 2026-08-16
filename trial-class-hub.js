@@ -1,7 +1,7 @@
 /**
  * ICAcademy Trial Class Landing – Custom Element
  * Tag name: trial-class-hub
- * Version: 2026-08-16-v5 (EN/ZH Multilingual + URL /zh detection for published sites)
+ * Version: 2026-08-16-v6 (force ZH when /zh URL or html lang=zh)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Routes: /homantin-children-art-trial (EN) | /zh/homantin-children-art-trial (ZH)
  *
@@ -1218,6 +1218,17 @@ class TrialClassHub extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    const syncLocale = () => {
+      try {
+        if (this.localeCode === "zh") {
+          const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
+          if (h1 && /Art Trial Class/i.test(h1.textContent || "")) this.render();
+        }
+      } catch (e) {}
+    };
+    setTimeout(syncLocale, 0);
+    setTimeout(syncLocale, 500);
+
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._syncLayout);
     window.addEventListener("scroll", this._onScroll, { passive: true });
@@ -1245,20 +1256,24 @@ class TrialClassHub extends HTMLElement {
 
   get localeCode() {
     try {
-      const path = (window.location && window.location.pathname) || "";
-      if (/(^|\/)zh(\/|$)/i.test(path)) return "zh";
-    } catch (e) {
-      // ignore
-    }
-    const attr = (this.getAttribute("locale") || "").toLowerCase();
+      const href = String((window.location && (window.location.href || window.location.pathname)) || "");
+      if (/\/zh(\/|$|\?|#)/i.test(href)) return "zh";
+    } catch (e) {}
+    try {
+      const lang = String(
+        (document.documentElement && (document.documentElement.getAttribute("lang") || document.documentElement.lang)) || ""
+      ).toLowerCase();
+      if (lang.startsWith("zh")) return "zh";
+    } catch (e) {}
+    try {
+      const htmlHead = (document.documentElement && document.documentElement.innerHTML)
+        ? document.documentElement.innerHTML.slice(0, 120000)
+        : "";
+      if (/userLanguage"\s*:\s*"zh"/i.test(htmlHead)) return "zh";
+    } catch (e) {}
+    const attr = String(this.getAttribute("locale") || "").toLowerCase();
     if (attr.startsWith("zh")) return "zh";
     if (attr.startsWith("en")) return "en";
-    try {
-      const htmlLang = (document.documentElement && document.documentElement.lang) || "";
-      if (htmlLang.toLowerCase().startsWith("zh")) return "zh";
-    } catch (e) {
-      // ignore
-    }
     return "en";
   }
 
