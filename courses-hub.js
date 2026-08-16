@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-16-v9 (full-bleed + collapse CTA/footer white gap)
+ * Version: 2026-08-16-v10 (LCP hero img + fewer forced reflows)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -17,7 +17,9 @@ function mediaUrl(id, w, h) {
  * (already used on /zh course pages, home, gallery).
  */
 const IMG = {
-  hero: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1600, 1000),
+  heroSm: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 800, 500),
+  hero: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1200, 750),
+  heroLg: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1600, 1000),
   prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 800, 600),
   foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 600),
   creativeI: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 800, 600),
@@ -34,6 +36,23 @@ const IMG = {
   gallery4: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 800, 800),
   detail: mediaUrl("b98cc9_0d50c3e155ba4c4e92046d937a5c0c43~mv2.jpg", 800, 1000),
 };
+
+(function preloadHeroLcp() {
+  try {
+    if (document.querySelector("link[data-courses-hero-preload]")) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = IMG.hero;
+    link.setAttribute("fetchpriority", "high");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
+    link.setAttribute("imagesizes", "100vw");
+    link.setAttribute("data-courses-hero-preload", "1");
+    document.head.appendChild(link);
+  } catch (e) {
+    // ignore
+  }
+})();
 
 /** Verified course catalogue (names / ages / URLs audited 2026-08) */
 const COURSES = [
@@ -456,9 +475,13 @@ h3 { font-size: 1.12rem; }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: var(--hero-img);
-  background-size: cover;
-  background-position: 68% center;
+  overflow: hidden;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 68% center;
   filter: grayscale(0.05);
 }
 .hero-bg::after {
@@ -838,6 +861,10 @@ class CoursesHub extends HTMLElement {
     this._onKeydown = this._onKeydown.bind(this);
     this._syncLayout = this._syncLayout.bind(this);
     this._ro = null;
+    this._layoutRaf = 0;
+    this._lastHeight = 0;
+    this._lastVw = 0;
+    this._collapsedOnce = false;
   }
 
   connectedCallback() {
@@ -867,6 +894,10 @@ class CoursesHub extends HTMLElement {
     if (this._ro) {
       this._ro.disconnect();
       this._ro = null;
+    }
+    if (this._layoutRaf) {
+      cancelAnimationFrame(this._layoutRaf);
+      this._layoutRaf = 0;
     }
     const bleed = document.getElementById("courses-hub-page-bleed");
     if (bleed) bleed.remove();
@@ -969,10 +1000,12 @@ class CoursesHub extends HTMLElement {
   }
 
   _viewportWidth() {
-    return document.documentElement.clientWidth || window.innerWidth || 0;
+    return window.innerWidth || 0;
   }
 
   _collapseTrailingGap() {
+    if (this._collapsedOnce) return;
+    this._collapsedOnce = true;
     try {
       let el = this.parentElement;
       for (let i = 0; i < 10 && el; i++) {
@@ -995,20 +1028,23 @@ class CoursesHub extends HTMLElement {
       }
       if (!node || node.parentElement !== pages) return;
 
+      const hide = [];
       let sib = node.nextElementSibling;
       while (sib && sib !== footer) {
-        const next = sib.nextElementSibling;
-        const h = sib.getBoundingClientRect().height;
-        const text = (sib.textContent || "").replace(/\s+/g, "");
-        if (h < 48 && text.length < 8) {
-          sib.style.setProperty("display", "none", "important");
-          sib.style.setProperty("height", "0", "important");
-          sib.style.setProperty("min-height", "0", "important");
-          sib.style.setProperty("margin", "0", "important");
-          sib.style.setProperty("padding", "0", "important");
-        }
-        sib = next;
+        hide.push(sib);
+        sib = sib.nextElementSibling;
       }
+      const heights = hide.map((n) => n.getBoundingClientRect().height);
+      hide.forEach((n, i) => {
+        const text = (n.textContent || "").replace(/\s+/g, "");
+        if (heights[i] < 48 && text.length < 8) {
+          n.style.setProperty("display", "none", "important");
+          n.style.setProperty("height", "0", "important");
+          n.style.setProperty("min-height", "0", "important");
+          n.style.setProperty("margin", "0", "important");
+          n.style.setProperty("padding", "0", "important");
+        }
+      });
     } catch (e) {
       // ignore
     }
@@ -1018,12 +1054,12 @@ class CoursesHub extends HTMLElement {
     try {
       this._injectPageBleedCss();
 
-      this.style.removeProperty("left");
-      this.style.removeProperty("right");
-      this.style.removeProperty("transform");
-
       const vw = this._viewportWidth();
       if (!vw) return;
+      if (vw === this._lastVw && this.getAttribute("data-fullbleed") === "1") {
+        return;
+      }
+      this._lastVw = vw;
 
       this.setAttribute("data-fullbleed", "1");
       this.style.setProperty("position", "relative", "important");
@@ -1069,11 +1105,7 @@ class CoursesHub extends HTMLElement {
         footer.style.setProperty("width", "100%", "important");
         footer.style.setProperty("max-width", "none", "important");
         footer.style.setProperty("box-sizing", "border-box", "important");
-        footer.style.removeProperty("left");
-        footer.style.removeProperty("right");
       }
-
-      this._collapseTrailingGap();
     } catch (e) {
       // ignore
     }
@@ -1083,23 +1115,28 @@ class CoursesHub extends HTMLElement {
     const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
     if (!hub) return;
     if (this._ro) this._ro.disconnect();
-    this._ro = new ResizeObserver(this._syncLayout);
+    this._ro = new ResizeObserver(() => this._syncLayout());
     this._ro.observe(hub);
     this._syncLayout();
-    requestAnimationFrame(this._syncLayout);
-    setTimeout(this._syncLayout, 300);
-    setTimeout(this._syncLayout, 1200);
   }
 
   _syncLayout() {
-    this._forceFullBleed();
-    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
-    if (!hub) return;
-    const h = Math.ceil(hub.getBoundingClientRect().height);
-    if (h > 0) {
-      this.style.height = `${h}px`;
-      this.style.minHeight = `${h}px`;
-    }
+    if (this._layoutRaf) return;
+    this._layoutRaf = requestAnimationFrame(() => {
+      this._layoutRaf = 0;
+      this._forceFullBleed();
+      requestAnimationFrame(() => {
+        const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+        if (!hub) return;
+        const h = Math.ceil(hub.getBoundingClientRect().height);
+        if (h > 0 && h !== this._lastHeight) {
+          this._lastHeight = h;
+          this.style.height = `${h}px`;
+          this.style.minHeight = `${h}px`;
+        }
+        this._collapseTrailingGap();
+      });
+    });
   }
 
   _emitCta(type, href) {
@@ -1286,8 +1323,19 @@ class CoursesHub extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
       <div class="hub">
-        <section class="hero" aria-labelledby="hero-title" style="--hero-img:url('${IMG.hero}')">
-          <div class="hero-bg" aria-hidden="true"></div>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-bg" aria-hidden="true">
+            <img
+              src="${IMG.hero}"
+              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
+              sizes="100vw"
+              width="1200"
+              height="750"
+              alt=""
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
           <div class="wrap">
             <div class="hero-copy">
               <p class="hero-eyebrow">${t("Ho Man Tin • Near Pui Ching • Small-group art", "何文田 • 培正附近 • 小班藝術教學")}</p>
@@ -1427,6 +1475,8 @@ class CoursesHub extends HTMLElement {
       </div>
     `;
 
+    this._lastHeight = 0;
+    this._lastVw = 0;
     this._applyFilter(this._filter || "all");
     this._observeHeight();
   }
