@@ -1,7 +1,7 @@
 /**
  * ICAcademy Trial Class Landing – Custom Element
  * Tag name: trial-class-hub
- * Version: 2026-08-16-v4 (EN/ZH Multilingual)
+ * Version: 2026-08-16-v5 (EN/ZH Multilingual + URL /zh detection for published sites)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Routes: /homantin-children-art-trial (EN) | /zh/homantin-children-art-trial (ZH)
  *
@@ -1243,8 +1243,27 @@ class TrialClassHub extends HTMLElement {
     return this.getAttribute("wa-url") || WA_DEFAULT;
   }
 
+  get localeCode() {
+    try {
+      const path = (window.location && window.location.pathname) || "";
+      if (/(^|\/)zh(\/|$)/i.test(path)) return "zh";
+    } catch (e) {
+      // ignore
+    }
+    const attr = (this.getAttribute("locale") || "").toLowerCase();
+    if (attr.startsWith("zh")) return "zh";
+    if (attr.startsWith("en")) return "en";
+    try {
+      const htmlLang = (document.documentElement && document.documentElement.lang) || "";
+      if (htmlLang.toLowerCase().startsWith("zh")) return "zh";
+    } catch (e) {
+      // ignore
+    }
+    return "en";
+  }
+
   get isEn() {
-    return !(this.getAttribute("locale") || "en").toLowerCase().startsWith("zh");
+    return this.localeCode !== "zh";
   }
 
   path(slug) {
