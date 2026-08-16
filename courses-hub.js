@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-16-v12 (no 100vw breakout — it shifted the Wix page right)
+ * Version: 2026-08-16-v13 (one-shot render for CLS; stretch to SITE_PAGES, no 100vw clip)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -407,8 +407,6 @@ img { max-width: 100%; display: block; }
   padding: 64px 0;
   background: var(--bg);
   width: 100%;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
 }
 .section-soft { background: var(--bg-soft); }
 .section-title {
@@ -871,22 +869,18 @@ class CoursesHub extends HTMLElement {
   }
 
   connectedCallback() {
-    this._paintHero();
-    this._idle(() => this._paintRest());
+    this.render();
     const syncLocale = () => {
       try {
         if (this.localeCode === "zh") {
           const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
           if (h1 && /Kids Art Courses/i.test(h1.textContent || "")) {
-            this._restPainted = false;
-            this._paintHero();
-            this._idle(() => this._paintRest());
+            this.render();
           }
         }
       } catch (e) {}
     };
     setTimeout(syncLocale, 0);
-    setTimeout(syncLocale, 500);
 
     this.shadowRoot.addEventListener("click", this._onClick);
     this.shadowRoot.addEventListener("keydown", this._onKeydown);
@@ -904,11 +898,7 @@ class CoursesHub extends HTMLElement {
   }
 
   attributeChangedCallback() {
-    if (this.isConnected) {
-      this._restPainted = false;
-      this._paintHero();
-      this._idle(() => this._paintRest());
-    }
+    if (this.isConnected) this.render();
   }
 
   get waUrl() {
@@ -963,14 +953,11 @@ class CoursesHub extends HTMLElement {
     const style = document.createElement("style");
     style.id = id;
     style.textContent = `
-      html, body {
-        overflow-x: hidden !important;
-      }
       courses-hub {
         display: block !important;
         box-sizing: border-box !important;
         width: 100% !important;
-        max-width: 100% !important;
+        max-width: none !important;
         margin: 0 !important;
         padding: 0 !important;
         left: auto !important;
@@ -983,19 +970,11 @@ class CoursesHub extends HTMLElement {
         min-height: 0 !important;
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
       }
     `;
     document.head.appendChild(style);
-  }
-
-  _idle(fn) {
-    try {
-      if (typeof requestIdleCallback === "function") {
-        requestIdleCallback(fn, { timeout: 1800 });
-        return;
-      }
-    } catch (e) {}
-    setTimeout(fn, 1);
   }
 
   _collapseTrailingGap() {
@@ -1049,11 +1028,28 @@ class CoursesHub extends HTMLElement {
       this.style.removeProperty("min-width");
       this.style.setProperty("position", "relative", "important");
       this.style.setProperty("width", "100%", "important");
-      this.style.setProperty("max-width", "100%", "important");
+      this.style.setProperty("max-width", "none", "important");
       this.style.setProperty("margin", "0", "important");
       this.style.setProperty("padding", "0", "important");
       this.style.setProperty("border-radius", "0", "important");
       this.style.setProperty("box-shadow", "none", "important");
+
+      const pages = document.getElementById("SITE_PAGES") || document.getElementById("PAGES_CONTAINER");
+      let el = this.parentElement;
+      for (let i = 0; i < 12 && el; i++) {
+        const tag = (el.tagName || "").toLowerCase();
+        const id = el.id || "";
+        if (tag === "body" || tag === "html" || id === "masterPage" || id === "SITE_HEADER") break;
+        el.style.setProperty("width", "100%", "important");
+        el.style.setProperty("max-width", "none", "important");
+        el.style.setProperty("margin-left", "0", "important");
+        el.style.setProperty("margin-right", "0", "important");
+        el.style.setProperty("padding-left", "0", "important");
+        el.style.setProperty("padding-right", "0", "important");
+        el.style.setProperty("left", "0", "important");
+        if (el === pages || id === "SITE_PAGES" || id === "PAGES_CONTAINER") break;
+        el = el.parentElement;
+      }
     } catch (e) {
       // ignore
     }
@@ -1247,8 +1243,8 @@ class CoursesHub extends HTMLElement {
               src="${IMG.heroSm}"
               srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
               sizes="100vw"
-              width="800"
-              height="500"
+              width="640"
+              height="400"
               alt=""
               fetchpriority="high"
             />
@@ -1319,9 +1315,7 @@ class CoursesHub extends HTMLElement {
       `
     );
     this._applyFilter(this._filter || "all");
-    this._idle(() => {
-      this._paintRestMore(t, waPrefill, galleryUrl, trialUrl);
-    });
+    this._paintRestMore(t, waPrefill, galleryUrl, trialUrl);
   }
 
   _paintRestMore(t, waPrefill, galleryUrl, trialUrl) {
@@ -1428,13 +1422,13 @@ class CoursesHub extends HTMLElement {
         </section>
       `
     );
-    this._idle(() => this._collapseTrailingGap());
+    this._collapseTrailingGap();
   }
 
   render() {
     this._restPainted = false;
     this._paintHero();
-    this._idle(() => this._paintRest());
+    this._paintRest();
   }
 }
 
