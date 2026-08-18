@@ -1,7 +1,7 @@
 /**
  * ICAcademy Short-term Courses Hub – Custom Element
  * Tag name: short-term-courses-hub
- * Version: 2026-08-18-v2 (new hero photo)
+ * Version: 2026-08-18-v3 (remove trial section — short-term courses have no trial class)
  * Routes: /short-term-courses (EN) | /zh/short-term-courses (ZH)
  * Sub-pages (planned): /short-term-courses/summer, /short-term-courses/new-year-festival
  * Design system: matches courses-hub / trial-class-hub (coral / teal).
@@ -175,11 +175,6 @@ const EXPLORE = [
     title: { en: "Regular Art Courses", zh: "恆常藝術課程" },
     desc: { en: "Weekly classes for ages 3+ — drawing, comics, clay and more", zh: "每週恆常班：創意繪畫、漫畫、黏土等" },
     hrefSlug: "/course-hub",
-  },
-  {
-    title: { en: "Art Trial Class", zh: "藝術試堂" },
-    desc: { en: "Try a regular class first — single trial at HK$100", zh: "先體驗恆常班 — 單次試堂 HK$100" },
-    hrefSlug: "/homantin-children-art-trial",
   },
 ];
 
@@ -510,54 +505,6 @@ h3 { font-size: 1.12rem; }
   overflow: hidden; clip: rect(0,0,0,0); border: 0;
 }
 .center-actions { display: flex; justify-content: center; margin-top: 28px; }
-
-/* —— Trial card —— */
-.trial {
-  background: var(--coral-soft);
-  border: 0;
-  border-radius: 28px;
-  padding: clamp(32px, 6vw, 52px) clamp(22px, 5vw, 48px);
-  text-align: center;
-  width: 100%;
-}
-.trial-badge {
-  display: inline-flex;
-  background: var(--coral);
-  color: #fff;
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-weight: 800;
-  font-size: 0.95rem;
-  margin: 0 auto 18px;
-}
-.trial h2 {
-  margin: 0 0 14px;
-  font-size: clamp(1.45rem, 3vw, 1.9rem);
-  text-align: center;
-}
-.trial p { margin: 0 auto 16px; max-width: 42ch; color: var(--muted); text-align: center; }
-.trial-price {
-  display: block;
-  width: 100%;
-  max-width: none !important;
-  margin: 0 auto 22px !important;
-  text-align: center;
-  font-size: 1.05rem;
-  color: var(--muted);
-  font-weight: 600;
-}
-.trial-price strong {
-  display: block;
-  margin: 6px auto 0;
-  color: var(--coral-deep);
-  font-weight: 800;
-  font-size: clamp(1.35rem, 2.5vw, 1.65rem);
-  font-family: var(--font);
-  letter-spacing: 0.02em;
-  text-align: center;
-}
-.trial .btn { min-width: min(100%, 280px); }
-.trial .btn-row { justify-content: center; }
 
 /* —— FAQ (flat Q/A list) —— */
 .faq-list { max-width: 820px; margin: 0 auto; }
@@ -975,7 +922,6 @@ class ShortTermCoursesHub extends HTMLElement {
     const galleryUrl = this.isEn
       ? "https://www.icacademy.com.hk/studentartwork"
       : "https://www.icacademy.com.hk/zh/studentartwork";
-    const trialUrl = this.path("/homantin-children-art-trial");
 
     hub.insertAdjacentHTML(
       "beforeend",
@@ -996,10 +942,10 @@ class ShortTermCoursesHub extends HTMLElement {
         </section>
       `
     );
-    this._paintRestMore(t, waPrefill, galleryUrl, trialUrl);
+    this._paintRestMore(t, waPrefill, galleryUrl);
   }
 
-  _paintRestMore(t, waPrefill, galleryUrl, trialUrl) {
+  _paintRestMore(t, waPrefill, galleryUrl) {
     const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
     if (!hub || hub.querySelector(".final")) return;
     hub.insertAdjacentHTML(
@@ -1057,26 +1003,6 @@ class ShortTermCoursesHub extends HTMLElement {
             </div>
             <div class="center-actions">
               <a class="btn btn-outline-teal" data-action="hub" href="${galleryUrl}">${t("View more student artwork", "查看更多學員作品")}</a>
-            </div>
-          </div>
-        </section>
-
-        <section class="section" aria-labelledby="trial-title">
-          <div class="wrap">
-            <div class="trial">
-              <div class="trial-badge">${t("Try first, then decide", "先體驗，再決定")}</div>
-              <h2 id="trial-title">${t("Art course trial class", "藝術課程試堂")}</h2>
-              <p>
-                ${t(
-                  "Not sure which course fits? Let your child experience a regular class first — atmosphere, teaching style and the creative process. WhatsApp us with age, experience and preferred times.",
-                  "未確定邊款課程適合？可以先讓孩子體驗恆常班課堂氣氛、教學方式及創作流程。WhatsApp 告訴我們孩子年齡、經驗及方便時間。"
-                )}
-              </p>
-              <p class="trial-price">${t("Single trial", "單次試堂")}<strong>HK$100</strong></p>
-              <div class="btn-row" style="justify-content:center">
-                <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial on WhatsApp", "WhatsApp 預約試堂")}</a>
-                <a class="btn btn-ghost" data-action="hub" href="${trialUrl}">${t("Trial class details", "了解試堂詳情")}</a>
-              </div>
             </div>
           </div>
         </section>
