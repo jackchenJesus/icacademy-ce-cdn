@@ -1,7 +1,7 @@
 /**
  * ICAcademy Short-term Courses Hub – Custom Element
  * Tag name: short-term-courses-hub
- * Version: 2026-08-18-v1
+ * Version: 2026-08-18-v2 (new hero photo)
  * Routes: /short-term-courses (EN) | /zh/short-term-courses (ZH)
  * Sub-pages (planned): /short-term-courses/summer, /short-term-courses/new-year-festival
  * Design system: matches courses-hub / trial-class-hub (coral / teal).
@@ -16,9 +16,9 @@ function mediaUrl(id, w, h, q = 70) {
 
 /** Photos sourced from IC Academy site Media Manager (already used on existing hubs). */
 const IMG = {
-  heroSm: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 640, 400, 70),
-  hero: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 960, 600, 75),
-  heroLg: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1280, 800, 75),
+  heroSm: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 640, 400, 70),
+  hero: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 960, 600, 75),
+  heroLg: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 1280, 800, 75),
   summer: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 640, 400, 70),
   newYear: mediaUrl("b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg", 640, 400, 70),
   detail: mediaUrl("b98cc9_0d50c3e155ba4c4e92046d937a5c0c43~mv2.jpg", 640, 800, 70),
@@ -326,7 +326,7 @@ h3 { font-size: 1.12rem; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 68% center;
+  object-position: 60% center;
 }
 .hero-bg::after {
   content: "";
