@@ -1,9 +1,9 @@
 /**
  * ICAcademy Short-term Courses Hub – Custom Element
  * Tag name: short-term-courses-hub
- * Version: 2026-08-18-v3 (remove trial section — short-term courses have no trial class)
+ * Version: 2026-08-18-v4 (CNY + Easter programme cards linking to live workshop pages)
  * Routes: /short-term-courses (EN) | /zh/short-term-courses (ZH)
- * Sub-pages (planned): /short-term-courses/summer, /short-term-courses/new-year-festival
+ * Sub-pages: /short-term-course/2026cnyworkshop, /short-term-course/2026-easter-workshop
  * Design system: matches courses-hub / trial-class-hub (coral / teal).
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -19,8 +19,8 @@ const IMG = {
   heroSm: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 640, 400, 70),
   hero: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 960, 600, 75),
   heroLg: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 1280, 800, 75),
-  summer: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 640, 400, 70),
-  newYear: mediaUrl("b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg", 640, 400, 70),
+  cny: mediaUrl("4ea940_2d5010ecfb1f4a8399e4f3ceb790972a~mv2.jpeg", 640, 400, 70),
+  easter: mediaUrl("d5ba93_321804e3e45d4cc8ae34b02b4a4872bd~mv2.jpg", 640, 400, 70),
   detail: mediaUrl("b98cc9_0d50c3e155ba4c4e92046d937a5c0c43~mv2.jpg", 640, 800, 70),
   gallery1: mediaUrl("b98cc9_49cb0c61e7664eaca996580443195ec9~mv2.jpeg", 480, 480, 70),
   gallery2: mediaUrl("4ea940_5867e3daf35f4f969495afa34a05f1a3~mv2.jpg", 480, 480, 70),
@@ -45,26 +45,10 @@ const IMG = {
   }
 })();
 
-/** Seasonal programme silos. Sub-pages are created in Wix Editor with these slugs. */
+/** Seasonal programme silos — links point to the live workshop pages on the site. */
 const PROGRAMMES = [
   {
-    id: "summer",
-    badge: { en: "July – August", zh: "7–8月" },
-    name: { en: "Summer Art Programme", zh: "暑期藝術課程" },
-    desc: {
-      en: "Intensive holiday courses during the summer break — drawing, painting, clay and themed projects over consecutive sessions, so children build skills quickly while school is out.",
-      zh: "暑假期間開辦的密集式短期課程，涵蓋繪畫、塑膠彩、黏土及主題創作，連續上課，技巧進步更明顯。",
-    },
-    points: {
-      en: ["Consecutive sessions across July–August", "Drawing, painting, clay and themed projects", "Ages 3+ · grouped by age and level"],
-      zh: ["7–8月連續式課堂", "繪畫、塑膠彩、黏土及主題創作", "適合3歲以上 · 按年齡及程度分班"],
-    },
-    hrefSlug: "/short-term-courses/summer",
-    image: IMG.summer,
-    imageAlt: { en: "ICAcademy summer art programme student artwork", zh: "ICAcademy暑期藝術課程學生作品" },
-  },
-  {
-    id: "new-year-festival",
+    id: "cny",
     badge: { en: "Chinese New Year period", zh: "農曆新年期間" },
     name: { en: "New Year Festival Courses", zh: "新年特別節日短期課程" },
     desc: {
@@ -75,9 +59,25 @@ const PROGRAMMES = [
       en: ["Festive themes: New Year artwork and decorations", "Short format — finished in one to a few sessions", "Take home completed festival artwork"],
       zh: ["節日主題：賀年畫及新年裝飾", "短期形式 — 一至數堂完成", "完成節日作品帶回家"],
     },
-    hrefSlug: "/short-term-courses/new-year-festival",
-    image: IMG.newYear,
-    imageAlt: { en: "ICAcademy Chinese New Year festival art workshop", zh: "ICAcademy新年節日藝術工作坊" },
+    hrefSlug: "/short-term-course/2026cnyworkshop",
+    image: IMG.cny,
+    imageAlt: { en: "ICAcademy Chinese New Year workshop student Fook character painting", zh: "ICAcademy新年工作坊學生福字賀年畫" },
+  },
+  {
+    id: "easter",
+    badge: { en: "Easter holidays", zh: "復活節假期" },
+    name: { en: "Easter Workshop", zh: "復活節短期課程" },
+    desc: {
+      en: "Easter-themed short courses during the spring break — bunny crafts, clay creations and festive artwork to celebrate the season.",
+      zh: "復活節假期期間開辦的主題短期課程，創作小兔手工、黏土擺設及春日節日作品，感受節日氣氛。",
+    },
+    points: {
+      en: ["Easter themes: bunnies, eggs and spring crafts", "Short format — finished in one to a few sessions", "Take home completed festive artwork"],
+      zh: ["復活節主題：小兔、復活蛋及春日手工", "短期形式 — 一至數堂完成", "完成節日作品帶回家"],
+    },
+    hrefSlug: "/short-term-course/2026-easter-workshop",
+    image: IMG.easter,
+    imageAlt: { en: "ICAcademy Easter workshop clay bunny and rainbow artwork", zh: "ICAcademy復活節工作坊黏土小兔彩虹作品" },
   },
 ];
 
@@ -157,8 +157,8 @@ const FAQ = [
   {
     q: { en: "When does enrolment open?", zh: "幾時開始接受報名？" },
     a: {
-      en: "Summer programmes are usually announced around May–June, and New Year courses around December. Message us on WhatsApp to join the priority list and reserve a place early.",
-      zh: "暑期課程一般於5–6月公佈，新年課程一般於12月公佈。歡迎 WhatsApp 加入優先名單，提早留位。",
+      en: "Each festival series usually opens one to two months before the festival — New Year courses around December, Easter courses around February–March. Message us on WhatsApp to join the priority list and reserve a place early.",
+      zh: "每個節日系列一般提前一至兩個月開始報名 — 新年課程約12月，復活節課程約2–3月。歡迎 WhatsApp 加入優先名單，提早留位。",
     },
   },
   {
@@ -891,8 +891,8 @@ class ShortTermCoursesHub extends HTMLElement {
               </div>
               <p class="hero-lead">
                 ${t(
-                  "ICAcademy short-term courses run during school holidays and special festivals — summer art programmes and Chinese New Year themed workshops. A flexible way for children to try art, practise intensively and create seasonal artwork.",
-                  "ICAcademy 短期課程於學校假期及特別節日期間開辦，包括暑期藝術課程及新年節日主題工作坊，讓小朋友以靈活方式體驗藝術、集中練習，並創作節日作品。"
+                  "ICAcademy short-term courses run during school holidays and special festivals — Chinese New Year and Easter themed workshops, plus other seasonal programmes. A flexible way for children to try art, practise intensively and create seasonal artwork.",
+                  "ICAcademy 短期課程於學校假期及特別節日期間開辦，包括新年及復活節等節日主題工作坊及其他季節課程，讓小朋友以靈活方式體驗藝術、集中練習，並創作節日作品。"
                 )}
               </p>
               <div class="btn-row">
@@ -931,8 +931,8 @@ class ShortTermCoursesHub extends HTMLElement {
             <h2 class="section-title" id="programmes-title">${t("Short-term course series", "短期課程系列")}</h2>
             <p class="section-lead">
               ${t(
-                "Two seasonal series run across the year. Enrolment opens before each season — message us to join the priority list.",
-                "全年兩個季節性系列，開課前會公佈詳情。歡迎提早 WhatsApp 加入優先名單。"
+                "Featured festival workshops. Enrolment opens before each festival — message us to join the priority list.",
+                "精選節日課程系列，開課前會公佈詳情。歡迎提早 WhatsApp 加入優先名單。"
               )}
             </p>
             <div class="programme-grid">
