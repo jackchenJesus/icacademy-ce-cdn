@@ -1,7 +1,7 @@
 /**
  * ICAcademy Student Artwork Gallery Hub – Custom Element
  * Tag name: gallery-hub
- * Version: 2026-08-16-v7 (center filters + EN locale from pathname)
+ * Version: 2026-08-18-v8 (smaller mobile filter pills)
  * Design system: matches courses-hub / kids-art-hub / drawing-painting-hub / trial-class-hub
  * Routes: /studentartwork (EN) | /zh/studentartwork (ZH)
  * Locale via attribute: locale="en" | "zh" (default en = site primary).
@@ -377,7 +377,7 @@ const COURSE_CARDS = [
       en: "Ideal for younger students building creativity and art foundations, including Visual Art Skills and Creative Art.",
       zh: "適合年幼學員發展創意與美術基礎，包括視藝技巧及兒童創意美術課程。",
     },
-    hrefSlug: "/courses/kids-art-classes",
+    hrefSlug: "/course/kids-art/kids-art-classes-homantin",
     cta: { en: "View kids art courses", zh: "查看兒童美術課程" },
     imageId: "b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg",
     imageAlt: {
@@ -963,10 +963,12 @@ h3 { font-size: 1.12rem; }
     min-height: 180px;
     gap: 8px;
   }
-  .filters { gap: 8px; padding-bottom: 10px; }
+  .filters-sticky { padding-top: 8px; }
+  .filters { gap: 6px; padding-bottom: 8px; }
   .filters button {
-    font-size: 0.88rem;
-    padding: 9px 14px;
+    font-size: 0.84rem;
+    padding: 6px 12px;
+    min-height: 36px;
   }
   .masonry { column-count: 2; column-gap: 10px; }
   .art-item { margin-bottom: 10px; }
@@ -1039,7 +1041,7 @@ h3 { font-size: 1.12rem; }
   .art-item { margin-bottom: 8px; }
   .hero h1 { font-size: 1.45rem; }
   .hero-en { font-size: 0.95rem; }
-  .filters button { font-size: 0.84rem; padding: 8px 12px; }
+  .filters button { font-size: 0.8rem; padding: 5px 10px; min-height: 34px; }
   .course-card { grid-template-columns: 96px minmax(0, 1fr); }
   .course-body h3 { font-size: 0.98rem; }
   .course-cta { font-size: 0.84rem; }
