@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-29-v16 (fix 404: art-drawing → drawing-and-painting; sketching nested URL)
+ * Version: 2026-08-30-v17 (VAS landing 500: prep/foundation cards go to Kids Art silo)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -72,7 +72,7 @@ const COURSES = [
       zh: ["線條、形狀與色彩入門", "小手肌與手眼協調", "課堂常規與獨立完成作品"],
     },
     media: { en: "Crayons, watercolour, collage, printmaking", zh: "蠟筆、水彩、剪貼、印畫" },
-    hrefSlug: "/course/kids-art/visual-art-skills-course",
+    hrefSlug: "/course/kids-art",
     tags: ["foundation", "painting"],
     image: IMG.prep,
     imageAlt: { en: "ICAcademy young children’s creative painting class artwork", zh: "ICAcademy幼兒創意繪畫課堂作品" },
@@ -92,7 +92,7 @@ const COURSES = [
       zh: ["觀察與造型練習", "比例與畫面組織", "多元媒介創作"],
     },
     media: { en: "Drawing and mixed media", zh: "繪畫及混合媒介" },
-    hrefSlug: "/course/kids-art/visual-art-skills-course",
+    hrefSlug: "/course/kids-art",
     tags: ["foundation", "painting"],
     image: IMG.foundation,
     imageAlt: { en: "ICAcademy Visual Art Skills Foundation student artwork", zh: "ICAcademy視藝技巧基礎課程學生作品" },
