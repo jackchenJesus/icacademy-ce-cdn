@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-16-v14 (Paint Square links to adult-art-class-hong-kong)
+ * Version: 2026-08-29-v16 (fix 404: art-drawing → drawing-and-painting; sketching nested URL)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -72,7 +72,7 @@ const COURSES = [
       zh: ["線條、形狀與色彩入門", "小手肌與手眼協調", "課堂常規與獨立完成作品"],
     },
     media: { en: "Crayons, watercolour, collage, printmaking", zh: "蠟筆、水彩、剪貼、印畫" },
-    hrefSlug: "/courses/visual-art-skills-course",
+    hrefSlug: "/course/drawing-and-painting/visual-art-skills-course",
     tags: ["foundation", "painting"],
     image: IMG.prep,
     imageAlt: { en: "ICAcademy young children’s creative painting class artwork", zh: "ICAcademy幼兒創意繪畫課堂作品" },
@@ -92,7 +92,7 @@ const COURSES = [
       zh: ["觀察與造型練習", "比例與畫面組織", "多元媒介創作"],
     },
     media: { en: "Drawing and mixed media", zh: "繪畫及混合媒介" },
-    hrefSlug: "/courses/visual-art-skills-course",
+    hrefSlug: "/course/drawing-and-painting/visual-art-skills-course",
     tags: ["foundation", "painting"],
     image: IMG.foundation,
     imageAlt: { en: "ICAcademy Visual Art Skills Foundation student artwork", zh: "ICAcademy視藝技巧基礎課程學生作品" },
@@ -112,7 +112,7 @@ const COURSES = [
       zh: ["線條、色彩、基本構圖", "主題觀察與想像", "簡單多媒介創作"],
     },
     media: { en: "Drawing, collage and mixed materials", zh: "繪畫、拼貼、多元物料" },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
     tags: ["creative", "painting"],
     image: IMG.creativeI,
     imageAlt: { en: "ICAcademy Creative Art student artwork", zh: "ICAcademy兒童創意美術作品" },
@@ -132,7 +132,7 @@ const COURSES = [
       zh: ["比例與構圖進階", "色彩配搭", "個人想法融入主題"],
     },
     media: { en: "Drawing and mixed media", zh: "繪畫及多元媒介" },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
     tags: ["creative", "painting"],
     image: IMG.creativeII,
     imageAlt: { en: "ICAcademy primary Creative Art painting", zh: "ICAcademy小學創意繪畫作品" },
@@ -149,7 +149,7 @@ const COURSES = [
       zh: ["畫面層次與造型", "主題研究", "為進階美術建立基礎"],
     },
     media: { en: "Multi-media creation", zh: "多媒介創作" },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
     tags: ["creative", "painting", "teen"],
     image: IMG.creativeIII,
     imageAlt: { en: "ICAcademy teen Creative Art artwork", zh: "ICAcademy青少年創意美術作品" },
@@ -169,7 +169,7 @@ const COURSES = [
       zh: ["漫畫人物比例與五官", "角色造型與故事背景", "畫面構圖表達"],
     },
     media: { en: "Pencil, markers and comic media", zh: "鉛筆、馬克筆、漫畫媒材" },
-    hrefSlug: "/courses/comic-drawing-class",
+    hrefSlug: "/course/kids-art/comic-drawing-class",
     tags: ["comic"],
     image: IMG.comic,
     imageAlt: { en: "ICAcademy student comic character design", zh: "ICAcademy學生漫畫角色設計作品" },
@@ -189,7 +189,7 @@ const COURSES = [
       zh: ["鉛筆控制與起稿", "構圖與空間", "光暗及材質表現"],
     },
     media: { en: "Pencil sketching", zh: "鉛筆素描" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
     tags: ["sketch", "teen"],
     image: IMG.sketch,
     imageAlt: { en: "Ho Man Tin children’s sketching class student work", zh: "何文田兒童素描課程學生作品" },
@@ -209,7 +209,7 @@ const COURSES = [
       zh: ["基礎塑形與混色", "分齡主題創作", "完成立體作品帶回家"],
     },
     media: { en: "Soft clay and professional clay media", zh: "輕黏土及專業黏土媒材" },
-    hrefSlug: "/courses/creative-art-and-clay-class",
+    hrefSlug: "/course/kids-art/creative-art-and-clay-class",
     tags: ["clay"],
     image: IMG.clay,
     imageAlt: { en: "ICAcademy children’s soft clay 3D artwork", zh: "ICAcademy兒童黏土立體創作作品" },
@@ -229,7 +229,7 @@ const COURSES = [
       zh: ["素描、塑膠彩及混合媒介", "主題構思至完成作品", "按程度個別指導"],
     },
     media: { en: "Sketching, acrylic and mixed media", zh: "素描、塑膠彩、混合媒介" },
-    hrefSlug: "/courses/visual-art-class",
+    hrefSlug: "/course/kids-art/visual-art-class",
     tags: ["teen", "painting", "portfolio"],
     image: IMG.visualArt,
     imageAlt: { en: "ICAcademy teen Visual Art Class artwork", zh: "ICAcademy青少年綜合美術作品" },
@@ -246,7 +246,7 @@ const COURSES = [
       zh: ["塑膠彩基礎運用", "色彩與筆觸練習", "完整畫面表達"],
     },
     media: { en: "Acrylic paint", zh: "塑膠彩" },
-    hrefSlug: "/courses/acrylic-painting-class",
+    hrefSlug: "/course/drawing-and-painting/acrylic-painting-class",
     tags: ["teen", "painting"],
     image: IMG.acrylic,
     imageAlt: { en: "ICAcademy acrylic painting class student work", zh: "ICAcademy塑膠彩課程學生作品" },
@@ -284,19 +284,19 @@ const INTERESTS = [
     id: "drawing-painting",
     title: { en: "Drawing & Painting", zh: "繪畫及素描" },
     desc: { en: "Sketching, acrylic, visual art skills and mixed media", zh: "素描、塑膠彩、視藝技巧及綜合美術" },
-    hrefSlug: "/courses/art-drawing",
+    hrefSlug: "/course/drawing-and-painting",
   },
   {
     id: "clay",
     title: { en: "Clay & 3D Creation", zh: "黏土與立體創作" },
     desc: { en: "Modelling, structure and spatial sense", zh: "塑形、結構與空間感" },
-    hrefSlug: "/courses/creative-art-and-clay-class",
+    hrefSlug: "/course/kids-art/creative-art-and-clay-class",
   },
   {
     id: "comic",
     title: { en: "Comic Drawing Class", zh: "卡通漫畫班" },
     desc: { en: "Figures, expressions and character design", zh: "人物、表情與角色設計" },
-    hrefSlug: "/courses/comic-drawing-class",
+    hrefSlug: "/course/kids-art/comic-drawing-class",
   },
 ];
 
