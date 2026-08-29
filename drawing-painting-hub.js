@@ -76,7 +76,7 @@ const COURSES = [
       zh: ["線條、形狀與色彩入門", "觀察與基本構圖", "多元媒介創作"],
     },
     media: { en: "Drawing and mixed media", zh: "繪畫及混合媒介" },
-    hrefSlug: "/courses/visual-art-skills-course",
+    hrefSlug: "/course/kids-art/visual-art-skills-course",
     tags: ["visual-skills", "drawing", "painting"],
     image: IMG.visualSkills,
     imageAlt: { en: "ICAcademy Visual Art Skills student work", zh: "ICAcademy視藝技巧課程學生作品" },
@@ -133,7 +133,7 @@ const GUIDE = [
   {
     title: { en: "Visual Art Skills", zh: "視藝技巧" },
     desc: { en: "A structured visual-art foundation (about ages 3–7)", zh: "系統建立視藝基礎（適合約 3–7 歲）" },
-    hrefSlug: "/courses/visual-art-skills-course",
+    hrefSlug: "/course/kids-art/visual-art-skills-course",
     cta: { en: "View Visual Art Skills", zh: "查看視藝技巧課程" },
   },
   {
@@ -166,7 +166,7 @@ const PATH = [
 const BEGINNER_POINTS = [
   { goal: { en: "Want a solid foundation", zh: "想打穩基本功" }, course: { en: "Sketching Class", zh: "素描技巧班" }, hrefSlug: "/courses/sketching-class" },
   { goal: { en: "Want colour and painting", zh: "想學色彩及繪畫" }, course: { en: "Acrylic Painting Class", zh: "塑膠彩班" }, hrefSlug: "/courses/acrylic-painting-class" },
-  { goal: { en: "Want a visual-art foundation for young children", zh: "想系統建立視藝基礎（幼兒／兒童）" }, course: { en: "Visual Art Skills", zh: "視藝技巧" }, hrefSlug: "/courses/visual-art-skills-course" },
+  { goal: { en: "Want a visual-art foundation for young children", zh: "想系統建立視藝基礎（幼兒／兒童）" }, course: { en: "Visual Art Skills", zh: "視藝技巧" }, hrefSlug: "/course/kids-art/visual-art-skills-course" },
   { goal: { en: "Want to try different media", zh: "想接觸不同媒介" }, course: { en: "Visual Art Class", zh: "綜合美術" }, hrefSlug: "/courses/visual-art-class" },
   { goal: { en: "Want adult painting by interest", zh: "想按自己喜好學成人繪畫" }, course: { en: "Paint Square", zh: "Paint Square" }, hrefSlug: "/course/drawing-and-painting/adult-art-class-hong-kong" },
 ];

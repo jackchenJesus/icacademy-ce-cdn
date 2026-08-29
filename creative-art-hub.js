@@ -243,7 +243,7 @@ const RELATED = [
   {
     title: { en: "Visual Art Skills", zh: "視藝技巧課程" },
     desc: { en: "Ages 3–7 · from first art play to drawing basics", zh: "適合3–7歲，從藝術啟蒙逐步建立繪畫基礎。" },
-    hrefSlug: "/courses/visual-art-skills-course",
+    hrefSlug: "/course/kids-art/visual-art-skills-course",
   },
   {
     title: { en: "Sketching Class", zh: "素描班" },

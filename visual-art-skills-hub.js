@@ -1,12 +1,12 @@
 /**
  * ICAcademy Visual Art Skills Course — course landing (not a hub)
  * Tag name: visual-art-skills-hub
- * Version: 2026-08-16-v1
+ * Version: 2026-08-29-v2 (Kids Art child URL)
  *
- * Parent silo hub: Drawing & Painting
+ * Parent silo hub: Kids Art (yo1yl). Canonical under /course/kids-art.
  * Canonical:
- *   EN: /course/drawing-and-painting/visual-art-skills-course
- *   ZH: /zh/course/drawing-and-painting/visual-art-skills-course
+ *   EN: /course/kids-art/visual-art-skills-course
+ *   ZH: /zh/course/kids-art/visual-art-skills-course
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 
@@ -213,7 +213,7 @@ const RELATED = [
   {
     title: { en: "Comic Drawing Class", zh: "卡通動畫班" },
     desc: { en: "Ages 8+ · character proportion and original characters", zh: "適合8歲以上，學習人物比例與角色創作" },
-    hrefSlug: "/courses/comic-drawing-class",
+    hrefSlug: "/course/kids-art/comic-drawing-class",
   },
 ];
 
@@ -688,7 +688,7 @@ class VisualArtSkillsHub extends HTMLElement {
     this._applyFullBleedCss();
 
     const courseHubUrl = this.path("/course-hub");
-    const siloUrl = this.path("/courses/art-drawing");
+    const siloUrl = this.path("/course/kids-art");
     const trialUrl = this.path("/homantin-children-art-trial");
     const galleryUrl = this.isEn
       ? "https://www.icacademy.com.hk/studentartwork"
@@ -714,7 +714,7 @@ class VisualArtSkillsHub extends HTMLElement {
                 <span aria-hidden="true">/</span>
                 <a data-action="hub" href="${courseHubUrl}">${t("Courses", "課程總覽")}</a>
                 <span aria-hidden="true">/</span>
-                <a data-action="hub" href="${siloUrl}">${t("Drawing & Painting", "繪畫及素描")}</a>
+                <a data-action="hub" href="${siloUrl}">${t("Kids Art", "兒童美術")}</a>
                 <span aria-hidden="true">/</span>
                 <span>${t("Visual Art Skills", "視藝技巧課程")}</span>
               </nav>

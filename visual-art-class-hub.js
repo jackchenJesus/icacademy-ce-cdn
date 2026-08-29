@@ -199,7 +199,7 @@ const RELATED = [
   {
     title: { en: "Visual Art Skills", zh: "視藝技巧課程" },
     desc: { en: "Preparatory / foundation · drawing and art basics", zh: "預備／基礎課程 · 建立視藝基礎" },
-    hrefSlug: "/courses/visual-art-skills-course",
+    hrefSlug: "/course/kids-art/visual-art-skills-course",
   },
   {
     title: { en: "Acrylic Painting Class", zh: "塑膠彩班課程" },

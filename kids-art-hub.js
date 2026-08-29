@@ -1,7 +1,7 @@
 /**
  * ICAcademy Kids Art Silo Hub – Custom Element
  * Tag name: kids-art-hub
- * Version: 2026-08-18-v9 (bilingual EN/ZH via locale attribute / /zh URL / html lang)
+ * Version: 2026-08-23-v10 (nested silo URLs for ads / kids intent)
  * Design system: matches courses-hub (coral / teal)
  * Routes: /course/kids-art (EN) · /zh/course/kids-art (ZH) (Editor: Kids Art, yo1yl)
  */
@@ -47,7 +47,7 @@ const COURSES = [
       { en: "Class routine and finishing work independently", zh: "課堂常規與獨立完成作品" },
     ],
     media: { en: "Crayons, watercolour, collage, printing", zh: "蠟筆、水彩、剪貼、印畫" },
-    href: "/courses/visual-art-skills-course",
+    href: "/course/kids-art/visual-art-skills-course",
     tags: ["foundation", "painting", "age-3-7"],
     image: IMG.prep,
     imageAlt: { en: "ICAcademy preschool creative painting classwork", zh: "ICAcademy幼兒創意繪畫課堂作品" },
@@ -65,7 +65,7 @@ const COURSES = [
       { en: "Mixed-media creation", zh: "多元媒介創作" },
     ],
     media: { en: "Drawing and mixed media", zh: "繪畫及混合媒介" },
-    href: "/courses/visual-art-skills-course",
+    href: "/course/kids-art/visual-art-skills-course",
     tags: ["foundation", "painting", "age-3-7"],
     image: IMG.foundation,
     imageAlt: { en: "ICAcademy Visual Art Skills foundation student work", zh: "ICAcademy視藝技巧基礎課程學生作品" },
@@ -83,7 +83,7 @@ const COURSES = [
       { en: "Simple mixed-media projects", zh: "簡單多媒介創作" },
     ],
     media: { en: "Painting, collage, mixed materials", zh: "繪畫、拼貼、多元物料" },
-    href: "/courses/creative-art-classes",
+    href: "/course/kids-art/creative-art-classes",
     tags: ["creative", "painting", "age-7-14"],
     image: IMG.creativeI,
     imageAlt: { en: "ICAcademy Creative Art student work", zh: "ICAcademy兒童創意美術作品" },
@@ -101,7 +101,7 @@ const COURSES = [
       { en: "Personal ideas within themes", zh: "個人想法融入主題" },
     ],
     media: { en: "Painting and mixed media", zh: "繪畫及多元媒介" },
-    href: "/courses/creative-art-classes",
+    href: "/course/kids-art/creative-art-classes",
     tags: ["creative", "painting", "age-7-14"],
     image: IMG.creativeII,
     imageAlt: { en: "ICAcademy primary-age creative painting work", zh: "ICAcademy小學創意繪畫作品" },
@@ -119,7 +119,7 @@ const COURSES = [
       { en: "Foundation for advanced art study", zh: "為進階美術建立基礎" },
     ],
     media: { en: "Mixed-media creation", zh: "多媒介創作" },
-    href: "/courses/creative-art-classes",
+    href: "/course/kids-art/creative-art-classes",
     tags: ["creative", "painting", "age-7-14"],
     image: IMG.creativeIII,
     imageAlt: { en: "ICAcademy teen creative art work", zh: "ICAcademy青少年創意美術作品" },
@@ -137,7 +137,7 @@ const COURSES = [
       { en: "Panel composition and expression", zh: "畫面構圖表達" },
     ],
     media: { en: "Pencil, markers, manga media", zh: "鉛筆、馬克筆、漫畫媒材" },
-    href: "/courses/comic-drawing-class",
+    href: "/course/kids-art/comic-drawing-class",
     tags: ["comic", "age-8plus"],
     image: IMG.comic,
     imageAlt: { en: "ICAcademy student manga character design", zh: "ICAcademy學生漫畫角色設計作品" },
@@ -155,7 +155,7 @@ const COURSES = [
       { en: "Finish a 3D piece to take home", zh: "完成立體作品帶回家" },
     ],
     media: { en: "Light clay and professional clay media", zh: "輕黏土及專業黏土媒材" },
-    href: "/courses/creative-art-and-clay-class",
+    href: "/course/kids-art/creative-art-and-clay-class",
     tags: ["clay"],
     image: IMG.clay,
     imageAlt: { en: "ICAcademy kids clay 3D creations", zh: "ICAcademy兒童黏土立體創作作品" },
@@ -191,7 +191,7 @@ const COURSES = [
       { en: "Individual guidance by level", zh: "按程度個別指導" },
     ],
     media: { en: "Sketching, acrylic, mixed media", zh: "素描、塑膠彩、混合媒介" },
-    href: "/courses/visual-art-class",
+    href: "/course/kids-art/visual-art-class",
     tags: ["teen", "painting", "age-8plus"],
     image: IMG.visualArt,
     imageAlt: { en: "ICAcademy teen visual art work", zh: "ICAcademy青少年綜合美術作品" },
@@ -202,25 +202,25 @@ const GUIDE = [
   {
     title: { en: "Want to try different art media", zh: "想全面接觸不同美術媒介" },
     desc: { en: "Painting, collage and mixed-material creation", zh: "繪畫、拼貼與多元物料創作" },
-    href: "/courses/creative-art-classes",
+    href: "/course/kids-art/creative-art-classes",
     cta: { en: "Creative Art course", zh: "兒童創意美術課程" },
   },
   {
     title: { en: "Loves drawing and building core skills", zh: "喜歡畫畫及建立基本技巧" },
     desc: { en: "From observation, line and shape to composition", zh: "由觀察、線條、形狀到構圖" },
-    href: "/courses/visual-art-skills-course",
+    href: "/course/kids-art/visual-art-skills-course",
     cta: { en: "Visual Art Skills course", zh: "視藝技巧課程" },
   },
   {
     title: { en: "Loves comics and character creation", zh: "喜歡漫畫及角色創作" },
     desc: { en: "Proportion, expressions and story scenes", zh: "人物比例、表情與故事畫面" },
-    href: "/courses/comic-drawing-class",
+    href: "/course/kids-art/comic-drawing-class",
     cta: { en: "Comic Drawing course", zh: "卡通漫畫課程" },
   },
   {
     title: { en: "Loves 3D and hands-on making", zh: "喜歡立體創作及手作" },
     desc: { en: "Modelling, structure and colour sense", zh: "塑形、結構與色彩美感" },
-    href: "/courses/creative-art-and-clay-class",
+    href: "/course/kids-art/creative-art-and-clay-class",
     cta: { en: "Kids clay course", zh: "兒童黏土創作課程" },
   },
 ];
@@ -1224,7 +1224,7 @@ class KidsArtHub extends HTMLElement {
 
     const courseHubUrl = this.path("/course-hub");
     const listingUrl = this.path("/course/kids-art/kids-art-classes-homantin");
-    const drawingUrl = this.path("/courses/art-drawing");
+    const drawingUrl = this.path("/course/drawing-and-painting");
     const galleryUrl = this.path("/studentartwork");
     const trialUrl = this.path("/homantin-children-art-trial");
 

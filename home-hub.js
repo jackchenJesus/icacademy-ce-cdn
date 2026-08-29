@@ -70,7 +70,7 @@ const PATHWAYS = [
       en: "Sensory exploration, free mark-making, and a safe space for young children to grow in confidence and focus.",
       zh: "從感官探索到自由塗鴉，在安全的創作環境中建立孩子自信心與專注力。",
     },
-    href: "/courses/visual-art-skills-course",
+    href: "/course/kids-art/visual-art-skills-course",
   },
   {
     age: { en: "Age 6–12", zh: "6–12歲" },
