@@ -1,7 +1,7 @@
 /**
  * ICAcademy Teen Art Silo Landing – Custom Element
  * Tag name: teen-art-hub
- * Version: 2026-08-19-v2 (collapse CTA-to-footer gap; sync custom-element height)
+ * Version: 2026-08-30-v3 (Sketching Class View course → /course/drawing-and-painting/sketching-class)
  * Design system: matches kids-art-hub / drawing-painting-hub (coral / teal)
  * Routes: /course/teen-art (EN) | /zh/course/teen-art (ZH)
  *
@@ -74,7 +74,7 @@ const COURSES = [
       zh: ["鉛筆控制與起稿", "構圖與空間", "光暗及材質表現"],
     },
     media: { en: "Pencil sketching", zh: "鉛筆素描" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
     image: IMG.sketch,
     imageAlt: { en: "Ho Man Tin sketching class student work", zh: "何文田素描課程學生作品" },
   },
@@ -1246,4 +1246,6 @@ class TeenArtHub extends HTMLElement {
   }
 }
 
-customElements.define("teen-art-hub", TeenArtHub);
+if (!customElements.get("teen-art-hub")) {
+  customElements.define("teen-art-hub", TeenArtHub);
+}
