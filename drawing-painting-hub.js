@@ -1,7 +1,7 @@
 /**
  * ICAcademy Drawing & Painting Silo Hub – Custom Element
  * Tag name: drawing-painting-hub
- * Version: 2026-08-30-v7 (Sketching Class → /course/drawing-and-painting/sketching-class)
+ * Version: 2026-08-30-v8 (collapse white gap between final CTA and footer)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Routes: /course/drawing-and-painting (EN) | /zh/course/drawing-and-painting (ZH)
  */
@@ -805,6 +805,7 @@ h3 { font-size: 1.12rem; }
   border: 0;
   border-radius: 0;
 }
+.final:last-child { margin-bottom: 0; }
 .final h2 {
   color: #fff;
   font-size: clamp(1.55rem, 3vw, 2rem);
@@ -842,6 +843,7 @@ class DrawingPaintingHub extends HTMLElement {
     this._filter = "all";
     this._onClick = this._onClick.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
+    this._syncHeight = this._syncHeight.bind(this);
   }
 
   connectedCallback() {
@@ -866,6 +868,10 @@ class DrawingPaintingHub extends HTMLElement {
     this.shadowRoot.removeEventListener("click", this._onClick);
     window.removeEventListener("resize", this._applyFullBleedCss);
     window.removeEventListener("orientationchange", this._applyFullBleedCss);
+    if (this._ro) {
+      this._ro.disconnect();
+      this._ro = null;
+    }
     const bleed = document.getElementById("drawing-painting-hub-page-bleed");
     if (bleed) bleed.remove();
   }
@@ -1124,8 +1130,16 @@ class DrawingPaintingHub extends HTMLElement {
         display: block !important;
         box-sizing: border-box !important;
         padding: 0 !important;
+        margin-bottom: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
+      }
+      #SITE_PAGES,
+      #PAGES_CONTAINER,
+      .wixui-page {
+        min-height: 0 !important;
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
       }
       #SITE_PAGES,
       #PAGES_CONTAINER,
@@ -1135,6 +1149,7 @@ class DrawingPaintingHub extends HTMLElement {
         overflow-x: visible !important;
         max-width: none !important;
       }
+      #SITE_FOOTER { margin-top: 0 !important; }
     `;
     document.head.appendChild(style);
   }
@@ -1151,21 +1166,21 @@ class DrawingPaintingHub extends HTMLElement {
       this.style.removeProperty("transform");
 
       const vw = this._viewportWidth();
-      if (!vw) return;
-
-      this.setAttribute("data-fullbleed", "1");
-      this.style.setProperty("position", "relative", "important");
-      this.style.setProperty("left", "0", "important");
-      this.style.setProperty("width", `${vw}px`, "important");
-      this.style.setProperty("max-width", `${vw}px`, "important");
-      this.style.setProperty("min-width", `${vw}px`, "important");
-      this.style.setProperty("margin-left", `calc(50% - ${vw / 2}px)`, "important");
-      this.style.setProperty("margin-right", "0", "important");
-      this.style.setProperty("padding", "0", "important");
-      this.style.setProperty("box-sizing", "border-box", "important");
-      this.style.setProperty("overflow-x", "visible", "important");
-      this.style.setProperty("border-radius", "0", "important");
-      this.style.setProperty("box-shadow", "none", "important");
+      if (vw) {
+        this.setAttribute("data-fullbleed", "1");
+        this.style.setProperty("position", "relative", "important");
+        this.style.setProperty("left", "0", "important");
+        this.style.setProperty("width", `${vw}px`, "important");
+        this.style.setProperty("max-width", `${vw}px`, "important");
+        this.style.setProperty("min-width", `${vw}px`, "important");
+        this.style.setProperty("margin-left", `calc(50% - ${vw / 2}px)`, "important");
+        this.style.setProperty("margin-right", "0", "important");
+        this.style.setProperty("padding", "0", "important");
+        this.style.setProperty("box-sizing", "border-box", "important");
+        this.style.setProperty("overflow-x", "visible", "important");
+        this.style.setProperty("border-radius", "0", "important");
+        this.style.setProperty("box-shadow", "none", "important");
+      }
 
       let el = this.parentElement;
       for (let i = 0; i < 8 && el; i++) {
@@ -1188,6 +1203,71 @@ class DrawingPaintingHub extends HTMLElement {
     } catch (e) {
       // ignore
     }
+    this._collapseTrailingGap();
+  }
+
+  _collapseTrailingGap() {
+    try {
+      this.style.setProperty("margin-bottom", "0", "important");
+      this.style.setProperty("padding-bottom", "0", "important");
+      let el = this.parentElement;
+      for (let i = 0; i < 10 && el; i++) {
+        el.style.setProperty("min-height", "0", "important");
+        el.style.setProperty("padding-bottom", "0", "important");
+        el.style.setProperty("margin-bottom", "0", "important");
+        const id = el.id || "";
+        const tag = (el.tagName || "").toLowerCase();
+        if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
+        el.style.setProperty("height", "auto", "important");
+        el = el.parentElement;
+      }
+      const pages = document.getElementById("SITE_PAGES") || document.getElementById("PAGES_CONTAINER");
+      const footer = document.getElementById("SITE_FOOTER");
+      if (footer) footer.style.setProperty("margin-top", "0", "important");
+      if (!pages || !footer) return;
+      let node = this;
+      while (node && node.parentElement && node.parentElement !== pages) {
+        node = node.parentElement;
+      }
+      if (!node || node.parentElement !== pages) return;
+      let sib = node.nextElementSibling;
+      while (sib && sib !== footer) {
+        const next = sib.nextElementSibling;
+        const text = (sib.textContent || "").replace(/\s+/g, "");
+        if (text.length < 8) {
+          sib.style.setProperty("display", "none", "important");
+          sib.style.setProperty("height", "0", "important");
+          sib.style.setProperty("min-height", "0", "important");
+          sib.style.setProperty("margin", "0", "important");
+          sib.style.setProperty("padding", "0", "important");
+        }
+        sib = next;
+      }
+    } catch (e) {}
+  }
+
+  _observeHeight() {
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub) return;
+    if (this._ro) this._ro.disconnect();
+    this._ro = new ResizeObserver(this._syncHeight);
+    this._ro.observe(hub);
+    this._syncHeight();
+    requestAnimationFrame(this._syncHeight);
+    setTimeout(this._syncHeight, 300);
+    setTimeout(this._syncHeight, 1200);
+  }
+
+  _syncHeight() {
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub) return;
+    const h = Math.ceil(hub.getBoundingClientRect().height);
+    if (h > 0) {
+      this.style.setProperty("height", `${h}px`, "important");
+      this.style.setProperty("min-height", "0", "important");
+      this.style.setProperty("max-height", "none", "important");
+    }
+    this._collapseTrailingGap();
   }
 
   render() {
@@ -1399,6 +1479,7 @@ class DrawingPaintingHub extends HTMLElement {
 
     this._applyFilter(this._filter || "all");
     this._applyFullBleedCss();
+    this._observeHeight();
   }
 }
 
