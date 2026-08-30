@@ -1,7 +1,7 @@
 /**
  * ICAcademy Visual Art Skills Course — course landing (not a hub)
  * Tag name: visual-art-skills-hub
- * Version: 2026-08-29-v2 (Kids Art child URL)
+ * Version: 2026-08-30-v3 (ZH parent-frame locale; never throw on connect)
  *
  * Parent silo hub: Kids Art (yo1yl). Canonical under /course/kids-art.
  * Canonical:
@@ -208,7 +208,7 @@ const RELATED = [
   {
     title: { en: "Sketching Class", zh: "素描班" },
     desc: { en: "Ages 9+ · observation, proportion, line and value", zh: "適合9歲以上，學習觀察、比例、線條及光暗技巧" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
   },
   {
     title: { en: "Comic Drawing Class", zh: "卡通動畫班" },
@@ -490,7 +490,9 @@ class VisualArtSkillsHub extends HTMLElement {
   }
 
   connectedCallback() {
-    this.render();
+    try {
+      this.render();
+    } catch (e) {}
     const syncLocale = () => {
       try {
         if (this.localeCode === "zh") {
@@ -499,12 +501,14 @@ class VisualArtSkillsHub extends HTMLElement {
         }
       } catch (e) {}
     };
-    setTimeout(syncLocale, 0);
-    setTimeout(syncLocale, 500);
-    this.shadowRoot.addEventListener("click", this._onClick);
-    window.addEventListener("resize", this._syncHeight);
-    window.addEventListener("resize", this._applyFullBleedCss);
-    this._applyFullBleedCss();
+    try {
+      setTimeout(syncLocale, 0);
+      setTimeout(syncLocale, 500);
+      this.shadowRoot.addEventListener("click", this._onClick);
+      window.addEventListener("resize", this._syncHeight);
+      window.addEventListener("resize", this._applyFullBleedCss);
+      this._applyFullBleedCss();
+    } catch (e) {}
   }
 
   disconnectedCallback() {
@@ -528,9 +532,15 @@ class VisualArtSkillsHub extends HTMLElement {
   }
 
   get localeCode() {
+    const hasZh = (s) => /\/zh(\/|$|\?|#)/i.test(String(s || ""));
     try {
-      const href = String((window.location && (window.location.href || window.location.pathname)) || "");
-      if (/\/zh(\/|$|\?|#)/i.test(href)) return "zh";
+      if (hasZh(window.location && (window.location.href || window.location.pathname))) return "zh";
+    } catch (e) {}
+    try {
+      if (window.parent && window.parent !== window && hasZh(window.parent.location.href)) return "zh";
+    } catch (e) {}
+    try {
+      if (hasZh(document.referrer)) return "zh";
     } catch (e) {}
     try {
       const lang = String(
@@ -549,7 +559,10 @@ class VisualArtSkillsHub extends HTMLElement {
   }
 
   path(slug) {
-    return this.isEn ? slug : `/zh${slug}`;
+    const s = String(slug || "");
+    if (this.isEn) return s;
+    if (s === "/zh" || s.startsWith("/zh/")) return s;
+    return `/zh${s.startsWith("/") ? s : `/${s}`}`;
   }
 
   pick(obj) {
