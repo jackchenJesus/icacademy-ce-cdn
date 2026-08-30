@@ -1,7 +1,7 @@
 /**
  * ICAcademy Kids Art Silo Hub – Custom Element
  * Tag name: kids-art-hub
- * Version: 2026-08-23-v10 (nested silo URLs for ads / kids intent)
+ * Version: 2026-08-30-v11 (Sketching Class → /course/drawing-and-painting/sketching-class)
  * Design system: matches courses-hub (coral / teal)
  * Routes: /course/kids-art (EN) · /zh/course/kids-art (ZH) (Editor: Kids Art, yo1yl)
  */
@@ -173,7 +173,7 @@ const COURSES = [
       { en: "Light, shade and material texture", zh: "光暗及材質表現" },
     ],
     media: { en: "Pencil sketching", zh: "鉛筆素描" },
-    href: "/courses/sketching-class",
+    href: "/course/drawing-and-painting/sketching-class",
     tags: ["sketch", "age-8plus"],
     image: IMG.sketch,
     imageAlt: { en: "ICAcademy kids sketching class student work", zh: "何文田兒童素描課程學生作品" },
