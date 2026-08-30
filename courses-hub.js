@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-30-v18 (prep/foundation View course → visual-art-skills-course)
+ * Version: 2026-08-30-v19 (ZH: parent-frame locale + VAS /zh nested URLs)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -927,9 +927,15 @@ class CoursesHub extends HTMLElement {
   }
 
   get localeCode() {
+    const hasZh = (s) => /\/zh(\/|$|\?|#)/i.test(String(s || ""));
     try {
-      const href = String((window.location && (window.location.href || window.location.pathname)) || "");
-      if (/\/zh(\/|$|\?|#)/i.test(href)) return "zh";
+      if (hasZh(window.location && (window.location.href || window.location.pathname))) return "zh";
+    } catch (e) {}
+    try {
+      if (window.parent && window.parent !== window && hasZh(window.parent.location.href)) return "zh";
+    } catch (e) {}
+    try {
+      if (hasZh(document.referrer)) return "zh";
     } catch (e) {}
     try {
       const lang = String(
@@ -954,7 +960,10 @@ class CoursesHub extends HTMLElement {
   }
 
   path(slug) {
-    return this.isEn ? slug : `/zh${slug}`;
+    const s = String(slug || "");
+    if (this.isEn) return s;
+    if (s === "/zh" || s.startsWith("/zh/")) return s;
+    return `/zh${s.startsWith("/") ? s : `/${s}`}`;
   }
 
   pick(obj) {
