@@ -1,7 +1,7 @@
 /**
  * ICAcademy Drawing & Painting Silo Hub – Custom Element
  * Tag name: drawing-painting-hub
- * Version: 2026-08-16-v6 (EN/ZH from URL; English page no longer locked to Chinese)
+ * Version: 2026-08-30-v7 (Sketching Class → /course/drawing-and-painting/sketching-class)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Routes: /course/drawing-and-painting (EN) | /zh/course/drawing-and-painting (ZH)
  */
@@ -39,7 +39,7 @@ const COURSES = [
       zh: ["鉛筆控制與起稿", "構圖與空間", "光暗及材質表現"],
     },
     media: { en: "Pencil sketching", zh: "鉛筆素描" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
     tags: ["sketch", "drawing"],
     image: IMG.sketch,
     imageAlt: { en: "Ho Man Tin sketching class student work", zh: "何文田素描課程學生作品" },
@@ -56,7 +56,7 @@ const COURSES = [
       zh: ["塑膠彩基礎運用", "色彩與筆觸練習", "完整畫面表達"],
     },
     media: { en: "Acrylic paint", zh: "塑膠彩" },
-    hrefSlug: "/courses/acrylic-painting-class",
+    hrefSlug: "/course/drawing-and-painting/acrylic-painting-class",
     tags: ["acrylic", "painting"],
     image: IMG.acrylic,
     imageAlt: { en: "ICAcademy acrylic painting class student work", zh: "ICAcademy塑膠彩課程學生作品" },
@@ -93,7 +93,7 @@ const COURSES = [
       zh: ["素描、塑膠彩及混合媒介", "主題構思至完成作品", "按程度個別指導"],
     },
     media: { en: "Sketching, acrylic and mixed media", zh: "素描、塑膠彩、混合媒介" },
-    hrefSlug: "/courses/visual-art-class",
+    hrefSlug: "/course/kids-art/visual-art-class",
     tags: ["mixed", "painting", "drawing"],
     image: IMG.visualArt,
     imageAlt: { en: "ICAcademy Visual Art Class student work", zh: "ICAcademy綜合美術課程學生作品" },
@@ -121,13 +121,13 @@ const GUIDE = [
   {
     title: { en: "Sketching", zh: "素描" },
     desc: { en: "Line, shape, proportion, light and observation", zh: "線條、形狀、比例、光影與觀察" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
     cta: { en: "View Sketching Class", zh: "查看素描技巧班" },
   },
   {
     title: { en: "Acrylic", zh: "塑膠彩" },
     desc: { en: "Colour, composition, brushwork and acrylic technique", zh: "色彩、構圖、筆觸與塑膠彩技法" },
-    hrefSlug: "/courses/acrylic-painting-class",
+    hrefSlug: "/course/drawing-and-painting/acrylic-painting-class",
     cta: { en: "View Acrylic Painting Class", zh: "查看塑膠彩課程" },
   },
   {
@@ -139,7 +139,7 @@ const GUIDE = [
   {
     title: { en: "Visual Art Class", zh: "綜合美術" },
     desc: { en: "Explore media and a personal creative direction (ages 14+)", zh: "探索多種媒介與個人創作方向（14歲以上）" },
-    hrefSlug: "/courses/visual-art-class",
+    hrefSlug: "/course/kids-art/visual-art-class",
     cta: { en: "View Visual Art Class", zh: "查看綜合美術課程" },
   },
   {
@@ -164,10 +164,10 @@ const PATH = [
 ];
 
 const BEGINNER_POINTS = [
-  { goal: { en: "Want a solid foundation", zh: "想打穩基本功" }, course: { en: "Sketching Class", zh: "素描技巧班" }, hrefSlug: "/courses/sketching-class" },
-  { goal: { en: "Want colour and painting", zh: "想學色彩及繪畫" }, course: { en: "Acrylic Painting Class", zh: "塑膠彩班" }, hrefSlug: "/courses/acrylic-painting-class" },
+  { goal: { en: "Want a solid foundation", zh: "想打穩基本功" }, course: { en: "Sketching Class", zh: "素描技巧班" }, hrefSlug: "/course/drawing-and-painting/sketching-class" },
+  { goal: { en: "Want colour and painting", zh: "想學色彩及繪畫" }, course: { en: "Acrylic Painting Class", zh: "塑膠彩班" }, hrefSlug: "/course/drawing-and-painting/acrylic-painting-class" },
   { goal: { en: "Want a visual-art foundation for young children", zh: "想系統建立視藝基礎（幼兒／兒童）" }, course: { en: "Visual Art Skills", zh: "視藝技巧" }, hrefSlug: "/course/kids-art/visual-art-skills-course" },
-  { goal: { en: "Want to try different media", zh: "想接觸不同媒介" }, course: { en: "Visual Art Class", zh: "綜合美術" }, hrefSlug: "/courses/visual-art-class" },
+  { goal: { en: "Want to try different media", zh: "想接觸不同媒介" }, course: { en: "Visual Art Class", zh: "綜合美術" }, hrefSlug: "/course/kids-art/visual-art-class" },
   { goal: { en: "Want adult painting by interest", zh: "想按自己喜好學成人繪畫" }, course: { en: "Paint Square", zh: "Paint Square" }, hrefSlug: "/course/drawing-and-painting/adult-art-class-hong-kong" },
 ];
 
