@@ -220,9 +220,13 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 
 @media (max-width: 640px) {
   :host { font-size: 14px; }
-  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
-  .hero-sub { font-size: 1rem; }
-  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
+  h1, .hero-title-chip h1, .hero h1 { font-size: 1.5em !important; line-height: 1.35; }
+  h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.32em !important; }
+  h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.06em !important; }
+  .hero-sub { font-size: 1.1em !important; }
+  p, li, .section-lead, .hero-lead, .faq-a, .card-body p, .path-step p, .final p, .detail-lead, .hero-points { font-size: 1em !important; }
+  .hero-eyebrow, .kicker, .crumbs, .trust-item span { font-size: 0.92em !important; }
+  .btn { font-size: 1em !important; }
   .hero .wrap { padding: 48px 0 40px; }
   .btn-row { flex-direction: column; align-items: stretch; }
   .btn { width: 100%; }

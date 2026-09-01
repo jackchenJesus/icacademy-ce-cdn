@@ -814,6 +814,13 @@ h3 { font-size: 1.12rem; }
 
 @media (max-width: 640px) {
   :host { font-size: 14px; }
+  h1, .hero-title-chip h1, .hero h1 { font-size: 1.5em !important; line-height: 1.35; }
+  h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.32em !important; }
+  h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.06em !important; }
+  .hero-sub { font-size: 1.1em !important; }
+  p, li, .section-lead, .hero-lead, .faq-a, .card-body p, .path-step p, .final p, .detail-lead, .hero-points { font-size: 1em !important; }
+  .hero-eyebrow, .kicker, .crumbs, .trust-item span { font-size: 0.92em !important; }
+  .btn { font-size: 1em !important; }
   .wrap {
     width: min(1200px, calc(100% - 24px));
   }
