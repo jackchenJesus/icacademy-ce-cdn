@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-08-16-v5
+ * Version: 2026-09-01-v1
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -25,9 +25,9 @@ const IMG = {
 const SLIDES = [IMG.hero, IMG.slide2, IMG.slide3, IMG.slide4, IMG.slide5];
 
 const HIGHLIGHTS = [
-  { en: "5-minute walk from Pui Ching Primary", zh: "培正小學正對面，步行5分鐘" },
+  { en: "5-minute walk from Pui Ching Primary", zh: "培正小學附近，步行5分鐘" },
   { en: "School Net 34 families' top choice", zh: "34校網學童首選興趣班" },
-  { en: "Art wellbeing × visual arts training", zh: "藝術心理輔導 × 視覺藝術課程" },
+  { en: "Creative art × visual arts training", zh: "創意藝術 × 視覺藝術課程" },
   { en: "Secondary Portfolio — end-to-end support", zh: "升中 Portfolio 一條龍支援" },
 ];
 
@@ -42,8 +42,8 @@ const WHY_CARDS = [
   {
     title: { en: "Unbeatable location", zh: "地利之便" },
     body: {
-      en: "Directly opposite Pui Ching — straight from school, no extra commute",
-      zh: "培正對面，放學直達，免去接送奔波的家長負擔",
+      en: "Near Pui Ching — straight from school, no extra commute",
+      zh: "培正附近，放學直達，免去接送奔波的家長負擔",
     },
   },
   {
@@ -79,7 +79,7 @@ const PATHWAYS = [
       en: "Targeted support for HKBPE-era anxiety — using art to help children process emotions and find calm.",
       zh: "針對呈分試壓力，以藝術輔助孩子疏導焦慮，培養情緒調節能力。",
     },
-    href: "/courses/creative-art-classes",
+    href: "/course/kids-art/creative-art-classes",
   },
   {
     age: { en: "Secondary +", zh: "中一起" },
@@ -88,7 +88,7 @@ const PATHWAYS = [
       en: "Sketching, colour theory, and observational training — building a Portfolio that stands out at interview.",
       zh: "素描、色彩、觀察力系統訓練，協助學生建立具競爭力的入學作品集。",
     },
-    href: "/courses/visual-art-class",
+    href: "/course/kids-art/visual-art-class",
   },
 ];
 
@@ -96,7 +96,7 @@ const COMPARE_ROWS = [
   {
     label: { en: "Teaching focus", zh: "教學焦點" },
     typical: { en: "Technique and finished pictures", zh: "偏重技巧與完成作品" },
-    ours: { en: "Art wellbeing × visual arts training", zh: "藝術心理成長 × 視覺藝術" },
+    ours: { en: "Creative art × visual arts training", zh: "創意表達 × 視覺藝術" },
   },
   {
     label: { en: "Feedback", zh: "課堂回饋" },
@@ -111,7 +111,7 @@ const COMPARE_ROWS = [
   {
     label: { en: "Location", zh: "地點" },
     typical: { en: "Extra commute after school", zh: "放學後需額外接送" },
-    ours: { en: "Opposite Pui Ching — 5-minute walk", zh: "培正對面，步行約 5 分鐘" },
+    ours: { en: "Near Pui Ching — 5-minute walk", zh: "培正附近，步行約 5 分鐘" },
   },
   {
     label: { en: "Portfolio", zh: "升中作品集" },
@@ -173,7 +173,7 @@ const FAQ_EN = [
   },
   {
     q: "How does art actually help with HKBPE exam stress?",
-    a: "Regular art-making can lower anxiety in children. Our sessions use art psychology principles, guiding children to express emotions they cannot yet put into words — releasing tension around academic performance so they can face assessments from a calmer place.",
+    a: "Regular art-making can help children unwind. Our sessions give them space to express themselves through drawing and painting — easing tension around academic performance so they can face assessments from a calmer place.",
   },
   {
     q: "When should we start preparing a secondary school Portfolio?",
@@ -218,12 +218,12 @@ const FAQ_ZH = [
 
 const TAGS = [
   { en: "Ho Man Tin art class", zh: "何文田兒童畫班", href: "/course-hub" },
-  { en: "children's art opposite Pui Ching", zh: "培正對面畫班", href: "/course-hub" },
+  { en: "children's art near Pui Ching", zh: "培正附近畫班", href: "/course-hub" },
   { en: "HKBPE stress relief", zh: "呈分試減壓", href: "/homantin-children-art-trial" },
   { en: "School Net 34 after-school", zh: "何文田興趣班推薦", href: "/course-hub" },
   { en: "build children's confidence", zh: "提升自信心", href: "/homantin-children-art-trial" },
-  { en: "secondary Portfolio Hong Kong", zh: "升中 Portfolio", href: "/courses/visual-art-class" },
-  { en: "art therapy for kids", zh: "藝術心理輔導", href: "/homantin-children-art-trial" },
+  { en: "secondary Portfolio Hong Kong", zh: "升中 Portfolio", href: "/course/kids-art/visual-art-class" },
+  { en: "children's creative art", zh: "兒童創意美術", href: "/homantin-children-art-trial" },
 ];
 
 const STYLES = `
@@ -808,14 +808,14 @@ class HomeHub extends HTMLElement {
           <button class="hero-arrow prev" type="button" data-action="prev" aria-label="${t("Previous", "上一張")}">‹</button>
           <button class="hero-arrow next" type="button" data-action="next" aria-label="${t("Next", "下一張")}">›</button>
           <div class="wrap">
-            <p class="hero-eyebrow">${t("Ho Man Tin · Opposite Pui Ching Primary · Art & Wellbeing", "何文田 · 培正對面 · 兒童藝術心理成長")}</p>
+            <p class="hero-eyebrow">${t("Ho Man Tin · Near Pui Ching Primary · Kids Art", "何文田 · 培正附近 · 兒童藝術成長")}</p>
             <div class="hero-title-chip">
-              <h1>${t("IC Academy | Ho Man Tin Kids Art Class — Opposite Pui Ching", "IC Academy 何文田兒童畫班")}</h1>
-              <p class="hero-sub">${t("Building Confidence Through Art", "培正對面｜幼兒及兒童藝術啟蒙首選")}</p>
+              <h1>${t("IC Academy | Ho Man Tin Kids Art Class — Near Pui Ching", "IC Academy 何文田兒童畫班")}</h1>
+              <p class="hero-sub">${t("Building Confidence Through Art", "培正附近｜幼兒及兒童藝術啟蒙首選")}</p>
             </div>
             <p class="hero-lead">${t(
-              "IC Academy is a premier children's art studio in Ho Man Tin, Kowloon City. We help primary school students manage HKBPE exam stress through guided art-making — building emotional resilience, self-identity, and a genuine love of visual art. From first brushstrokes to secondary school Portfolio, every child belongs here.",
-              "IC Academy 何文田畫室（藝術心理成長中心），位處九龍城區，專為面對呈分試壓力的小學生設計。以藝術創作為媒介，幫助孩子疏導情緒、建立自我認同感，同時提供由塗鴉至升中 Portfolio 的全面視覺藝術課程。"
+              "IC Academy is a premier children's art studio in Ho Man Tin, Kowloon City. We help primary school students manage HKBPE exam stress through guided art-making — building confidence, self-identity, and a genuine love of visual art. From first brushstrokes to secondary school Portfolio, every child belongs here.",
+              "IC Academy 何文田畫室，位處九龍城區，專為面對呈分試壓力的小學生設計。以藝術創作為媒介，幫助孩子表達自己、建立自信心，同時提供由塗鴉至升中 Portfolio 的全面視覺藝術課程。"
             )}</p>
             <div class="btn-row">
               <a class="btn btn-navy" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial class", "預約首堂試堂體驗")}</a>
@@ -842,8 +842,8 @@ class HomeHub extends HTMLElement {
               "在香港的學制壓力下，呈分試已成為小五、小六學生的精神重擔。傳統興趣班填滿課表，卻少有真正關注孩子的內心世界。IC Academy 從另一個角度出發——藝術，是孩子最安全、最自由的情緒出口。"
             )}</p>
             <p class="section-lead" style="margin-top:-16px">${t(
-              "We do not grade artwork or rank students. In every session, our teachers observe each child's creative process through an art psychology lens — gently guiding self-expression, building a sense of achievement, and giving children a genuine space to breathe beyond academic demands.",
-              "我們不設排名，不比較作品優劣。每堂課，老師會觀察孩子的創作狀態，以藝術心理的視角，引導孩子表達自我、建立成就感。這是一個讓孩子在學業壓力以外，真正「喘一口氣」的地方。"
+              "We do not grade artwork or rank students. In every session, our teachers observe each child's creative process — gently guiding self-expression, building a sense of achievement, and giving children a genuine space to breathe beyond academic demands.",
+              "我們不設排名，不比較作品優劣。每堂課，老師會觀察孩子的創作狀態，引導孩子表達自我、建立成就感。這是一個讓孩子在學業壓力以外，真正「喘一口氣」的地方。"
             )}</p>
             <div class="why-grid">
               ${WHY_CARDS.map(
@@ -955,10 +955,10 @@ class HomeHub extends HTMLElement {
         <section class="section">
           <div class="wrap">
             <p class="kicker">${t("Find us", "我們在哪裡")}</p>
-            <h2 class="section-title">${t("Ho Man Tin · Kowloon City · directly opposite Pui Ching", "何文田 · 九龍城區 · 培正正對面")}</h2>
+            <h2 class="section-title">${t("Ho Man Tin · Kowloon City · near Pui Ching", "何文田 · 九龍城區 · 培正附近")}</h2>
             <p class="section-lead">${t(
-              "IC Academy sits in the heart of Ho Man Tin, one minute on foot from Pui Ching Primary School's main entrance. We serve families across Kowloon City, To Kwa Wan, and School Net 34 — making us the most convenient creative space for children in the area after school.",
-              "IC Academy 藝術心理成長中心坐落於何文田，步行一分鐘即達培正小學正門。鄰近九龍城、土瓜灣及34校網各大名校，是區內學童放學後最方便的創作空間。"
+              "IC Academy sits in the heart of Ho Man Tin, near Pui Ching Primary School — about a 5-minute walk. We serve families across Kowloon City, To Kwa Wan, and School Net 34 — making us the most convenient creative space for children in the area after school.",
+              "IC Academy 畫室坐落於何文田，鄰近培正小學，步行約 5 分鐘可到。鄰近九龍城、土瓜灣及34校網各大名校，是區內學童放學後最方便的創作空間。"
             )}</p>
             <div class="find-grid">
               <article class="find-card">
