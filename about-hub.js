@@ -1,7 +1,7 @@
 /**
  * IC Academy About Us – Custom Element
  * Tag name: about-hub
- * Version: 2026-09-01-v2
+ * Version: 2026-09-01-v2 (smaller mobile type)
  * Design system: matches home-hub / trial-class-hub (coral / teal / navy)
  * Full-bleed clears Wix mesh inset (left:20px / right:-20px) so mobile content is not shifted.
  * Routes: /about-us (EN) | /zh/about-us (ZH)
@@ -327,6 +327,12 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 .final .btn-row { justify-content: center; }
 
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .section-title { font-size: clamp(1.22rem, 5.2vw, 1.5rem); }
+  .hero-title-chip h1 { font-size: clamp(1.22rem, 5.6vw, 1.5rem); }
+  .hero-sub { font-size: clamp(0.95rem, 4vw, 1.12rem); }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .hero .wrap { padding: 40px 0 56px; }
   .btn-row { flex-direction: column; align-items: stretch; }
   .btn { width: 100%; }

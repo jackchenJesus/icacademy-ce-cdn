@@ -1,7 +1,7 @@
 /**
  * ICAcademy Teen Art Silo Landing – Custom Element
  * Tag name: teen-art-hub
- * Version: 2026-08-30-v3 (Sketching Class View course → /course/drawing-and-painting/sketching-class)
+ * Version: 2026-08-30-v3 (Sketching Class View course → /course/drawing-and-painting/sketching-class; smaller mobile type)
  * Design system: matches kids-art-hub / drawing-painting-hub (coral / teal)
  * Routes: /course/teen-art (EN) | /zh/course/teen-art (ZH)
  *
@@ -702,6 +702,12 @@ h3 { font-size: 1.12rem; }
 .final .btn-row { justify-content: center; }
 
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .section-title { font-size: clamp(1.22rem, 5.2vw, 1.5rem); }
+  .hero-title-chip h1 { font-size: clamp(1.22rem, 5.6vw, 1.5rem); }
+  .hero-sub { font-size: clamp(0.95rem, 4vw, 1.12rem); }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .hero { min-height: 0; }
   .hero .wrap { padding: 32px 0 36px; }
   .section { padding: 48px 0; }

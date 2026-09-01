@@ -1,7 +1,7 @@
 /**
  * ICAcademy Kids Art Silo Hub – Custom Element
  * Tag name: kids-art-hub
- * Version: 2026-08-30-v11 (Sketching Class → /course/drawing-and-painting/sketching-class)
+ * Version: 2026-08-30-v11 (Sketching Class → /course/drawing-and-painting/sketching-class; smaller mobile type)
  * Design system: matches courses-hub (coral / teal)
  * Routes: /course/kids-art (EN) · /zh/course/kids-art (ZH) (Editor: Kids Art, yo1yl)
  */
@@ -813,12 +813,13 @@ h3 { font-size: 1.12rem; }
 }
 
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
   .wrap {
     width: min(1200px, calc(100% - 24px));
   }
   .section { padding: 40px 0; }
   .section-title {
-    font-size: clamp(1.35rem, 6vw, 1.7rem);
+    font-size: clamp(1.22rem, 5.2vw, 1.5rem);
     padding: 0 4px;
     word-break: keep-all;
   }
@@ -834,11 +835,11 @@ h3 { font-size: 1.12rem; }
     margin-bottom: 14px;
   }
   .hero-title-chip h1 {
-    font-size: clamp(1.28rem, 6.2vw, 1.7rem);
+    font-size: clamp(1.18rem, 5.4vw, 1.45rem);
     line-height: 1.4;
   }
   .hero-sub {
-    font-size: clamp(1.05rem, 4.8vw, 1.35rem);
+    font-size: clamp(0.95rem, 4.2vw, 1.12rem);
   }
   .hero-lead {
     font-size: 0.98rem;
@@ -873,7 +874,7 @@ h3 { font-size: 1.12rem; }
     min-height: 0;
     padding: 22px 18px;
   }
-  .detail h2 { font-size: clamp(1.3rem, 5.5vw, 1.65rem); }
+  .detail h2 { font-size: clamp(1.15rem, 5vw, 1.4rem); }
   .detail-media {
     max-height: 360px;
     aspect-ratio: 4 / 5;
@@ -891,13 +892,13 @@ h3 { font-size: 1.12rem; }
   .faq-q { font-size: 1rem; }
   .faq-a { font-size: 0.95rem; }
   .final { padding: 48px 16px; }
-  .final h2 { font-size: clamp(1.35rem, 6vw, 1.75rem); }
+  .final h2 { font-size: clamp(1.2rem, 5.4vw, 1.48rem); }
   .crumbs { font-size: 0.88rem; margin-bottom: 14px; }
 }
 
 @media (max-width: 380px) {
   .wrap { width: calc(100% - 16px); }
-  .hero-title-chip h1 { font-size: 1.2rem; }
+  .hero-title-chip h1 { font-size: 1.08rem; }
   .age-tabs button { padding: 7px 12px; font-size: 0.88rem; }
 }
 `;

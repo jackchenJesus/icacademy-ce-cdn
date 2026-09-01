@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-09-01-v1
+ * Version: 2026-09-01-v1 (smaller mobile type)
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -482,6 +482,12 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 .final .btn-row { justify-content: center; }
 
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .section-title { font-size: clamp(1.22rem, 5.2vw, 1.5rem); }
+  .hero-title-chip h1 { font-size: clamp(1.22rem, 5.6vw, 1.5rem); }
+  .hero-sub { font-size: clamp(0.95rem, 4vw, 1.12rem); }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .hero .wrap { padding: 40px 0 80px; }
   .btn-row { flex-direction: column; align-items: stretch; }
   .btn { width: 100%; }

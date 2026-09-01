@@ -1,7 +1,7 @@
 /**
  * ICAcademy Comic Drawing Class — course landing (not a hub)
  * Tag name: comic-drawing-hub
- * Version: 2026-08-16-v1
+ * Version: 2026-08-16-v1 (smaller mobile type)
  *
  * Parent silo hub: Kids Art
  * Canonical:
@@ -195,17 +195,17 @@ const RELATED = [
   {
     title: { en: "Kids Creative Art", zh: "兒童創意美術課程" },
     desc: { en: "Ages 7–14 · mixed media and creative drawing skill", zh: "適合7–14歲，學習不同媒介及創意繪畫技巧" },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
   },
   {
     title: { en: "Sketching Class", zh: "素描班" },
     desc: { en: "Ages 9+ · observation, proportion, line and light", zh: "適合9歲以上，學習觀察、比例、線條及光暗技巧" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
   },
   {
     title: { en: "Visual Art Class", zh: "綜合美術課程" },
     desc: { en: "Ages 14+ · mixed media and more advanced art skill", zh: "適合14歲以上，透過不同媒介發展進階藝術技巧" },
-    hrefSlug: "/courses/visual-art-class",
+    hrefSlug: "/course/kids-art/visual-art-class",
   },
 ];
 
@@ -439,6 +439,12 @@ h3 { font-size: 1.12rem; }
   }
 }
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .section-title { font-size: clamp(1.22rem, 5.2vw, 1.5rem); }
+  .hero-title-chip h1 { font-size: clamp(1.22rem, 5.6vw, 1.5rem); }
+  .hero-sub { font-size: clamp(0.95rem, 4vw, 1.12rem); }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .wrap { width: calc(100% - 24px); }
   .section { padding: 36px 0; }
   .hero .wrap { padding: 28px 0 32px; }

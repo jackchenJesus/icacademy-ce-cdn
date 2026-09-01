@@ -1,7 +1,7 @@
 /**
  * ICAcademy Short-term Courses Hub – Custom Element
  * Tag name: short-term-courses-hub
- * Version: 2026-08-18-v4 (CNY + Easter programme cards linking to live workshop pages)
+ * Version: 2026-08-18-v4 (CNY + Easter programme cards linking to live workshop pages; smaller mobile type)
  * Routes: /short-term-courses (EN) | /zh/short-term-courses (ZH)
  * Sub-pages: /short-term-course/2026cnyworkshop, /short-term-course/2026-easter-workshop
  * Design system: matches courses-hub / trial-class-hub (coral / teal).
@@ -581,6 +581,12 @@ h3 { font-size: 1.12rem; }
 }
 
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .section-title { font-size: clamp(1.22rem, 5.2vw, 1.5rem); }
+  .hero-title-chip h1 { font-size: clamp(1.22rem, 5.6vw, 1.5rem); }
+  .hero-sub { font-size: clamp(0.95rem, 4vw, 1.12rem); }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .hero .wrap { padding: 40px 0; }
   .btn-row { flex-direction: column; align-items: stretch; }
   .btn { width: 100%; }

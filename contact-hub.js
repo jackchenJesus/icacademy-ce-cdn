@@ -1,7 +1,7 @@
 /**
  * IC Academy Contact – Custom Element
  * Tag name: contact-hub
- * Version: 2026-09-01-v1
+ * Version: 2026-09-01-v1 (smaller mobile type)
  * Design system: matches home-hub / about-hub / trial-class-hub (coral / teal / navy)
  * Routes: /contact (EN) | /zh/contact (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -219,6 +219,10 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 .final .btn-row { justify-content: center; }
 
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .hero-sub { font-size: 1rem; }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .hero .wrap { padding: 48px 0 40px; }
   .btn-row { flex-direction: column; align-items: stretch; }
   .btn { width: 100%; }

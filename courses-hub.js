@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-30-v19 (ZH: parent-frame locale + VAS /zh nested URLs)
+ * Version: 2026-08-30-v19 (ZH: parent-frame locale + VAS /zh nested URLs; smaller mobile type)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -867,6 +867,12 @@ h3 { font-size: 1.12rem; }
 }
 
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .section-title { font-size: clamp(1.22rem, 5.2vw, 1.5rem); }
+  .hero-title-chip h1 { font-size: clamp(1.22rem, 5.6vw, 1.5rem); }
+  .hero-sub { font-size: clamp(0.95rem, 4vw, 1.12rem); }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .hero .wrap { padding: 40px 0; }
   .btn-row { flex-direction: column; align-items: stretch; }
   .btn { width: 100%; }

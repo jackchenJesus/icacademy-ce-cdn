@@ -1,7 +1,7 @@
 /**
  * ICAcademy Student Artwork Gallery Hub – Custom Element
  * Tag name: gallery-hub
- * Version: 2026-08-18-v8 (smaller mobile filter pills)
+ * Version: 2026-08-18-v8 (smaller mobile filter pills; smaller mobile type)
  * Design system: matches courses-hub / kids-art-hub / drawing-painting-hub / trial-class-hub
  * Routes: /studentartwork (EN) | /zh/studentartwork (ZH)
  * Locale via attribute: locale="en" | "zh" (default en = site primary).
@@ -392,7 +392,7 @@ const COURSE_CARDS = [
       en: "Sketching, painting, acrylic and mixed-media skills — choose by interest and level.",
       zh: "素描、繪畫、塑膠彩與綜合美術技巧，按興趣與程度選擇合適方向。",
     },
-    hrefSlug: "/courses/art-drawing",
+    hrefSlug: "/course/drawing-and-painting",
     cta: { en: "Explore Drawing & Painting", zh: "探索繪畫及素描課程" },
     imageId: "b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg",
     imageAlt: {
@@ -407,7 +407,7 @@ const COURSE_CARDS = [
       en: "Character design, comic figures, expression, action and composition for storytelling.",
       zh: "角色設計、漫畫人物、表情動作與畫面構圖，激發故事與創意表達。",
     },
-    hrefSlug: "/courses/comic-drawing-class",
+    hrefSlug: "/course/kids-art/comic-drawing-class",
     cta: { en: "View comics & digital art", zh: "查看漫畫及數碼藝術課程" },
     imageId: "b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg",
     imageAlt: {
@@ -422,7 +422,7 @@ const COURSE_CARDS = [
       en: "Soft clay and 3D crafts that build modelling, structure and colour sense.",
       zh: "輕黏土與立體手作，訓練塑形、結構與色彩美感。",
     },
-    hrefSlug: "/courses/creative-art-and-clay-class",
+    hrefSlug: "/course/kids-art/creative-art-and-clay-class",
     cta: { en: "View clay courses", zh: "查看黏土課程" },
     imageId: "b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg",
     imageAlt: {
@@ -943,11 +943,11 @@ h3 { font-size: 1.12rem; }
   }
   .course-grid { grid-template-columns: 1fr; }
   .masonry { column-count: 2; }
-  .section-title { font-size: clamp(1.35rem, 4vw, 1.8rem); }
+  .section-title { font-size: clamp(1.22rem, 4.6vw, 1.5rem); }
 }
 
 @media (max-width: 768px) {
-  :host { --page-pad: 16px; font-size: 15.5px; }
+  :host { --page-pad: 16px; font-size: 14px; }
   .section { padding: 44px 0; }
   .section-lead { margin-bottom: 24px; font-size: 0.98rem; }
   .btn-row { flex-direction: column; align-items: stretch; gap: 10px; }
@@ -985,7 +985,7 @@ h3 { font-size: 1.12rem; }
     padding: 28px 16px;
     border-radius: 18px;
   }
-  .trial h2 { font-size: 1.25rem; }
+  .trial h2 { font-size: 1.12rem; }
   .lightbox-dialog { border-radius: 14px; }
   .lightbox-img-wrap img { max-height: min(68dvh, 720px); }
 }

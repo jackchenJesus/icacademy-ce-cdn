@@ -1,7 +1,7 @@
 /**
  * ICAcademy Adult Painting Course Paint Square — course landing (not a hub)
  * Tag name: paint-square-hub
- * Version: 2026-08-16-v4 (breadcrumb silo → /course/drawing-and-painting)
+ * Version: 2026-08-16-v4 (breadcrumb silo → /course/drawing-and-painting; smaller mobile type)
  *
  * Parent silo hub: Drawing & Painting
  * Canonical:
@@ -224,12 +224,12 @@ const RELATED = [
   {
     title: { en: "Visual Art Class", zh: "綜合美術課程" },
     desc: { en: "Ages 14+ · mixed media and personal direction", zh: "14歲以上 · 多媒介探索與個人創作" },
-    hrefSlug: "/courses/visual-art-class",
+    hrefSlug: "/course/kids-art/visual-art-class",
   },
   {
     title: { en: "Acrylic Painting Class", zh: "塑膠彩班" },
     desc: { en: "Ages 14+ · colour, brushwork and a finished painting", zh: "14歲以上 · 色彩、筆觸與完整畫作" },
-    hrefSlug: "/courses/acrylic-painting-class",
+    hrefSlug: "/course/drawing-and-painting/acrylic-painting-class",
   },
   {
     title: { en: "Drawing & Painting", zh: "繪畫及素描" },
@@ -468,6 +468,12 @@ h3 { font-size: 1.12rem; }
   }
 }
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .section-title { font-size: clamp(1.22rem, 5.2vw, 1.5rem); }
+  .hero-title-chip h1 { font-size: clamp(1.22rem, 5.6vw, 1.5rem); }
+  .hero-sub { font-size: clamp(0.95rem, 4vw, 1.12rem); }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .wrap { width: calc(100% - 24px); }
   .section { padding: 36px 0; }
   .hero .wrap { padding: 28px 0 32px; }

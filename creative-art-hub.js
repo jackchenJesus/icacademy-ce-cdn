@@ -1,7 +1,7 @@
 /**
  * ICAcademy Creative Art Classes — course landing (not a hub)
  * Tag name: creative-art-hub
- * Version: 2026-08-16-v1
+ * Version: 2026-08-16-v1 (smaller mobile type)
  *
  * Parent silo hub: Kids Art
  * Canonical:
@@ -248,7 +248,7 @@ const RELATED = [
   {
     title: { en: "Sketching Class", zh: "素描班" },
     desc: { en: "Ages 9+ · observation, proportion, line, light and shade", zh: "適合9歲以上，學習觀察、比例、線條及光暗技巧" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
   },
   {
     title: { en: "Comic Drawing Class", zh: "卡通動畫班" },
@@ -501,6 +501,12 @@ h3 { font-size: 1.12rem; }
   }
 }
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .section-title { font-size: clamp(1.22rem, 5.2vw, 1.5rem); }
+  .hero-title-chip h1 { font-size: clamp(1.22rem, 5.6vw, 1.5rem); }
+  .hero-sub { font-size: clamp(0.95rem, 4vw, 1.12rem); }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .wrap { width: calc(100% - 24px); }
   .section { padding: 36px 0; }
   .hero .wrap { padding: 28px 0 32px; }

@@ -1,7 +1,7 @@
 /**
  * ICAcademy Kids Art Classes — course landing (not a hub)
  * Tag name: kids-art-classes-hub (keep for Editor / CDN)
- * Version: 2026-08-16-v3 (full-width bleed + new kids hero)
+ * Version: 2026-08-16-v3 (full-width bleed + new kids hero; smaller mobile type)
  *
  * This page is the Ho Man Tin Kids Art Classes course landing.
  * The Kids Art silo hub is /course/kids-art (yo1yl).
@@ -91,7 +91,7 @@ const COURSES = [
       zh: ["線條、色彩、基本構圖", "主題觀察與想像", "簡單多媒介創作"],
     },
     media: { en: "Drawing, collage and mixed materials", zh: "繪畫、拼貼、多元物料" },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
     role: "level",
     tags: ["creative", "painting", "age-7-14"],
     image: IMG.creativeI,
@@ -112,7 +112,7 @@ const COURSES = [
       zh: ["比例與構圖進階", "色彩配搭", "個人想法融入主題"],
     },
     media: { en: "Drawing and mixed media", zh: "繪畫及多元媒介" },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
     role: "level",
     tags: ["creative", "painting", "age-7-14"],
     image: IMG.creativeII,
@@ -130,7 +130,7 @@ const COURSES = [
       zh: ["畫面層次與造型", "主題研究", "為進階美術建立基礎"],
     },
     media: { en: "Multi-media creation", zh: "多媒介創作" },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
     role: "level",
     tags: ["creative", "painting", "age-7-14", "age-9-14"],
     image: IMG.creativeIII,
@@ -151,7 +151,7 @@ const COURSES = [
       zh: ["漫畫人物比例與五官", "角色造型與故事背景", "畫面構圖表達"],
     },
     media: { en: "Pencil, markers and comic media", zh: "鉛筆、馬克筆、漫畫媒材" },
-    hrefSlug: "/courses/comic-drawing-class",
+    hrefSlug: "/course/kids-art/comic-drawing-class",
     role: "related",
     tags: ["comic", "age-7-14", "age-9-14"],
     image: IMG.comic,
@@ -172,7 +172,7 @@ const COURSES = [
       zh: ["基礎塑形與混色", "分齡主題創作", "完成立體作品帶回家"],
     },
     media: { en: "Soft clay and clay media", zh: "輕黏土及專業黏土媒材" },
-    hrefSlug: "/courses/creative-art-and-clay-class",
+    hrefSlug: "/course/kids-art/creative-art-and-clay-class",
     role: "related",
     tags: ["clay", "age-3-7", "age-7-14"],
     image: IMG.clay,
@@ -193,7 +193,7 @@ const COURSES = [
       zh: ["鉛筆控制與起稿", "構圖與空間", "光暗及材質表現"],
     },
     media: { en: "Pencil sketching", zh: "鉛筆素描" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
     role: "related",
     tags: ["sketch", "age-9-14"],
     image: IMG.sketch,
@@ -222,7 +222,7 @@ const AGE_BANDS = [
       zh: "多媒介創作、黏土、卡通與構圖訓練",
     },
     cta: { en: "See this level →", zh: "查看此程度 →" },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
   },
   {
     filter: "age-9-14",
@@ -233,7 +233,7 @@ const AGE_BANDS = [
       zh: "素描、漫畫、塑膠彩及個人作品發展",
     },
     cta: { en: "See this level →", zh: "查看此程度 →" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
   },
 ];
 
@@ -307,22 +307,22 @@ const RELATED = [
   {
     title: { en: "Comic Drawing Class", zh: "卡通漫畫班" },
     desc: { en: "Ages 8+ · characters and storytelling", zh: "8歲以上 · 角色與故事畫面" },
-    hrefSlug: "/courses/comic-drawing-class",
+    hrefSlug: "/course/kids-art/comic-drawing-class",
   },
   {
     title: { en: "Soft Clay Class", zh: "輕黏土課程" },
     desc: { en: "Ages 3–16 · 3D making", zh: "3–16歲 · 立體塑形" },
-    hrefSlug: "/courses/creative-art-and-clay-class",
+    hrefSlug: "/course/kids-art/creative-art-and-clay-class",
   },
   {
     title: { en: "Sketching Class", zh: "素描技巧班" },
     desc: { en: "Ages 9+ · observation and light", zh: "9歲以上 · 觀察與光暗" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
   },
   {
     title: { en: "Drawing & Painting", zh: "繪畫及素描" },
     desc: { en: "Sketching, acrylic and mixed media", zh: "素描、塑膠彩及綜合美術" },
-    hrefSlug: "/courses/art-drawing",
+    hrefSlug: "/course/drawing-and-painting",
   },
 ];
 
@@ -586,6 +586,12 @@ h3 { font-size: 1.12rem; }
   }
 }
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .section-title { font-size: clamp(1.22rem, 5.2vw, 1.5rem); }
+  .hero-title-chip h1 { font-size: clamp(1.22rem, 5.6vw, 1.5rem); }
+  .hero-sub { font-size: clamp(0.95rem, 4vw, 1.12rem); }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .wrap { width: calc(100% - 24px); }
   .section { padding: 36px 0; }
   .hero .wrap { padding: 28px 0 32px; }

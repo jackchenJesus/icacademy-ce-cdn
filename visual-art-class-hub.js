@@ -1,7 +1,7 @@
 /**
  * ICAcademy Visual Art Class — course landing (not a hub)
  * Tag name: visual-art-class-hub
- * Version: 2026-08-16-v1
+ * Version: 2026-08-16-v1 (smaller mobile type)
  *
  * Parent silo hub: Kids Art
  * Canonical:
@@ -438,6 +438,12 @@ h3 { font-size: 1.12rem; }
   }
 }
 @media (max-width: 640px) {
+  :host { font-size: 14px; }
+  .section-title { font-size: clamp(1.22rem, 5.2vw, 1.5rem); }
+  .hero-title-chip h1 { font-size: clamp(1.22rem, 5.6vw, 1.5rem); }
+  .hero-sub { font-size: clamp(0.95rem, 4vw, 1.12rem); }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .final h2 { font-size: clamp(1.22rem, 5.4vw, 1.5rem); }
   .wrap { width: calc(100% - 24px); }
   .section { padding: 36px 0; }
   .hero .wrap { padding: 28px 0 32px; }

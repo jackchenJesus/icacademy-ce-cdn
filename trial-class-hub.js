@@ -1,7 +1,7 @@
 /**
  * ICAcademy Trial Class Landing – Custom Element
  * Tag name: trial-class-hub
- * Version: 2026-08-16-v9 (Drawing & Sketching silo → /course/drawing-and-painting)
+ * Version: 2026-08-16-v9 (Drawing & Sketching silo → /course/drawing-and-painting; smaller mobile type)
  * Design system: matches kids-art-hub / courses-hub (coral / teal)
  * Routes: /homantin-children-art-trial (EN) | /zh/homantin-children-art-trial (ZH)
  *
@@ -94,7 +94,7 @@ const COURSES = [
       en: "Drawing, collage and mixed materials",
       zh: "繪畫、拼貼、多元物料",
     },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
     category: "kids",
     tags: ["kids", "painting", "beginner", "age-7-11"],
     image: IMG.creativeI,
@@ -114,7 +114,7 @@ const COURSES = [
       zh: "加強比例、空間與畫面完整度",
     },
     media: { en: "Drawing and mixed media", zh: "繪畫及多元媒介" },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
     category: "kids",
     tags: ["kids", "painting", "age-7-11"],
     image: IMG.creativeII,
@@ -134,7 +134,7 @@ const COURSES = [
       zh: "深化技巧與個人風格",
     },
     media: { en: "Multi-media creation", zh: "多媒介創作" },
-    hrefSlug: "/courses/creative-art-classes",
+    hrefSlug: "/course/kids-art/creative-art-classes",
     category: "kids",
     tags: ["kids", "painting", "age-11plus"],
     image: IMG.creativeIII,
@@ -157,7 +157,7 @@ const COURSES = [
       en: "Pencil, markers and comic media",
       zh: "鉛筆、馬克筆、漫畫媒材",
     },
-    hrefSlug: "/courses/comic-drawing-class",
+    hrefSlug: "/course/kids-art/comic-drawing-class",
     category: "comic",
     tags: ["comic", "drawing", "age-7-11", "age-11plus"],
     image: IMG.comic,
@@ -180,7 +180,7 @@ const COURSES = [
       en: "Soft clay and professional clay media",
       zh: "輕黏土及專業黏土媒材",
     },
-    hrefSlug: "/courses/creative-art-and-clay-class",
+    hrefSlug: "/course/kids-art/creative-art-and-clay-class",
     category: "clay",
     tags: ["clay", "beginner", "age-3-5", "age-5-7", "age-7-11", "age-11plus"],
     image: IMG.clay,
@@ -200,7 +200,7 @@ const COURSES = [
       zh: "觀察、比例、光暗與質感",
     },
     media: { en: "Pencil sketching", zh: "鉛筆素描" },
-    hrefSlug: "/courses/sketching-class",
+    hrefSlug: "/course/drawing-and-painting/sketching-class",
     category: "drawing",
     tags: ["drawing", "sketch", "age-7-11", "age-11plus"],
     image: IMG.sketch,
@@ -220,7 +220,7 @@ const COURSES = [
       zh: "調色、筆觸與構圖技巧",
     },
     media: { en: "Acrylic paint", zh: "塑膠彩" },
-    hrefSlug: "/courses/acrylic-painting-class",
+    hrefSlug: "/course/drawing-and-painting/acrylic-painting-class",
     category: "drawing",
     tags: ["painting", "drawing", "age-11plus"],
     image: IMG.acrylic,
@@ -243,7 +243,7 @@ const COURSES = [
       en: "Sketching, acrylic and mixed media",
       zh: "素描、塑膠彩、混合媒介",
     },
-    hrefSlug: "/courses/visual-art-class",
+    hrefSlug: "/course/kids-art/visual-art-class",
     category: "drawing",
     tags: ["painting", "drawing", "age-11plus"],
     image: IMG.visualArt,
@@ -1046,12 +1046,12 @@ h3 { font-size: 1.12rem; }
 }
 
 @media (max-width: 640px) {
-  :host { font-size: 16px; }
+  :host { font-size: 14px; }
   .hub { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   .wrap { width: min(1200px, calc(100% - 24px)); }
   .section { padding: 36px 0; }
   .section-title {
-    font-size: clamp(1.4rem, 6.5vw, 1.75rem);
+    font-size: clamp(1.22rem, 5.2vw, 1.5rem);
     padding: 0 2px;
     word-break: keep-all;
     line-height: 1.35;
@@ -1077,11 +1077,11 @@ h3 { font-size: 1.12rem; }
     margin-bottom: 12px;
   }
   .hero-title-chip h1 {
-    font-size: clamp(1.4rem, 7vw, 1.8rem);
+    font-size: clamp(1.22rem, 5.6vw, 1.5rem);
     line-height: 1.35;
   }
   .hero-sub {
-    font-size: clamp(1.05rem, 5vw, 1.3rem);
+    font-size: clamp(0.95rem, 4.2vw, 1.12rem);
     margin-top: 8px;
   }
   .hero-lead {
@@ -1139,7 +1139,7 @@ h3 { font-size: 1.12rem; }
   .path-step h3 { font-size: 1.08rem; }
   .path-step p { font-size: 0.95rem; }
   .detail h2 {
-    font-size: clamp(1.35rem, 6vw, 1.7rem);
+    font-size: clamp(1.18rem, 5vw, 1.42rem);
     text-align: left;
   }
   .detail-lead { font-size: 0.98rem; }
@@ -1168,7 +1168,7 @@ h3 { font-size: 1.12rem; }
   .faq-a { font-size: 0.96rem; line-height: 1.65; }
   .final { padding: 44px 16px; }
   .final h2 {
-    font-size: clamp(1.4rem, 6.5vw, 1.8rem);
+    font-size: clamp(1.22rem, 5.4vw, 1.5rem);
     word-break: keep-all;
   }
   .final p { font-size: 0.98rem; }
@@ -1194,8 +1194,8 @@ h3 { font-size: 1.12rem; }
 
 @media (max-width: 380px) {
   .wrap { width: calc(100% - 16px); }
-  .hero-title-chip h1 { font-size: 1.28rem; }
-  .hero-sub { font-size: 1.02rem; }
+  .hero-title-chip h1 { font-size: 1.12rem; }
+  .hero-sub { font-size: 0.95rem; }
   .btn { font-size: 0.95rem; padding: 12px 14px; }
   .filter-tabs button { padding: 9px 12px; font-size: 0.9rem; }
 }
