@@ -1,7 +1,7 @@
 /**
  * IC Academy Contact – Custom Element
  * Tag name: contact-hub
- * Version: 2026-08-18-v1
+ * Version: 2026-09-01-v1
  * Design system: matches home-hub / about-hub / trial-class-hub (coral / teal / navy)
  * Routes: /contact (EN) | /zh/contact (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -697,7 +697,7 @@ class ContactHub extends HTMLElement {
                       "香港九龍何文田窩打老道79F地下3號鋪"
                     )}
                   </p>
-                  <p class="addr">${t("Opposite Pui Ching Middle School — about a 5-minute walk from Ho Man Tin Station.", "培正中學正對面，何文田站步行約 5 分鐘。")}</p>
+                  <p class="addr">${t("Near Pui Ching Middle School — about a 5-minute walk from Ho Man Tin Station.", "培正中學附近，何文田站步行約 5 分鐘。")}</p>
                   <div class="info-links">
                     <a data-action="map" href="${mapsUrl}" target="_blank" rel="noopener noreferrer">${t("Get directions →", "查看路線 →")}</a>
                   </div>

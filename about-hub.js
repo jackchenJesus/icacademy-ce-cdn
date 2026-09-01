@@ -1,7 +1,7 @@
 /**
  * IC Academy About Us – Custom Element
  * Tag name: about-hub
- * Version: 2026-08-16-v1
+ * Version: 2026-09-01-v1
  * Design system: matches home-hub / trial-class-hub (coral / teal / navy)
  * Routes: /about-us (EN) | /zh/about-us (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -689,8 +689,8 @@ class AboutHub extends HTMLElement {
             <p class="kicker">${t("Studio environment", "中心環境")}</p>
             <h2 class="section-title">${t("A bright, calm place to make art", "明亮、安心的創作空間")}</h2>
             <p class="section-lead">${t(
-              "Small groups, professional materials included, and a studio opposite Pui Ching — a five-minute walk after school.",
-              "小班教學、專業教材已包含於學費，畫室位於培正對面，放學步行約 5 分鐘。"
+              "Small groups, professional materials included, and a studio near Pui Ching — a five-minute walk after school.",
+              "小班教學、專業教材已包含於學費，畫室位於培正附近，放學步行約 5 分鐘。"
             )}</p>
             <div class="env-grid">
               ${STUDIO_PHOTOS.map(
@@ -713,7 +713,7 @@ class AboutHub extends HTMLElement {
         <section class="section section-soft">
           <div class="wrap">
             <p class="kicker">${t("Find us", "我們在哪裡")}</p>
-            <h2 class="section-title">${t("Ho Man Tin · opposite Pui Ching", "何文田 · 培正正對面")}</h2>
+            <h2 class="section-title">${t("Ho Man Tin · near Pui Ching", "何文田 · 培正附近")}</h2>
             <div class="find-grid">
               <article class="find-card">
                 <h3>${t("Address", "地址")}</h3>
