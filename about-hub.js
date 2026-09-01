@@ -1,8 +1,9 @@
 /**
  * IC Academy About Us – Custom Element
  * Tag name: about-hub
- * Version: 2026-09-01-v1
+ * Version: 2026-09-01-v2
  * Design system: matches home-hub / trial-class-hub (coral / teal / navy)
+ * Full-bleed clears Wix mesh inset (left:20px / right:-20px) so mobile content is not shifted.
  * Routes: /about-us (EN) | /zh/about-us (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
  */
@@ -155,6 +156,10 @@ const STYLES = `
   width: 100% !important;
   max-width: 100% !important;
   margin: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  inset-inline-start: 0 !important;
+  inset-inline-end: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
@@ -348,9 +353,9 @@ class AboutHub extends HTMLElement {
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._applyFullBleedCss);
     window.addEventListener("orientationchange", this._applyFullBleedCss);
-    window.setTimeout(() => this._collapseTrailingGap(), 50);
-    window.setTimeout(() => this._collapseTrailingGap(), 400);
-    window.setTimeout(() => this._collapseTrailingGap(), 1200);
+    window.setTimeout(() => this._applyFullBleedCss(), 50);
+    window.setTimeout(() => this._applyFullBleedCss(), 400);
+    window.setTimeout(() => this._applyFullBleedCss(), 1200);
   }
 
   disconnectedCallback() {
@@ -414,6 +419,9 @@ class AboutHub extends HTMLElement {
     const style = document.createElement("style");
     style.id = id;
     style.textContent = `
+      html, body {
+        overflow-x: hidden !important;
+      }
       about-hub {
         display: block !important;
         box-sizing: border-box !important;
@@ -423,6 +431,10 @@ class AboutHub extends HTMLElement {
         min-height: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        inset-inline-start: 0 !important;
+        inset-inline-end: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
       }
@@ -432,6 +444,7 @@ class AboutHub extends HTMLElement {
         margin-bottom: 0 !important;
         padding-left: 0 !important;
         padding-right: 0 !important;
+        overflow-x: hidden !important;
       }
       #SITE_FOOTER { margin-top: 0 !important; }
     `;
@@ -478,35 +491,53 @@ class AboutHub extends HTMLElement {
     } catch (e) {}
   }
 
+  _resetWixInset(el) {
+    if (!el || !el.style) return;
+    el.style.setProperty("left", "0", "important");
+    el.style.setProperty("right", "0", "important");
+    el.style.setProperty("inset", "0", "important");
+    el.style.setProperty("inset-inline-start", "0", "important");
+    el.style.setProperty("inset-inline-end", "0", "important");
+    el.style.setProperty("width", "100%", "important");
+    el.style.setProperty("max-width", "none", "important");
+    el.style.setProperty("margin-left", "0", "important");
+    el.style.setProperty("margin-right", "0", "important");
+    el.style.setProperty("padding-left", "0", "important");
+    el.style.setProperty("padding-right", "0", "important");
+  }
+
   _applyFullBleedCss() {
     try {
       this._injectPageBleedCss();
       this.setAttribute("data-fullbleed", "1");
       this.style.setProperty("position", "relative", "important");
-      this.style.setProperty("width", "100%", "important");
-      this.style.setProperty("max-width", "none", "important");
-      this.style.setProperty("margin", "0", "important");
       this.style.setProperty("padding", "0", "important");
       this.style.setProperty("height", "auto", "important");
       this.style.setProperty("min-height", "0", "important");
+      this.style.setProperty("margin", "0", "important");
+      this._resetWixInset(this);
+
       const pages = document.getElementById("SITE_PAGES") || document.getElementById("PAGES_CONTAINER");
       let el = this.parentElement;
       for (let i = 0; i < 12 && el; i++) {
         const tag = (el.tagName || "").toLowerCase();
         const id = el.id || "";
         if (tag === "body" || tag === "html" || id === "masterPage" || id === "SITE_HEADER") break;
-        el.style.setProperty("width", "100%", "important");
-        el.style.setProperty("max-width", "none", "important");
-        el.style.setProperty("margin-left", "0", "important");
-        el.style.setProperty("margin-right", "0", "important");
-        el.style.setProperty("padding-left", "0", "important");
-        el.style.setProperty("padding-right", "0", "important");
+        this._resetWixInset(el);
         el.style.setProperty("min-height", "0", "important");
         if (el !== pages && id !== "SITE_PAGES" && id !== "PAGES_CONTAINER") {
           el.style.setProperty("height", "auto", "important");
         }
         if (el === pages || id === "SITE_PAGES" || id === "PAGES_CONTAINER") break;
         el = el.parentElement;
+      }
+
+      const vw = document.documentElement.clientWidth || window.innerWidth || 0;
+      const rect = this.getBoundingClientRect();
+      if (vw && Math.abs(rect.left) > 1) {
+        this.style.setProperty("width", `${vw}px`, "important");
+        this.style.setProperty("max-width", `${vw}px`, "important");
+        this.style.setProperty("margin-left", `${-rect.left}px`, "important");
       }
     } catch (e) {}
     this._collapseTrailingGap();
