@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-09-15-v4 (no layout-measure full-bleed; reserve hero height; idle below-fold)
+ * Version: 2026-09-15-v5 (restore pixel full-bleed; keep LCP image hints)
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -737,9 +737,6 @@ class HomeHub extends HTMLElement {
         box-sizing: border-box !important;
         height: auto !important;
         min-height: 680px !important;
-        width: 100vw !important;
-        max-width: 100vw !important;
-        margin-left: calc(50% - 50vw) !important;
         padding: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
@@ -815,23 +812,58 @@ class HomeHub extends HTMLElement {
     }
   }
 
+  _viewportWidth() {
+    return document.documentElement.clientWidth || window.innerWidth || 0;
+  }
+
   _applyFullBleedCss() {
     try {
       this._injectPageBleedCss();
+      this.style.removeProperty("left");
+      this.style.removeProperty("right");
+      this.style.removeProperty("transform");
+
+      const vw = this._viewportWidth();
+      if (!vw) return;
+
       this.setAttribute("data-fullbleed", "1");
       this.style.setProperty("position", "relative", "important");
       this.style.setProperty("left", "0", "important");
-      this.style.setProperty("width", "100vw", "important");
-      this.style.setProperty("max-width", "100vw", "important");
-      this.style.setProperty("margin-left", "calc(50% - 50vw)", "important");
+      this.style.setProperty("width", `${vw}px`, "important");
+      this.style.setProperty("max-width", `${vw}px`, "important");
+      this.style.setProperty("min-width", `${vw}px`, "important");
+      this.style.setProperty("margin-left", `calc(50% - ${vw / 2}px)`, "important");
       this.style.setProperty("margin-right", "0", "important");
       this.style.setProperty("padding", "0", "important");
+      this.style.setProperty("height", "auto", "important");
       this.style.setProperty("box-sizing", "border-box", "important");
+      this.style.setProperty("overflow-x", "visible", "important");
       this.style.setProperty("border-radius", "0", "important");
       this.style.setProperty("box-shadow", "none", "important");
+
+      let el = this.parentElement;
+      for (let i = 0; i < 8 && el; i++) {
+        const tag = (el.tagName || "").toLowerCase();
+        const id = el.id || "";
+        if (tag === "body" || tag === "html") break;
+        el.style.setProperty("overflow", "visible", "important");
+        el.style.setProperty("overflow-x", "visible", "important");
+        el.style.setProperty("max-width", "none", "important");
+        el.style.setProperty("width", "100%", "important");
+        el.style.setProperty("margin-left", "0", "important");
+        el.style.setProperty("margin-right", "0", "important");
+        el.style.setProperty("padding-left", "0", "important");
+        el.style.setProperty("padding-right", "0", "important");
+        el.style.setProperty("border-radius", "0", "important");
+        el.style.setProperty("left", "0", "important");
+        if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
+        el.style.setProperty("height", "auto", "important");
+        el = el.parentElement;
+      }
     } catch (e) {
       // ignore
     }
+    this._collapseTrailingGap();
   }
 
   _emitCta(type, href) {
