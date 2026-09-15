@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-09-01-v1 (smaller mobile type)
+ * Version: 2026-09-15-v2 (hero LCP: one first image, no lazy, mobile srcset)
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -99,21 +99,41 @@ const WA_DEFAULT = "https://wa.me/85265808022";
 /* IC_WHATSAPP_TRACKING_END */
 
 
-function mediaUrl(id, w, h, q = 75) {
+function mediaUrl(id, w, h, q = 70) {
   return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
 }
 
+const HERO_SIZES = "(max-width: 720px) 100vw, 960px";
+const HERO_SRCSET_SIZES = [
+  [640, 420, 68],
+  [800, 520, 68],
+  [960, 640, 70],
+  [1280, 800, 70],
+];
+
+function heroSrc(id) {
+  return mediaUrl(id, 800, 520, 68);
+}
+
+function heroSrcset(id) {
+  return HERO_SRCSET_SIZES.map(([w, h, q]) => `${mediaUrl(id, w, h, q)} ${w}w`).join(", ");
+}
+
+const HERO_IDS = [
+  "b98cc9_9dc8b25109994d1582cf45ab4cba461f~mv2.jpg",
+  "b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg",
+  "b98cc9_eafb6e8a188a4b06a688d513daf9e9f4~mv2.jpg",
+  "b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg",
+  "b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg",
+];
+
+const WHY_ID = "b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg";
 const IMG = {
-  heroSm: mediaUrl("b98cc9_9dc8b25109994d1582cf45ab4cba461f~mv2.jpg", 960, 540, 70),
-  hero: mediaUrl("b98cc9_9dc8b25109994d1582cf45ab4cba461f~mv2.jpg", 1600, 900, 75),
-  slide2: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 1280, 900, 75),
-  slide3: mediaUrl("b98cc9_eafb6e8a188a4b06a688d513daf9e9f4~mv2.jpg", 1280, 900, 75),
-  slide4: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1280, 900, 75),
-  slide5: mediaUrl("b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg", 1280, 900, 75),
-  why: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 800, 1000, 75),
+  why: mediaUrl(WHY_ID, 400, 500, 68),
+  whySrcset: `${mediaUrl(WHY_ID, 336, 420, 68)} 336w, ${mediaUrl(WHY_ID, 400, 500, 68)} 400w, ${mediaUrl(WHY_ID, 640, 800, 70)} 640w`,
 };
 
-const SLIDES = [IMG.hero, IMG.slide2, IMG.slide3, IMG.slide4, IMG.slide5];
+const SLIDES = HERO_IDS;
 
 const HIGHLIGHTS = [
   { en: "5-minute walk from Pui Ching Primary", zh: "培正小學附近，步行5分鐘" },
@@ -599,6 +619,7 @@ class HomeHub extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this._slide = 0;
     this._timer = null;
+    this._slideshowDelay = null;
     this._onClick = this._onClick.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
   }
@@ -608,7 +629,7 @@ class HomeHub extends HTMLElement {
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._applyFullBleedCss);
     window.addEventListener("orientationchange", this._applyFullBleedCss);
-    this._startSlideshow();
+    this._slideshowDelay = window.setTimeout(() => this._startSlideshow(), 8000);
     window.setTimeout(() => this._collapseTrailingGap(), 50);
     window.setTimeout(() => this._collapseTrailingGap(), 400);
     window.setTimeout(() => this._collapseTrailingGap(), 1200);
@@ -619,6 +640,10 @@ class HomeHub extends HTMLElement {
     window.removeEventListener("resize", this._applyFullBleedCss);
     window.removeEventListener("orientationchange", this._applyFullBleedCss);
     this._stopSlideshow();
+    if (this._slideshowDelay) {
+      window.clearTimeout(this._slideshowDelay);
+      this._slideshowDelay = null;
+    }
     const bleed = document.getElementById("home-hub-page-bleed");
     if (bleed) bleed.remove();
   }
@@ -856,11 +881,20 @@ class HomeHub extends HTMLElement {
     }
   }
 
+  _hydrateSlide(img) {
+    if (!img || img.getAttribute("src")) return;
+    const srcset = img.getAttribute("data-srcset");
+    const src = img.getAttribute("data-src");
+    if (srcset) img.setAttribute("srcset", srcset);
+    if (src) img.setAttribute("src", src);
+  }
+
   _goSlide(next) {
     const total = SLIDES.length;
     this._slide = ((next % total) + total) % total;
     const imgs = this.shadowRoot.querySelectorAll(".hero-slides img");
     const dots = this.shadowRoot.querySelectorAll(".hero-dot");
+    this._hydrateSlide(imgs[this._slide]);
     imgs.forEach((img, i) => img.classList.toggle("is-active", i === this._slide));
     dots.forEach((dot, i) => dot.setAttribute("aria-current", i === this._slide ? "true" : "false"));
   }
@@ -930,10 +964,15 @@ class HomeHub extends HTMLElement {
       <div class="hub">
         <section class="hero" aria-label="${t("Homepage slideshow", "首頁圖片輪播")}">
           <div class="hero-slides">
-            ${SLIDES.map(
-              (src, i) =>
-                `<img src="${src}" alt="" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} class="${i === this._slide ? "is-active" : ""}" width="1600" height="900" />`
-            ).join("")}
+            ${SLIDES.map((id, i) => {
+              const eager = i === 0;
+              const src = heroSrc(id);
+              const srcset = heroSrcset(id);
+              const eagerAttrs = eager
+                ? `src="${src}" srcset="${srcset}" fetchpriority="high" decoding="async"`
+                : `data-src="${src}" data-srcset="${srcset}" decoding="async"`;
+              return `<img ${eagerAttrs} sizes="${HERO_SIZES}" alt="" class="${i === this._slide ? "is-active" : ""}" width="800" height="520" />`;
+            }).join("")}
           </div>
           <button class="hero-arrow prev" type="button" data-action="prev" aria-label="${t("Previous", "上一張")}">‹</button>
           <button class="hero-arrow next" type="button" data-action="next" aria-label="${t("Next", "下一張")}">›</button>
@@ -994,7 +1033,7 @@ class HomeHub extends HTMLElement {
                 <a class="btn btn-outline-navy" data-action="hub" href="${aboutHref}">${t("Learn more", "了解更多")}</a>
               </div>
               <figure class="detail-media">
-                <img src="${IMG.why}" alt="${t("IC Academy student creating artwork in class", "IC Academy 課堂學生創作")}" loading="lazy" width="800" height="1000" />
+                <img src="${IMG.why}" srcset="${IMG.whySrcset}" sizes="(max-width: 720px) 336px, 400px" alt="${t("IC Academy student creating artwork in class", "IC Academy 課堂學生創作")}" loading="lazy" width="400" height="500" />
               </figure>
             </div>
           </div>
