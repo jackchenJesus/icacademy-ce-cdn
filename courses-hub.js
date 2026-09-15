@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-09-15-v20 (LCP hero 640; defer course cards; smaller images)
+ * Version: 2026-09-15-v21 (desktop: delay rest HTML, reserve height for CLS/TBT)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -458,7 +458,7 @@ const STYLES = `
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0;
-  min-height: 1px;
+  min-height: 3800px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -515,6 +515,8 @@ img { max-width: 100%; display: block; }
   padding: 64px 0;
   background: var(--bg);
   width: 100%;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 720px;
 }
 .section-soft { background: var(--bg-soft); }
 .section-title {
@@ -954,7 +956,7 @@ h3 { font-size: 1.12rem; }
 }
 
 @media (max-width: 640px) {
-  :host { font-size: 13px; }
+  :host { font-size: 13px; min-height: 5200px; }
   h1, .hero-title-chip h1, .hero h1 { font-size: 1.42em !important; line-height: 1.35; }
   h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.24em !important; }
   h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.02em !important; }
@@ -979,10 +981,12 @@ class CoursesHub extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this._filter = "all";
     this._restTimer = null;
+    this._restMoreTimer = null;
     this._onClick = this._onClick.bind(this);
     this._onKeydown = this._onKeydown.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
     this._restPainted = false;
+    this._restMorePainted = false;
   }
 
   connectedCallback() {
@@ -1006,19 +1010,55 @@ class CoursesHub extends HTMLElement {
     this._scheduleRest();
   }
 
-  _scheduleRest() {
-    if (this._restTimer) {
-      if (typeof window.cancelIdleCallback === "function") {
-        try { window.cancelIdleCallback(this._restTimer); } catch (e) {}
-      }
-      window.clearTimeout(this._restTimer);
-      this._restTimer = null;
+  _clearTimer(id) {
+    if (id == null) return;
+    if (typeof window.cancelIdleCallback === "function") {
+      try { window.cancelIdleCallback(id); } catch (e) {}
     }
-    const paint = () => this._paintRest();
-    if (typeof window.requestIdleCallback === "function") {
-      this._restTimer = window.requestIdleCallback(paint, { timeout: 600 });
+    window.clearTimeout(id);
+  }
+
+  _scheduleRest() {
+    this._clearTimer(this._restTimer);
+    this._restTimer = null;
+    const start = () => {
+      const paint = () => this._paintRest();
+      if (typeof window.requestIdleCallback === "function") {
+        this._restTimer = window.requestIdleCallback(paint, { timeout: 3200 });
+      } else {
+        this._restTimer = window.setTimeout(paint, 1400);
+      }
+    };
+    const img = this.shadowRoot && this.shadowRoot.querySelector(".hero-bg img");
+    if (img && !img.complete) {
+      img.addEventListener("load", start, { once: true });
+      this._restTimer = window.setTimeout(start, 2200);
     } else {
-      this._restTimer = window.setTimeout(paint, 400);
+      start();
+    }
+  }
+
+  _scheduleRestMore() {
+    this._clearTimer(this._restMoreTimer);
+    this._restMoreTimer = null;
+    const paint = () => {
+      const t = this._t || ((en, zh) => (this.isEn ? en : zh));
+      const waPrefill = this._waPrefillCached || this._waPrefill(
+        t(
+          "Hi, I’d like to enquire about ICAcademy regular art courses / a trial class.",
+          "你好，我想查詢ICAcademy恆常藝術課程／試堂安排。"
+        )
+      );
+      const galleryUrl = this.isEn
+        ? "https://www.icacademy.com.hk/studentartwork"
+        : "https://www.icacademy.com.hk/zh/studentartwork";
+      const trialUrl = this.path("/homantin-children-art-trial");
+      this._paintRestMore(t, waPrefill, galleryUrl, trialUrl);
+    };
+    if (typeof window.requestIdleCallback === "function") {
+      this._restMoreTimer = window.requestIdleCallback(paint, { timeout: 5000 });
+    } else {
+      this._restMoreTimer = window.setTimeout(paint, 2200);
     }
   }
 
@@ -1027,13 +1067,10 @@ class CoursesHub extends HTMLElement {
     this.shadowRoot.removeEventListener("keydown", this._onKeydown);
     window.removeEventListener("resize", this._applyFullBleedCss);
     window.removeEventListener("orientationchange", this._applyFullBleedCss);
-    if (this._restTimer) {
-      if (typeof window.cancelIdleCallback === "function") {
-        try { window.cancelIdleCallback(this._restTimer); } catch (e) {}
-      }
-      window.clearTimeout(this._restTimer);
-      this._restTimer = null;
-    }
+    this._clearTimer(this._restTimer);
+    this._clearTimer(this._restMoreTimer);
+    this._restTimer = null;
+    this._restMoreTimer = null;
     const bleed = document.getElementById("courses-hub-page-bleed");
     if (bleed) bleed.remove();
   }
@@ -1135,6 +1172,8 @@ class CoursesHub extends HTMLElement {
         left: auto !important;
         border-radius: 0 !important;
         box-shadow: none !important;
+        min-height: 3800px !important;
+        height: auto !important;
       }
       #SITE_PAGES,
       #PAGES_CONTAINER,
@@ -1495,12 +1534,13 @@ class CoursesHub extends HTMLElement {
       `
     );
     this._applyFilter(this._filter || "all");
-    this._paintRestMore(t, waPrefill, galleryUrl, trialUrl);
+    this._scheduleRestMore();
   }
 
   _paintRestMore(t, waPrefill, galleryUrl, trialUrl) {
     const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
-    if (!hub || hub.querySelector(".final")) return;
+    if (!hub || this._restMorePainted || hub.querySelector(".final")) return;
+    this._restMorePainted = true;
     hub.insertAdjacentHTML(
       "beforeend",
       `
@@ -1607,6 +1647,7 @@ class CoursesHub extends HTMLElement {
 
   render() {
     this._restPainted = false;
+    this._restMorePainted = false;
     this._paintHero();
     if (this.isConnected) this._scheduleRest();
   }
