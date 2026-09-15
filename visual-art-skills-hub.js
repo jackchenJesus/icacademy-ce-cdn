@@ -1,7 +1,7 @@
 /**
  * ICAcademy Visual Art Skills Course — course landing (not a hub)
  * Tag name: visual-art-skills-hub
- * Version: 2026-09-15-v4 (LCP hero 640; defer rest; smaller images)
+ * Version: 2026-09-15-v5 (desktop: reserve height; delay rest HTML for TBT/CLS)
  *
  * Parent silo hub: Kids Art (yo1yl). Canonical under /course/kids-art.
  * Canonical:
@@ -372,7 +372,7 @@ const STYLES = `
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0;
-  min-height: 1px;
+  min-height: 3800px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -414,7 +414,7 @@ a { color: inherit; }
 img { max-width: 100%; display: block; }
 .hub { width: 100%; max-width: 100%; min-width: 0; margin: 0; padding: 0; overflow-x: visible; }
 .wrap { width: min(1200px, calc(100% - 48px)); max-width: 1200px; margin: 0 auto; }
-.section { padding: 64px 0; background: var(--bg); width: 100%; }
+.section { padding: 64px 0; background: var(--bg); width: 100%; content-visibility: auto; contain-intrinsic-size: 1px 640px; }
 .section-soft { background: var(--bg-soft); }
 .section-title {
   text-align: center;
@@ -701,11 +701,20 @@ class VisualArtSkillsHub extends HTMLElement {
       window.clearTimeout(this._restTimer);
       this._restTimer = null;
     }
-    const paint = () => this._paintRest();
-    if (typeof window.requestIdleCallback === "function") {
-      this._restTimer = window.requestIdleCallback(paint, { timeout: 1200 });
+    const start = () => {
+      const paint = () => this._paintRest();
+      if (typeof window.requestIdleCallback === "function") {
+        this._restTimer = window.requestIdleCallback(paint, { timeout: 3200 });
+      } else {
+        this._restTimer = window.setTimeout(paint, 1400);
+      }
+    };
+    const img = this.shadowRoot && this.shadowRoot.querySelector(".hero-photo");
+    if (img && !img.complete) {
+      img.addEventListener("load", start, { once: true });
+      this._restTimer = window.setTimeout(start, 2200);
     } else {
-      this._restTimer = window.setTimeout(paint, 600);
+      start();
     }
   }
 
@@ -818,6 +827,8 @@ class VisualArtSkillsHub extends HTMLElement {
         left: auto !important;
         border-radius: 0 !important;
         box-shadow: none !important;
+        min-height: 3800px !important;
+        height: auto !important;
       }
       #SITE_PAGES,
       #PAGES_CONTAINER,
@@ -885,9 +896,10 @@ class VisualArtSkillsHub extends HTMLElement {
     const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
     if (!hub) return;
     const h = Math.ceil(hub.getBoundingClientRect().height);
-    if (h > 0) {
-      this.style.height = `${h}px`;
-      this.style.minHeight = `${h}px`;
+    const reserved = this._restPainted ? h : Math.max(h, 3800);
+    if (reserved > 0) {
+      this.style.height = `${reserved}px`;
+      this.style.minHeight = `${reserved}px`;
     }
   }
 
