@@ -438,6 +438,13 @@ img { max-width: 100%; display: block; }
   margin: 0 auto 36px;
   font-size: 1.02rem;
 }
+.section.decide { padding: 72px 0 56px; }
+.decide-panel {
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: clamp(36px, 5vw, 52px) clamp(20px, 4vw, 40px) clamp(28px, 4vw, 40px);
+}
 h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 h3 { font-size: 1.12rem; }
 .who-box a, .section-lead a { color: var(--teal); font-weight: 700; }
@@ -502,7 +509,7 @@ h3 { font-size: 1.12rem; }
 .decision-item h3 { margin: 0 0 6px; font-size: 1.02rem; }
 .decision-item p { margin: 0; color: var(--muted); font-weight: 600; font-size: 0.95rem; }
 
-.trust { display: grid; gap: 12px; margin-top: -28px; position: relative; z-index: 2; }
+.trust { display: grid; gap: 12px; margin-top: 24px; position: relative; z-index: 1; }
 @media (min-width: 720px) { .trust { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1100px) { .trust { grid-template-columns: repeat(4, 1fr); } }
 .trust-item {
@@ -626,6 +633,7 @@ h3 { font-size: 1.12rem; }
 @media (max-width: 860px) {
   .wrap { width: min(1200px, calc(100% - 32px)); }
   .section { padding: 48px 0; }
+  .section.decide { padding: 56px 0 40px; }
   .hero { min-height: 0; align-items: stretch; }
   .hero::after {
     background: linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.92) 58%, rgba(255,255,255,.78) 100%);
@@ -642,6 +650,8 @@ h3 { font-size: 1.12rem; }
   .btn { font-size: 1em !important; }
   .wrap { width: calc(100% - 24px); }
   .section { padding: 36px 0; }
+  .section.decide { padding: 48px 0 32px; }
+  .decide-panel { padding: 28px 16px 22px; }
   .hero .wrap { padding: 28px 0 32px; }
   .btn-row { flex-direction: column; align-items: stretch; }
 }
@@ -952,29 +962,26 @@ class CreativeArtHub extends HTMLElement {
           </div>
         </section>
 
-        <section class="section" style="padding-top:0;padding-bottom:40px" aria-labelledby="decide-title">
+        <section class="section decide" aria-labelledby="decide-title">
           <div class="wrap">
-            <h2 class="section-title" id="decide-title">${t("Before you enquire", "報名前先了解")}</h2>
-            <p class="section-lead">${t("Age, beginners, location and how this class differs from others.", "年齡、初學、地點，以及與幼兒班／漫畫班的分別")}</p>
-            <div class="decision-grid">
-              ${DECISION.map(
-                (item) => `
-                <article class="decision-item">
-                  <h3>${this.pick(item.title)}</h3>
-                  <p>${this.pick(item.desc)}</p>
-                </article>`
-              ).join("")}
-            </div>
-          </div>
-        </section>
-
-        <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="${t("Course facts", "課程重點")}">
-          <div class="wrap">
-            <div class="trust">
-              <div class="trust-item">✓ ${t("Ages 7–14", "7–14歲分齡")}<span>${t("Level I · II · III", "按年齡及能力編排")}</span></div>
-              <div class="trust-item">✓ ${t("Max 6 per class", "每班最多6人")}<span>${t("Individual guidance", "小班個別指導")}</span></div>
-              <div class="trust-item">✓ ${t("1 hour per class", "每堂1小時")}<span>${t("Ask for the latest times", "時段請向畫室查詢")}</span></div>
-              <div class="trust-item">✓ ${t("Monday to Saturday", "星期一至六")}<span>${t("Current timetable", "現有課程安排")}</span></div>
+            <div class="decide-panel">
+              <h2 class="section-title" id="decide-title">${t("Before you enquire", "報名前先了解")}</h2>
+              <p class="section-lead">${t("Age, beginners, location and how this class differs from others.", "年齡、初學、地點，以及與幼兒班／漫畫班的分別")}</p>
+              <div class="decision-grid">
+                ${DECISION.map(
+                  (item) => `
+                  <article class="decision-item">
+                    <h3>${this.pick(item.title)}</h3>
+                    <p>${this.pick(item.desc)}</p>
+                  </article>`
+                ).join("")}
+              </div>
+              <div class="trust" aria-label="${t("Course facts", "課程重點")}">
+                <div class="trust-item">✓ ${t("Ages 7–14", "7–14歲分齡")}<span>${t("Level I · II · III", "按年齡及能力編排")}</span></div>
+                <div class="trust-item">✓ ${t("Max 6 per class", "每班最多6人")}<span>${t("Individual guidance", "小班個別指導")}</span></div>
+                <div class="trust-item">✓ ${t("1 hour per class", "每堂1小時")}<span>${t("Ask for the latest times", "時段請向畫室查詢")}</span></div>
+                <div class="trust-item">✓ ${t("Monday to Saturday", "星期一至六")}<span>${t("Current timetable", "現有課程安排")}</span></div>
+              </div>
             </div>
           </div>
         </section>
