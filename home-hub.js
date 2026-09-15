@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-09-15-v2 (hero LCP: one first image, no lazy, mobile srcset)
+ * Version: 2026-09-15-v3 (LCP preload, deferred below-fold, a11y/SEO chrome)
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -103,20 +103,8 @@ function mediaUrl(id, w, h, q = 70) {
   return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
 }
 
-const HERO_SIZES = "(max-width: 720px) 100vw, 960px";
-const HERO_SRCSET_SIZES = [
-  [640, 420, 68],
-  [800, 520, 68],
-  [960, 640, 70],
-  [1280, 800, 70],
-];
-
 function heroSrc(id) {
-  return mediaUrl(id, 800, 520, 68);
-}
-
-function heroSrcset(id) {
-  return HERO_SRCSET_SIZES.map(([w, h, q]) => `${mediaUrl(id, w, h, q)} ${w}w`).join(", ");
+  return mediaUrl(id, 640, 420, 65);
 }
 
 const HERO_IDS = [
@@ -128,9 +116,15 @@ const HERO_IDS = [
 ];
 
 const WHY_ID = "b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg";
+const LCP_URL = mediaUrl(
+  "b98cc9_9dc8b25109994d1582cf45ab4cba461f~mv2.jpg",
+  640,
+  420,
+  65
+);
 const IMG = {
-  why: mediaUrl(WHY_ID, 400, 500, 68),
-  whySrcset: `${mediaUrl(WHY_ID, 336, 420, 68)} 336w, ${mediaUrl(WHY_ID, 400, 500, 68)} 400w, ${mediaUrl(WHY_ID, 640, 800, 70)} 640w`,
+  why: mediaUrl(WHY_ID, 336, 420, 65),
+  whySrcset: `${mediaUrl(WHY_ID, 336, 420, 65)} 336w, ${mediaUrl(WHY_ID, 400, 500, 68)} 400w`,
 };
 
 const SLIDES = HERO_IDS;
@@ -352,14 +346,14 @@ const STYLES = `
   --bg-soft: #f4f8f9;
   --surface: #ffffff;
   --ink: #162b48;
-  --muted: #4a5568;
+  --muted: #3d4a5c;
   --line: #e2e8f0;
   --navy: #162b48;
   --coral: #ff8e8e;
-  --coral-deep: #f05a5a;
+  --coral-deep: #c62828;
   --coral-soft: #fff0f0;
-  --teal: #00a9b7;
-  --teal-deep: #008f9b;
+  --teal: #00727c;
+  --teal-deep: #00646d;
   --teal-soft: #e8f7f8;
   --title-chip: rgba(255, 240, 240, 0.92);
   --check: #00a9b7;
@@ -464,10 +458,14 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
   display: flex; align-items: center; justify-content: center; gap: 10px;
 }
 .hero-dot {
-  width: 10px; height: 10px; border-radius: 50%; border: 0;
-  background: #ffc4c4; cursor: pointer; padding: 0;
+  width: 44px; height: 44px; border-radius: 50%; border: 0;
+  background: transparent; cursor: pointer; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
 }
-.hero-dot[aria-current="true"] { background: var(--coral); transform: scale(1.15); }
+.hero-dot::after {
+  content: ""; width: 10px; height: 10px; border-radius: 50%; background: #c45c5c;
+}
+.hero-dot[aria-current="true"]::after { background: var(--coral-deep); transform: scale(1.15); }
 .hero-arrow {
   position: absolute; z-index: 2; top: 50%; transform: translateY(-50%);
   width: 44px; height: 44px; border: 0; border-radius: 50%;
@@ -620,11 +618,13 @@ class HomeHub extends HTMLElement {
     this._slide = 0;
     this._timer = null;
     this._slideshowDelay = null;
+    this._deferredTimer = null;
     this._onClick = this._onClick.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
   }
 
   connectedCallback() {
+    this._polishDocument();
     this.render();
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._applyFullBleedCss);
@@ -643,6 +643,10 @@ class HomeHub extends HTMLElement {
     if (this._slideshowDelay) {
       window.clearTimeout(this._slideshowDelay);
       this._slideshowDelay = null;
+    }
+    if (this._deferredTimer) {
+      window.clearTimeout(this._deferredTimer);
+      this._deferredTimer = null;
     }
     const bleed = document.getElementById("home-hub-page-bleed");
     if (bleed) bleed.remove();
@@ -966,12 +970,11 @@ class HomeHub extends HTMLElement {
           <div class="hero-slides">
             ${SLIDES.map((id, i) => {
               const eager = i === 0;
-              const src = heroSrc(id);
-              const srcset = heroSrcset(id);
+              const src = i === 0 ? LCP_URL : heroSrc(id);
               const eagerAttrs = eager
-                ? `src="${src}" srcset="${srcset}" fetchpriority="high" decoding="async"`
-                : `data-src="${src}" data-srcset="${srcset}" decoding="async"`;
-              return `<img ${eagerAttrs} sizes="${HERO_SIZES}" alt="" class="${i === this._slide ? "is-active" : ""}" width="800" height="520" />`;
+                ? `src="${src}" fetchpriority="high" decoding="async"`
+                : `data-src="${src}" decoding="async"`;
+              return `<img ${eagerAttrs} alt="" class="${i === this._slide ? "is-active" : ""}" width="640" height="420" />`;
             }).join("")}
           </div>
           <button class="hero-arrow prev" type="button" data-action="prev" aria-label="${t("Previous", "上一張")}">‹</button>
@@ -994,14 +997,39 @@ class HomeHub extends HTMLElement {
               ${HIGHLIGHTS.map((item) => `<div>${this.pick(item)}</div>`).join("")}
             </div>
           </div>
-          <div class="hero-nav" role="tablist" aria-label="${t("Slides", "輪播")}">
+          <div class="hero-nav" role="group" aria-label="${t("Slides", "輪播")}">
             ${SLIDES.map(
               (_, i) =>
                 `<button class="hero-dot" type="button" data-action="slide" data-index="${i}" aria-label="${t("Slide", "投影片")} ${i + 1}" aria-current="${i === this._slide ? "true" : "false"}"></button>`
             ).join("")}
           </div>
         </section>
+        <div id="hub-deferred"></div>
+      </div>
+    `;
 
+    this._applyFullBleedCss();
+    this._collapseTrailingGap();
+    this._goSlide(this._slide);
+    this._polishDocument();
+    window.clearTimeout(this._deferredTimer);
+    this._deferredTimer = window.setTimeout(() => this._fillBelow(), 1);
+  }
+
+  _fillBelow() {
+    const host = this.shadowRoot && this.shadowRoot.getElementById("hub-deferred");
+    if (!host || host.childElementCount) return;
+    const t = (en, zh) => (this.isEn ? en : zh);
+    const waText = t(
+      "Hello IC Academy, I would like to book a trial class for my child.",
+      "你好 IC Academy，我想為小朋友預約試堂。"
+    );
+    const waPrefill = this._waPrefill(waText);
+    const stories = this.isEn ? STORIES_EN : STORIES_ZH;
+    const faqs = this.isEn ? FAQ_EN : FAQ_ZH;
+    const trialHref = this.path("/homantin-children-art-trial");
+    const aboutHref = this.path("/about-us");
+    host.innerHTML = `
         <section class="section">
           <div class="wrap">
             <p class="kicker">${t("Why IC Academy", "為什麼選擇我們?")}</p>
@@ -1207,12 +1235,39 @@ class HomeHub extends HTMLElement {
             <a class="btn btn-outline-white" data-action="hub" href="${trialHref}">${t("Trial class details", "了解試堂詳情")}</a>
           </div>
         </section>
-      </div>
     `;
-
-    this._applyFullBleedCss();
     this._collapseTrailingGap();
-    this._goSlide(this._slide);
+  }
+
+  _polishDocument() {
+    try {
+      if (!document.getElementById("ic-lcp-preload")) {
+        const link = document.createElement("link");
+        link.id = "ic-lcp-preload";
+        link.rel = "preload";
+        link.as = "image";
+        link.href = LCP_URL;
+        link.setAttribute("fetchpriority", "high");
+        document.head.appendChild(link);
+      }
+      const desc = this.isEn
+        ? "IC Academy is a children's art studio in Ho Man Tin, near Pui Ching Primary. Visual arts training from age 3 to secondary Portfolio. Book a trial class."
+        : "IC Academy 何文田畫室位於培正附近，以藝術創作幫助小學生疏導呈分試壓力，並提供由幼兒塗鴉至升中 Portfolio 的視覺藝術課程。歡迎預約試堂。";
+      let meta = document.querySelector('meta[name="description"]');
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", "description");
+        document.head.appendChild(meta);
+      }
+      const current = String(meta.getAttribute("content") || "").trim();
+      if (current.length < 40) {
+        meta.setAttribute("content", desc);
+      }
+      document.querySelectorAll("#SITE_HEADER a").forEach((a) => {
+        const named = String(a.getAttribute("aria-label") || a.textContent || "").replace(/\s+/g, " ").trim();
+        if (!named) a.setAttribute("aria-label", "IC Academy");
+      });
+    } catch (e) {}
   }
 }
 
