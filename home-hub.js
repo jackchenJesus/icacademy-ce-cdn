@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-09-15-v5 (restore pixel full-bleed; keep LCP image hints)
+ * Version: 2026-09-15-v6 (reserve full homepage height to cut CLS)
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -367,7 +367,7 @@ const STYLES = `
   background: var(--bg);
   overflow-x: visible;
   height: auto !important;
-  min-height: 680px;
+  min-height: 4200px;
 }
 :host([data-fullbleed="1"]) {
   border-radius: 0 !important;
@@ -591,7 +591,7 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 .final .btn-row { justify-content: center; }
 
 @media (max-width: 640px) {
-  :host { font-size: 13px; min-height: 520px; }
+  :host { font-size: 13px; min-height: 5600px; }
   h1, .hero-title-chip h1, .hero h1 { font-size: 1.42em !important; line-height: 1.35; }
   h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.24em !important; }
   h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.02em !important; }
@@ -736,7 +736,7 @@ class HomeHub extends HTMLElement {
         display: block !important;
         box-sizing: border-box !important;
         height: auto !important;
-        min-height: 680px !important;
+        min-height: 4200px !important;
         padding: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
@@ -1014,13 +1014,8 @@ class HomeHub extends HTMLElement {
     this._applyFullBleedCss();
     this._goSlide(this._slide);
     this._polishDocument();
-    window.clearTimeout(this._deferredTimer);
-    const fill = () => this._fillBelow();
-    if (typeof window.requestIdleCallback === "function") {
-      this._deferredTimer = window.requestIdleCallback(fill, { timeout: 1800 });
-    } else {
-      this._deferredTimer = window.setTimeout(fill, 1800);
-    }
+    this._fillBelow();
+    this._lockHubHeight();
   }
 
   _fillBelow() {
@@ -1243,11 +1238,29 @@ class HomeHub extends HTMLElement {
           </div>
         </section>
     `;
-    this._collapseTrailingGap();
+    this._lockHubHeight();
+  }
+
+  _lockHubHeight() {
+    try {
+      const box = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+      const h = Math.ceil((box && box.scrollHeight) || this.scrollHeight || 0);
+      if (h > 800) {
+        this.style.setProperty("min-height", `${h}px`, "important");
+      }
+    } catch (e) {}
   }
 
   _polishDocument() {
     try {
+      if (!document.getElementById("ic-home-hub-cls")) {
+        const style = document.createElement("style");
+        style.id = "ic-home-hub-cls";
+        style.textContent =
+          "home-hub,#customElement1{display:block!important;min-height:4200px!important}" +
+          "@media (max-width:640px){home-hub,#customElement1{min-height:5600px!important}}";
+        (document.head || document.documentElement).appendChild(style);
+      }
       if (!document.getElementById("ic-lcp-preload")) {
         const link = document.createElement("link");
         link.id = "ic-lcp-preload";
