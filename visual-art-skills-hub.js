@@ -1,7 +1,7 @@
 /**
  * ICAcademy Visual Art Skills Course — course landing (not a hub)
  * Tag name: visual-art-skills-hub
- * Version: 2026-08-30-v3 (ZH parent-frame locale; never throw on connect; smaller mobile type)
+ * Version: 2026-09-15-v4 (LCP hero 640; defer rest; smaller images)
  *
  * Parent silo hub: Kids Art (yo1yl). Canonical under /course/kids-art.
  * Canonical:
@@ -101,18 +101,31 @@ const WA_DEFAULT = "https://wa.me/85265808022";
 /* IC_WHATSAPP_TRACKING_END */
 
 
-function mediaUrl(id, w, h, q = 75) {
+function mediaUrl(id, w, h, q = 65) {
   return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
 }
 
 const IMG = {
-  hero: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 1600, 1000),
-  gallery1: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 800),
-  gallery2: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 800, 800),
-  gallery3: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 800, 800),
-  gallery4: mediaUrl("b98cc9_938e779278dc4be38ad8c06a48102fc1~mv2.jpg", 800, 800),
-  detail: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 1000),
+  hero: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 640, 400, 65),
+  gallery1: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 320, 320, 65),
+  gallery2: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 320, 320, 65),
+  gallery3: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 320, 320, 65),
+  gallery4: mediaUrl("b98cc9_938e779278dc4be38ad8c06a48102fc1~mv2.jpg", 320, 320, 65),
+  detail: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 336, 420, 65),
 };
+
+(function preloadHeroLcp() {
+  try {
+    if (document.querySelector("link[data-vas-hero-preload]")) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = IMG.hero;
+    link.setAttribute("fetchpriority", "high");
+    link.setAttribute("data-vas-hero-preload", "1");
+    document.head.appendChild(link);
+  } catch (e) {}
+})();
 
 const WHY = [
   {
@@ -452,7 +465,7 @@ h3 { font-size: 1.12rem; }
 .btn-ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
 
 .hero {
-  position: relative; width: 100%; max-width: 100%; min-height: 0;
+  position: relative; width: 100%; max-width: 100%; min-height: clamp(420px, 62vw, 560px);
   display: flex; align-items: center; overflow: hidden; background: #f3f3f3;
 }
 .hero-photo {
@@ -618,7 +631,7 @@ h3 { font-size: 1.12rem; }
   .wrap { width: min(1200px, calc(100% - 32px)); }
   .section { padding: 48px 0; }
   .section.decide { padding: 56px 0 40px; }
-  .hero { min-height: 0; align-items: stretch; }
+  .hero { min-height: clamp(380px, 88vw, 520px); align-items: stretch; }
   .hero::after {
     background: linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.92) 58%, rgba(255,255,255,.78) 100%);
   }
@@ -653,6 +666,8 @@ class VisualArtSkillsHub extends HTMLElement {
     this._syncHeight = this._syncHeight.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
     this._ro = null;
+    this._restTimer = null;
+    this._restPainted = false;
   }
 
   connectedCallback() {
@@ -674,10 +689,34 @@ class VisualArtSkillsHub extends HTMLElement {
       window.addEventListener("resize", this._syncHeight);
       window.addEventListener("resize", this._applyFullBleedCss);
       this._applyFullBleedCss();
+      this._scheduleRest();
     } catch (e) {}
   }
 
+  _scheduleRest() {
+    if (this._restTimer) {
+      if (typeof window.cancelIdleCallback === "function") {
+        try { window.cancelIdleCallback(this._restTimer); } catch (e) {}
+      }
+      window.clearTimeout(this._restTimer);
+      this._restTimer = null;
+    }
+    const paint = () => this._paintRest();
+    if (typeof window.requestIdleCallback === "function") {
+      this._restTimer = window.requestIdleCallback(paint, { timeout: 1200 });
+    } else {
+      this._restTimer = window.setTimeout(paint, 600);
+    }
+  }
+
   disconnectedCallback() {
+    if (this._restTimer) {
+      if (typeof window.cancelIdleCallback === "function") {
+        try { window.cancelIdleCallback(this._restTimer); } catch (e) {}
+      }
+      window.clearTimeout(this._restTimer);
+      this._restTimer = null;
+    }
     this.shadowRoot.removeEventListener("click", this._onClick);
     window.removeEventListener("resize", this._syncHeight);
     window.removeEventListener("resize", this._applyFullBleedCss);
@@ -869,6 +908,7 @@ class VisualArtSkillsHub extends HTMLElement {
 
     if (action === "scroll-details") {
       event.preventDefault();
+      this._paintRest();
       const sec = this.shadowRoot.getElementById("secDetails");
       if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
@@ -894,6 +934,12 @@ class VisualArtSkillsHub extends HTMLElement {
   }
 
   render() {
+    this._restPainted = false;
+    this._paintHero();
+    if (this.isConnected) this._scheduleRest();
+  }
+
+  _paintHero() {
     const t = (en, zh) => (this.isEn ? en : zh);
     this._applyFullBleedCss();
 
@@ -912,11 +958,18 @@ class VisualArtSkillsHub extends HTMLElement {
       )
     );
 
+    this._t = t;
+    this._courseHubUrl = courseHubUrl;
+    this._siloUrl = siloUrl;
+    this._trialUrl = trialUrl;
+    this._galleryUrl = galleryUrl;
+    this._waPrefillCached = waPrefill;
+
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
       <main class="hub">
         <section class="hero" aria-labelledby="hero-title">
-          <img class="hero-photo" src="${IMG.hero}" alt="${t("Ages 3–7 kids drawing class student artwork at IC Academy Ho Man Tin", "何文田IC Academy 3–7歲幼兒畫畫班學員作品")}" width="1600" height="1000" fetchpriority="high" decoding="async" />
+          <img class="hero-photo" src="${IMG.hero}" alt="${t("Ages 3–7 kids drawing class student artwork at IC Academy Ho Man Tin", "何文田IC Academy 3–7歲幼兒畫畫班學員作品")}" width="640" height="400" fetchpriority="high" decoding="async" />
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">
@@ -951,7 +1004,34 @@ class VisualArtSkillsHub extends HTMLElement {
             </div>
           </div>
         </section>
+      </main>
+    `;
+    this._applyFullBleedCss();
+    this._observeHeight();
+  }
 
+  _paintRest() {
+    if (this._restPainted) return;
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub) return;
+    this._restPainted = true;
+    const t = this._t || ((en, zh) => (this.isEn ? en : zh));
+    const courseHubUrl = this._courseHubUrl || this.path("/course-hub");
+    const siloUrl = this._siloUrl || this.path("/course/kids-art");
+    const trialUrl = this._trialUrl || this.path("/homantin-children-art-trial");
+    const galleryUrl = this._galleryUrl || (this.isEn
+      ? "https://www.icacademy.com.hk/studentartwork"
+      : "https://www.icacademy.com.hk/zh/studentartwork");
+    const waPrefill = this._waPrefillCached || this._waPrefill(
+      t(
+        "Hi, I’d like to ask about the ages 3–7 kids drawing class in Ho Man Tin (trial / times / fees). Child’s age: ____; preferred days: ____.",
+        "你好，我想查詢何文田3–7歲幼兒畫畫班（試堂／時間／收費）。小朋友年齡：＿＿；方便上課時間：＿＿。"
+      )
+    );
+
+    hub.insertAdjacentHTML(
+      "beforeend",
+      `
         <section class="section decide" aria-labelledby="decide-title">
           <div class="wrap">
             <div class="decide-panel">
@@ -1016,7 +1096,7 @@ class VisualArtSkillsHub extends HTMLElement {
                 <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about this course", "查詢課程詳情")}</a>
               </div>
               <div class="detail-media">
-                <img src="${IMG.detail}" alt="${t("3–7 kids drawing class student work, Ho Man Tin", "何文田3–7歲幼兒畫畫班學員作品")}" width="800" height="1000" loading="lazy" />
+                <img src="${IMG.detail}" alt="${t("3–7 kids drawing class student work, Ho Man Tin", "何文田3–7歲幼兒畫畫班學員作品")}" width="336" height="420" loading="lazy" decoding="async" />
               </div>
             </div>
           </div>
@@ -1048,10 +1128,10 @@ class VisualArtSkillsHub extends HTMLElement {
             <h2 class="section-title" id="gallery-title">${t("Student artwork", "學員作品展示")}</h2>
             <p class="section-lead">${t("From first art play to drawing foundations — each stage of creative growth.", "由藝術啟蒙到繪畫基礎，記錄每個階段的創意成長")}</p>
             <div class="gallery-grid">
-              <figure><img src="${IMG.gallery1}" alt="${t("Kids drawing class student painting ages 3–7", "3–7歲幼兒畫畫班學員畫作")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery2}" alt="${t("Kindergarten art class student work Ho Man Tin", "何文田幼稚園畫班學員作品")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery3}" alt="${t("Young children colour and drawing exercise", "幼兒色彩與繪畫練習作品")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery4}" alt="${t("Preparatory and foundation kids art work", "預備及基礎幼兒藝術作品")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery1}" alt="${t("Kids drawing class student painting ages 3–7", "3–7歲幼兒畫畫班學員畫作")}" width="320" height="320" loading="lazy" decoding="async" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery2}" alt="${t("Kindergarten art class student work Ho Man Tin", "何文田幼稚園畫班學員作品")}" width="320" height="320" loading="lazy" decoding="async" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery3}" alt="${t("Young children colour and drawing exercise", "幼兒色彩與繪畫練習作品")}" width="320" height="320" loading="lazy" decoding="async" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery4}" alt="${t("Preparatory and foundation kids art work", "預備及基礎幼兒藝術作品")}" width="320" height="320" loading="lazy" decoding="async" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
             </div>
             <div class="center-actions">
               <a class="btn btn-outline-teal" data-action="hub" href="${galleryUrl}">${t("See more student work →", "查看更多學員作品 →")}</a>
@@ -1173,9 +1253,8 @@ class VisualArtSkillsHub extends HTMLElement {
             <a class="btn btn-outline-white" data-action="hub" href="${siloUrl}">${t("Back to Kids Art", "返回兒童美術")}</a>
           </div>
         </section>
-      </main>
-    `;
-
+      `
+    );
     this._applyFullBleedCss();
     this._observeHeight();
   }
