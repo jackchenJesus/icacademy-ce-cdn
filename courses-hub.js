@@ -1,7 +1,7 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-08-30-v19 (ZH: parent-frame locale + VAS /zh nested URLs; smaller mobile type)
+ * Version: 2026-09-15-v20 (LCP hero 640; defer course cards; smaller images)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
@@ -108,25 +108,23 @@ function mediaUrl(id, w, h, q = 70) {
  * (already used on /zh course pages, home, gallery).
  */
 const IMG = {
-  heroSm: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 640, 400, 70),
-  hero: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 960, 600, 75),
-  heroLg: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 1280, 800, 75),
-  prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 640, 400, 70),
-  foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 640, 400, 70),
-  creativeI: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 640, 400, 70),
-  creativeII: mediaUrl("b98cc9_66611472f2134e0fa854d2914e4ae347~mv2.jpg", 640, 400, 70),
-  creativeIII: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 640, 400, 70),
-  comic: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 640, 400, 70),
-  sketch: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 640, 400, 70),
-  clay: mediaUrl("b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg", 640, 400, 70),
-  visualArt: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 640, 400, 70),
-  acrylic: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 640, 400, 70),
-  paintSquare: mediaUrl("4ea940_9933a9bae4884170a5bf9bd5355e340f~mv2.jpg", 640, 400, 70),
-  gallery1: mediaUrl("b98cc9_49cb0c61e7664eaca996580443195ec9~mv2.jpeg", 480, 480, 70),
-  gallery2: mediaUrl("4ea940_5867e3daf35f4f969495afa34a05f1a3~mv2.jpg", 480, 480, 70),
-  gallery3: mediaUrl("b98cc9_9605c850cf4b47daafd611bb1215e1fd~mv2.jpeg", 480, 480, 70),
-  gallery4: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 480, 480, 70),
-  detail: mediaUrl("b98cc9_0d50c3e155ba4c4e92046d937a5c0c43~mv2.jpg", 640, 800, 70),
+  heroSm: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 640, 400, 65),
+  prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 400, 250, 65),
+  foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 400, 250, 65),
+  creativeI: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 400, 250, 65),
+  creativeII: mediaUrl("b98cc9_66611472f2134e0fa854d2914e4ae347~mv2.jpg", 400, 250, 65),
+  creativeIII: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 400, 250, 65),
+  comic: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 400, 250, 65),
+  sketch: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 400, 250, 65),
+  clay: mediaUrl("b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg", 400, 250, 65),
+  visualArt: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 400, 250, 65),
+  acrylic: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 400, 250, 65),
+  paintSquare: mediaUrl("4ea940_9933a9bae4884170a5bf9bd5355e340f~mv2.jpg", 400, 250, 65),
+  gallery1: mediaUrl("b98cc9_49cb0c61e7664eaca996580443195ec9~mv2.jpeg", 320, 320, 65),
+  gallery2: mediaUrl("4ea940_5867e3daf35f4f969495afa34a05f1a3~mv2.jpg", 320, 320, 65),
+  gallery3: mediaUrl("b98cc9_9605c850cf4b47daafd611bb1215e1fd~mv2.jpeg", 320, 320, 65),
+  gallery4: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 320, 320, 65),
+  detail: mediaUrl("b98cc9_0d50c3e155ba4c4e92046d937a5c0c43~mv2.jpg", 336, 420, 65),
 };
 
 (function preloadHeroLcp() {
@@ -137,8 +135,6 @@ const IMG = {
     link.as = "image";
     link.href = IMG.heroSm;
     link.setAttribute("fetchpriority", "high");
-    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
-    link.setAttribute("imagesizes", "100vw");
     link.setAttribute("data-courses-hero-preload", "1");
     document.head.appendChild(link);
   } catch (e) {
@@ -471,14 +467,14 @@ const STYLES = `
   --bg-soft: #f4f8f9;
   --surface: #ffffff;
   --ink: #162b48;
-  --muted: #4a5568;
+  --muted: #3d4a5c;
   --line: #e2e8f0;
   --navy: #162b48;
   --coral: #ff8e8e;
-  --coral-deep: #f05a5a;
+  --coral-deep: #c62828;
   --coral-soft: #fff0f0;
-  --teal: #00a9b7;
-  --teal-deep: #008f9b;
+  --teal: #00727c;
+  --teal-deep: #00646d;
   --teal-soft: #e8f7f8;
   --title-chip: rgba(255, 240, 240, 0.92);
   --check: #00a9b7;
@@ -982,6 +978,7 @@ class CoursesHub extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this._filter = "all";
+    this._restTimer = null;
     this._onClick = this._onClick.bind(this);
     this._onKeydown = this._onKeydown.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
@@ -1006,6 +1003,23 @@ class CoursesHub extends HTMLElement {
     this.shadowRoot.addEventListener("keydown", this._onKeydown);
     window.addEventListener("resize", this._applyFullBleedCss);
     window.addEventListener("orientationchange", this._applyFullBleedCss);
+    this._scheduleRest();
+  }
+
+  _scheduleRest() {
+    if (this._restTimer) {
+      if (typeof window.cancelIdleCallback === "function") {
+        try { window.cancelIdleCallback(this._restTimer); } catch (e) {}
+      }
+      window.clearTimeout(this._restTimer);
+      this._restTimer = null;
+    }
+    const paint = () => this._paintRest();
+    if (typeof window.requestIdleCallback === "function") {
+      this._restTimer = window.requestIdleCallback(paint, { timeout: 600 });
+    } else {
+      this._restTimer = window.setTimeout(paint, 400);
+    }
   }
 
   disconnectedCallback() {
@@ -1013,6 +1027,13 @@ class CoursesHub extends HTMLElement {
     this.shadowRoot.removeEventListener("keydown", this._onKeydown);
     window.removeEventListener("resize", this._applyFullBleedCss);
     window.removeEventListener("orientationchange", this._applyFullBleedCss);
+    if (this._restTimer) {
+      if (typeof window.cancelIdleCallback === "function") {
+        try { window.cancelIdleCallback(this._restTimer); } catch (e) {}
+      }
+      window.clearTimeout(this._restTimer);
+      this._restTimer = null;
+    }
     const bleed = document.getElementById("courses-hub-page-bleed");
     if (bleed) bleed.remove();
   }
@@ -1291,7 +1312,7 @@ class CoursesHub extends HTMLElement {
         data-age-max="${c.ageMax}"
       >
         <div class="card-media">
-          <img src="${c.image}" alt="${this.pick(c.imageAlt)}" loading="lazy" decoding="async" width="640" height="400" />
+          <img src="${c.image}" alt="${this.pick(c.imageAlt)}" loading="lazy" decoding="async" width="400" height="250" />
         </div>
         <div class="card-body">
           <span class="meta">${this.pick(c.age)}</span>
@@ -1401,12 +1422,11 @@ class CoursesHub extends HTMLElement {
           <div class="hero-bg" aria-hidden="true">
             <img
               src="${IMG.heroSm}"
-              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
-              sizes="100vw"
               width="640"
               height="400"
               alt=""
               fetchpriority="high"
+              decoding="async"
             />
           </div>
           <div class="wrap">
@@ -1502,7 +1522,7 @@ class CoursesHub extends HTMLElement {
                 <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about courses", "查詢課程詳情")}</a>
               </div>
               <div class="detail-media">
-                <img src="${IMG.detail}" alt="${t("ICAcademy student artwork example", "ICAcademy學生藝術作品示例")}" width="800" height="1000" loading="lazy" />
+                <img src="${IMG.detail}" alt="${t("ICAcademy student artwork example", "ICAcademy學生藝術作品示例")}" width="336" height="420" loading="lazy" decoding="async" />
               </div>
             </div>
           </div>
@@ -1588,7 +1608,7 @@ class CoursesHub extends HTMLElement {
   render() {
     this._restPainted = false;
     this._paintHero();
-    this._paintRest();
+    if (this.isConnected) this._scheduleRest();
   }
 }
 
