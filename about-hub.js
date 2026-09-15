@@ -742,7 +742,7 @@ class AboutHub extends HTMLElement {
             )}</p>
             <div class="btn-row">
               <a class="btn btn-navy" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial class", "預約試堂")}</a>
-              <a class="btn btn-outline-navy" data-action="hub" href="${courseHref}">${t("Explore programmes", "了解課程")}</a>
+              <a class="btn btn-outline-navy" data-action="hub" href="${courseHref}">${t("Explore courses", "了解課程")}</a>
             </div>
           </div>
         </section>

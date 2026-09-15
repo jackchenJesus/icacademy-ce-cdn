@@ -138,6 +138,33 @@ const WHY = [
   },
 ];
 
+const DECISION = [
+  {
+    title: { en: "Ages 8+", zh: "適合8歲以上" },
+    desc: { en: "Children and teens. Younger kids: ages 3–7 drawing class.", zh: "兒童及青少年。更年幼請見3–7歲幼兒畫畫班。" },
+  },
+  {
+    title: { en: "Beginners welcome", zh: "初學者適合" },
+    desc: { en: "Start with lines, figure proportion and facial features.", zh: "由線條、人物比例及五官開始，初學可以跟上。" },
+  },
+  {
+    title: { en: "Ho Man Tin / Kowloon", zh: "何文田／九龍上課" },
+    desc: { en: "Near Pui Ching, about a 5-minute walk.", zh: "培正小學附近，步行約5分鐘。" },
+  },
+  {
+    title: { en: "Course format", zh: "課程模式" },
+    desc: { en: "About 1 hour. Current days: Mon, Wed, Fri, Sat. Max 6.", zh: "每堂約1小時。現有星期一、三、五、六。最多6人。" },
+  },
+  {
+    title: { en: "How to ask", zh: "查詢安排" },
+    desc: { en: "WhatsApp age and preferred days for times, fees and a trial.", zh: "WhatsApp年齡及方便日子，查詢時間、收費及試堂。" },
+  },
+  {
+    title: { en: "Not a general art class", zh: "不是綜合美術班" },
+    desc: { en: "Focus is cartoon, comic and character drawing. For broader media, see Creative Art (7–14).", zh: "重點是卡通、漫畫及角色。想學更廣泛繪畫媒介，請見7–14歲兒童美術班。" },
+  },
+];
+
 const FEATURES = [
   {
     title: { en: "Cartoon figures", zh: "卡通人物繪畫" },
@@ -154,10 +181,17 @@ const FEATURES = [
     },
   },
   {
-    title: { en: "Action and composition", zh: "表情動作・畫面構圖" },
+    title: { en: "Action and composition", zh: "表情、動作與故事構圖" },
     desc: {
-      en: "Pose, movement and panel layout so the picture tells a story.",
-      zh: "練習不同姿勢、動作及漫畫構圖，讓畫面能表達故事。",
+      en: "Pose, movement and panel layout so the picture can tell a story.",
+      zh: "練習姿勢、動作及漫畫構圖，讓畫面能表達故事。",
+    },
+  },
+  {
+    title: { en: "Cartoon, comic and anime drawing", zh: "卡通畫、漫畫與動漫繪畫" },
+    desc: {
+      en: "Cartoon is simplified character drawing. Comic adds panels and story. Anime-style drawing uses similar figure skill with more expression and costume.",
+      zh: "卡通畫重人物造型；漫畫加上分鏡與故事；動漫繪畫同樣由人物出發，再加強表情、動作與角色造型。",
     },
   },
 ];
@@ -232,60 +266,67 @@ const QUOTES = [
 
 const FAQ = [
   {
-    q: { en: "What age is the comic drawing class for?", zh: "卡通漫畫班適合幾歲的小朋友？" },
+    q: { en: "What age is this comic class for?", zh: "兒童漫畫班適合幾歲？" },
     a: {
-      en: "Ages 8+ (children and teens). The teacher adjusts topics by age, drawing foundation and progress.",
-      zh: "課程適合8歲以上兒童及青少年。導師會按照學生的年齡、繪畫基礎及學習進度調整教學內容。",
+      en: "Ages 8+ (children and teens). The teacher adjusts by age, drawing foundation and progress.",
+      zh: "適合8歲以上兒童及青少年。導師按年齡、繪畫基礎及進度調整內容。",
     },
   },
   {
-    q: { en: "Can beginners with no drawing experience join?", zh: "沒有學過畫畫可以參加嗎？" },
+    q: { en: "Can beginners join?", zh: "沒有學過畫畫可以學畫漫畫嗎？" },
     a: {
-      en: "Yes. Classes start with lines, figure proportion and facial features, so beginners can build comic drawing skill step by step.",
-      zh: "可以。課堂會由基本線條、人物比例及五官開始教授，初學者可以逐步掌握漫畫人物繪畫技巧。",
+      en: "Yes. Classes start with lines, figure proportion and facial features.",
+      zh: "可以。課堂由基本線條、人物比例及五官開始，初學者可逐步掌握漫畫人物繪畫。",
     },
   },
   {
-    q: { en: "What will students learn?", zh: "漫畫班會教授甚麼內容？" },
+    q: { en: "What will students actually learn?", zh: "漫畫課程會學甚麼？完成後可以畫到甚麼？" },
     a: {
-      en: "Figure proportion, features, hair, expressions, costume, action, character design and comic composition. Topics follow student level and the class theme.",
-      zh: "課程內容包括人物比例、五官、髮型、表情、服飾、動作、角色設計及漫畫畫面構圖。實際內容會按學生程度及課堂主題調整。",
+      en: "Figure proportion, features, hair, expressions, costume, action, character design and comic composition. Students work toward original characters and comic pictures at their level.",
+      zh: "會學人物比例、五官、髮型、表情、服飾、動作、角色設計及漫畫構圖。按程度完成個人角色或漫畫畫面，不是保證成為職業漫畫家。",
     },
   },
   {
-    q: { en: "How many students per class?", zh: "每班有多少人？" },
+    q: { en: "What is the difference between cartoon, comic and anime drawing?", zh: "卡通畫班、漫畫班和動漫繪畫有甚麼分別？" },
     a: {
-      en: "Maximum 6, so the teacher can follow each student’s work and give suitable guidance.",
-      zh: "每班最多6人，讓導師可以留意每位學生的創作進度，並提供適切指導。",
+      en: "Cartoon drawing focuses on simplified figures. Comic drawing adds panels and storytelling. Anime-style drawing uses the same figure skills with more expression, action and costume. This class covers all three at a kids’ level.",
+      zh: "卡通畫偏重人物造型；漫畫加上分鏡與故事；動漫繪畫同樣由人物出發，再練表情、動作與角色。本課程在兒童漫畫班程度內涵蓋這幾方面。",
     },
   },
   {
-    q: { en: "How long is a class, and which days?", zh: "每堂上課時間多久？" },
+    q: { en: "Where is the Hong Kong comic class held?", zh: "漫畫班香港在哪裏上課？是日本漫畫課程嗎？" },
     a: {
-      en: "About 1 hour. Current sessions: Monday, Wednesday, Friday and Saturday. Ask on WhatsApp for times and places.",
-      zh: "每堂約1小時。現有課堂安排為星期一、星期三、星期五及星期六，實際時間及學位請透過WhatsApp查詢。",
+      en: "IC Academy in Ho Man Tin near Pui Ching. Topics include cartoon and comic figures; we do not claim a licensed Japanese manga school syllabus.",
+      zh: "於何文田培正小學附近上課。內容包括卡通及漫畫人物；並非聲稱授權的日本漫畫學校課程，實際主題以畫室課堂為準。",
     },
   },
   {
-    q: { en: "Where is the studio?", zh: "畫室位於哪裏？" },
+    q: { en: "Are materials included?", zh: "漫畫班物料要自備嗎？" },
     a: {
-      en: "IC Academy is in Ho Man Tin near Pui Ching Primary School — about a 5-minute walk.",
-      zh: "IC Academy位於何文田培正小學附近，步行約5分鐘，交通方便。",
+      en: "Please WhatsApp us for the current drawing-tool arrangement.",
+      zh: "繪畫工具及物料安排請WhatsApp向畫室查詢。",
     },
   },
   {
-    q: { en: "Can we book a trial?", zh: "可以預約體驗嗎？" },
+    q: { en: "Can we book a trial?", zh: "可以預約漫畫班試堂嗎？" },
     a: {
-      en: "Yes. WhatsApp us for a trial, class times and remaining places. Arrangements are confirmed by the studio.",
-      zh: "歡迎透過WhatsApp查詢體驗安排、上課時間及剩餘學位，實際安排以畫室回覆為準。",
+      en: "Yes. Regular courses can book an HK$100 trial. WhatsApp us for times and remaining places.",
+      zh: "可以。常規課程可預約HK$100試堂。上課時間及學位請WhatsApp查詢。",
+    },
+  },
+  {
+    q: { en: "How do we ask about times and fees?", zh: "漫畫課程時間和收費怎樣查詢？" },
+    a: {
+      en: "About 1 hour. Current days: Monday, Wednesday, Friday and Saturday. WhatsApp for the latest times and fees.",
+      zh: "每堂約1小時。現有星期一、三、五、六。最新時間及收費請WhatsApp查詢。",
     },
   },
 ];
 
 const RELATED = [
   {
-    title: { en: "Kids Creative Art", zh: "兒童創意美術課程" },
-    desc: { en: "Ages 7–14 · mixed media and creative drawing skill", zh: "適合7–14歲，學習不同媒介及創意繪畫技巧" },
+    title: { en: "Broader kids art (ages 7–14)", zh: "想學更廣泛繪畫媒介？見兒童美術班" },
+    desc: { en: "Drawing and mixed media for primary to early secondary", zh: "7–14歲兒童畫畫班及多媒介美術，不是專門漫畫" },
     hrefSlug: "/course/kids-art/creative-art-classes",
   },
   {
@@ -365,6 +406,7 @@ img { max-width: 100%; display: block; }
 }
 h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 h3 { font-size: 1.12rem; }
+.who-box a, .section-lead a { color: var(--teal); font-weight: 700; }
 
 .crumbs {
   display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
@@ -392,18 +434,18 @@ h3 { font-size: 1.12rem; }
 .btn-ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
 
 .hero {
-  position: relative; width: 100%; max-width: 100%; min-height: clamp(460px, 58vw, 620px);
+  position: relative; width: 100%; max-width: 100%; min-height: 0;
   display: flex; align-items: center; overflow: hidden; background: #f3f3f3;
 }
-.hero-bg {
-  position: absolute; inset: 0;
-  background-image: var(--hero-img); background-size: cover; background-position: center 30%;
+.hero-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
+  z-index: 0;
 }
-.hero-bg::after {
-  content: ""; position: absolute; inset: 0;
+.hero-bg::after, .hero::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background: linear-gradient(90deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.82) 42%, rgba(255,255,255,.28) 72%, rgba(255,255,255,.12) 100%);
 }
-.hero .wrap { position: relative; z-index: 1; padding: 64px 0; }
+.hero .wrap { position: relative; z-index: 1; padding: 40px 0; }
 .hero-copy { max-width: 42rem; }
 .hero-eyebrow { margin: 0 0 18px; color: var(--teal); font-weight: 800; font-size: 1.02rem; }
 .hero-title-chip {
@@ -412,7 +454,19 @@ h3 { font-size: 1.12rem; }
 }
 .hero-title-chip h1 { margin: 0; font-size: clamp(1.4rem, 3.4vw, 2.1rem); line-height: 1.35; }
 .hero-sub { margin: 10px 0 0; font-size: clamp(1.08rem, 2.4vw, 1.4rem); font-weight: 800; color: var(--navy); }
-.hero-lead { margin: 0 0 28px; color: var(--muted); font-size: 1.02rem; }
+.hero-lead { margin: 0 0 16px; color: var(--muted); font-size: 1.02rem; }
+.hero-points { margin: 0 0 22px; padding: 0; list-style: none; }
+.hero-points li { position: relative; padding: 0.22rem 0 0.22rem 1.55rem; color: var(--ink); font-weight: 650; }
+.hero-points li::before { content: "✓"; position: absolute; left: 0; color: var(--teal); font-weight: 800; }
+.decision-grid { display: grid; gap: 12px; }
+@media (min-width: 720px) { .decision-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .decision-grid { grid-template-columns: repeat(3, 1fr); } }
+.decision-item {
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 18px 20px; box-shadow: var(--shadow);
+}
+.decision-item h3 { margin: 0 0 6px; font-size: 1.02rem; }
+.decision-item p { margin: 0; color: var(--muted); font-weight: 600; font-size: 0.95rem; }
 
 .trust { display: grid; gap: 12px; margin-top: -28px; position: relative; z-index: 2; }
 @media (min-width: 720px) { .trust { grid-template-columns: repeat(2, 1fr); } }
@@ -525,7 +579,7 @@ h3 { font-size: 1.12rem; }
   .wrap { width: min(1200px, calc(100% - 32px)); }
   .section { padding: 48px 0; }
   .hero { min-height: 0; align-items: stretch; }
-  .hero-bg::after {
+  .hero::after {
     background: linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.92) 58%, rgba(255,255,255,.78) 100%);
   }
 }
@@ -565,7 +619,7 @@ class ComicDrawingHub extends HTMLElement {
       try {
         if (this.localeCode === "zh") {
           const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
-          if (h1 && /Comic Drawing Class in Ho Man Tin/i.test(h1.textContent || "")) this.render();
+          if (h1 && /Kids Comic Drawing Class Ages 8\+/i.test(h1.textContent || "")) this.render();
         }
       } catch (e) {}
     };
@@ -806,9 +860,9 @@ class ComicDrawingHub extends HTMLElement {
 
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
-      <div class="hub">
-        <section class="hero" aria-labelledby="hero-title" style="--hero-img:url('${IMG.hero}')">
-          <div class="hero-bg" aria-hidden="true"></div>
+      <main class="hub">
+        <section class="hero" aria-labelledby="hero-title">
+          <img class="hero-photo" src="${IMG.hero}" alt="${t("Kids comic drawing class character design work at IC Academy Ho Man Tin", "何文田IC Academy兒童漫畫班角色設計學員作品")}" width="1600" height="1000" fetchpriority="high" decoding="async" />
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">
@@ -818,28 +872,49 @@ class ComicDrawingHub extends HTMLElement {
                 <span aria-hidden="true">/</span>
                 <a data-action="hub" href="${siloUrl}">${t("Kids Art", "兒童美術")}</a>
                 <span aria-hidden="true">/</span>
-                <span>${t("Comic Drawing", "卡通漫畫班")}</span>
+                <span>${t("Comic drawing ages 8+", "8歲以上兒童漫畫班")}</span>
               </nav>
-              <p class="hero-eyebrow">${t("Ho Man Tin · near Pui Ching · ages 8+", "何文田・培正附近・8歲以上兒童漫畫班")}</p>
+              <p class="hero-eyebrow">${t("Ho Man Tin · Kowloon · ages 8+", "何文田／九龍・8歲以上漫畫課程")}</p>
               <div class="hero-title-chip">
-                <h1 id="hero-title">${t("Kids’ Comic Drawing Class in Ho Man Tin", "何文田兒童漫畫班 學畫卡通人物｜角色設計｜漫畫創作")}</h1>
-                <p class="hero-sub">${t("Cartoon figures · character design · comic creation", "卡通人物繪畫・角色設計・漫畫創作")}</p>
+                <h1 id="hero-title">${t("Kids Comic Drawing Class Ages 8+", "8歲以上兒童漫畫班｜卡通及動漫繪畫課程")}</h1>
+                <p class="hero-sub">${t("Figures, expressions, action, characters and story layout", "人物、表情、動作、角色及故事構圖")}</p>
               </div>
               <p class="hero-lead">
                 ${t(
-                  "IC Academy’s Ho Man Tin comic class is for children and teens aged 8+. Start with lines, figure proportion and expressions, then comic figures, character design and composition. In a small class, children can turn ideas into original characters and comics — building drawing skill, creativity and confidence.",
-                  "IC Academy何文田卡通漫畫班專為8歲以上兒童及青少年而設，由基本線條、人物比例及表情開始，逐步學習漫畫人物繪畫、角色設計與畫面構圖。透過小班漫畫教學，孩子可以把自己的想法發展成獨特角色及漫畫作品，建立繪畫技巧、創作能力與表達自信。"
+                  "This Ho Man Tin comic class is for ages 8+. Learn cartoon figures, comic storytelling and anime-style character drawing in a small group. Beginners start with proportion and features. WhatsApp us for a trial, times and fees.",
+                  "IC Academy何文田兒童漫畫班適合8歲以上。課堂教授卡通畫、漫畫及動漫人物繪畫，包括人物、表情、動作、角色及故事構圖。初學者可由比例與五官開始。歡迎WhatsApp查詢試堂。"
                 )}
               </p>
+              <ul class="hero-points">
+                <li>${t("Ages 8+ kids comic class: cartoon, comic and character drawing", "8歲以上兒童漫畫班：卡通、漫畫及角色繪畫")}</li>
+                <li>${t("Beginners can start with figure proportion and faces", "初學者可由人物比例及五官開始")}</li>
+                <li>${t("Ho Man Tin / Kowloon · WhatsApp for a trial", "何文田／九龍上課｜WhatsApp查詢試堂")}</li>
+              </ul>
               <div class="btn-row">
-                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about class times", "查詢上課時間")}</a>
-                <button type="button" class="btn btn-outline-teal" data-action="scroll-details">${t("See course details", "查看課程詳情")}</button>
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("WhatsApp to book a trial", "WhatsApp 查詢試堂")}</a>
+                <button type="button" class="btn btn-outline-teal" data-action="scroll-details">${t("See what you will learn", "查看會學甚麼")}</button>
               </div>
             </div>
           </div>
         </section>
 
-        <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="${t("Class facts", "課程重點")}">
+        <section class="section" style="padding-top:0;padding-bottom:40px" aria-labelledby="decide-title">
+          <div class="wrap">
+            <h2 class="section-title" id="decide-title">${t("Before you enquire", "報名前先了解")}</h2>
+            <p class="section-lead">${t("Age, beginners, location, class days and how to ask.", "年齡、初學、地點、上課日及查詢方式")}</p>
+            <div class="decision-grid">
+              ${DECISION.map(
+                (item) => `
+                <article class="decision-item">
+                  <h3>${this.pick(item.title)}</h3>
+                  <p>${this.pick(item.desc)}</p>
+                </article>`
+              ).join("")}
+            </div>
+          </div>
+        </section>
+
+        <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="${t("Course facts", "課程重點")}">
           <div class="wrap">
             <div class="trust">
               <div class="trust-item">✓ ${t("5-min walk from Pui Ching", "培正小學附近")}<span>${t("About a 5-minute walk", "步行約5分鐘")}</span></div>
@@ -875,7 +950,7 @@ class ComicDrawingHub extends HTMLElement {
           <div class="wrap">
             <div class="detail">
               <div>
-                <h2 id="details-title">${t("Kids’ comic class details", "卡通漫畫班・兒童漫畫課程詳情")}</h2>
+                <h2 id="details-title">${t("What this comic class covers", "漫畫班會學甚麼")}</h2>
                 <p class="hero-sub" style="margin:0 0 12px;font-size:1.05rem">${t("Ages 8+ · max 6 · 1 hour · Ho Man Tin", "適合8歲以上｜小班最多6人｜每堂1小時｜何文田兒童漫畫班")}</p>
                 <p class="detail-lead">
                   ${t(
@@ -892,7 +967,7 @@ class ComicDrawingHub extends HTMLElement {
                 <ul class="check-list">
                   ${LEARNING.map((item) => `<li>${this.pick(item)}</li>`).join("")}
                 </ul>
-                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about this class", "查詢課程詳情")}</a>
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about this course", "查詢課程詳情")}</a>
               </div>
               <div class="detail-media">
                 <img src="${IMG.detail}" alt="${t("ICAcademy student comic character design", "ICAcademy學生漫畫角色設計作品")}" width="800" height="1000" loading="lazy" />
@@ -921,10 +996,10 @@ class ComicDrawingHub extends HTMLElement {
             <h2 class="section-title" id="gallery-title">${t("Student artwork", "學員作品展示")}</h2>
             <p class="section-lead">${t("A complete piece each class — watch drawing and storytelling grow.", "每堂一件完整作品，見證孩子的創作成長")}</p>
             <div class="gallery-grid">
-              <figure><img src="${IMG.gallery1}" alt="${t("Comic drawing student work", "漫畫學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery2}" alt="${t("Student comic character design", "學生漫畫角色設計作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery3}" alt="${t("Comic class student work", "漫畫課程學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery4}" alt="${t("Comic illustration student work", "漫畫插畫學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery1}" alt="${t("Kids comic class character drawing", "兒童漫畫班人物繪畫作品")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery2}" alt="${t("Student comic character design Ho Man Tin", "何文田學生漫畫角色設計")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery3}" alt="${t("Cartoon drawing class student work", "卡通畫班學員作品")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery4}" alt="${t("Anime-style comic illustration by a student", "學員動漫風格漫畫插畫")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
             </div>
             <div class="center-actions">
               <a class="btn btn-outline-teal" data-action="hub" href="${galleryUrl}">${t("See more student work →", "查看更多學員作品 →")}</a>
@@ -934,7 +1009,7 @@ class ComicDrawingHub extends HTMLElement {
 
         <section class="section section-soft" aria-labelledby="path-title">
           <div class="wrap">
-            <h2 class="section-title" id="path-title">${t("How a class unfolds", "課程流程")}</h2>
+            <h2 class="section-title" id="path-title">${t("How a course unfolds", "課程流程")}</h2>
             <div class="path">
               ${STEPS.map(
                 (s) => `
@@ -950,12 +1025,9 @@ class ComicDrawingHub extends HTMLElement {
 
         <section class="section" aria-labelledby="fit-title">
           <div class="wrap">
-            <h2 class="section-title" id="fit-title">${t("Who is this class for?", "適合甚麼小朋友？")}</h2>
+            <h2 class="section-title" id="fit-title">${t("Who is this course for?", "適合甚麼小朋友？")}</h2>
             <p class="section-lead" style="margin-bottom:0">
-              ${t(
-                "For children aged 8+ who like cartoons, comics and character creation, and want drawing skill plus original characters and stories. Also for students with some drawing experience who want to improve proportion, expression, action and character design.",
-                "適合喜歡卡通、漫畫及人物創作，希望學習繪畫技巧，並將自己的想法變成原創角色及故事的8歲以上小朋友；亦適合已有基本繪畫經驗，希望進一步改善人物比例、表情、動作及角色設計的學生。"
-              )}
+              ${t("For ages 8+ who want cartoon, comic and character drawing. For a broader drawing course, see the ", "適合8歲以上、想學卡通、漫畫及角色繪畫的學生。若希望學習更廣泛繪畫媒介，請見")}<a data-action="course" href="${this.path("/course/kids-art/creative-art-classes")}">${t("Creative Art class for ages 7–14", "7–14歲兒童創意美術班")}</a>${t(".", "。")}
             </p>
           </div>
         </section>
@@ -1002,7 +1074,7 @@ class ComicDrawingHub extends HTMLElement {
         <section class="section section-soft" aria-labelledby="explore-title">
           <div class="wrap">
             <h2 class="section-title" id="explore-title">${t("Explore more courses", "探索更多課程")}</h2>
-            <p class="section-lead">${t("This page is the comic drawing course. Other kids art paths have their own pages.", "本頁是兒童漫畫班課程。其他兒童美術方向請見相關課程頁。")}</p>
+            <p class="section-lead">${t("This page is the comic drawing course. Other kids art paths have their own courses.", "本頁是兒童漫畫班課程。其他兒童美術方向請見相關課程。")}</p>
             <div class="silo-links" style="margin-bottom:28px">
               <a data-action="hub" href="${siloUrl}">${t("Kids Art overview", "兒童美術總覽")}</a>
               <a data-action="hub" href="${kidsListingUrl}">${t("Kids art classes", "兒童畫班一覽")}</a>
@@ -1040,14 +1112,14 @@ class ComicDrawingHub extends HTMLElement {
         </section>
 
         <section class="final" aria-labelledby="final-title">
-          <h2 id="final-title">${t("Ask about kids’ comic drawing in Ho Man Tin", "立即查詢何文田兒童漫畫班")}</h2>
-          <p>${t("Max 6 per class. WhatsApp us for the timetable and a trial.", "小班最多6人，歡迎WhatsApp查詢上課時間及體驗安排")}</p>
+          <h2 id="final-title">${t("WhatsApp this ages 8+ comic class in Ho Man Tin", "WhatsApp 查詢何文田兒童漫畫班")}</h2>
+          <p>${t("Cartoon, comic and character drawing for ages 8+. Ask for times, fees and an HK$100 trial.", "8歲以上卡通及漫畫課程，九龍何文田上課。歡迎查詢時間、收費及HK$100試堂。")}</p>
           <div class="btn-row">
-            <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("WhatsApp", "WhatsApp 查詢")}</a>
+            <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("WhatsApp to book a trial", "WhatsApp 查詢試堂")}</a>
             <a class="btn btn-outline-white" data-action="hub" href="${siloUrl}">${t("Back to Kids Art", "返回兒童美術")}</a>
           </div>
         </section>
-      </div>
+      </main>
     `;
 
     this._applyFullBleedCss();

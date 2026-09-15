@@ -116,24 +116,69 @@ const IMG = {
 
 const WHY = [
   {
-    title: { en: "Grouped by age", zh: "按年齡分班" },
+    title: { en: "A drawing class, not free play only", zh: "幼兒畫畫班，不是純玩耍" },
     desc: {
-      en: "Ages 3–5 start with art play. Ages 5–7 move on to observation, form and simple composition.",
-      zh: "3–5歲由藝術啟蒙開始，5–7歲進一步學習觀察、造型與基本構圖。",
+      en: "Ages 3–7 practise line, looking, colour, making and hand–eye skill, with room to imagine.",
+      zh: "3–7歲按年齡練習繪畫、觀察、色彩、創作及手眼協調，同時保留想像空間。",
     },
   },
   {
-    title: { en: "Build drawing foundations", zh: "建立繪畫基礎" },
+    title: { en: "Placed by age", zh: "按年齡分班" },
     desc: {
-      en: "Progress from line, shape and colour, then use different media to finish a complete piece.",
-      zh: "從線條、形狀和色彩逐步進階，並運用不同媒介練習完整作品。",
+      en: "Ages 3–5 start with first drawing skills. Ages 5–7 add observation, form and simple composition.",
+      zh: "3–5歲由繪畫入門開始，5–7歲進一步學習觀察、造型與基本構圖。",
     },
   },
   {
-    title: { en: "Small-group guidance", zh: "小班個別指導" },
+    title: { en: "Small-group guidance in Ho Man Tin", zh: "何文田小班上課" },
     desc: {
-      en: "Maximum 4–6 children, so the teacher can match pace and ability.",
-      zh: "每班最多4至6人，導師可按孩子的能力與進度提供適切指導。",
+      en: "Maximum 4–6 children near Pui Ching, Kowloon. WhatsApp us to ask about a trial.",
+      zh: "培正附近小班最多4至6人，方便九龍家庭。歡迎WhatsApp查詢試堂。",
+    },
+  },
+];
+
+const DECISION = [
+  {
+    title: { en: "Ages 3–7", zh: "適合3–7歲" },
+    desc: {
+      en: "For kindergarten and early primary children. Not the 7–14 Creative Art class.",
+      zh: "適合幼稚園及幼小階段。不是7–14歲兒童美術班。",
+    },
+  },
+  {
+    title: { en: "Beginners welcome", zh: "初學者適合" },
+    desc: {
+      en: "No drawing experience needed. We start with line, shape and colour.",
+      zh: "沒有畫畫經驗亦可參加，由線條、形狀和顏色開始。",
+    },
+  },
+  {
+    title: { en: "Ho Man Tin / Kowloon", zh: "何文田／九龍上課" },
+    desc: {
+      en: "Studio near Pui Ching Primary School, Waterloo Road.",
+      zh: "畫室位於何文田培正小學附近、窩打老道。",
+    },
+  },
+  {
+    title: { en: "Course format", zh: "課程模式" },
+    desc: {
+      en: "1-hour classes, Monday to Saturday. Preparatory (max 4) and Foundation (max 6).",
+      zh: "每堂1小時，星期一至六。預備班最多4人，基礎班最多6人。",
+    },
+  },
+  {
+    title: { en: "How to ask", zh: "查詢安排" },
+    desc: {
+      en: "WhatsApp the child’s age and preferred days for times, fees and an HK$100 trial.",
+      zh: "WhatsApp告訴我們年齡及方便日子，查詢時間、收費及HK$100試堂。",
+    },
+  },
+  {
+    title: { en: "Mixed media, not a clay class", zh: "不是黏土班" },
+    desc: {
+      en: "The theme is kids drawing. Collage, printing or clay may appear as materials, not as the course name.",
+      zh: "本頁主題是幼兒畫畫及創意藝術。剪貼、印畫或黏土只作為媒介練習，不是黏土班。",
     },
   },
 ];
@@ -233,67 +278,67 @@ const QUOTES = [
 
 const FAQ = [
   {
-    q: { en: "What age is Visual Art Skills for?", zh: "視藝技巧課程適合幾歲的小朋友？" },
+    q: { en: "What age is this kids drawing class for?", zh: "幼兒畫畫班適合幾歲？3歲、4歲、5歲幼稚園可以嗎？" },
     a: {
-      en: "Ages 3–7: Preparatory for 3–5, Foundation for 5–7.",
-      zh: "課程適合3至7歲小朋友，分為3–5歲預備課程及5–7歲基礎課程。",
+      en: "Ages 3–7. Preparatory is for ages 3–5 (kindergarten); Foundation is for ages 5–7.",
+      zh: "適合3至7歲。3–5歲（幼稚園）入預備課程；5–7歲入基礎課程。3歲、4歲、5歲幼兒畫畫班均按年齡配對。",
     },
   },
   {
-    q: { en: "How is Preparatory different from Foundation?", zh: "預備課程和基礎課程有甚麼分別？" },
+    q: { en: "Can beginners join?", zh: "沒有學過畫畫的幼兒可以參加嗎？" },
     a: {
-      en: "Preparatory focuses on art play, sensory exploration, fine-motor skill, line and colour. Foundation adds observation, form, proportion, composition and picture-making.",
-      zh: "預備課程重點是藝術啟蒙、感官探索、小手肌及基本線條色彩；基礎課程會進一步學習觀察、造型、比例、構圖及畫面表達。",
+      en: "Yes. Beginners start with line, shape and colour. We place children by age and level.",
+      zh: "可以。初學者由基本線條、形狀和顏色開始，導師按年齡及程度安排班別。",
     },
   },
   {
-    q: { en: "Can children with no drawing experience join?", zh: "沒有學過畫畫可以參加嗎？" },
+    q: { en: "Is this only free play, or do they learn drawing?", zh: "幼兒藝術班是自由玩耍，還是會學畫畫？" },
     a: {
-      en: "Yes. We place children by age and level. Beginners start with line, shape and colour.",
-      zh: "可以。導師會按孩子的年齡及程度安排合適班別，初學者可由基本線條、形狀和顏色開始。",
+      en: "It is a structured kids drawing class: line, colour, looking, simple composition, plus collage and printing. Imagination is encouraged, but classes are not free play only.",
+      zh: "這是有結構的幼兒畫畫及創意藝術課程，會學線條、色彩、觀察、簡單構圖，並用剪貼、印畫等媒介完成作品。有想像空間，但不是純玩耍。",
     },
   },
   {
-    q: { en: "What will they learn?", zh: "課堂會教授甚麼內容？" },
+    q: { en: "Is this a clay class?", zh: "這是黏土班嗎？" },
     a: {
-      en: "Line, colour, shape, simple composition, collage, printing and mixed media. Themes follow the learning pace.",
-      zh: "包括線條、色彩、形狀、簡單構圖、剪貼、印畫及混合媒介創作，主題會按學習進度調整。",
+      en: "No. This page is the ages 3–7 drawing class. Clay may appear as one mixed-media material, not as the course theme.",
+      zh: "不是。本頁是3–7歲幼兒畫畫班。若課堂用到黏土，只屬混合媒介練習，主題不是黏土班。",
     },
   },
   {
-    q: { en: "How many children per class?", zh: "每班有多少人？" },
+    q: { en: "Where is the class?", zh: "幼兒畫班在哪裏上課？" },
     a: {
-      en: "Preparatory (3–5): maximum 4. Foundation (5–7): maximum 6.",
-      zh: "3–5歲預備課程每班最多4人；5–7歲基礎課程每班最多6人。",
+      en: "IC Academy is near Pui Ching Primary School in Ho Man Tin, Kowloon — convenient for Ho Man Tin, Mong Kok, King’s Park and nearby families.",
+      zh: "IC Academy位於何文田培正小學附近，方便何文田、旺角、京士柏及九龍區家庭。",
     },
   },
   {
-    q: { en: "How long is a class, and which days?", zh: "每堂上課多久及有哪些上課日？" },
+    q: { en: "Are materials included?", zh: "課堂物料要自備嗎？" },
     a: {
-      en: "1 hour, Monday to Saturday. WhatsApp us for times and places.",
-      zh: "每堂1小時，星期一至星期六均有課堂安排；實際時間及學位請透過WhatsApp查詢。",
+      en: "Please WhatsApp us for the current material arrangement for this class.",
+      zh: "課堂繪畫工具及物料安排請透過WhatsApp向畫室查詢。",
     },
   },
   {
     q: { en: "Can we book a trial?", zh: "可以先預約試堂嗎？" },
     a: {
-      en: "Yes. Regular courses can book an HK$100 trial. WhatsApp us with your child’s age and preferred days.",
-      zh: "可以。所有常規課程均可預約HK$100試堂；請透過WhatsApp告訴我們小朋友年齡及方便日子。",
+      en: "Yes. Regular courses can book an HK$100 trial. WhatsApp the child’s age and preferred days.",
+      zh: "可以。常規課程可預約HK$100試堂；請WhatsApp告訴我們小朋友年齡及方便日子。",
     },
   },
   {
-    q: { en: "Where is the studio?", zh: "畫室位於哪裏？" },
+    q: { en: "How do we ask about times and fees?", zh: "上課時間和收費怎樣查詢？" },
     a: {
-      en: "IC Academy is near Pui Ching Primary School in Ho Man Tin — convenient for Ho Man Tin, Mong Kok, King’s Park and Kowloon families.",
-      zh: "IC Academy位於何文田培正小學附近，方便何文田、旺角、京士柏及九龍區家庭前往。",
+      en: "Classes are 1 hour, Monday to Saturday. WhatsApp us for current times, remaining places and fees.",
+      zh: "每堂1小時，星期一至六有課堂。實際時間、學位及收費請WhatsApp查詢。",
     },
   },
 ];
 
 const RELATED = [
   {
-    title: { en: "Kids Creative Art", zh: "兒童創意美術課程" },
-    desc: { en: "Ages 7–14 · mixed media and creative drawing", zh: "適合7–14歲，學習不同媒介及創意繪畫技巧" },
+    title: { en: "Creative Art for ages 7–14", zh: "升上7–14歲兒童創意美術班" },
+    desc: { en: "Next age stage: drawing and mixed media for primary to early secondary", zh: "孩子升上小學至初中後，可轉讀兒童畫畫班及多媒介美術課程" },
     hrefSlug: "/course/kids-art/creative-art-classes",
   },
   {
@@ -302,8 +347,8 @@ const RELATED = [
     hrefSlug: "/course/drawing-and-painting/sketching-class",
   },
   {
-    title: { en: "Comic Drawing Class", zh: "卡通動畫班" },
-    desc: { en: "Ages 8+ · character proportion and original characters", zh: "適合8歲以上，學習人物比例與角色創作" },
+    title: { en: "Comic Drawing Class", zh: "8歲以上兒童漫畫班" },
+    desc: { en: "Ages 8+ · cartoon figures, character design and comic composition", zh: "適合對卡通、漫畫人物有興趣的學生，請見兒童漫畫課程" },
     hrefSlug: "/course/kids-art/comic-drawing-class",
   },
 ];
@@ -371,7 +416,7 @@ img { max-width: 100%; display: block; }
   margin: 0 auto 36px;
   font-size: 1.02rem;
 }
-h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
+.who-box a, .section-lead a { color: var(--teal); font-weight: 700; }
 h3 { font-size: 1.12rem; }
 
 .crumbs {
@@ -400,18 +445,18 @@ h3 { font-size: 1.12rem; }
 .btn-ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
 
 .hero {
-  position: relative; width: 100%; max-width: 100%; min-height: clamp(460px, 58vw, 620px);
+  position: relative; width: 100%; max-width: 100%; min-height: 0;
   display: flex; align-items: center; overflow: hidden; background: #f3f3f3;
 }
-.hero-bg {
-  position: absolute; inset: 0;
-  background-image: var(--hero-img); background-size: cover; background-position: center 30%;
+.hero-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
+  z-index: 0;
 }
-.hero-bg::after {
-  content: ""; position: absolute; inset: 0;
+.hero-bg::after, .hero::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background: linear-gradient(90deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.82) 42%, rgba(255,255,255,.28) 72%, rgba(255,255,255,.12) 100%);
 }
-.hero .wrap { position: relative; z-index: 1; padding: 64px 0; }
+.hero .wrap { position: relative; z-index: 1; padding: 40px 0; }
 .hero-copy { max-width: 42rem; }
 .hero-eyebrow { margin: 0 0 18px; color: var(--teal); font-weight: 800; font-size: 1.02rem; }
 .hero-title-chip {
@@ -420,7 +465,19 @@ h3 { font-size: 1.12rem; }
 }
 .hero-title-chip h1 { margin: 0; font-size: clamp(1.4rem, 3.4vw, 2.1rem); line-height: 1.35; }
 .hero-sub { margin: 10px 0 0; font-size: clamp(1.08rem, 2.4vw, 1.4rem); font-weight: 800; color: var(--navy); }
-.hero-lead { margin: 0 0 28px; color: var(--muted); font-size: 1.02rem; }
+.hero-lead { margin: 0 0 16px; color: var(--muted); font-size: 1.02rem; }
+.hero-points { margin: 0 0 22px; padding: 0; list-style: none; }
+.hero-points li { position: relative; padding: 0.22rem 0 0.22rem 1.55rem; color: var(--ink); font-weight: 650; }
+.hero-points li::before { content: "✓"; position: absolute; left: 0; color: var(--teal); font-weight: 800; }
+.decision-grid { display: grid; gap: 12px; }
+@media (min-width: 720px) { .decision-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .decision-grid { grid-template-columns: repeat(3, 1fr); } }
+.decision-item {
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 18px 20px; box-shadow: var(--shadow);
+}
+.decision-item h3 { margin: 0 0 6px; font-size: 1.02rem; }
+.decision-item p { margin: 0; color: var(--muted); font-weight: 600; font-size: 0.95rem; }
 
 .trust { display: grid; gap: 12px; margin-top: -28px; position: relative; z-index: 2; }
 @media (min-width: 720px) { .trust { grid-template-columns: repeat(2, 1fr); } }
@@ -554,7 +611,7 @@ h3 { font-size: 1.12rem; }
   .wrap { width: min(1200px, calc(100% - 32px)); }
   .section { padding: 48px 0; }
   .hero { min-height: 0; align-items: stretch; }
-  .hero-bg::after {
+  .hero::after {
     background: linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.92) 58%, rgba(255,255,255,.78) 100%);
   }
 }
@@ -596,7 +653,7 @@ class VisualArtSkillsHub extends HTMLElement {
       try {
         if (this.localeCode === "zh") {
           const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
-          if (h1 && /Visual Art Skills Course/i.test(h1.textContent || "")) this.render();
+          if (h1 && /Kids Drawing Class for Ages 3–7/i.test(h1.textContent || "")) this.render();
         }
       } catch (e) {}
     };
@@ -840,16 +897,16 @@ class VisualArtSkillsHub extends HTMLElement {
 
     const waPrefill = this._waPrefill(
       t(
-        "Hi, I’d like to ask about the Visual Art Skills Course (Preparatory / Foundation) in Ho Man Tin. Child’s age: ____; drawing experience: ____; preferred days: ____.",
-        "你好，我想查詢何文田視藝技巧課程（預備／基礎）。小朋友年齡：＿＿；繪畫經驗：＿＿；方便上課時間：＿＿。"
+        "Hi, I’d like to ask about the ages 3–7 kids drawing class in Ho Man Tin (trial / times / fees). Child’s age: ____; preferred days: ____.",
+        "你好，我想查詢何文田3–7歲幼兒畫畫班（試堂／時間／收費）。小朋友年齡：＿＿；方便上課時間：＿＿。"
       )
     );
 
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
-      <div class="hub">
-        <section class="hero" aria-labelledby="hero-title" style="--hero-img:url('${IMG.hero}')">
-          <div class="hero-bg" aria-hidden="true"></div>
+      <main class="hub">
+        <section class="hero" aria-labelledby="hero-title">
+          <img class="hero-photo" src="${IMG.hero}" alt="${t("Ages 3–7 kids drawing class student artwork at IC Academy Ho Man Tin", "何文田IC Academy 3–7歲幼兒畫畫班學員作品")}" width="1600" height="1000" fetchpriority="high" decoding="async" />
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">
@@ -859,28 +916,49 @@ class VisualArtSkillsHub extends HTMLElement {
                 <span aria-hidden="true">/</span>
                 <a data-action="hub" href="${siloUrl}">${t("Kids Art", "兒童美術")}</a>
                 <span aria-hidden="true">/</span>
-                <span>${t("Visual Art Skills", "視藝技巧課程")}</span>
+                <span>${t("Kids drawing ages 3–7", "3–7歲幼兒畫畫班")}</span>
               </nav>
-              <p class="hero-eyebrow">${t("Ho Man Tin · near Pui Ching · kids art ages 3–7", "何文田・培正附近・3–7歲兒童畫班")}</p>
+              <p class="hero-eyebrow">${t("Ho Man Tin · Kowloon · ages 3–7", "何文田／九龍・3–7歲幼兒畫畫班")}</p>
               <div class="hero-title-chip">
-                <h1 id="hero-title">${t("Visual Art Skills Course", "視藝技巧課程")}</h1>
-                <p class="hero-sub">${t("Preparatory · Foundation · creative start", "預備課程｜基礎課程｜創意啟蒙")}</p>
+                <h1 id="hero-title">${t("Kids Drawing Class for Ages 3–7", "3–7歲幼兒畫畫班｜創意藝術課程")}</h1>
+                <p class="hero-sub">${t("Preparatory and Foundation drawing, not free play only", "預備及基礎幼兒藝術班｜按年齡學畫畫")}</p>
               </div>
               <p class="hero-lead">
                 ${t(
-                  "IC Academy Visual Art Skills is for ages 3–7. Classes are split into Preparatory and Foundation by age and stage, so children build drawing skill step by step — from line, colour and shape to observation, composition and mixed-media making, plus fine-motor skill, focus and confidence.",
-                  "IC Academy視藝技巧課程專為3至7歲小朋友而設，按年齡及學習階段分為「預備課程」及「基礎課程」，讓孩子循序漸進建立繪畫能力。課程由線條、色彩與形狀開始，再逐步加入觀察、構圖及多元媒介創作，培養小手肌、創意表達、專注力與自信。"
+                  "This Ho Man Tin kids drawing class is for ages 3–7. Children learn line, looking, colour, making and hand–eye skill in small groups — a structured start, not only free play. WhatsApp us to ask about an HK$100 trial.",
+                  "IC Academy何文田幼兒畫畫班專為3至7歲而設。課程按年齡培養繪畫、觀察、色彩、創意及手眼協調，不是純自由玩耍。九龍上課，歡迎WhatsApp查詢試堂。"
                 )}
               </p>
+              <ul class="hero-points">
+                <li>${t("For ages 3–7: kindergarten drawing and early art", "適合3–7歲：幼稚園畫班及幼兒藝術課程")}</li>
+                <li>${t("Learn drawing, looking, colour and coordination by age", "按年齡學畫畫、觀察、色彩及手眼協調")}</li>
+                <li>${t("Ho Man Tin / Kowloon · WhatsApp for a trial", "何文田／九龍上課｜WhatsApp查詢試堂")}</li>
+              </ul>
               <div class="btn-row">
-                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial", "立即預約體驗")}</a>
-                <button type="button" class="btn btn-outline-teal" data-action="scroll-details">${t("See course details", "查看課程詳情")}</button>
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("WhatsApp to book a trial", "WhatsApp 查詢試堂")}</a>
+                <button type="button" class="btn btn-outline-teal" data-action="scroll-details">${t("See what they will learn", "查看課程內容")}</button>
               </div>
             </div>
           </div>
         </section>
 
-        <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="${t("Class facts", "課程重點")}">
+        <section class="section" style="padding-top:0;padding-bottom:40px" aria-labelledby="decide-title">
+          <div class="wrap">
+            <h2 class="section-title" id="decide-title">${t("Before you enquire", "報名前先了解")}</h2>
+            <p class="section-lead">${t("Age, beginners, location and how to ask — in one place.", "年齡、初學、地點及查詢方式一次看清")}</p>
+            <div class="decision-grid">
+              ${DECISION.map(
+                (item) => `
+                <article class="decision-item">
+                  <h3>${this.pick(item.title)}</h3>
+                  <p>${this.pick(item.desc)}</p>
+                </article>`
+              ).join("")}
+            </div>
+          </div>
+        </section>
+
+        <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="${t("Course facts", "課程重點")}">
           <div class="wrap">
             <div class="trust">
               <div class="trust-item">✓ ${t("Ages 3–5 Preparatory", "3–5歲預備課程")}<span>${t("Art play and first skills", "藝術啟蒙入門")}</span></div>
@@ -911,8 +989,8 @@ class VisualArtSkillsHub extends HTMLElement {
           <div class="wrap">
             <div class="detail">
               <div>
-                <h2 id="details-title">${t("Visual Art Skills details", "視藝技巧課程詳情")}</h2>
-                <p class="hero-sub" style="margin:0 0 12px;font-size:1.05rem">${t("Ages 3–7 · Preparatory and Foundation · 1 hour · Mon–Sat", "適合3–7歲｜預備及基礎兩個階段｜每堂1小時｜星期一至六")}</p>
+                <h2 id="details-title">${t("What this kids drawing class covers", "幼兒畫畫班會學甚麼")}</h2>
+                <p class="hero-sub" style="margin:0 0 12px;font-size:1.05rem">${t("Ages 3–7 · Preparatory and Foundation · 1 hour · Mon–Sat", "適合3–7歲｜預備及基礎｜每堂1小時｜星期一至六")}</p>
                 <p class="detail-lead">
                   ${t(
                     "Classes follow growth stage. Ages 3–5 begin with sensory play, line and colour. Ages 5–7 strengthen observation, form, proportion and picture organisation for a fuller drawing foundation.",
@@ -928,10 +1006,10 @@ class VisualArtSkillsHub extends HTMLElement {
                 <ul class="check-list">
                   ${LEARNING.map((item) => `<li>${this.pick(item)}</li>`).join("")}
                 </ul>
-                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about this class", "查詢課程詳情")}</a>
+                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about this course", "查詢課程詳情")}</a>
               </div>
               <div class="detail-media">
-                <img src="${IMG.detail}" alt="${t("ICAcademy Visual Art Skills student work", "ICAcademy視藝技巧課程學員作品")}" width="800" height="1000" loading="lazy" />
+                <img src="${IMG.detail}" alt="${t("3–7 kids drawing class student work, Ho Man Tin", "何文田3–7歲幼兒畫畫班學員作品")}" width="800" height="1000" loading="lazy" />
               </div>
             </div>
           </div>
@@ -951,7 +1029,7 @@ class VisualArtSkillsHub extends HTMLElement {
                   <ul>
                     ${stage.points.map((p) => `<li>${this.pick(p)}</li>`).join("")}
                   </ul>
-                  <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about this class", "查詢課程詳情")}</a>
+                  <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about this course", "查詢課程詳情")}</a>
                 </article>`
               ).join("")}
             </div>
@@ -963,10 +1041,10 @@ class VisualArtSkillsHub extends HTMLElement {
             <h2 class="section-title" id="gallery-title">${t("Student artwork", "學員作品展示")}</h2>
             <p class="section-lead">${t("From first art play to drawing foundations — each stage of creative growth.", "由藝術啟蒙到繪畫基礎，記錄每個階段的創意成長")}</p>
             <div class="gallery-grid">
-              <figure><img src="${IMG.gallery1}" alt="${t("Visual Art Skills student work", "視藝技巧學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery2}" alt="${t("Visual Art Skills student work", "視藝技巧學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery3}" alt="${t("Visual Art Skills student work", "視藝技巧學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
-              <figure><img src="${IMG.gallery4}" alt="${t("Visual Art Skills student work", "視藝技巧學員作品")}" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery1}" alt="${t("Kids drawing class student painting ages 3–7", "3–7歲幼兒畫畫班學員畫作")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery2}" alt="${t("Kindergarten art class student work Ho Man Tin", "何文田幼稚園畫班學員作品")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery3}" alt="${t("Young children colour and drawing exercise", "幼兒色彩與繪畫練習作品")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
+              <figure><img src="${IMG.gallery4}" alt="${t("Preparatory and foundation kids art work", "預備及基礎幼兒藝術作品")}" width="800" height="800" loading="lazy" /><figcaption>${t("Student work", "學員作品")}</figcaption></figure>
             </div>
             <div class="center-actions">
               <a class="btn btn-outline-teal" data-action="hub" href="${galleryUrl}">${t("See more student work →", "查看更多學員作品 →")}</a>
@@ -976,7 +1054,7 @@ class VisualArtSkillsHub extends HTMLElement {
 
         <section class="section section-soft" aria-labelledby="path-title">
           <div class="wrap">
-            <h2 class="section-title" id="path-title">${t("How a class unfolds", "課程流程")}</h2>
+            <h2 class="section-title" id="path-title">${t("How a course unfolds", "課程流程")}</h2>
             <div class="path">
               ${STEPS.map(
                 (s) => `
@@ -995,9 +1073,9 @@ class VisualArtSkillsHub extends HTMLElement {
             <h2 class="section-title" id="who-title">${t("Who is this for?", "適合甚麼小朋友？")}</h2>
             <p class="who-box">
               ${t(
-                "For ages 3–7 who enjoy drawing, colour play and making things by hand. Preparatory suits 3–5 year olds new to art class. Foundation suits 5–7 year olds who want stronger observation, form, composition and creative expression.",
-                "適合3至7歲、喜歡畫畫、色彩探索和動手創作的小朋友。預備課程適合初次接觸藝術學習的3至5歲幼兒；基礎課程則適合5至7歲、希望進一步建立觀察、造型、構圖及創意表達能力的孩子。"
-              )}
+                "For ages 3–7 who are starting kids drawing in kindergarten or early primary. After this stage, see the ",
+                "適合3至7歲、剛開始學畫畫的幼稚園及幼小孩子。孩子升上小學後，可轉讀"
+              )}<a data-action="course" href="${this.path("/course/kids-art/creative-art-classes")}">${t("Creative Art class for ages 7–14", "7–14歲兒童創意美術班")}</a>${t(".", "。")}
             </p>
           </div>
         </section>
@@ -1044,7 +1122,7 @@ class VisualArtSkillsHub extends HTMLElement {
         <section class="section section-soft" aria-labelledby="explore-title">
           <div class="wrap">
             <h2 class="section-title" id="explore-title">${t("Explore more courses", "探索更多課程")}</h2>
-            <p class="section-lead">${t("This page is Visual Art Skills for ages 3–7. Other courses have their own pages.", "本頁是3–7歲視藝技巧課程。其他課程請見相關頁面。")}</p>
+            <p class="section-lead">${t("This page is the ages 3–7 drawing class. Other age groups have their own courses.", "本頁是3–7歲幼兒畫畫班。其他年齡請見相關課程。")}</p>
             <div class="silo-links" style="margin-bottom:28px">
               <a data-action="hub" href="${siloUrl}">${t("Drawing & Painting overview", "繪畫及素描總覽")}</a>
               <a data-action="hub" href="${courseHubUrl}">${t("All courses", "課程總覽")}</a>
@@ -1067,10 +1145,10 @@ class VisualArtSkillsHub extends HTMLElement {
           <div class="wrap">
             <div class="trial">
               <div class="trial-badge">${t("HK$100 trial", "HK$100 試堂")}</div>
-              <h2 id="trial-title">${t("Ask about Visual Art Skills", "查詢視藝技巧課程")}</h2>
+              <h2 id="trial-title">${t("Ask about this ages 3–7 drawing class", "查詢3–7歲幼兒畫畫班")}</h2>
               <p>${t(
-                "WhatsApp us with your child’s age, drawing experience and preferred times — we will help match Preparatory or Foundation.",
-                "WhatsApp告訴我們小朋友年齡、繪畫經驗及方便上課時間，我們會協助配對預備或基礎班。"
+                "WhatsApp the child’s age and preferred times for a trial, timetable and fees.",
+                "WhatsApp告訴我們小朋友年齡及方便時間，查詢試堂、上課時間及收費。"
               )}</p>
               <div class="btn-row">
                 <a class="btn btn-teal" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("WhatsApp to book", "WhatsApp 預約試堂")}</a>
@@ -1081,14 +1159,14 @@ class VisualArtSkillsHub extends HTMLElement {
         </section>
 
         <section class="final" aria-labelledby="final-title">
-          <h2 id="final-title">${t("Book Visual Art Skills in Ho Man Tin", "立即查詢視藝技巧課程")}</h2>
-          <p>${t("Ages 3–7, small class of 4–6. WhatsApp us for times, places and an HK$100 trial.", "3–7歲、小班4–6人，歡迎WhatsApp查詢上課時間、剩餘學位及HK$100試堂。")}</p>
+          <h2 id="final-title">${t("WhatsApp this 3–7 kids drawing class in Ho Man Tin", "WhatsApp 查詢何文田幼兒畫畫班")}</h2>
+          <p>${t("Ages 3–7 drawing in Kowloon. Ask for times, fees and an HK$100 trial.", "3–7歲幼兒畫畫及創意藝術，九龍何文田上課。歡迎查詢時間、收費及HK$100試堂。")}</p>
           <div class="btn-row">
-            <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial", "立即預約體驗")}</a>
-            <a class="btn btn-outline-white" data-action="hub" href="${siloUrl}">${t("Back to Drawing & Painting", "返回繪畫及素描")}</a>
+            <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("WhatsApp to book a trial", "WhatsApp 查詢試堂")}</a>
+            <a class="btn btn-outline-white" data-action="hub" href="${siloUrl}">${t("Back to Kids Art", "返回兒童美術")}</a>
           </div>
         </section>
-      </div>
+      </main>
     `;
 
     this._applyFullBleedCss();

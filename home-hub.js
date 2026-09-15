@@ -949,7 +949,7 @@ class HomeHub extends HTMLElement {
             )}</p>
             <div class="btn-row">
               <a class="btn btn-navy" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial class", "預約首堂試堂體驗")}</a>
-              <a class="btn btn-outline-navy" data-action="hub" href="${courseHref}">${t("Explore programmes", "了解課程路線")}</a>
+              <a class="btn btn-outline-navy" data-action="hub" href="${courseHref}">${t("Explore courses", "了解課程")}</a>
             </div>
             <div class="hero-points">
               ${HIGHLIGHTS.map((item) => `<div>${this.pick(item)}</div>`).join("")}
