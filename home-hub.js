@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-09-15-v3 (LCP preload, deferred below-fold, a11y/SEO chrome)
+ * Version: 2026-09-15-v4 (no layout-measure full-bleed; reserve hero height; idle below-fold)
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -367,7 +367,7 @@ const STYLES = `
   background: var(--bg);
   overflow-x: visible;
   height: auto !important;
-  min-height: 0 !important;
+  min-height: 680px;
 }
 :host([data-fullbleed="1"]) {
   border-radius: 0 !important;
@@ -591,7 +591,7 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 .final .btn-row { justify-content: center; }
 
 @media (max-width: 640px) {
-  :host { font-size: 13px; }
+  :host { font-size: 13px; min-height: 520px; }
   h1, .hero-title-chip h1, .hero h1 { font-size: 1.42em !important; line-height: 1.35; }
   h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.24em !important; }
   h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.02em !important; }
@@ -630,9 +630,12 @@ class HomeHub extends HTMLElement {
     window.addEventListener("resize", this._applyFullBleedCss);
     window.addEventListener("orientationchange", this._applyFullBleedCss);
     this._slideshowDelay = window.setTimeout(() => this._startSlideshow(), 8000);
-    window.setTimeout(() => this._collapseTrailingGap(), 50);
-    window.setTimeout(() => this._collapseTrailingGap(), 400);
-    window.setTimeout(() => this._collapseTrailingGap(), 1200);
+    const later = () => this._collapseTrailingGap();
+    if (typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(later, { timeout: 2500 });
+    } else {
+      window.setTimeout(later, 2500);
+    }
   }
 
   disconnectedCallback() {
@@ -645,6 +648,9 @@ class HomeHub extends HTMLElement {
       this._slideshowDelay = null;
     }
     if (this._deferredTimer) {
+      if (typeof window.cancelIdleCallback === "function") {
+        try { window.cancelIdleCallback(this._deferredTimer); } catch (e) {}
+      }
       window.clearTimeout(this._deferredTimer);
       this._deferredTimer = null;
     }
@@ -730,7 +736,10 @@ class HomeHub extends HTMLElement {
         display: block !important;
         box-sizing: border-box !important;
         height: auto !important;
-        min-height: 0 !important;
+        min-height: 680px !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin-left: calc(50% - 50vw) !important;
         padding: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
@@ -759,14 +768,9 @@ class HomeHub extends HTMLElement {
     document.head.appendChild(style);
   }
 
-  _viewportWidth() {
-    return document.documentElement.clientWidth || window.innerWidth || 0;
-  }
-
   _collapseTrailingGap() {
     try {
       this.style.setProperty("height", "auto", "important");
-      this.style.setProperty("min-height", "0", "important");
 
       let el = this.parentElement;
       for (let i = 0; i < 10 && el; i++) {
@@ -814,53 +818,20 @@ class HomeHub extends HTMLElement {
   _applyFullBleedCss() {
     try {
       this._injectPageBleedCss();
-      this.style.removeProperty("left");
-      this.style.removeProperty("right");
-      this.style.removeProperty("transform");
-
-      const vw = this._viewportWidth();
-      if (!vw) return;
-
       this.setAttribute("data-fullbleed", "1");
       this.style.setProperty("position", "relative", "important");
       this.style.setProperty("left", "0", "important");
-      this.style.setProperty("width", `${vw}px`, "important");
-      this.style.setProperty("max-width", `${vw}px`, "important");
-      this.style.setProperty("min-width", `${vw}px`, "important");
-      this.style.setProperty("margin-left", `calc(50% - ${vw / 2}px)`, "important");
+      this.style.setProperty("width", "100vw", "important");
+      this.style.setProperty("max-width", "100vw", "important");
+      this.style.setProperty("margin-left", "calc(50% - 50vw)", "important");
       this.style.setProperty("margin-right", "0", "important");
       this.style.setProperty("padding", "0", "important");
-      this.style.setProperty("height", "auto", "important");
-      this.style.setProperty("min-height", "0", "important");
       this.style.setProperty("box-sizing", "border-box", "important");
-      this.style.setProperty("overflow-x", "visible", "important");
       this.style.setProperty("border-radius", "0", "important");
       this.style.setProperty("box-shadow", "none", "important");
-
-      let el = this.parentElement;
-      for (let i = 0; i < 8 && el; i++) {
-        const tag = (el.tagName || "").toLowerCase();
-        const id = el.id || "";
-        if (tag === "body" || tag === "html") break;
-        el.style.setProperty("overflow", "visible", "important");
-        el.style.setProperty("overflow-x", "visible", "important");
-        el.style.setProperty("max-width", "none", "important");
-        el.style.setProperty("width", "100%", "important");
-        el.style.setProperty("margin-left", "0", "important");
-        el.style.setProperty("margin-right", "0", "important");
-        el.style.setProperty("padding-left", "0", "important");
-        el.style.setProperty("padding-right", "0", "important");
-        el.style.setProperty("border-radius", "0", "important");
-        el.style.setProperty("left", "0", "important");
-        el.style.setProperty("min-height", "0", "important");
-        if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
-        el.style.setProperty("height", "auto", "important");
-        el = el.parentElement;
-      }
     } catch (e) {
       // ignore
     }
-    this._collapseTrailingGap();
   }
 
   _emitCta(type, href) {
@@ -1009,11 +980,15 @@ class HomeHub extends HTMLElement {
     `;
 
     this._applyFullBleedCss();
-    this._collapseTrailingGap();
     this._goSlide(this._slide);
     this._polishDocument();
     window.clearTimeout(this._deferredTimer);
-    this._deferredTimer = window.setTimeout(() => this._fillBelow(), 1);
+    const fill = () => this._fillBelow();
+    if (typeof window.requestIdleCallback === "function") {
+      this._deferredTimer = window.requestIdleCallback(fill, { timeout: 1800 });
+    } else {
+      this._deferredTimer = window.setTimeout(fill, 1800);
+    }
   }
 
   _fillBelow() {
