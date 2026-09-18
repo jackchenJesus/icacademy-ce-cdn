@@ -829,7 +829,7 @@ class ContactHub extends HTMLElement {
                       "香港九龍何文田窩打老道79F地下3號鋪"
                     )}
                   </p>
-                  <p class="addr">${t("Near Pui Ching Middle School — about a 5-minute walk from Ho Man Tin Station.", "培正中學附近，何文田站步行約 5 分鐘。")}</p>
+                  <p class="addr">${t("Near Pui Ching Middle School — about a 5-10 minute walk.", "培正中學附近步行約 5-10 分鐘。")}</p>
                   <div class="info-links">
                     <a data-action="map" href="${mapsUrl}" target="_blank" rel="noopener noreferrer">${t("Get directions →", "查看路線 →")}</a>
                   </div>
