@@ -253,7 +253,7 @@ const PATH = [
     step: "1",
     title: { en: "Early visual art", zh: "幼兒創意／視藝啟蒙" },
     desc: { en: "First marks, observation and making for younger children", zh: "幼兒接觸觀察、線條、色彩與創作" },
-    hrefSlug: "/course/kids-art",
+    hrefSlug: "/course/kids-art/kids-art-classes-homantin",
     cta: { en: "Kids art classes", zh: "兒童畫班" },
   },
   {

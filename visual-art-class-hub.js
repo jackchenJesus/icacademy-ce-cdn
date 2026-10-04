@@ -285,7 +285,7 @@ const RELATED = [
   {
     title: { en: "Kids Art Classes", zh: "兒童畫班" },
     desc: { en: "Kids visual art · from first marks to secondary portfolio", zh: "視覺藝術課程 · 塗鴉至升中 Portfolio" },
-    hrefSlug: "/course/kids-art",
+    hrefSlug: "/course/kids-art/kids-art-classes-homantin",
   },
   {
     title: { en: "Visual Art Skills", zh: "視藝技巧課程" },
