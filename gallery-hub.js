@@ -468,7 +468,7 @@ const COURSE_CARDS = [
       en: "Ideal for younger students building creativity and art foundations, including Visual Art Skills and Creative Art.",
       zh: "適合年幼學員發展創意與美術基礎，包括視藝技巧及兒童創意美術課程。",
     },
-    hrefSlug: "/course/kids-art/kids-art-classes-homantin",
+    hrefSlug: "/course/kids-art",
     cta: { en: "View kids art courses", zh: "查看兒童美術課程" },
     imageId: "b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg",
     imageAlt: {

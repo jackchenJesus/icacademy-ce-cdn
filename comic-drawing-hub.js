@@ -854,7 +854,7 @@ class ComicDrawingHub extends HTMLElement {
 
     const courseHubUrl = this.path("/course-hub");
     const siloUrl = this.path("/course/kids-art");
-    const kidsListingUrl = this.path("/course/kids-art/kids-art-classes-homantin");
+    const kidsListingUrl = this.path("/course/kids-art");
     const trialUrl = this.path("/homantin-children-art-trial");
     const galleryUrl = this.isEn
       ? "https://www.icacademy.com.hk/studentartwork"
