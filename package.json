@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/creative-art-and-clay-hub-h1.test.mjs"
+    "test": "node --test tests/creative-art-and-clay-hub-h1.test.mjs",
+    "test:homantin-retired-url": "node tests/homantin-retired-url-parity.test.mjs"
   },
   "devDependencies": {
     "happy-dom": "^20.0.0"

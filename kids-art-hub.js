@@ -1353,7 +1353,7 @@ class KidsArtHub extends HTMLElement {
     this._applyFullBleedCss();
 
     const courseHubUrl = this.path("/course-hub");
-    const listingUrl = this.path("/course/kids-art/kids-art-classes-homantin");
+    const listingUrl = this.path("/course/kids-art");
     const drawingUrl = this.path("/course/drawing-and-painting");
     const galleryUrl = this.path("/studentartwork");
     const trialUrl = this.path("/homantin-children-art-trial");
