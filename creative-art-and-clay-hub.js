@@ -51,9 +51,12 @@ const WA_DEFAULT = "https://wa.me/85265808022";
     var fromMeta = meta && meta.course_name != null ? String(meta.course_name).replace(/\s+/g, " ").trim() : "";
     if (fromMeta) return fromMeta.slice(0, 120);
     try {
-      var host = meta && meta.host;
-      var root = host && host.shadowRoot;
-      var h1 = root && root.querySelector("h1");
+     var host = meta && meta.host;
+     var h1 = host && host.querySelector && host.querySelector("h1#hero-title");
+     if (!h1) {
+       var root = host && host.shadowRoot;
+       h1 = root && root.querySelector("h1");
+     }
       var text = h1 && String(h1.textContent || "").replace(/\s+/g, " ").trim();
       if (text) return text.slice(0, 120);
     } catch (e) {}
@@ -403,7 +406,10 @@ h3 { font-size: 1.12rem; }
   display: block; background: var(--title-chip); border-radius: 22px;
   padding: 20px 24px 18px; margin: 0 0 18px; max-width: min(760px, 100%);
 }
-.hero-title-chip h1 { margin: 0; font-size: clamp(1.4rem, 3.4vw, 2.1rem); line-height: 1.35; }
+.hero-title-chip h1,
+.hero-title-chip ::slotted(h1#hero-title) {
+  margin: 0; font-size: clamp(1.4rem, 3.4vw, 2.1rem); line-height: 1.35;
+}
 .hero-sub { margin: 10px 0 0; font-size: clamp(1.08rem, 2.4vw, 1.4rem); font-weight: 800; color: var(--navy); }
 .hero-lead { margin: 0 0 28px; color: var(--muted); font-size: 1.02rem; }
 
@@ -524,7 +530,9 @@ h3 { font-size: 1.12rem; }
 }
 @media (max-width: 640px) {
   :host { font-size: 13px; }
-  h1, .hero-title-chip h1, .hero h1 { font-size: 1.42em !important; line-height: 1.35; }
+  h1, .hero-title-chip h1, .hero-title-chip ::slotted(h1#hero-title), .hero h1 {
+    font-size: 1.42em !important; line-height: 1.35;
+  }
   h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.24em !important; }
   h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.02em !important; }
   .hero-sub { font-size: 1.05em !important; }
@@ -557,7 +565,7 @@ class CreativeArtAndClayHub extends HTMLElement {
     const syncLocale = () => {
       try {
         if (this.localeCode === "zh") {
-          const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
+          const h1 = this.querySelector("h1#hero-title");
           if (h1 && /Kids. Light Clay Class in Ho Man Tin/i.test(h1.textContent || "")) this.render();
         }
       } catch (e) {}
@@ -777,6 +785,17 @@ class CreativeArtAndClayHub extends HTMLElement {
     }
   }
 
+  _syncHeroTitleLightDom(text) {
+    let h1 = this.querySelector(":scope > h1#hero-title");
+    if (!h1) {
+      h1 = document.createElement("h1");
+      h1.id = "hero-title";
+      h1.setAttribute("slot", "hero-title");
+      this.appendChild(h1);
+    }
+    if (h1.textContent !== text) h1.textContent = text;
+  }
+
   render() {
     const t = (en, zh) => (this.isEn ? en : zh);
     this._applyFullBleedCss();
@@ -814,7 +833,7 @@ class CreativeArtAndClayHub extends HTMLElement {
               </nav>
               <p class="hero-eyebrow">${t("Ho Man Tin · near Pui Ching · kids art and creative growth", "何文田 · 培正附近 · 兒童藝術創意成長")}</p>
               <div class="hero-title-chip">
-                <h1 id="hero-title">${t("Kids’ Light Clay Class in Ho Man Tin", "何文田兒童輕黏土班 3D立體創作班｜ 專為 3-16 歲設計")}</h1>
+                <slot name="hero-title"></slot>
                 <p class="hero-sub">${t("3D making designed for ages 3–16", "專為 3-16 歲設計")}</p>
               </div>
               <p class="hero-lead">
@@ -1029,6 +1048,9 @@ class CreativeArtAndClayHub extends HTMLElement {
       </div>
     `;
 
+    this._syncHeroTitleLightDom(
+      t("Kids’ Light Clay Class in Ho Man Tin", "何文田兒童輕黏土班 3D立體創作班｜ 專為 3-16 歲設計")
+    );
     this._applyFullBleedCss();
     this._observeHeight();
   }

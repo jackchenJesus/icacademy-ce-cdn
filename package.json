@@ -1,0 +1,11 @@
+{
+  "name": "icacademy-ce-cdn",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/creative-art-and-clay-hub-h1.test.mjs"
+  },
+  "devDependencies": {
+    "happy-dom": "^20.0.0"
+  }
+}
