@@ -782,7 +782,7 @@ class SketchingClassHub extends HTMLElement {
     this._applyFullBleedCss();
 
     const courseHubUrl = this.path("/course-hub");
-    const siloUrl = this.path("/courses/art-drawing");
+    const siloUrl = this.path("/course/drawing-and-painting");
     const trialUrl = this.path("/homantin-children-art-trial");
     const galleryUrl = this.isEn
       ? "https://www.icacademy.com.hk/studentartwork"
