@@ -110,7 +110,7 @@ const IMG = {
   hero: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 1600, 1000),
   gallery1: mediaUrl("d5ba93_34b35179d397472793193d43f715417d~mv2.webp", 800, 800),
   gallery2: mediaUrl("d5ba93_0f045aa449eb4161bbde9b777469ee43~mv2.webp", 800, 800),
-  gallery3: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 800, 800),
+  gallery3: mediaUrl("d5ba93_8c447c151b8440dc8ff4451343d04b8e~mv2.webp", 800, 800),
   gallery4: mediaUrl("d5ba93_7743f360e22e4807931359a7b7494370~mv2.webp", 800, 800),
   detail: mediaUrl("d5ba93_34b35179d397472793193d43f715417d~mv2.webp", 800, 1000),
 };
