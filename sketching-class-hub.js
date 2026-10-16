@@ -107,12 +107,12 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  hero: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 1600, 1000),
-  gallery1: mediaUrl("b98cc9_9605c850cf4b47daafd611bb1215e1fd~mv2.jpeg", 800, 800),
-  gallery2: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 800, 800),
-  gallery3: mediaUrl("b98cc9_e67c1877a803495fa45ccea725f0f7ce~mv2.jpg", 800, 800),
-  gallery4: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 800, 800),
-  detail: mediaUrl("b98cc9_cb846bd1bf8247879e2992d72b9913f4~mv2.jpg", 800, 1000),
+  hero: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 1600, 1000),
+  gallery1: mediaUrl("d5ba93_34b35179d397472793193d43f715417d~mv2.webp", 800, 800),
+  gallery2: mediaUrl("d5ba93_0f045aa449eb4161bbde9b777469ee43~mv2.webp", 800, 800),
+  gallery3: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 800, 800),
+  gallery4: mediaUrl("d5ba93_7743f360e22e4807931359a7b7494370~mv2.webp", 800, 800),
+  detail: mediaUrl("d5ba93_34b35179d397472793193d43f715417d~mv2.webp", 800, 1000),
 };
 
 const WHY = [
