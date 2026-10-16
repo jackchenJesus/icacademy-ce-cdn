@@ -1174,7 +1174,15 @@ class KidsArtHub extends HTMLElement {
     }
 
     if (action === "course" || action === "hub") {
-      this._emitCta(action, target.getAttribute("href"));
+      const href = target.getAttribute("href") || "";
+      if (action === "hub" && href.includes("#secCourses")) {
+        event.preventDefault();
+        const sec = this.shadowRoot.getElementById("secCourses");
+        if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+        this._emitCta(action, href);
+        return;
+      }
+      this._emitCta(action, href);
     }
   }
 
@@ -1353,7 +1361,7 @@ class KidsArtHub extends HTMLElement {
     this._applyFullBleedCss();
 
     const courseHubUrl = this.path("/course-hub");
-    const listingUrl = this.path("/course/kids-art");
+    const listingUrl = `${this.path("/course/kids-art")}#secCourses`;
     const drawingUrl = this.path("/course/drawing-and-painting");
     const galleryUrl = this.path("/studentartwork");
     const trialUrl = this.path("/homantin-children-art-trial");
@@ -1391,7 +1399,7 @@ class KidsArtHub extends HTMLElement {
               <div class="btn-row">
                 <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("HK$100 trial", "HK$100 試堂")}</a>
                 <button type="button" class="btn btn-outline-teal" data-action="scroll-courses">${t("View kids art courses", "查看兒童美術課程")}</button>
-              <a class="btn btn-ghost" data-action="hub" href="${listingUrl}">${t("Kids Art Classes in Ho Man Tin", "何文田兒童畫班")}</a>
+              <a class="btn btn-ghost" data-action="hub" href="${listingUrl}">${t("Browse courses by age", "按年齡查看課程")}</a>
               </div>
             </div>
           </div>
@@ -1510,7 +1518,7 @@ class KidsArtHub extends HTMLElement {
             <h2 class="section-title" id="back-title">${t("Explore More Art Courses", "探索更多藝術課程")}</h2>
             <p class="section-lead">${t("See the Ho Man Tin kids art classes, or hop across to Drawing & Painting, trial details and the student gallery.", "想了解何文田兒童畫班課程，或橫向前往繪畫及素描、試堂與學員作品。")}</p>
             <div class="center-actions">
-              <a class="btn btn-coral" data-action="hub" href="${listingUrl}">${t("Kids Art Classes in Ho Man Tin", "何文田兒童畫班")}</a>
+              <a class="btn btn-coral" data-action="hub" href="${listingUrl}">${t("Browse courses by age", "按年齡查看課程")}</a>
               <a class="btn btn-outline-teal" data-action="hub" href="${drawingUrl}">${t("Drawing & Painting", "繪畫及素描")}</a>
               <a class="btn btn-ghost" data-action="hub" href="${trialUrl}">${t("Trial details", "試堂詳情")}</a>
               <a class="btn btn-ghost" data-action="hub" href="${galleryUrl}">${t("Student Gallery", "學員作品")}</a>
