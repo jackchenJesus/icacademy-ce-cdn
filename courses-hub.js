@@ -1,102 +1,11 @@
 /**
  * ICAcademy Courses Hub – Custom Element
  * Tag name: courses-hub
- * Version: 2026-09-15-v21 (desktop: delay rest HTML, reserve height for CLS/TBT)
+ * Version: 2026-08-30-v19 (ZH: parent-frame locale + VAS /zh nested URLs; smaller mobile type)
  * Routes: /course and /course-hub (EN) | /zh/course and /zh/course-hub (ZH)
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
-/* IC_WHATSAPP_TRACKING_START */
-(function installIcWhatsAppTracking(w) {
-  if (!w || w.__icTrackWhatsAppClick) return;
-
-  var LOCK_MS = 500;
-  var lastAt = 0;
-
-  function destinationHost(href) {
-    var raw = String(href || "");
-    try {
-      var host = new URL(raw, w.location && w.location.href).hostname || "";
-      if (host) return host;
-    } catch (e) {}
-    if (/api\.whatsapp\.com/i.test(raw)) return "api.whatsapp.com";
-    if (/wa\.me/i.test(raw)) return "wa.me";
-    if (/whatsapp\.com/i.test(raw)) return "whatsapp.com";
-    return "whatsapp";
-  }
-
-  function pagePath() {
-    try {
-      return String((w.location && w.location.pathname) || "");
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function pageUrl() {
-    try {
-      var loc = w.location;
-      if (!loc) return "";
-      return String(loc.origin || "") + String(loc.pathname || "");
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function courseName(meta) {
-    var fromMeta = meta && meta.course_name != null ? String(meta.course_name).replace(/\s+/g, " ").trim() : "";
-    if (fromMeta) return fromMeta.slice(0, 120);
-    try {
-      var host = meta && meta.host;
-      var root = host && host.shadowRoot;
-      var h1 = root && root.querySelector("h1");
-      var text = h1 && String(h1.textContent || "").replace(/\s+/g, " ").trim();
-      if (text) return text.slice(0, 120);
-    } catch (e) {}
-    return "";
-  }
-
-  function ctaLocation(meta) {
-    var fromMeta = meta && meta.cta_location != null ? String(meta.cta_location).trim() : "";
-    if (fromMeta) return fromMeta.slice(0, 40);
-    var el = meta && meta.el;
-    if (!el || typeof el.closest !== "function") return "content";
-    if (el.closest(".hero")) return "hero";
-    if (el.closest(".trial")) return "trial";
-    if (el.closest(".final")) return "final";
-    if (el.closest(".detail")) return "details";
-    if (el.closest(".contact-panel, .contact-card, .info-card, .contact")) return "contact";
-    if (el.closest(".faq-list, .faq")) return "faq";
-    if (el.closest(".form-card")) return "form";
-    if (el.closest(".explore-grid, .explore")) return "explore";
-    return "content";
-  }
-
-  w.__icTrackWhatsAppClick = function trackWhatsAppClick(meta) {
-    try {
-      var now = Date.now();
-      if (now - lastAt < LOCK_MS) return;
-      lastAt = now;
-
-      var href = meta && meta.href != null ? String(meta.href) : "";
-      var payload = {
-        event: "whatsapp_click",
-        page_path: pagePath(),
-        page_url: pageUrl(),
-        course_name: courseName(meta),
-        cta_location: ctaLocation(meta),
-        whatsapp_destination: destinationHost(href),
-      };
-
-      w.dataLayer = w.dataLayer || [];
-      w.dataLayer.push(payload);
-    } catch (err) {
-      // Tracking must never block WhatsApp navigation.
-    }
-  };
-})(typeof window !== "undefined" ? window : undefined);
-/* IC_WHATSAPP_TRACKING_END */
-
 
 /** Build a Wix Media Manager fill URL from a site media file id. */
 function mediaUrl(id, w, h, q = 70) {
@@ -108,23 +17,25 @@ function mediaUrl(id, w, h, q = 70) {
  * (already used on /zh course pages, home, gallery).
  */
 const IMG = {
-  heroSm: mediaUrl("b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg", 640, 400, 65),
-  prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 400, 250, 65),
-  foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 400, 250, 65),
-  creativeI: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 400, 250, 65),
-  creativeII: mediaUrl("b98cc9_66611472f2134e0fa854d2914e4ae347~mv2.jpg", 400, 250, 65),
-  creativeIII: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 400, 250, 65),
-  comic: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 400, 250, 65),
-  sketch: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 400, 250, 65),
-  clay: mediaUrl("b98cc9_33c4c822ff2e4e5e86a4dfd9ce7b7be7~mv2.jpeg", 400, 250, 65),
-  visualArt: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 400, 250, 65),
-  acrylic: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 400, 250, 65),
-  paintSquare: mediaUrl("4ea940_9933a9bae4884170a5bf9bd5355e340f~mv2.jpg", 400, 250, 65),
-  gallery1: mediaUrl("b98cc9_49cb0c61e7664eaca996580443195ec9~mv2.jpeg", 320, 320, 65),
-  gallery2: mediaUrl("4ea940_5867e3daf35f4f969495afa34a05f1a3~mv2.jpg", 320, 320, 65),
-  gallery3: mediaUrl("b98cc9_9605c850cf4b47daafd611bb1215e1fd~mv2.jpeg", 320, 320, 65),
-  gallery4: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 320, 320, 65),
-  detail: mediaUrl("b98cc9_0d50c3e155ba4c4e92046d937a5c0c43~mv2.jpg", 336, 420, 65),
+  heroSm: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 640, 400, 70),
+  hero: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 960, 600, 75),
+  heroLg: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 1280, 800, 75),
+  prep: mediaUrl("d5ba93_8164c17fe84e4b9896c5e2f06cdc569f~mv2.webp", 640, 400, 70),
+  foundation: mediaUrl("d5ba93_4f5b7608c6f14584832aa0db691df84b~mv2.webp", 640, 400, 70),
+  creativeI: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 640, 400, 70),
+  creativeII: mediaUrl("d5ba93_8ba279abdfb445da9e47fd50eb19e282~mv2.webp", 640, 400, 70),
+  creativeIII: mediaUrl("d5ba93_304dcc22214945caa340b35615e155e5~mv2.webp", 640, 400, 70),
+  comic: mediaUrl("d5ba93_b8ccdbe62da240e98d060154ebdced69~mv2.webp", 640, 400, 70),
+  sketch: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 640, 400, 70),
+  clay: mediaUrl("d5ba93_ecb183209c8e40aaa71fb4d0a53bb2bc~mv2.webp", 640, 400, 70),
+  visualArt: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 640, 400, 70),
+  acrylic: mediaUrl("d5ba93_aec4524a6858434790b8df723f534a50~mv2.webp", 640, 400, 70),
+  paintSquare: mediaUrl("4ea940_9933a9bae4884170a5bf9bd5355e340f~mv2.jpg", 640, 400, 70),
+  gallery1: mediaUrl("d5ba93_e55fc3aa23d3477eb7d1a12cf8904758~mv2.webp", 480, 480, 70),
+  gallery2: mediaUrl("d5ba93_34b35179d397472793193d43f715417d~mv2.webp", 480, 480, 70),
+  gallery3: mediaUrl("d5ba93_496cce51829544519d319756b735484c~mv2.webp", 480, 480, 70),
+  gallery4: mediaUrl("d5ba93_7743f360e22e4807931359a7b7494370~mv2.webp", 480, 480, 70),
+  detail: mediaUrl("d5ba93_496cce51829544519d319756b735484c~mv2.webp", 640, 800, 70),
 };
 
 (function preloadHeroLcp() {
@@ -135,6 +46,8 @@ const IMG = {
     link.as = "image";
     link.href = IMG.heroSm;
     link.setAttribute("fetchpriority", "high");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
+    link.setAttribute("imagesizes", "100vw");
     link.setAttribute("data-courses-hero-preload", "1");
     document.head.appendChild(link);
   } catch (e) {
@@ -159,7 +72,7 @@ const COURSES = [
       zh: ["線條、形狀與色彩入門", "小手肌與手眼協調", "課堂常規與獨立完成作品"],
     },
     media: { en: "Crayons, watercolour, collage, printmaking", zh: "蠟筆、水彩、剪貼、印畫" },
-    hrefSlug: "/course/kids-art/visual-art-skills-course",
+    hrefSlug: "/course/kids-art/visual-art-skills",
     tags: ["foundation", "painting"],
     image: IMG.prep,
     imageAlt: { en: "ICAcademy young children’s creative painting class artwork", zh: "ICAcademy幼兒創意繪畫課堂作品" },
@@ -179,7 +92,7 @@ const COURSES = [
       zh: ["觀察與造型練習", "比例與畫面組織", "多元媒介創作"],
     },
     media: { en: "Drawing and mixed media", zh: "繪畫及混合媒介" },
-    hrefSlug: "/course/kids-art/visual-art-skills-course",
+    hrefSlug: "/course/kids-art/visual-art-skills",
     tags: ["foundation", "painting"],
     image: IMG.foundation,
     imageAlt: { en: "ICAcademy Visual Art Skills Foundation student artwork", zh: "ICAcademy視藝技巧基礎課程學生作品" },
@@ -458,7 +371,7 @@ const STYLES = `
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0;
-  min-height: 3800px;
+  min-height: 1px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -467,14 +380,14 @@ const STYLES = `
   --bg-soft: #f4f8f9;
   --surface: #ffffff;
   --ink: #162b48;
-  --muted: #3d4a5c;
+  --muted: #4a5568;
   --line: #e2e8f0;
   --navy: #162b48;
   --coral: #ff8e8e;
-  --coral-deep: #c62828;
+  --coral-deep: #f05a5a;
   --coral-soft: #fff0f0;
-  --teal: #00727c;
-  --teal-deep: #00646d;
+  --teal: #00a9b7;
+  --teal-deep: #008f9b;
   --teal-soft: #e8f7f8;
   --title-chip: rgba(255, 240, 240, 0.92);
   --check: #00a9b7;
@@ -515,8 +428,6 @@ img { max-width: 100%; display: block; }
   padding: 64px 0;
   background: var(--bg);
   width: 100%;
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 720px;
 }
 .section-soft { background: var(--bg-soft); }
 .section-title {
@@ -956,13 +867,13 @@ h3 { font-size: 1.12rem; }
 }
 
 @media (max-width: 640px) {
-  :host { font-size: 13px; min-height: 5200px; }
-  h1, .hero-title-chip h1, .hero h1 { font-size: 1.42em !important; line-height: 1.35; }
-  h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.24em !important; }
-  h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.02em !important; }
-  .hero-sub { font-size: 1.05em !important; }
+  :host { font-size: 14px; }
+  h1, .hero-title-chip h1, .hero h1 { font-size: 1.5em !important; line-height: 1.35; }
+  h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.32em !important; }
+  h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.06em !important; }
+  .hero-sub { font-size: 1.1em !important; }
   p, li, .section-lead, .hero-lead, .faq-a, .card-body p, .path-step p, .final p, .detail-lead, .hero-points { font-size: 1em !important; }
-  .hero-eyebrow, .kicker, .crumbs, .trust-item span { font-size: 0.88em !important; }
+  .hero-eyebrow, .kicker, .crumbs, .trust-item span { font-size: 0.92em !important; }
   .btn { font-size: 1em !important; }
   .hero .wrap { padding: 40px 0; }
   .btn-row { flex-direction: column; align-items: stretch; }
@@ -980,13 +891,10 @@ class CoursesHub extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this._filter = "all";
-    this._restTimer = null;
-    this._restMoreTimer = null;
     this._onClick = this._onClick.bind(this);
     this._onKeydown = this._onKeydown.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
     this._restPainted = false;
-    this._restMorePainted = false;
   }
 
   connectedCallback() {
@@ -1007,59 +915,6 @@ class CoursesHub extends HTMLElement {
     this.shadowRoot.addEventListener("keydown", this._onKeydown);
     window.addEventListener("resize", this._applyFullBleedCss);
     window.addEventListener("orientationchange", this._applyFullBleedCss);
-    this._scheduleRest();
-  }
-
-  _clearTimer(id) {
-    if (id == null) return;
-    if (typeof window.cancelIdleCallback === "function") {
-      try { window.cancelIdleCallback(id); } catch (e) {}
-    }
-    window.clearTimeout(id);
-  }
-
-  _scheduleRest() {
-    this._clearTimer(this._restTimer);
-    this._restTimer = null;
-    const start = () => {
-      const paint = () => this._paintRest();
-      if (typeof window.requestIdleCallback === "function") {
-        this._restTimer = window.requestIdleCallback(paint, { timeout: 3200 });
-      } else {
-        this._restTimer = window.setTimeout(paint, 1400);
-      }
-    };
-    const img = this.shadowRoot && this.shadowRoot.querySelector(".hero-bg img");
-    if (img && !img.complete) {
-      img.addEventListener("load", start, { once: true });
-      this._restTimer = window.setTimeout(start, 2200);
-    } else {
-      start();
-    }
-  }
-
-  _scheduleRestMore() {
-    this._clearTimer(this._restMoreTimer);
-    this._restMoreTimer = null;
-    const paint = () => {
-      const t = this._t || ((en, zh) => (this.isEn ? en : zh));
-      const waPrefill = this._waPrefillCached || this._waPrefill(
-        t(
-          "Hi, I’d like to enquire about ICAcademy regular art courses / a trial class.",
-          "你好，我想查詢ICAcademy恆常藝術課程／試堂安排。"
-        )
-      );
-      const galleryUrl = this.isEn
-        ? "https://www.icacademy.com.hk/studentartwork"
-        : "https://www.icacademy.com.hk/zh/studentartwork";
-      const trialUrl = this.path("/homantin-children-art-trial");
-      this._paintRestMore(t, waPrefill, galleryUrl, trialUrl);
-    };
-    if (typeof window.requestIdleCallback === "function") {
-      this._restMoreTimer = window.requestIdleCallback(paint, { timeout: 5000 });
-    } else {
-      this._restMoreTimer = window.setTimeout(paint, 2200);
-    }
   }
 
   disconnectedCallback() {
@@ -1067,10 +922,6 @@ class CoursesHub extends HTMLElement {
     this.shadowRoot.removeEventListener("keydown", this._onKeydown);
     window.removeEventListener("resize", this._applyFullBleedCss);
     window.removeEventListener("orientationchange", this._applyFullBleedCss);
-    this._clearTimer(this._restTimer);
-    this._clearTimer(this._restMoreTimer);
-    this._restTimer = null;
-    this._restMoreTimer = null;
     const bleed = document.getElementById("courses-hub-page-bleed");
     if (bleed) bleed.remove();
   }
@@ -1140,28 +991,6 @@ class CoursesHub extends HTMLElement {
     const style = document.createElement("style");
     style.id = id;
     style.textContent = `
-      /* Hide Wix header skin divider and 1px header/page gap */
-      #SITE_HEADER {
-        border: 0 !important;
-        border-bottom: 0 !important;
-        box-shadow: none !important;
-      }
-      #SITE_HEADER > div:first-child,
-      #SITE_HEADER > div:first-child * {
-        background-image: none !important;
-        border-bottom: 0 !important;
-        box-shadow: none !important;
-      }
-      #PAGES_CONTAINER,
-      #SITE_PAGES,
-      #masterPage {
-        border-top: 0 !important;
-        box-shadow: none !important;
-      }
-      #PAGES_CONTAINER,
-      #SITE_PAGES {
-        margin-top: -1px !important;
-      }
       courses-hub {
         display: block !important;
         box-sizing: border-box !important;
@@ -1172,8 +1001,6 @@ class CoursesHub extends HTMLElement {
         left: auto !important;
         border-radius: 0 !important;
         box-shadow: none !important;
-        min-height: 3800px !important;
-        height: auto !important;
       }
       #SITE_PAGES,
       #PAGES_CONTAINER,
@@ -1317,15 +1144,6 @@ class CoursesHub extends HTMLElement {
     }
 
     if (action === "whatsapp") {
-      try {
-        if (typeof window !== "undefined" && typeof window.__icTrackWhatsAppClick === "function") {
-          window.__icTrackWhatsAppClick({
-            href: (target && target.getAttribute && target.getAttribute("href")) || this.waUrl || "",
-            host: this,
-            el: target,
-          });
-        }
-      } catch (e) {}
       this._emitCta("whatsapp", this.waUrl);
       return;
     }
@@ -1351,7 +1169,7 @@ class CoursesHub extends HTMLElement {
         data-age-max="${c.ageMax}"
       >
         <div class="card-media">
-          <img src="${c.image}" alt="${this.pick(c.imageAlt)}" loading="lazy" decoding="async" width="400" height="250" />
+          <img src="${c.image}" alt="${this.pick(c.imageAlt)}" loading="lazy" decoding="async" width="640" height="400" />
         </div>
         <div class="card-body">
           <span class="meta">${this.pick(c.age)}</span>
@@ -1461,11 +1279,12 @@ class CoursesHub extends HTMLElement {
           <div class="hero-bg" aria-hidden="true">
             <img
               src="${IMG.heroSm}"
+              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
+              sizes="100vw"
               width="640"
               height="400"
               alt=""
               fetchpriority="high"
-              decoding="async"
             />
           </div>
           <div class="wrap">
@@ -1534,13 +1353,12 @@ class CoursesHub extends HTMLElement {
       `
     );
     this._applyFilter(this._filter || "all");
-    this._scheduleRestMore();
+    this._paintRestMore(t, waPrefill, galleryUrl, trialUrl);
   }
 
   _paintRestMore(t, waPrefill, galleryUrl, trialUrl) {
     const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
-    if (!hub || this._restMorePainted || hub.querySelector(".final")) return;
-    this._restMorePainted = true;
+    if (!hub || hub.querySelector(".final")) return;
     hub.insertAdjacentHTML(
       "beforeend",
       `
@@ -1562,7 +1380,7 @@ class CoursesHub extends HTMLElement {
                 <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about courses", "查詢課程詳情")}</a>
               </div>
               <div class="detail-media">
-                <img src="${IMG.detail}" alt="${t("ICAcademy student artwork example", "ICAcademy學生藝術作品示例")}" width="336" height="420" loading="lazy" decoding="async" />
+                <img src="${IMG.detail}" alt="${t("ICAcademy student artwork example", "ICAcademy學生藝術作品示例")}" width="800" height="1000" loading="lazy" />
               </div>
             </div>
           </div>
@@ -1647,9 +1465,8 @@ class CoursesHub extends HTMLElement {
 
   render() {
     this._restPainted = false;
-    this._restMorePainted = false;
     this._paintHero();
-    if (this.isConnected) this._scheduleRest();
+    this._paintRest();
   }
 }
 
