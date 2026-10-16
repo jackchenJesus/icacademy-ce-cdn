@@ -1001,7 +1001,6 @@ class PaintSquareHub extends HTMLElement {
                 return `
                 <blockquote class="quote">
                   <p>${quoted}</p>
-                  <span>— ${this.pick(item.by)}</span>
                 </blockquote>`;
               }).join("")}
             </div>
