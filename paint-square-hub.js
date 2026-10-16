@@ -400,6 +400,8 @@ h3 { font-size: 1.12rem; }
   font-size: 0.92rem; color: var(--muted); margin: 0 0 18px;
 }
 .crumbs a { color: var(--teal); font-weight: 700; text-decoration: none; }
+.crumbs a:focus-visible { outline: 3px solid rgba(0,169,183,.35); outline-offset: 3px; border-radius: 4px; }
+.hub a:focus-visible { outline: 3px solid rgba(0,169,183,.35); outline-offset: 3px; border-radius: 4px; }
 .crumbs span[aria-hidden="true"] { opacity: 0.55; }
 
 .btn-row { display: flex; flex-wrap: wrap; gap: 14px; }
