@@ -103,24 +103,23 @@ function mediaUrl(id, w, h, align) {
   return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_${al},q_85,enc_auto/${id}`;
 }
 
-/** Photos rotated to kids course / gallery assets (audited 2026-08) */
+/** ICA-MEDIA-P2: 課程Courses artwork (aligned with ICA-MEDIA-P1 course hubs) */
 const IMG = {
-  hero: mediaUrl("b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg", 1600, 1000),
-  // Artwork-focused (no portrait crop issues)
-  prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 800, 600),
-  foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 600),
-  creativeI: mediaUrl("b98cc9_9c6e5138d1fa40a7815d12218f642440~mv2.jpg", 800, 600),
-  creativeII: mediaUrl("b98cc9_1e80c89215f84798a65eaedc03352cd5~mv2.jpg", 800, 600),
-  creativeIII: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 800, 600),
-  comic: mediaUrl("b98cc9_a62d943a779d4ddb8e85227dc0872726~mv2.jpg", 800, 600),
-  sketch: mediaUrl("b98cc9_e67c1877a803495fa45ccea725f0f7ce~mv2.jpg", 800, 600),
-  clay: mediaUrl("b98cc9_f417962750fd4399b1ee38c775da9a4e~mv2.jpeg", 800, 600),
-  visualArt: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 800, 600),
-  gallery1: mediaUrl("b98cc9_169d3a5d148b4e7cb6c5dcdd66541734~mv2.jpeg", 800, 800),
-  gallery2: mediaUrl("b98cc9_bcc7d1f85fd7431c933ad24f568c4a9b~mv2.jpg", 800, 800),
-  gallery3: mediaUrl("b98cc9_f73677a0ad284e10b85772ce1fbecae5~mv2.jpg", 800, 800),
-  gallery4: mediaUrl("b98cc9_5d9714fc876f42ba8b02b5b5d4b08923~mv2.jpg", 800, 800),
-  detail: mediaUrl("b98cc9_9c6489b3ccfa47f0adc205c472aa87e7~mv2.jpg", 800, 1000),
+  hero: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 1600, 1000),
+  prep: mediaUrl("d5ba93_8164c17fe84e4b9896c5e2f06cdc569f~mv2.webp", 800, 600),
+  foundation: mediaUrl("d5ba93_4f5b7608c6f14584832aa0db691df84b~mv2.webp", 800, 600),
+  creativeI: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 800, 600),
+  creativeII: mediaUrl("d5ba93_8ba279abdfb445da9e47fd50eb19e282~mv2.webp", 800, 600),
+  creativeIII: mediaUrl("d5ba93_304dcc22214945caa340b35615e155e5~mv2.webp", 800, 600),
+  comic: mediaUrl("d5ba93_b8ccdbe62da240e98d060154ebdced69~mv2.webp", 800, 600),
+  sketch: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 800, 600),
+  clay: mediaUrl("d5ba93_7602a3ff44a44704b17b3de5eeea5ee2~mv2.webp", 800, 600),
+  visualArt: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 800, 600),
+  gallery1: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 800, 800),
+  gallery2: mediaUrl("d5ba93_6b8642c3db6945b59c18849170a01e4e~mv2.webp", 800, 800),
+  gallery3: mediaUrl("d5ba93_708bccb2e11c419a9d89bf932fb8a36a~mv2.webp", 800, 800),
+  gallery4: mediaUrl("d5ba93_8fb5945d369549a7b101fd279e72b803~mv2.webp", 800, 800),
+  detail: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 800, 1000),
 };
 
 /** Children's programmes only — ages / URLs audited from Course Hub catalogue 2026-08 */

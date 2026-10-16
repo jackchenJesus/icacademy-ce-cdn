@@ -6,114 +6,23 @@
  * Routes: /course/drawing-and-painting (EN) | /zh/course/drawing-and-painting (ZH)
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
-/* IC_WHATSAPP_TRACKING_START */
-(function installIcWhatsAppTracking(w) {
-  if (!w || w.__icTrackWhatsAppClick) return;
-
-  var LOCK_MS = 500;
-  var lastAt = 0;
-
-  function destinationHost(href) {
-    var raw = String(href || "");
-    try {
-      var host = new URL(raw, w.location && w.location.href).hostname || "";
-      if (host) return host;
-    } catch (e) {}
-    if (/api\.whatsapp\.com/i.test(raw)) return "api.whatsapp.com";
-    if (/wa\.me/i.test(raw)) return "wa.me";
-    if (/whatsapp\.com/i.test(raw)) return "whatsapp.com";
-    return "whatsapp";
-  }
-
-  function pagePath() {
-    try {
-      return String((w.location && w.location.pathname) || "");
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function pageUrl() {
-    try {
-      var loc = w.location;
-      if (!loc) return "";
-      return String(loc.origin || "") + String(loc.pathname || "");
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function courseName(meta) {
-    var fromMeta = meta && meta.course_name != null ? String(meta.course_name).replace(/\s+/g, " ").trim() : "";
-    if (fromMeta) return fromMeta.slice(0, 120);
-    try {
-      var host = meta && meta.host;
-      var root = host && host.shadowRoot;
-      var h1 = root && root.querySelector("h1");
-      var text = h1 && String(h1.textContent || "").replace(/\s+/g, " ").trim();
-      if (text) return text.slice(0, 120);
-    } catch (e) {}
-    return "";
-  }
-
-  function ctaLocation(meta) {
-    var fromMeta = meta && meta.cta_location != null ? String(meta.cta_location).trim() : "";
-    if (fromMeta) return fromMeta.slice(0, 40);
-    var el = meta && meta.el;
-    if (!el || typeof el.closest !== "function") return "content";
-    if (el.closest(".hero")) return "hero";
-    if (el.closest(".trial")) return "trial";
-    if (el.closest(".final")) return "final";
-    if (el.closest(".detail")) return "details";
-    if (el.closest(".contact-panel, .contact-card, .info-card, .contact")) return "contact";
-    if (el.closest(".faq-list, .faq")) return "faq";
-    if (el.closest(".form-card")) return "form";
-    if (el.closest(".explore-grid, .explore")) return "explore";
-    return "content";
-  }
-
-  w.__icTrackWhatsAppClick = function trackWhatsAppClick(meta) {
-    try {
-      var now = Date.now();
-      if (now - lastAt < LOCK_MS) return;
-      lastAt = now;
-
-      var href = meta && meta.href != null ? String(meta.href) : "";
-      var payload = {
-        event: "whatsapp_click",
-        page_path: pagePath(),
-        page_url: pageUrl(),
-        course_name: courseName(meta),
-        cta_location: ctaLocation(meta),
-        whatsapp_destination: destinationHost(href),
-      };
-
-      w.dataLayer = w.dataLayer || [];
-      w.dataLayer.push(payload);
-    } catch (err) {
-      // Tracking must never block WhatsApp navigation.
-    }
-  };
-})(typeof window !== "undefined" ? window : undefined);
-/* IC_WHATSAPP_TRACKING_END */
-
 
 function mediaUrl(id, w, h) {
   return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_85,enc_auto/${id}`;
 }
 
 const IMG = {
-  hero: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 1600, 1000),
-  sketch: mediaUrl("b98cc9_e67c1877a803495fa45ccea725f0f7ce~mv2.jpg", 800, 600),
-  acrylic: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 800, 600),
-  visualSkills: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 600),
-  visualArt: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 800, 600),
+  hero: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 1600, 1000),
+  sketch: mediaUrl("d5ba93_34b35179d397472793193d43f715417d~mv2.webp", 800, 600),
+  acrylic: mediaUrl("d5ba93_aec4524a6858434790b8df723f534a50~mv2.webp", 800, 600),
+  visualSkills: mediaUrl("d5ba93_8164c17fe84e4b9896c5e2f06cdc569f~mv2.webp", 800, 600),
+  visualArt: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 800, 600),
   paintSquare: mediaUrl("4ea940_9933a9bae4884170a5bf9bd5355e340f~mv2.jpg", 800, 600),
-  gallery1: mediaUrl("b98cc9_7f99cc18f81e42f9a5551280f6425b55~mv2.jpg", 800, 800),
-  gallery2: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 800, 800),
-  gallery3: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 800, 800),
-  gallery4: mediaUrl("b98cc9_bc2649cc31bc4974bb739afa5f006c73~mv2.jpg", 800, 800),
-  detail: mediaUrl("b98cc9_cb846bd1bf8247879e2992d72b9913f4~mv2.jpg", 800, 1000),
+  gallery1: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 800, 800),
+  gallery2: mediaUrl("d5ba93_aec4524a6858434790b8df723f534a50~mv2.webp", 800, 800),
+  gallery3: mediaUrl("d5ba93_0f045aa449eb4161bbde9b777469ee43~mv2.webp", 800, 800),
+  gallery4: mediaUrl("d5ba93_8c447c151b8440dc8ff4451343d04b8e~mv2.webp", 800, 800),
+  detail: mediaUrl("d5ba93_34b35179d397472793193d43f715417d~mv2.webp", 800, 1000),
 };
 
 /** Drawing & painting programmes — ages / URLs audited from Course Hub catalogue 2026-08 */
@@ -167,7 +76,7 @@ const COURSES = [
       zh: ["線條、形狀與色彩入門", "觀察與基本構圖", "多元媒介創作"],
     },
     media: { en: "Drawing and mixed media", zh: "繪畫及混合媒介" },
-    hrefSlug: "/course/kids-art/visual-art-skills-course",
+    hrefSlug: "/course/kids-art/visual-art-skills",
     tags: ["visual-skills", "drawing", "painting"],
     image: IMG.visualSkills,
     imageAlt: { en: "ICAcademy Visual Art Skills student work", zh: "ICAcademy視藝技巧課程學生作品" },
@@ -224,7 +133,7 @@ const GUIDE = [
   {
     title: { en: "Visual Art Skills", zh: "視藝技巧" },
     desc: { en: "A structured visual-art foundation (about ages 3–7)", zh: "系統建立視藝基礎（適合約 3–7 歲）" },
-    hrefSlug: "/course/kids-art/visual-art-skills-course",
+    hrefSlug: "/course/kids-art/visual-art-skills",
     cta: { en: "View Visual Art Skills", zh: "查看視藝技巧課程" },
   },
   {
@@ -257,7 +166,7 @@ const PATH = [
 const BEGINNER_POINTS = [
   { goal: { en: "Want a solid foundation", zh: "想打穩基本功" }, course: { en: "Sketching Class", zh: "素描技巧班" }, hrefSlug: "/course/drawing-and-painting/sketching-class" },
   { goal: { en: "Want colour and painting", zh: "想學色彩及繪畫" }, course: { en: "Acrylic Painting Class", zh: "塑膠彩班" }, hrefSlug: "/course/drawing-and-painting/acrylic-painting-class" },
-  { goal: { en: "Want a visual-art foundation for young children", zh: "想系統建立視藝基礎（幼兒／兒童）" }, course: { en: "Visual Art Skills", zh: "視藝技巧" }, hrefSlug: "/course/kids-art/visual-art-skills-course" },
+  { goal: { en: "Want a visual-art foundation for young children", zh: "想系統建立視藝基礎（幼兒／兒童）" }, course: { en: "Visual Art Skills", zh: "視藝技巧" }, hrefSlug: "/course/kids-art/visual-art-skills" },
   { goal: { en: "Want to try different media", zh: "想接觸不同媒介" }, course: { en: "Visual Art Class", zh: "綜合美術" }, hrefSlug: "/course/kids-art/visual-art-class" },
   { goal: { en: "Want adult painting by interest", zh: "想按自己喜好學成人繪畫" }, course: { en: "Paint Square", zh: "Paint Square" }, hrefSlug: "/course/drawing-and-painting/adult-art-class-hong-kong" },
 ];
@@ -915,13 +824,13 @@ h3 { font-size: 1.12rem; }
 }
 
 @media (max-width: 640px) {
-  :host { font-size: 13px; }
-  h1, .hero-title-chip h1, .hero h1 { font-size: 1.42em !important; line-height: 1.35; }
-  h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.24em !important; }
-  h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.02em !important; }
-  .hero-sub { font-size: 1.05em !important; }
+  :host { font-size: 14px; }
+  h1, .hero-title-chip h1, .hero h1 { font-size: 1.5em !important; line-height: 1.35; }
+  h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.32em !important; }
+  h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.06em !important; }
+  .hero-sub { font-size: 1.1em !important; }
   p, li, .section-lead, .hero-lead, .faq-a, .card-body p, .path-step p, .final p, .detail-lead, .hero-points { font-size: 1em !important; }
-  .hero-eyebrow, .kicker, .crumbs, .trust-item span { font-size: 0.88em !important; }
+  .hero-eyebrow, .kicker, .crumbs, .trust-item span { font-size: 0.92em !important; }
   .btn { font-size: 1em !important; }
   .hero .wrap { padding: 40px 0; }
   .btn-row { flex-direction: column; align-items: stretch; }
@@ -1063,15 +972,6 @@ class DrawingPaintingHub extends HTMLElement {
     }
 
     if (action === "whatsapp") {
-      try {
-        if (typeof window !== "undefined" && typeof window.__icTrackWhatsAppClick === "function") {
-          window.__icTrackWhatsAppClick({
-            href: (target && target.getAttribute && target.getAttribute("href")) || this.waUrl || "",
-            host: this,
-            el: target,
-          });
-        }
-      } catch (e) {}
       this._emitCta("whatsapp", this.waUrl);
       return;
     }
@@ -1231,28 +1131,6 @@ class DrawingPaintingHub extends HTMLElement {
     const style = document.createElement("style");
     style.id = id;
     style.textContent = `
-      /* Hide Wix header skin divider and 1px header/page gap */
-      #SITE_HEADER {
-        border: 0 !important;
-        border-bottom: 0 !important;
-        box-shadow: none !important;
-      }
-      #SITE_HEADER > div:first-child,
-      #SITE_HEADER > div:first-child * {
-        background-image: none !important;
-        border-bottom: 0 !important;
-        box-shadow: none !important;
-      }
-      #PAGES_CONTAINER,
-      #SITE_PAGES,
-      #masterPage {
-        border-top: 0 !important;
-        box-shadow: none !important;
-      }
-      #PAGES_CONTAINER,
-      #SITE_PAGES {
-        margin-top: -1px !important;
-      }
       html, body {
         overflow-x: hidden !important;
       }

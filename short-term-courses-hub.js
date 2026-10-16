@@ -8,97 +8,6 @@
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
-/* IC_WHATSAPP_TRACKING_START */
-(function installIcWhatsAppTracking(w) {
-  if (!w || w.__icTrackWhatsAppClick) return;
-
-  var LOCK_MS = 500;
-  var lastAt = 0;
-
-  function destinationHost(href) {
-    var raw = String(href || "");
-    try {
-      var host = new URL(raw, w.location && w.location.href).hostname || "";
-      if (host) return host;
-    } catch (e) {}
-    if (/api\.whatsapp\.com/i.test(raw)) return "api.whatsapp.com";
-    if (/wa\.me/i.test(raw)) return "wa.me";
-    if (/whatsapp\.com/i.test(raw)) return "whatsapp.com";
-    return "whatsapp";
-  }
-
-  function pagePath() {
-    try {
-      return String((w.location && w.location.pathname) || "");
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function pageUrl() {
-    try {
-      var loc = w.location;
-      if (!loc) return "";
-      return String(loc.origin || "") + String(loc.pathname || "");
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function courseName(meta) {
-    var fromMeta = meta && meta.course_name != null ? String(meta.course_name).replace(/\s+/g, " ").trim() : "";
-    if (fromMeta) return fromMeta.slice(0, 120);
-    try {
-      var host = meta && meta.host;
-      var root = host && host.shadowRoot;
-      var h1 = root && root.querySelector("h1");
-      var text = h1 && String(h1.textContent || "").replace(/\s+/g, " ").trim();
-      if (text) return text.slice(0, 120);
-    } catch (e) {}
-    return "";
-  }
-
-  function ctaLocation(meta) {
-    var fromMeta = meta && meta.cta_location != null ? String(meta.cta_location).trim() : "";
-    if (fromMeta) return fromMeta.slice(0, 40);
-    var el = meta && meta.el;
-    if (!el || typeof el.closest !== "function") return "content";
-    if (el.closest(".hero")) return "hero";
-    if (el.closest(".trial")) return "trial";
-    if (el.closest(".final")) return "final";
-    if (el.closest(".detail")) return "details";
-    if (el.closest(".contact-panel, .contact-card, .info-card, .contact")) return "contact";
-    if (el.closest(".faq-list, .faq")) return "faq";
-    if (el.closest(".form-card")) return "form";
-    if (el.closest(".explore-grid, .explore")) return "explore";
-    return "content";
-  }
-
-  w.__icTrackWhatsAppClick = function trackWhatsAppClick(meta) {
-    try {
-      var now = Date.now();
-      if (now - lastAt < LOCK_MS) return;
-      lastAt = now;
-
-      var href = meta && meta.href != null ? String(meta.href) : "";
-      var payload = {
-        event: "whatsapp_click",
-        page_path: pagePath(),
-        page_url: pageUrl(),
-        course_name: courseName(meta),
-        cta_location: ctaLocation(meta),
-        whatsapp_destination: destinationHost(href),
-      };
-
-      w.dataLayer = w.dataLayer || [];
-      w.dataLayer.push(payload);
-    } catch (err) {
-      // Tracking must never block WhatsApp navigation.
-    }
-  };
-})(typeof window !== "undefined" ? window : undefined);
-/* IC_WHATSAPP_TRACKING_END */
-
 
 /** Build a Wix Media Manager fill URL from a site media file id. */
 function mediaUrl(id, w, h, q = 70) {
@@ -107,16 +16,16 @@ function mediaUrl(id, w, h, q = 70) {
 
 /** Photos sourced from IC Academy site Media Manager (already used on existing hubs). */
 const IMG = {
-  heroSm: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 640, 400, 70),
-  hero: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 960, 600, 75),
-  heroLg: mediaUrl("b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg", 1280, 800, 75),
+  heroSm: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 640, 400, 70),
+  hero: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 960, 600, 75),
+  heroLg: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 1280, 800, 75),
   cny: mediaUrl("4ea940_2d5010ecfb1f4a8399e4f3ceb790972a~mv2.jpeg", 640, 400, 70),
   easter: mediaUrl("d5ba93_321804e3e45d4cc8ae34b02b4a4872bd~mv2.jpg", 640, 400, 70),
-  detail: mediaUrl("b98cc9_0d50c3e155ba4c4e92046d937a5c0c43~mv2.jpg", 640, 800, 70),
-  gallery1: mediaUrl("b98cc9_49cb0c61e7664eaca996580443195ec9~mv2.jpeg", 480, 480, 70),
-  gallery2: mediaUrl("4ea940_5867e3daf35f4f969495afa34a05f1a3~mv2.jpg", 480, 480, 70),
-  gallery3: mediaUrl("b98cc9_9605c850cf4b47daafd611bb1215e1fd~mv2.jpeg", 480, 480, 70),
-  gallery4: mediaUrl("b98cc9_8b62b24164484280941000b87ffdecc8~mv2.jpg", 480, 480, 70),
+  detail: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 640, 800, 70),
+  gallery1: mediaUrl("d5ba93_ecb183209c8e40aaa71fb4d0a53bb2bc~mv2.webp", 480, 480, 70),
+  gallery2: mediaUrl("d5ba93_7602a3ff44a44704b17b3de5eeea5ee2~mv2.webp", 480, 480, 70),
+  gallery3: mediaUrl("d5ba93_8fb5945d369549a7b101fd279e72b803~mv2.webp", 480, 480, 70),
+  gallery4: mediaUrl("d5ba93_6b8642c3db6945b59c18849170a01e4e~mv2.webp", 480, 480, 70),
 };
 
 (function preloadHeroLcp() {
@@ -672,13 +581,13 @@ h3 { font-size: 1.12rem; }
 }
 
 @media (max-width: 640px) {
-  :host { font-size: 13px; }
-  h1, .hero-title-chip h1, .hero h1 { font-size: 1.42em !important; line-height: 1.35; }
-  h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.24em !important; }
-  h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.02em !important; }
-  .hero-sub { font-size: 1.05em !important; }
+  :host { font-size: 14px; }
+  h1, .hero-title-chip h1, .hero h1 { font-size: 1.5em !important; line-height: 1.35; }
+  h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.32em !important; }
+  h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.06em !important; }
+  .hero-sub { font-size: 1.1em !important; }
   p, li, .section-lead, .hero-lead, .faq-a, .card-body p, .path-step p, .final p, .detail-lead, .hero-points { font-size: 1em !important; }
-  .hero-eyebrow, .kicker, .crumbs, .trust-item span { font-size: 0.88em !important; }
+  .hero-eyebrow, .kicker, .crumbs, .trust-item span { font-size: 0.92em !important; }
   .btn { font-size: 1em !important; }
   .hero .wrap { padding: 40px 0; }
   .btn-row { flex-direction: column; align-items: stretch; }
@@ -771,28 +680,6 @@ class ShortTermCoursesHub extends HTMLElement {
     const style = document.createElement("style");
     style.id = id;
     style.textContent = `
-      /* Hide Wix header skin divider and 1px header/page gap */
-      #SITE_HEADER {
-        border: 0 !important;
-        border-bottom: 0 !important;
-        box-shadow: none !important;
-      }
-      #SITE_HEADER > div:first-child,
-      #SITE_HEADER > div:first-child * {
-        background-image: none !important;
-        border-bottom: 0 !important;
-        box-shadow: none !important;
-      }
-      #PAGES_CONTAINER,
-      #SITE_PAGES,
-      #masterPage {
-        border-top: 0 !important;
-        box-shadow: none !important;
-      }
-      #PAGES_CONTAINER,
-      #SITE_PAGES {
-        margin-top: -1px !important;
-      }
       short-term-courses-hub {
         display: block !important;
         box-sizing: border-box !important;
@@ -918,15 +805,6 @@ class ShortTermCoursesHub extends HTMLElement {
     }
 
     if (action === "whatsapp") {
-      try {
-        if (typeof window !== "undefined" && typeof window.__icTrackWhatsAppClick === "function") {
-          window.__icTrackWhatsAppClick({
-            href: (target && target.getAttribute && target.getAttribute("href")) || this.waUrl || "",
-            host: this,
-            el: target,
-          });
-        }
-      } catch (e) {}
       this._emitCta("whatsapp", this.waUrl);
       return;
     }

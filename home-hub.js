@@ -1,133 +1,28 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-09-15-v6 (reserve full homepage height to cut CLS)
+ * Version: 2026-09-01-v1 (smaller mobile type)
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
-/* IC_WHATSAPP_TRACKING_START */
-(function installIcWhatsAppTracking(w) {
-  if (!w || w.__icTrackWhatsAppClick) return;
 
-  var LOCK_MS = 500;
-  var lastAt = 0;
-
-  function destinationHost(href) {
-    var raw = String(href || "");
-    try {
-      var host = new URL(raw, w.location && w.location.href).hostname || "";
-      if (host) return host;
-    } catch (e) {}
-    if (/api\.whatsapp\.com/i.test(raw)) return "api.whatsapp.com";
-    if (/wa\.me/i.test(raw)) return "wa.me";
-    if (/whatsapp\.com/i.test(raw)) return "whatsapp.com";
-    return "whatsapp";
-  }
-
-  function pagePath() {
-    try {
-      return String((w.location && w.location.pathname) || "");
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function pageUrl() {
-    try {
-      var loc = w.location;
-      if (!loc) return "";
-      return String(loc.origin || "") + String(loc.pathname || "");
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function courseName(meta) {
-    var fromMeta = meta && meta.course_name != null ? String(meta.course_name).replace(/\s+/g, " ").trim() : "";
-    if (fromMeta) return fromMeta.slice(0, 120);
-    try {
-      var host = meta && meta.host;
-      var root = host && host.shadowRoot;
-      var h1 = root && root.querySelector("h1");
-      var text = h1 && String(h1.textContent || "").replace(/\s+/g, " ").trim();
-      if (text) return text.slice(0, 120);
-    } catch (e) {}
-    return "";
-  }
-
-  function ctaLocation(meta) {
-    var fromMeta = meta && meta.cta_location != null ? String(meta.cta_location).trim() : "";
-    if (fromMeta) return fromMeta.slice(0, 40);
-    var el = meta && meta.el;
-    if (!el || typeof el.closest !== "function") return "content";
-    if (el.closest(".hero")) return "hero";
-    if (el.closest(".trial")) return "trial";
-    if (el.closest(".final")) return "final";
-    if (el.closest(".detail")) return "details";
-    if (el.closest(".contact-panel, .contact-card, .info-card, .contact")) return "contact";
-    if (el.closest(".faq-list, .faq")) return "faq";
-    if (el.closest(".form-card")) return "form";
-    if (el.closest(".explore-grid, .explore")) return "explore";
-    return "content";
-  }
-
-  w.__icTrackWhatsAppClick = function trackWhatsAppClick(meta) {
-    try {
-      var now = Date.now();
-      if (now - lastAt < LOCK_MS) return;
-      lastAt = now;
-
-      var href = meta && meta.href != null ? String(meta.href) : "";
-      var payload = {
-        event: "whatsapp_click",
-        page_path: pagePath(),
-        page_url: pageUrl(),
-        course_name: courseName(meta),
-        cta_location: ctaLocation(meta),
-        whatsapp_destination: destinationHost(href),
-      };
-
-      w.dataLayer = w.dataLayer || [];
-      w.dataLayer.push(payload);
-    } catch (err) {
-      // Tracking must never block WhatsApp navigation.
-    }
-  };
-})(typeof window !== "undefined" ? window : undefined);
-/* IC_WHATSAPP_TRACKING_END */
-
-
-function mediaUrl(id, w, h, q = 70) {
+function mediaUrl(id, w, h, q = 75) {
   return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
 }
 
-function heroSrc(id) {
-  return mediaUrl(id, 640, 420, 65);
-}
-
-const HERO_IDS = [
-  "b98cc9_9dc8b25109994d1582cf45ab4cba461f~mv2.jpg",
-  "b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg",
-  "b98cc9_eafb6e8a188a4b06a688d513daf9e9f4~mv2.jpg",
-  "b98cc9_2dc758ef8b0b487a8fc29f8f5e7e5622~mv2.jpeg",
-  "b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg",
-];
-
-const WHY_ID = "b98cc9_d807c53a36a24d0ea19878291b1c0d2e~mv2.jpg";
-const LCP_URL = mediaUrl(
-  "b98cc9_9dc8b25109994d1582cf45ab4cba461f~mv2.jpg",
-  640,
-  420,
-  65
-);
 const IMG = {
-  why: mediaUrl(WHY_ID, 336, 420, 65),
-  whySrcset: `${mediaUrl(WHY_ID, 336, 420, 65)} 336w, ${mediaUrl(WHY_ID, 400, 500, 68)} 400w`,
+  heroSm: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 960, 540, 70),
+  hero: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 1600, 900, 75),
+  slide2: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 1280, 900, 75),
+  slide3: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 1280, 900, 75),
+  slide4: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 1280, 900, 75),
+  slide5: mediaUrl("d5ba93_ecb183209c8e40aaa71fb4d0a53bb2bc~mv2.webp", 1280, 900, 75),
+  why: mediaUrl("d5ba93_6b8642c3db6945b59c18849170a01e4e~mv2.webp", 800, 1000, 75),
 };
 
-const SLIDES = HERO_IDS;
+const SLIDES = [IMG.hero, IMG.slide2, IMG.slide3, IMG.slide4, IMG.slide5];
 
 const HIGHLIGHTS = [
   { en: "5-minute walk from Pui Ching Primary", zh: "培正小學附近，步行5分鐘" },
@@ -175,7 +70,7 @@ const PATHWAYS = [
       en: "Sensory exploration, free mark-making, and a safe space for young children to grow in confidence and focus.",
       zh: "從感官探索到自由塗鴉，在安全的創作環境中建立孩子自信心與專注力。",
     },
-    href: "/course/kids-art/visual-art-skills-course",
+    href: "/course/kids-art/visual-art-skills",
   },
   {
     age: { en: "Age 6–12", zh: "6–12歲" },
@@ -346,14 +241,14 @@ const STYLES = `
   --bg-soft: #f4f8f9;
   --surface: #ffffff;
   --ink: #162b48;
-  --muted: #3d4a5c;
+  --muted: #4a5568;
   --line: #e2e8f0;
   --navy: #162b48;
   --coral: #ff8e8e;
-  --coral-deep: #c62828;
+  --coral-deep: #f05a5a;
   --coral-soft: #fff0f0;
-  --teal: #00727c;
-  --teal-deep: #00646d;
+  --teal: #00a9b7;
+  --teal-deep: #008f9b;
   --teal-soft: #e8f7f8;
   --title-chip: rgba(255, 240, 240, 0.92);
   --check: #00a9b7;
@@ -367,7 +262,7 @@ const STYLES = `
   background: var(--bg);
   overflow-x: visible;
   height: auto !important;
-  min-height: 4200px;
+  min-height: 0 !important;
 }
 :host([data-fullbleed="1"]) {
   border-radius: 0 !important;
@@ -458,14 +353,10 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
   display: flex; align-items: center; justify-content: center; gap: 10px;
 }
 .hero-dot {
-  width: 44px; height: 44px; border-radius: 50%; border: 0;
-  background: transparent; cursor: pointer; padding: 0;
-  display: inline-flex; align-items: center; justify-content: center;
+  width: 10px; height: 10px; border-radius: 50%; border: 0;
+  background: #ffc4c4; cursor: pointer; padding: 0;
 }
-.hero-dot::after {
-  content: ""; width: 10px; height: 10px; border-radius: 50%; background: #c45c5c;
-}
-.hero-dot[aria-current="true"]::after { background: var(--coral-deep); transform: scale(1.15); }
+.hero-dot[aria-current="true"] { background: var(--coral); transform: scale(1.15); }
 .hero-arrow {
   position: absolute; z-index: 2; top: 50%; transform: translateY(-50%);
   width: 44px; height: 44px; border: 0; border-radius: 50%;
@@ -591,13 +482,13 @@ h1, h2, h3 { line-height: 1.28; margin: 0 0 12px; font-weight: 800; }
 .final .btn-row { justify-content: center; }
 
 @media (max-width: 640px) {
-  :host { font-size: 13px; min-height: 5600px; }
-  h1, .hero-title-chip h1, .hero h1 { font-size: 1.42em !important; line-height: 1.35; }
-  h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.24em !important; }
-  h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.02em !important; }
-  .hero-sub { font-size: 1.05em !important; }
+  :host { font-size: 14px; }
+  h1, .hero-title-chip h1, .hero h1 { font-size: 1.5em !important; line-height: 1.35; }
+  h2, .section-title, .final h2, .detail h2, .trial h2, .form-card h2, .info-card h2 { font-size: 1.32em !important; }
+  h3, .faq-q, .card-body h3, .path-step h3, .method h3 { font-size: 1.06em !important; }
+  .hero-sub { font-size: 1.1em !important; }
   p, li, .section-lead, .hero-lead, .faq-a, .card-body p, .path-step p, .final p, .detail-lead, .hero-points { font-size: 1em !important; }
-  .hero-eyebrow, .kicker, .crumbs, .trust-item span { font-size: 0.88em !important; }
+  .hero-eyebrow, .kicker, .crumbs, .trust-item span { font-size: 0.92em !important; }
   .btn { font-size: 1em !important; }
   .hero .wrap { padding: 40px 0 80px; }
   .btn-row { flex-direction: column; align-items: stretch; }
@@ -617,25 +508,19 @@ class HomeHub extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this._slide = 0;
     this._timer = null;
-    this._slideshowDelay = null;
-    this._deferredTimer = null;
     this._onClick = this._onClick.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
   }
 
   connectedCallback() {
-    this._polishDocument();
     this.render();
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._applyFullBleedCss);
     window.addEventListener("orientationchange", this._applyFullBleedCss);
-    this._slideshowDelay = window.setTimeout(() => this._startSlideshow(), 8000);
-    const later = () => this._collapseTrailingGap();
-    if (typeof window.requestIdleCallback === "function") {
-      window.requestIdleCallback(later, { timeout: 2500 });
-    } else {
-      window.setTimeout(later, 2500);
-    }
+    this._startSlideshow();
+    window.setTimeout(() => this._collapseTrailingGap(), 50);
+    window.setTimeout(() => this._collapseTrailingGap(), 400);
+    window.setTimeout(() => this._collapseTrailingGap(), 1200);
   }
 
   disconnectedCallback() {
@@ -643,17 +528,6 @@ class HomeHub extends HTMLElement {
     window.removeEventListener("resize", this._applyFullBleedCss);
     window.removeEventListener("orientationchange", this._applyFullBleedCss);
     this._stopSlideshow();
-    if (this._slideshowDelay) {
-      window.clearTimeout(this._slideshowDelay);
-      this._slideshowDelay = null;
-    }
-    if (this._deferredTimer) {
-      if (typeof window.cancelIdleCallback === "function") {
-        try { window.cancelIdleCallback(this._deferredTimer); } catch (e) {}
-      }
-      window.clearTimeout(this._deferredTimer);
-      this._deferredTimer = null;
-    }
     const bleed = document.getElementById("home-hub-page-bleed");
     if (bleed) bleed.remove();
   }
@@ -707,28 +581,6 @@ class HomeHub extends HTMLElement {
     const style = document.createElement("style");
     style.id = id;
     style.textContent = `
-      /* Hide Wix header skin divider and 1px header/page gap */
-      #SITE_HEADER {
-        border: 0 !important;
-        border-bottom: 0 !important;
-        box-shadow: none !important;
-      }
-      #SITE_HEADER > div:first-child,
-      #SITE_HEADER > div:first-child * {
-        background-image: none !important;
-        border-bottom: 0 !important;
-        box-shadow: none !important;
-      }
-      #PAGES_CONTAINER,
-      #SITE_PAGES,
-      #masterPage {
-        border-top: 0 !important;
-        box-shadow: none !important;
-      }
-      #PAGES_CONTAINER,
-      #SITE_PAGES {
-        margin-top: -1px !important;
-      }
       html, body {
         overflow-x: hidden !important;
       }
@@ -736,7 +588,7 @@ class HomeHub extends HTMLElement {
         display: block !important;
         box-sizing: border-box !important;
         height: auto !important;
-        min-height: 4200px !important;
+        min-height: 0 !important;
         padding: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
@@ -765,9 +617,14 @@ class HomeHub extends HTMLElement {
     document.head.appendChild(style);
   }
 
+  _viewportWidth() {
+    return document.documentElement.clientWidth || window.innerWidth || 0;
+  }
+
   _collapseTrailingGap() {
     try {
       this.style.setProperty("height", "auto", "important");
+      this.style.setProperty("min-height", "0", "important");
 
       let el = this.parentElement;
       for (let i = 0; i < 10 && el; i++) {
@@ -812,10 +669,6 @@ class HomeHub extends HTMLElement {
     }
   }
 
-  _viewportWidth() {
-    return document.documentElement.clientWidth || window.innerWidth || 0;
-  }
-
   _applyFullBleedCss() {
     try {
       this._injectPageBleedCss();
@@ -836,6 +689,7 @@ class HomeHub extends HTMLElement {
       this.style.setProperty("margin-right", "0", "important");
       this.style.setProperty("padding", "0", "important");
       this.style.setProperty("height", "auto", "important");
+      this.style.setProperty("min-height", "0", "important");
       this.style.setProperty("box-sizing", "border-box", "important");
       this.style.setProperty("overflow-x", "visible", "important");
       this.style.setProperty("border-radius", "0", "important");
@@ -856,6 +710,7 @@ class HomeHub extends HTMLElement {
         el.style.setProperty("padding-right", "0", "important");
         el.style.setProperty("border-radius", "0", "important");
         el.style.setProperty("left", "0", "important");
+        el.style.setProperty("min-height", "0", "important");
         if (tag === "main" || id === "SITE_PAGES" || id === "PAGES_CONTAINER" || id === "masterPage") break;
         el.style.setProperty("height", "auto", "important");
         el = el.parentElement;
@@ -888,20 +743,11 @@ class HomeHub extends HTMLElement {
     }
   }
 
-  _hydrateSlide(img) {
-    if (!img || img.getAttribute("src")) return;
-    const srcset = img.getAttribute("data-srcset");
-    const src = img.getAttribute("data-src");
-    if (srcset) img.setAttribute("srcset", srcset);
-    if (src) img.setAttribute("src", src);
-  }
-
   _goSlide(next) {
     const total = SLIDES.length;
     this._slide = ((next % total) + total) % total;
     const imgs = this.shadowRoot.querySelectorAll(".hero-slides img");
     const dots = this.shadowRoot.querySelectorAll(".hero-dot");
-    this._hydrateSlide(imgs[this._slide]);
     imgs.forEach((img, i) => img.classList.toggle("is-active", i === this._slide));
     dots.forEach((dot, i) => dot.setAttribute("aria-current", i === this._slide ? "true" : "false"));
   }
@@ -936,15 +782,6 @@ class HomeHub extends HTMLElement {
       return;
     }
     if (action === "whatsapp") {
-      try {
-        if (typeof window !== "undefined" && typeof window.__icTrackWhatsAppClick === "function") {
-          window.__icTrackWhatsAppClick({
-            href: (target && target.getAttribute && target.getAttribute("href")) || this.waUrl || "",
-            host: this,
-            el: target,
-          });
-        }
-      } catch (e) {}
       this._emitCta("whatsapp", this.waUrl);
       return;
     }
@@ -971,14 +808,10 @@ class HomeHub extends HTMLElement {
       <div class="hub">
         <section class="hero" aria-label="${t("Homepage slideshow", "首頁圖片輪播")}">
           <div class="hero-slides">
-            ${SLIDES.map((id, i) => {
-              const eager = i === 0;
-              const src = i === 0 ? LCP_URL : heroSrc(id);
-              const eagerAttrs = eager
-                ? `src="${src}" fetchpriority="high" decoding="async"`
-                : `data-src="${src}" decoding="async"`;
-              return `<img ${eagerAttrs} alt="" class="${i === this._slide ? "is-active" : ""}" width="640" height="420" />`;
-            }).join("")}
+            ${SLIDES.map(
+              (src, i) =>
+                `<img src="${src}" alt="" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} class="${i === this._slide ? "is-active" : ""}" width="1600" height="900" />`
+            ).join("")}
           </div>
           <button class="hero-arrow prev" type="button" data-action="prev" aria-label="${t("Previous", "上一張")}">‹</button>
           <button class="hero-arrow next" type="button" data-action="next" aria-label="${t("Next", "下一張")}">›</button>
@@ -994,44 +827,20 @@ class HomeHub extends HTMLElement {
             )}</p>
             <div class="btn-row">
               <a class="btn btn-navy" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Book a trial class", "預約首堂試堂體驗")}</a>
-              <a class="btn btn-outline-navy" data-action="hub" href="${courseHref}">${t("Explore courses", "了解課程")}</a>
+              <a class="btn btn-outline-navy" data-action="hub" href="${courseHref}">${t("Explore programmes", "了解課程路線")}</a>
             </div>
             <div class="hero-points">
               ${HIGHLIGHTS.map((item) => `<div>${this.pick(item)}</div>`).join("")}
             </div>
           </div>
-          <div class="hero-nav" role="group" aria-label="${t("Slides", "輪播")}">
+          <div class="hero-nav" role="tablist" aria-label="${t("Slides", "輪播")}">
             ${SLIDES.map(
               (_, i) =>
                 `<button class="hero-dot" type="button" data-action="slide" data-index="${i}" aria-label="${t("Slide", "投影片")} ${i + 1}" aria-current="${i === this._slide ? "true" : "false"}"></button>`
             ).join("")}
           </div>
         </section>
-        <div id="hub-deferred"></div>
-      </div>
-    `;
 
-    this._applyFullBleedCss();
-    this._goSlide(this._slide);
-    this._polishDocument();
-    this._fillBelow();
-    this._lockHubHeight();
-  }
-
-  _fillBelow() {
-    const host = this.shadowRoot && this.shadowRoot.getElementById("hub-deferred");
-    if (!host || host.childElementCount) return;
-    const t = (en, zh) => (this.isEn ? en : zh);
-    const waText = t(
-      "Hello IC Academy, I would like to book a trial class for my child.",
-      "你好 IC Academy，我想為小朋友預約試堂。"
-    );
-    const waPrefill = this._waPrefill(waText);
-    const stories = this.isEn ? STORIES_EN : STORIES_ZH;
-    const faqs = this.isEn ? FAQ_EN : FAQ_ZH;
-    const trialHref = this.path("/homantin-children-art-trial");
-    const aboutHref = this.path("/about-us");
-    host.innerHTML = `
         <section class="section">
           <div class="wrap">
             <p class="kicker">${t("Why IC Academy", "為什麼選擇我們?")}</p>
@@ -1063,7 +872,7 @@ class HomeHub extends HTMLElement {
                 <a class="btn btn-outline-navy" data-action="hub" href="${aboutHref}">${t("Learn more", "了解更多")}</a>
               </div>
               <figure class="detail-media">
-                <img src="${IMG.why}" srcset="${IMG.whySrcset}" sizes="(max-width: 720px) 336px, 400px" alt="${t("IC Academy student creating artwork in class", "IC Academy 課堂學生創作")}" loading="lazy" width="400" height="500" />
+                <img src="${IMG.why}" alt="${t("IC Academy student creating artwork in class", "IC Academy 課堂學生創作")}" loading="lazy" width="800" height="1000" />
               </figure>
             </div>
           </div>
@@ -1237,57 +1046,12 @@ class HomeHub extends HTMLElement {
             <a class="btn btn-outline-white" data-action="hub" href="${trialHref}">${t("Trial class details", "了解試堂詳情")}</a>
           </div>
         </section>
+      </div>
     `;
-    this._lockHubHeight();
-  }
 
-  _lockHubHeight() {
-    try {
-      const box = this.shadowRoot && this.shadowRoot.querySelector(".hub");
-      const h = Math.ceil((box && box.scrollHeight) || this.scrollHeight || 0);
-      if (h > 800) {
-        this.style.setProperty("min-height", `${h}px`, "important");
-      }
-    } catch (e) {}
-  }
-
-  _polishDocument() {
-    try {
-      if (!document.getElementById("ic-home-hub-cls")) {
-        const style = document.createElement("style");
-        style.id = "ic-home-hub-cls";
-        style.textContent =
-          "home-hub,#customElement1{display:block!important;min-height:4200px!important}" +
-          "@media (max-width:640px){home-hub,#customElement1{min-height:5600px!important}}";
-        (document.head || document.documentElement).appendChild(style);
-      }
-      if (!document.getElementById("ic-lcp-preload")) {
-        const link = document.createElement("link");
-        link.id = "ic-lcp-preload";
-        link.rel = "preload";
-        link.as = "image";
-        link.href = LCP_URL;
-        link.setAttribute("fetchpriority", "high");
-        document.head.appendChild(link);
-      }
-      const desc = this.isEn
-        ? "IC Academy is a children's art studio in Ho Man Tin, near Pui Ching Primary. Visual arts training from age 3 to secondary Portfolio. Book a trial class."
-        : "IC Academy 何文田畫室位於培正附近，以藝術創作幫助小學生疏導呈分試壓力，並提供由幼兒塗鴉至升中 Portfolio 的視覺藝術課程。歡迎預約試堂。";
-      let meta = document.querySelector('meta[name="description"]');
-      if (!meta) {
-        meta = document.createElement("meta");
-        meta.setAttribute("name", "description");
-        document.head.appendChild(meta);
-      }
-      const current = String(meta.getAttribute("content") || "").trim();
-      if (current.length < 40) {
-        meta.setAttribute("content", desc);
-      }
-      document.querySelectorAll("#SITE_HEADER a").forEach((a) => {
-        const named = String(a.getAttribute("aria-label") || a.textContent || "").replace(/\s+/g, " ").trim();
-        if (!named) a.setAttribute("aria-label", "IC Academy");
-      });
-    } catch (e) {}
+    this._applyFullBleedCss();
+    this._collapseTrailingGap();
+    this._goSlide(this._slide);
   }
 }
 
