@@ -458,7 +458,7 @@ const ARTWORK = [
   },
   {
     id: "g37",
-    imageId: "d5ba93_98aa88c9aa114839aa562afd5f990c65~mv2.webp",
+    imageId: "d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp",
     category: "kids",
     courseSlug: "visual-art-skills-course",
     altText: "ICAcademy 視藝技巧預備課程學員塑膠彩作品",

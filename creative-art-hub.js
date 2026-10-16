@@ -106,8 +106,8 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  hero: mediaUrl("d5ba93_fc3cf741fa914ad29bc649df5ccf026d~mv2.webp", 1600, 1000),
-  gallery1: mediaUrl("d5ba93_462d8d93a7cd47078fe5658bab095360~mv2.webp", 800, 800),
+  hero: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 1600, 1000),
+  gallery1: mediaUrl("d5ba93_e55fc3aa23d3477eb7d1a12cf8904758~mv2.webp", 800, 800),
   gallery2: mediaUrl("d5ba93_8ba279abdfb445da9e47fd50eb19e282~mv2.webp", 800, 800),
   gallery3: mediaUrl("d5ba93_304dcc22214945caa340b35615e155e5~mv2.webp", 800, 800),
   gallery4: mediaUrl("d5ba93_708bccb2e11c419a9d89bf932fb8a36a~mv2.webp", 800, 800),
