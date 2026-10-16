@@ -106,12 +106,12 @@ function mediaUrl(id, w, h, q = 65) {
 }
 
 const IMG = {
-  hero: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 640, 400, 65),
-  gallery1: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 320, 320, 65),
-  gallery2: mediaUrl("b98cc9_2811c03afb09487fb93b5356133bd57b~mv2.jpg", 320, 320, 65),
+  hero: mediaUrl("d5ba93_98aa88c9aa114839aa562afd5f990c65~mv2.webp", 640, 400, 65),
+  gallery1: mediaUrl("d5ba93_98aa88c9aa114839aa562afd5f990c65~mv2.webp", 320, 320, 65),
+  gallery2: mediaUrl("d5ba93_6b8642c3db6945b59c18849170a01e4e~mv2.webp", 320, 320, 65),
   gallery3: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 320, 320, 65),
   gallery4: mediaUrl("b98cc9_938e779278dc4be38ad8c06a48102fc1~mv2.jpg", 320, 320, 65),
-  detail: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 336, 420, 65),
+  detail: mediaUrl("d5ba93_496cce51829544519d319756b735484c~mv2.webp", 336, 420, 65),
 };
 
 (function preloadHeroLcp() {

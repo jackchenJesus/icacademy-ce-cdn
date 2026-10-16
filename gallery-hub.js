@@ -1,7 +1,7 @@
 /**
  * ICAcademy Student Artwork Gallery Hub – Custom Element
  * Tag name: gallery-hub
- * Version: 2026-08-18-v8 (smaller mobile filter pills; smaller mobile type)
+ * Version: 2026-10-16-v9 (course-folder artwork; responsive gallery thumbs)
  * Design system: matches courses-hub / kids-art-hub / drawing-painting-hub / trial-class-hub
  * Routes: /studentartwork (EN) | /zh/studentartwork (ZH)
  * Locale via attribute: locale="en" | "zh" (default en = site primary).
@@ -100,8 +100,16 @@ const WA_DEFAULT = "https://wa.me/85265808022";
 
 
 /** Fit within box — preserves artwork aspect ratio (no aggressive crop). */
-function mediaFit(id, w, h) {
-  return `https://static.wixstatic.com/media/${id}/v1/fit/w_${w},h_${h},q_85,enc_auto/${id}`;
+function mediaFit(id, w, h, q = 85) {
+  return `https://static.wixstatic.com/media/${id}/v1/fit/w_${w},h_${h},q_${q},enc_auto/${id}`;
+}
+
+/** Responsive gallery card srcset (Wix static transforms). */
+function thumbSrcSet(id) {
+  const w320 = mediaFit(id, 320, 480, 80);
+  const w480 = mediaFit(id, 480, 720, 80);
+  const w640 = mediaFit(id, 640, 960, 80);
+  return `${w320} 320w, ${w480} 480w, ${w640} 640w`;
 }
 
 /** Soft fill for hero collage tiles only. */
@@ -436,6 +444,114 @@ const ARTWORK = [
     category: "kids",
     courseSlug: "creative-art-classes",
     altText: "ICAcademy 青少年創意美術作品",
+    featured: false,
+    section: 2,
+  },
+  {
+    id: "g37",
+    imageId: "d5ba93_98aa88c9aa114839aa562afd5f990c65~mv2.webp",
+    category: "kids",
+    courseSlug: "visual-art-skills-course",
+    altText: "ICAcademy 視藝技巧預備課程學員塑膠彩作品",
+    featured: true,
+    section: 1,
+  },
+  {
+    id: "g38",
+    imageId: "d5ba93_6b8642c3db6945b59c18849170a01e4e~mv2.webp",
+    category: "kids",
+    courseSlug: "visual-art-skills-course",
+    altText: "ICAcademy 視藝技巧預備課程學員水彩作品",
+    featured: false,
+    section: 1,
+  },
+  {
+    id: "g39",
+    imageId: "d5ba93_496cce51829544519d319756b735484c~mv2.webp",
+    category: "kids",
+    courseSlug: "visual-art-skills-course",
+    altText: "ICAcademy 視藝技巧預備課程學員油粉彩作品",
+    featured: false,
+    section: 1,
+  },
+  {
+    id: "g40",
+    imageId: "d5ba93_4f5b7608c6f14584832aa0db691df84b~mv2.webp",
+    category: "kids",
+    courseSlug: "visual-art-skills-course",
+    altText: "ICAcademy 視藝技巧基礎課程學員塑膠彩作品",
+    featured: false,
+    section: 1,
+  },
+  {
+    id: "g41",
+    imageId: "d5ba93_91382c68a4e74bd58ef6cb04edf15aaf~mv2.webp",
+    category: "kids",
+    courseSlug: "creative-art-classes",
+    altText: "ICAcademy 兒童創意美術學員油粉彩作品",
+    featured: false,
+    section: 1,
+  },
+  {
+    id: "g48",
+    imageId: "d5ba93_8164c17fe84e4b9896c5e2f06cdc569f~mv2.webp",
+    category: "kids",
+    courseSlug: "visual-art-skills-course",
+    altText: "ICAcademy 視藝技巧預備課程學員燈塔主題作品",
+    featured: false,
+    section: 1,
+  },
+  {
+    id: "g42",
+    imageId: "d5ba93_7602a3ff44a44704b17b3de5eeea5ee2~mv2.webp",
+    category: "clay",
+    courseSlug: "creative-art-and-clay-class",
+    altText: "ICAcademy 黏土課程蔬菜主題立體作品",
+    featured: false,
+    section: 2,
+  },
+  {
+    id: "g43",
+    imageId: "d5ba93_ecb183209c8e40aaa71fb4d0a53bb2bc~mv2.webp",
+    category: "clay",
+    courseSlug: "creative-art-and-clay-class",
+    altText: "ICAcademy 黏土課程太空主題立體作品",
+    featured: false,
+    section: 2,
+  },
+  {
+    id: "g44",
+    imageId: "d5ba93_8fb5945d369549a7b101fd279e72b803~mv2.webp",
+    category: "comic",
+    courseSlug: "comic-drawing-class",
+    altText: "ICAcademy 漫畫班學員麥克筆作品",
+    featured: false,
+    section: 2,
+  },
+  {
+    id: "g45",
+    imageId: "d5ba93_b8ccdbe62da240e98d060154ebdced69~mv2.webp",
+    category: "comic",
+    courseSlug: "comic-drawing-class",
+    altText: "ICAcademy 漫畫班學員角色設計作品",
+    featured: false,
+    section: 2,
+  },
+  {
+    id: "g46",
+    imageId: "d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp",
+    category: "drawing-painting",
+    courseSlug: "visual-art-class",
+    altText: "ICAcademy 綜合美術課程學員油畫作品",
+    featured: false,
+    section: 2,
+  },
+  {
+    id: "g47",
+    imageId: "d5ba93_aec4524a6858434790b8df723f534a50~mv2.webp",
+    category: "acrylic",
+    courseSlug: "acrylic-painting-class",
+    altText: "ICAcademy 塑膠彩課程學員作品",
     featured: false,
     section: 2,
   },
@@ -1427,11 +1543,11 @@ class GalleryHub extends HTMLElement {
   }
 
   _thumb(id) {
-    return mediaFit(id, 640, 960);
+    return mediaFit(id, 480, 720, 80);
   }
 
   _full(id) {
-    return mediaFit(id, 1400, 1400);
+    return mediaFit(id, 1200, 1200, 85);
   }
 
   _applyFilter(filter) {
@@ -1575,6 +1691,7 @@ class GalleryHub extends HTMLElement {
 
   _artItemHtml(item, eager) {
     const thumb = this._thumb(item.imageId);
+    const srcset = thumbSrcSet(item.imageId);
     const alt = this.altFor(item);
     const loading = eager ? "eager" : "lazy";
     const fetchPriority = eager ? 'fetchpriority="high"' : "";
@@ -1597,11 +1714,13 @@ class GalleryHub extends HTMLElement {
         >
           <img
             src="${thumb}"
+            srcset="${srcset}"
+            sizes="(max-width: 600px) 46vw, (max-width: 960px) 30vw, 280px"
             alt="${altAttr}"
             loading="${loading}"
             decoding="async"
-            width="640"
-            height="800"
+            width="480"
+            height="720"
             ${fetchPriority}
           />
           <div class="art-meta">
@@ -1613,7 +1732,7 @@ class GalleryHub extends HTMLElement {
 
   _galleryHtml(section) {
     return ARTWORK.filter((a) => a.section === section)
-      .map((item, index) => this._artItemHtml(item, section === 1 && index < 4))
+      .map((item, index) => this._artItemHtml(item, section === 1 && index < 2))
       .join("");
   }
 

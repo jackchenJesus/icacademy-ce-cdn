@@ -110,7 +110,7 @@ const IMG = {
   gallery1: mediaUrl("b98cc9_9c6e5138d1fa40a7815d12218f642440~mv2.jpg", 800, 800),
   gallery2: mediaUrl("b98cc9_66611472f2134e0fa854d2914e4ae347~mv2.jpg", 800, 800),
   gallery3: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 800, 800),
-  gallery4: mediaUrl("b98cc9_1e80c89215f84798a65eaedc03352cd5~mv2.jpg", 800, 800),
+  gallery4: mediaUrl("d5ba93_91382c68a4e74bd58ef6cb04edf15aaf~mv2.webp", 800, 800),
   detail: mediaUrl("b98cc9_f16629f0d6414271822e19d767f44457~mv2.jpg", 800, 1000),
   levelI: mediaUrl("b98cc9_9c6e5138d1fa40a7815d12218f642440~mv2.jpg", 640, 400, 70),
   levelII: mediaUrl("b98cc9_66611472f2134e0fa854d2914e4ae347~mv2.jpg", 640, 400, 70),
