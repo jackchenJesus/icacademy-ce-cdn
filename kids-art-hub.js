@@ -1174,7 +1174,15 @@ class KidsArtHub extends HTMLElement {
     }
 
     if (action === "course" || action === "hub") {
-      this._emitCta(action, target.getAttribute("href"));
+      const href = target.getAttribute("href") || "";
+      if (action === "hub" && href.includes("#secCourses")) {
+        event.preventDefault();
+        const sec = this.shadowRoot.getElementById("secCourses");
+        if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+        this._emitCta(action, href);
+        return;
+      }
+      this._emitCta(action, href);
     }
   }
 
