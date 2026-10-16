@@ -241,21 +241,21 @@ const QUOTES = [
       en: "The teacher is patient and explains each child’s progress clearly. We look forward to growing here.",
       zh: "老師好有耐性講解小朋友既情況！期待繼續喺度成長！",
     },
-    by: { en: "Parent", zh: "家長" },
+    by: { en: "IC Academy", zh: "IC Academy" },
   },
   {
     text: {
       en: "Friendly teachers, a clean studio, and a good range of courses.",
       zh: "老師友善，環境乾淨，課程多元化。",
     },
-    by: { en: "Family", zh: "學員家庭" },
+    by: { en: "IC Academy", zh: "IC Academy" },
   },
   {
     text: {
       en: "Our son and daughter have taken art classes here for years. The teaching is excellent.",
       zh: "兒子及女兒已經在這間美術學校上堂多年，師資優良。",
     },
-    by: { en: "Parent", zh: "家長" },
+    by: { en: "IC Academy", zh: "IC Academy" },
   },
 ];
 
@@ -987,11 +987,11 @@ class PaintSquareHub extends HTMLElement {
               )}
               <cite>— ${t("IC Academy Paint Square", "IC Academy 成人繪畫課程")}</cite>
             </blockquote>
-            <h2 class="section-title" id="quotes-title">${t("What families say about IC Academy", "家長及學員對畫室的評價")}</h2>
+            <h2 class="section-title" id="quotes-title">${t("Reviews shared at IC Academy", "IC Academy 學員及家長分享")}</h2>
             <p class="section-lead">
               ${t(
-                "These quotes are from parents and students across our Ho Man Tin programmes (including kids and family classes). They reflect the studio overall — not only this adult class.",
-                "以下評語來自何文田畫室不同課程的家長及學員（包括兒童及家庭課程），反映畫室整體教學與環境，並非僅指成人班。"
+                "These are real comments collected at our Ho Man Tin studio across different programmes (including children’s and family classes). They describe the school overall — not only this adult painting class.",
+                "以下為畫室曾收集的真實評語，涵蓋不同課程（包括兒童及家庭課程），反映畫室整體情況，並非僅指成人繪畫班。"
               )}
             </p>
             <div class="quote-grid">
