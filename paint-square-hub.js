@@ -4,9 +4,9 @@
  * Version: 2026-08-16-v4 (breadcrumb silo → /course/drawing-and-painting; smaller mobile type)
  *
  * Parent silo hub: Drawing & Painting
- * Canonical:
- *   EN: /courses/paint-square
- *   ZH: /zh/courses/paint-square
+ * Canonical (production owner):
+ *   EN: /course/drawing-and-painting/adult-art-class-hong-kong
+ *   ZH: /zh/course/drawing-and-painting/adult-art-class-hong-kong
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
 /* IC_WHATSAPP_TRACKING_START */
@@ -241,21 +241,21 @@ const QUOTES = [
       en: "The teacher is patient and explains each child’s progress clearly. We look forward to growing here.",
       zh: "老師好有耐性講解小朋友既情況！期待繼續喺度成長！",
     },
-    by: { en: "Student", zh: "學員" },
+    by: { en: "IC Academy", zh: "IC Academy" },
   },
   {
     text: {
       en: "Friendly teachers, a clean studio, and a good range of courses.",
       zh: "老師友善，環境乾淨，課程多元化。",
     },
-    by: { en: "Student", zh: "學員" },
+    by: { en: "IC Academy", zh: "IC Academy" },
   },
   {
     text: {
       en: "Our son and daughter have taken art classes here for years. The teaching is excellent.",
       zh: "兒子及女兒已經在這間美術學校上堂多年，師資優良。",
     },
-    by: { en: "Student", zh: "學員" },
+    by: { en: "IC Academy", zh: "IC Academy" },
   },
 ];
 
@@ -400,6 +400,8 @@ h3 { font-size: 1.12rem; }
   font-size: 0.92rem; color: var(--muted); margin: 0 0 18px;
 }
 .crumbs a { color: var(--teal); font-weight: 700; text-decoration: none; }
+.crumbs a:focus-visible { outline: 3px solid rgba(0,169,183,.35); outline-offset: 3px; border-radius: 4px; }
+.hub a:focus-visible { outline: 3px solid rgba(0,169,183,.35); outline-offset: 3px; border-radius: 4px; }
 .crumbs span[aria-hidden="true"] { opacity: 0.55; }
 
 .btn-row { display: flex; flex-wrap: wrap; gap: 14px; }
@@ -594,7 +596,7 @@ class PaintSquareHub extends HTMLElement {
       try {
         if (this.localeCode === "zh") {
           const h1 = this.shadowRoot && this.shadowRoot.querySelector("h1");
-          if (h1 && /Adult Painting Course Paint Square/i.test(h1.textContent || "")) this.render();
+          if (h1 && /Adult Art & Drawing Classes|Adult Painting Course Paint Square/i.test(h1.textContent || "")) this.render();
         }
       } catch (e) {}
     };
@@ -848,14 +850,14 @@ class PaintSquareHub extends HTMLElement {
                 <span aria-hidden="true">/</span>
                 <span>${t("Paint Square", "成人繪畫課程")}</span>
               </nav>
-              <p class="hero-eyebrow">${t("Ho Man Tin · Adult painting class", "何文田 · 成人繪畫課程")}</p>
+              <p class="hero-eyebrow">${t("Ho Man Tin · Art classes for adults", "何文田 · 成人藝術及繪畫班")}</p>
               <div class="hero-title-chip">
-                <h1 id="hero-title">${t("Adult Painting Course Paint Square", "何文田成人繪畫課程 Paint Square")}</h1>
-                <p class="hero-sub">${t("All levels, including beginners", "適合所有程度或初學者")}</p>
+                <h1 id="hero-title">${t("Adult Art & Drawing Classes in Ho Man Tin (Paint Square)", "何文田成人藝術及繪畫班（Paint Square）")}</h1>
+                <p class="hero-sub">${t("All levels, including beginners — small-group drawing and painting", "適合所有程度或初學者 · 小班繪畫及素描")}</p>
               </div>
               <p class="hero-lead">
                 ${t(
-                  "A weekly adult painting class in Ho Man Tin. Learn western painting, watercolour, sketching, comics, illustration or fashion drawing — matched to your interest. Maximum 6 students, 1 hour 10 minutes.",
+                  "Weekly drawing classes for adults in Ho Man Tin. Learn western painting, watercolour, sketching, comics, illustration or fashion drawing — matched to your interest. Maximum 6 students, 1 hour 10 minutes.",
                   "何文田成人繪畫常規班。可因應喜好學習西洋畫、水彩、素描、漫畫、插畫及時裝設計。每班最多6人，每堂1小時10分鐘，初學者及有經驗學員均可參加。"
                 )}
               </p>
@@ -987,7 +989,13 @@ class PaintSquareHub extends HTMLElement {
               )}
               <cite>— ${t("IC Academy Paint Square", "IC Academy 成人繪畫課程")}</cite>
             </blockquote>
-            <h2 class="section-title" id="quotes-title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">${t("What students say", "學員分享")}</h2>
+            <h2 class="section-title" id="quotes-title">${t("Reviews shared at IC Academy", "IC Academy 學員及家長分享")}</h2>
+            <p class="section-lead">
+              ${t(
+                "These are real comments collected at our Ho Man Tin studio across different programmes (including children’s and family classes). They describe the school overall — not only this adult painting class.",
+                "以下為畫室曾收集的真實評語，涵蓋不同課程（包括兒童及家庭課程），反映畫室整體情況，並非僅指成人繪畫班。"
+              )}
+            </p>
             <div class="quote-grid">
               ${QUOTES.map((item) => {
                 const raw = this.pick(item.text).replace(/^「|」$/g, "").replace(/^“|”$/g, "");
@@ -995,7 +1003,6 @@ class PaintSquareHub extends HTMLElement {
                 return `
                 <blockquote class="quote">
                   <p>${quoted}</p>
-                  <span>— ${this.pick(item.by)}</span>
                 </blockquote>`;
               }).join("")}
             </div>
