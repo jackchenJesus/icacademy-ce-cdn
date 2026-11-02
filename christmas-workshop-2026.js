@@ -33,6 +33,8 @@
     .wrap{width:calc(100% - 32px)!important;max-width:1320px}
     .hero,.section,.final{max-width:100%;overflow-x:clip}
     @media(min-width:1400px){.section,.hero,.final{width:100vw!important;position:relative;left:50%;margin-left:-50vw!important}}
+    @media(min-width:768px){:host{width:100vw!important;max-width:100vw!important;left:50%!important;margin-left:-50vw!important;overflow-x:clip}.section,.hero,.final{width:100vw!important;max-width:none!important;left:auto!important;margin-left:0!important}.wrap{width:min(1320px,calc(100vw - 64px))!important}}
+    @media(max-width:767px){:host{width:100%!important;max-width:100%!important;left:auto!important;margin:0!important;overflow-x:clip}.section,.hero,.final{width:100%!important;max-width:100%!important;left:auto!important;margin-left:0!important}.wrap{width:calc(100% - 32px)!important}}
   `;
   class ChristmasWorkshop extends HTMLElement {
     static get observedAttributes() { return ['locale']; }
