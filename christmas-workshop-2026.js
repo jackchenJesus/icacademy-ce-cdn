@@ -35,6 +35,9 @@
     @media(min-width:1400px){.section,.hero,.final{width:100vw!important;position:relative;left:50%;margin-left:-50vw!important}}
     @media(min-width:768px){:host{width:100vw!important;max-width:100vw!important;left:50%!important;margin-left:-50vw!important;overflow-x:clip}.section,.hero,.final{width:100vw!important;max-width:none!important;left:auto!important;margin-left:0!important}.wrap{width:min(1320px,calc(100vw - 64px))!important}}
     @media(max-width:767px){:host{width:100%!important;max-width:100%!important;left:auto!important;margin:0!important;overflow-x:clip}.section,.hero,.final{width:100%!important;max-width:100%!important;left:auto!important;margin-left:0!important}.wrap{width:calc(100% - 32px)!important}}
+    /* Wix desktop preview runs the element in a 480px iframe, so use that viewport to identify desktop. */
+    @media(min-width:460px){:host{width:100vw!important;max-width:100vw!important;left:50%!important;margin-left:-50vw!important;overflow-x:clip}.section,.hero,.final{width:100vw!important;max-width:none!important;left:auto!important;margin-left:0!important}.wrap{width:min(1320px,calc(100vw - 64px))!important}}
+    @media(max-width:459px){.hero{min-height:430px;padding:48px 0}.hero h1{font-size:clamp(2rem,9vw,2.55rem)}.lead{font-size:1rem;padding:0 4px}.section{padding:46px 0}.section h2,.faq h2,.offer h2{font-size:2rem}.section-head{margin-bottom:28px}.grid{gap:18px}.art{height:165px;min-height:165px}.card-body{padding:20px}.card h3{font-size:1.15rem}.dates{font-size:.94rem;line-height:1.55}.card .button{font-size:.94rem}.offer{padding:24px;border-radius:22px}.offer-grid>div{padding:18px}.offer h3{font-size:1.2rem}.offer p,.note{font-size:.96rem}.faq-item{padding:18px}.faq-item h3{font-size:1.1rem}.faq-item p{font-size:.96rem}.final{padding:46px 16px}}
   `;
   class ChristmasWorkshop extends HTMLElement {
     static get observedAttributes() { return ['locale']; }
