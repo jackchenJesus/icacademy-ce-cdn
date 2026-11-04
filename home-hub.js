@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-11-04-v2 (scrolling Christmas hat)
+ * Version: 2026-11-04-v4 (hat attached directly to logo)
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -538,7 +538,6 @@ class HomeHub extends HTMLElement {
     this._xmasHat.className = "icacademy-santa-hat";
     this._xmasHat.setAttribute("aria-hidden", "true");
     this._xmasHat.innerHTML = '<svg viewBox="0 0 48 42" xmlns="http://www.w3.org/2000/svg"><path d="M5 30 18 7c2-4 7-4 9 0l12 23Z" fill="#d7353d"/><path d="M15 14 30 30h-9L11 22Z" fill="#ef5350"/><path d="M4 28c8-3 27-3 40 0l-1 7c-11-3-28-3-38 0Z" fill="#fff"/><path d="M5 31c10-3 28-3 38 0l-.4 4c-12-3-26-3-37 0Z" fill="#f5f2ee"/><circle cx="29.5" cy="5.5" r="5" fill="#fff"/></svg>';
-    document.body.appendChild(this._xmasHat);
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -562,8 +561,6 @@ class HomeHub extends HTMLElement {
     };
     this._xmasResize = resize;
     window.addEventListener("resize", resize, { passive: true });
-    this._xmasScroll = () => this._positionChristmasHat();
-    window.addEventListener("scroll", this._xmasScroll, { passive: true });
     resize();
 
     const tick = () => {
@@ -592,24 +589,34 @@ class HomeHub extends HTMLElement {
   _positionChristmasHat() {
     if (!this._xmasHat) return;
     const header = document.getElementById("SITE_HEADER") || document.querySelector("header");
-    const logo = header && (header.querySelector('a[href="/"] img, a[href="https://www.icacademy.com.hk/"] img, img[alt*="logo" i]') || header.querySelector("img"));
+    const logo = header && (header.querySelector('a[href="/"] img, a[href="https://www.icacademy.com.hk/"] img, [data-testid="site-logo"] img, img[alt*="logo" i]') || header.querySelector('a[href="/"] img, a[href="https://www.icacademy.com.hk/"] img'));
     if (!logo) { this._xmasHat.style.display = "none"; return; }
-    const rect = logo.getBoundingClientRect();
-    if (!rect.width || !rect.height || rect.bottom < 0 || rect.top > window.innerHeight) { this._xmasHat.style.display = "none"; return; }
-    const size = Math.max(32, Math.min(46, rect.width * .16));
+    const host = logo.closest("a") || logo.parentElement;
+    if (!host) { this._xmasHat.style.display = "none"; return; }
+    if (this._xmasHatHost !== host) {
+      if (this._xmasHatHost && this._xmasHatOriginalPosition !== null) this._xmasHatHost.style.position = this._xmasHatOriginalPosition;
+      this._xmasHatHost = host;
+      this._xmasHatOriginalPosition = host.style.position;
+      if (window.getComputedStyle(host).position === "static") host.style.position = "relative";
+      host.appendChild(this._xmasHat);
+    }
+    const logoRect = logo.getBoundingClientRect();
+    const hostRect = host.getBoundingClientRect();
+    if (!logoRect.width || !logoRect.height) { this._xmasHat.style.display = "none"; return; }
+    const size = Math.max(26, Math.min(42, logoRect.width * .16));
     this._xmasHat.style.width = size + "px";
     this._xmasHat.style.height = (size * .91) + "px";
-    this._xmasHat.style.left = (rect.right - size * .68 + window.scrollX) + "px";
-    this._xmasHat.style.top = (rect.top - size * .36 + window.scrollY) + "px";
+    this._xmasHat.style.left = (logoRect.right - hostRect.left - size * .72) + "px";
+    this._xmasHat.style.top = (logoRect.top - hostRect.top - size * .34) + "px";
     this._xmasHat.style.display = "block";
   }
   _stopChristmasEffects() {
     if (this._xmasFrame) window.cancelAnimationFrame(this._xmasFrame);
     if (this._xmasResize) {
       window.removeEventListener("resize", this._xmasResize);
-      window.removeEventListener("scroll", this._xmasScroll);
     }
     if (this._xmasCanvas) this._xmasCanvas.remove();
+    if (this._xmasHatHost && this._xmasHatOriginalPosition !== null) this._xmasHatHost.style.position = this._xmasHatOriginalPosition;
     if (this._xmasHat) this._xmasHat.remove();
     const style = document.getElementById("icacademy-christmas-style");
     if (style) style.remove();
