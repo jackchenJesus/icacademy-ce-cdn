@@ -1,0 +1,65 @@
+/**
+ * IC Academy Procreate Assessment Course Page
+ * Wix Custom Element tag: procreate-course-page
+ * Set its locale attribute from the Velo page code.
+ */
+(() => {
+  const WA = "https://wa.me/85265808022?text=" + encodeURIComponent("你好，我想查詢 Procreate 呈分試特訓課程。");
+  const IMG = {
+    basics: "https://static.wixstatic.com/media/52f9c8_7777cead4c8c45058e5c62cb46640f7f~mv2.jpg",
+    character: "https://static.wixstatic.com/media/52f9c8_fcb4b9b1b0a24c54b0727f8f39145911~mv2.jpg",
+    figure: "https://static.wixstatic.com/media/52f9c8_3a64128a5fa64beeaf560cbf1321d9bb~mv2.jpg"
+  };
+  class ProcreateCoursePage extends HTMLElement {
+    static get observedAttributes() { return ["locale"]; }
+    constructor() { super(); this.attachShadow({ mode: "open" }); }
+    connectedCallback() { this.render(); }
+    attributeChangedCallback() { if (this.isConnected) this.render(); }
+    get zh() {
+      const locale = String(this.getAttribute("locale") || "").toLowerCase();
+      return locale.startsWith("zh") || (!locale && /\/zh(\/|$|\?|#)/i.test(location.pathname));
+    }
+    t(en, zh) { return this.zh ? zh : en; }
+    render() {
+      const t = (en, zh) => this.t(en, zh);
+      this.shadowRoot.innerHTML = `
+      <style>
+      :host{display:block;color:#251538;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.7}*{box-sizing:border-box}a{color:inherit}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+      .top{height:70px;background:#fff;display:flex;align-items:center;border-bottom:1px solid #f1eaf0}.toprow{display:flex;align-items:center;justify-content:space-between}.brand{font-size:1.28rem;font-weight:850;letter-spacing:-.04em;color:#257291;text-decoration:none}.brand span{color:#663784}.crumb{font-size:.9rem;color:#6d6471;text-decoration:none}
+      .hero{overflow:hidden;background:radial-gradient(ellipse at 82% 4%,#f8ddc7 0,transparent 42%),linear-gradient(120deg,#fcf3e9,#f4eafa 70%,#eee7f5);padding:58px 0 66px}.heroGrid{display:grid;grid-template-columns:1fr .88fr;gap:clamp(28px,6vw,76px);align-items:center}
+      .kicker{display:inline-flex;align-items:center;gap:9px;color:#663784;font-weight:800;font-size:.92rem}.kicker:before{content:"";width:25px;height:3px;border-radius:3px;background:#e87843}h1{font-size:clamp(2.3rem,5.2vw,4.2rem);line-height:1.13;letter-spacing:-.04em;margin:16px 0 18px}.lead{font-size:1.14rem;color:#4d4354}.note{color:#6d6471;font-size:.95rem}
+      .photo{position:relative}.photo:before{content:"";position:absolute;inset:16px -14px -14px 16px;border:2px solid white;border-radius:24px;transform:rotate(2deg)}.photo img{position:relative;display:block;width:100%;max-height:550px;aspect-ratio:4/4.4;object-fit:cover;border-radius:20px;box-shadow:0 18px 50px #33204424}
+      .facts,.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.fact{border:1px solid #e5d7e8;background:#ffffffa8;border-radius:99px;padding:6px 12px;font-size:.86rem;font-weight:700}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:99px;padding:13px 22px;background:#e87843;color:white;font-weight:800;text-decoration:none;box-shadow:0 8px 20px #ce6a3c30}.btn.alt{background:white;color:#663784;box-shadow:inset 0 0 0 1px #d8c8e0}
+      .section{padding:70px 0}.soft{background:#f4edf7}.mint{background:#edf5f1}.eyebrow{text-transform:uppercase;color:#e87843;font-size:.78rem;letter-spacing:.12em;font-weight:850;margin:0 0 8px}h2{font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-.03em;line-height:1.2;margin:0 0 14px}.intro{max-width:740px;color:#6d6471;margin:0 0 30px}
+      .goals{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.goal{padding:24px;border-radius:17px;background:white;border:1px solid #f0e8f0;box-shadow:0 8px 24px #31173a08}.num{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#f7e8da;color:#a8542b;font-weight:900}.goal h3{font-size:1.1rem;margin:15px 0 6px}.goal p{margin:0;color:#6d6471}
+      .units{display:grid;gap:14px}.unit{display:grid;grid-template-columns:205px 1fr;gap:24px;background:white;border:1px solid #ebe2ec;border-radius:18px;padding:24px 26px}.unitLabel{color:#663784;font-weight:850}.unitLabel strong{display:block;font-size:1.32rem}.unit h3{margin:0 0 9px;font-size:1.15rem}.unit p{color:#6d6471;margin:0 0 10px}.unit ul{margin:0;padding-left:1.2rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 25px;color:#514858}.unit li::marker{color:#e87843}
+      .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.gallery figure{margin:0;background:white;border-radius:17px;overflow:hidden;border:1px solid #eee5ed}.gallery img{width:100%;aspect-ratio:4/4.7;object-fit:cover;display:block}.gallery figcaption{padding:14px 15px;font-weight:750;font-size:.94rem}
+      .closing{padding:58px 0;background:#2a1a3b;color:white;text-align:center}.closing h2{margin:0 0 12px}.closing p{color:#e2d9e8;margin:0 auto 18px;max-width:640px}.address{font-size:.9rem!important;color:#d4c8dc!important;margin:18px auto 0!important}
+      @media(max-width:760px){.wrap{width:min(100% - 32px,600px)}.hero{padding:42px 0 50px}.heroGrid{grid-template-columns:1fr;gap:30px}.photo{max-width:520px}.photo img{aspect-ratio:4/3.6}.section{padding:54px 0}.goals{grid-template-columns:1fr}.unit{grid-template-columns:1fr;gap:8px;padding:21px}.unit ul{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.gallery figure:last-child{grid-column:1/-1}.gallery figure:last-child img{aspect-ratio:16/9}}
+      </style>
+      <header class="top"><div class="wrap toprow"><a class="brand" href="https://www.icacademy.com.hk/">ic<span>o</span> academy</a><a class="crumb" href="${this.zh ? "/zh" : ""}/short-term-course">${t("Short-term courses","短期課程")}　›</a></div></header>
+      <main>
+      <section class="hero"><div class="wrap heroGrid"><div><span class="kicker">${t("Visual Arts Assessment Intensive","視覺藝術科呈分試特訓")}</span><h1>${t("Procreate Visual Arts Assessment Intensive","Procreate 呈分試特訓課程")}</h1>
+      <p class="lead">${t("A focused 10-lesson course combining digital drawing, figure structure and original character design to help students build a complete portfolio.","針對視覺藝術科呈分試的要求，結合數位繪圖技巧、人物結構與角色原創設計，幫助學生建立完整作品集。")}</p>
+      <p class="note">${t("Start with iPad drawing essentials, practise figure movement, then finish with an original game character design.","由 iPad 電繪基礎開始，逐步練習人物動態，最後完成原創遊戲角色設定。")}</p>
+      <div class="facts"><span class="fact">${t("10 lessons","共 10 堂")}</span><span class="fact">${t("Course plan: 2 + 4 + 4 lessons","課程編排：2 + 4 + 4 堂")}</span><span class="fact">iPad + Procreate</span></div>
+      <div class="actions"><a class="btn" href="${WA}" target="_blank" rel="noopener noreferrer">${t("Enquire on WhatsApp ↗","WhatsApp 查詢及報名 ↗")}</a><a class="btn alt" href="#course">${t("Explore the course","查看課程內容")}</a></div></div>
+      <div class="photo"><img src="${IMG.character}" alt="${t("Procreate original character concepts, action sketches and turnaround drawings","Procreate 原創角色設計、動作草圖與三視圖作品")}" fetchpriority="high"></div></div></section>
+      <section class="section"><div class="wrap"><p class="eyebrow">${t("Learning goals","學習重點")}</p><h2>${t("Turn digital drawing skills into a complete character portfolio","把數位繪圖技巧，轉化成完整角色作品")}</h2><p class="intro">${t("The course moves from tool setup and colour rendering to figure construction and movement, then develops those skills into a character design portfolio.","課程由工具操作和上色開始，再拆解人物骨架與動作，最後把概念發展成角色設定集。")}</p>
+      <div class="goals"><article class="goal"><span class="num">01</span><h3>${t("Build digital drawing fluency","掌握數位繪圖工具")}</h3><p>${t("Use iPad and Procreate tools with confidence to improve drawing workflow and finish.","熟練運用 iPad 與 Procreate 功能，提升繪畫效率與完成度。")}</p></article>
+      <article class="goal"><span class="num">02</span><h3>${t("Understand figure movement","攻克人物動態難關")}</h3><p>${t("Break poses into geometric forms to study proportion, movement and perspective.","透過幾何骨架與體塊拆解，掌握肢體動作、比例與透視感。")}</p></article>
+      <article class="goal"><span class="num">03</span><h3>${t("Create an original character","建立原創角色作品")}</h3><p>${t("Develop a character concept into turnaround views and action scenes.","由角色概念延伸至三視圖與動作延伸，完成個人角色設定。")}</p></article></div></div></section>
+      <section class="section soft" id="course"><div class="wrap"><p class="eyebrow">${t("10 lessons · step by step","10 堂課程・循序漸進")}</p><h2>${t("Three focused course units","課程分為三個單元")}</h2><p class="intro">${t("Move from digital art fundamentals through figure studies and into original game character design.","由電繪基本功、人物結構訓練，進階到原創遊戲角色設計。")}</p><div class="units">
+      <article class="unit"><div class="unitLabel"><strong>${t("Unit 1","第一單元")}</strong><span>${t("Lessons 1–2","第 1–2 堂")}</span></div><div><h3>${t("Procreate essentials and digital drawing skills","Procreate 基礎與數位電繪必備技能")}</h3><ul><li>${t("Procreate interface and brush setup","Procreate 介面與基礎畫筆設定")}</li><li>${t("Layers, lighting, shading and textures","圖層應用、光影與材質質感")}</li></ul></div></article>
+      <article class="unit"><div class="unitLabel"><strong>${t("Unit 2","第二單元")}</strong><span>${t("Lessons 3–6","第 3–6 堂")}</span></div><div><h3>${t("Figure movement and body structure","人物動作肢體與動態結構")}</h3><p>${t("Break down a range of poses using stick-figure skeletons, joint forms and geometric masses.","透過火柴人骨架、關節球體與幾何體塊拆解多元人體姿勢。")}</p><ul><li>${t("Head-to-body proportion and basic skeletons (front, side, back)","頭身比例與基礎骨架拆解（正、側、背姿態）")}</li><li>${t("Everyday poses: sit, run, jump and kick","日常動作與張力肢體（坐、跑、跳、踢腿）")}</li><li>${t("Gestures, interaction details and the weight of props","手勢、細節互動與道具重力感")}</li><li>${t("Combined figure movement practice and gesture sketching","肢體動態綜合訓練與速寫")}</li></ul></div></article>
+      <article class="unit"><div class="unitLabel"><strong>${t("Unit 3","第三單元")}</strong><span>${t("Lessons 7–10","第 7–10 堂")}</span></div><div><h3>${t("Original game character design and portfolio","原創遊戲角色設計與設定集")}</h3><ul><li>${t("Character theme concept and front-view illustration","遊戲角色主題概念與正面立繪製作")}</li><li>${t("Character turnaround: front, side and back","角色三視圖設計（Front, Side, Back）")}</li><li>${t("Action extension and scene illustration","動作延伸（Action Extension）與情境繪製")}</li><li>${t("Complete an original character artwork","完成原創角色作品")}</li></ul></div></article></div></div></section>
+      <section class="section mint"><div class="wrap"><p class="eyebrow">${t("Practice and portfolio","創作過程與成果")}</p><h2>${t("From focused studies to original character design","從練習到原創角色設定")}</h2><p class="intro">${t("Students practise digital rendering, figure poses and character development, then bring the work together as a portfolio.","學生會練習電繪上色、人物姿勢和角色設定，逐步整理出完整的創作成果。")}</p><div class="gallery">
+      <figure><img src="${IMG.basics}" alt="${t("Procreate drawing practice: tools, colouring and lighting","Procreate 電繪練習：工具操作、上色與光影質感")}" loading="lazy"><figcaption>${t("Digital drawing · colour and lighting","電繪基本功・高效上色與光影質感")}</figcaption></figure>
+      <figure><img src="${IMG.figure}" alt="${t("Figure skeleton and gesture studies with original turnarounds","人物骨架、肢體動態練習與原創三視圖")}" loading="lazy"><figcaption>${t("Figure structure · gesture and turnaround","人物結構・動態速寫與三視圖")}</figcaption></figure>
+      <figure><img src="${IMG.character}" alt="${t("Procreate original game character design portfolio","Procreate 原創遊戲角色作品與設定集")}" loading="lazy"><figcaption>${t("Original character · concept and portfolio","原創角色・概念設計與作品整理")}</figcaption></figure></div></div></section>
+      <section class="closing"><div class="wrap"><h2>${t("Ready to start creating?","準備好開始創作了嗎？")}</h2><p>${t("Message us on WhatsApp to ask about the schedule, availability and enrolment.","歡迎透過 WhatsApp 查詢課程安排、名額及報名詳情。")}</p><a class="btn" href="${WA}" target="_blank" rel="noopener noreferrer">${t("Ask about the course on WhatsApp ↗","WhatsApp 查詢課程 ↗")}</a><p class="address">${t("IC Academy · G/F, Shop 3, 79F Waterloo Road, Kowloon","IC Academy｜九龍窩打老道 79F 地下 3 號")}</p></div></section>
+      </main>`;
+    }
+  }
+  if (!customElements.get("procreate-course-page")) customElements.define("procreate-course-page", ProcreateCoursePage);
+})();
