@@ -25,7 +25,6 @@
       this.shadowRoot.innerHTML = `
       <style>
       :host{display:block;color:#251538;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.7}*{box-sizing:border-box}a{color:inherit}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
-      .top{height:70px;background:#fff;display:flex;align-items:center;border-bottom:1px solid #f1eaf0}.toprow{display:flex;align-items:center;justify-content:space-between}.brand{font-size:1.28rem;font-weight:850;letter-spacing:-.04em;color:#257291;text-decoration:none}.brand span{color:#663784}.crumb{font-size:.9rem;color:#6d6471;text-decoration:none}
       .hero{overflow:hidden;background:radial-gradient(ellipse at 82% 4%,#f8ddc7 0,transparent 42%),linear-gradient(120deg,#fcf3e9,#f4eafa 70%,#eee7f5);padding:58px 0 66px}.heroGrid{display:grid;grid-template-columns:1fr .88fr;gap:clamp(28px,6vw,76px);align-items:center}
       .kicker{display:inline-flex;align-items:center;gap:9px;color:#663784;font-weight:800;font-size:.92rem}.kicker:before{content:"";width:25px;height:3px;border-radius:3px;background:#e87843}h1{font-size:clamp(2.3rem,5.2vw,4.2rem);line-height:1.13;letter-spacing:-.04em;margin:16px 0 18px}.lead{font-size:1.14rem;color:#4d4354}.note{color:#6d6471;font-size:.95rem}
       .photo{position:relative}.photo:before{content:"";position:absolute;inset:16px -14px -14px 16px;border:2px solid white;border-radius:24px;transform:rotate(2deg)}.photo img{position:relative;display:block;width:100%;max-height:550px;aspect-ratio:4/4.4;object-fit:cover;border-radius:20px;box-shadow:0 18px 50px #33204424}
@@ -37,7 +36,6 @@
       .closing{padding:58px 0;background:#2a1a3b;color:white;text-align:center}.closing h2{margin:0 0 12px}.closing p{color:#e2d9e8;margin:0 auto 18px;max-width:640px}.address{font-size:.9rem!important;color:#d4c8dc!important;margin:18px auto 0!important}
       @media(max-width:760px){.wrap{width:min(100% - 32px,600px)}.hero{padding:42px 0 50px}.heroGrid{grid-template-columns:1fr;gap:30px}.photo{max-width:520px}.photo img{aspect-ratio:4/3.6}.section{padding:54px 0}.goals{grid-template-columns:1fr}.unit{grid-template-columns:1fr;gap:8px;padding:21px}.unit ul{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.gallery figure:last-child{grid-column:1/-1}.gallery figure:last-child img{aspect-ratio:16/9}}
       </style>
-      <header class="top"><div class="wrap toprow"><a class="brand" href="https://www.icacademy.com.hk/">ic<span>o</span> academy</a><a class="crumb" href="${this.zh ? "/zh" : ""}/short-term-course">${t("Short-term courses","短期課程")}　›</a></div></header>
       <main>
       <section class="hero"><div class="wrap heroGrid"><div><span class="kicker">${t("Visual Arts Assessment Intensive","視覺藝術科呈分試特訓")}</span><h1>${t("Procreate Visual Arts Assessment Intensive","Procreate 呈分試特訓課程")}</h1>
       <p class="lead">${t("A focused 10-lesson course combining digital drawing, figure structure and original character design to help students build a complete portfolio.","針對視覺藝術科呈分試的要求，結合數位繪圖技巧、人物結構與角色原創設計，幫助學生建立完整作品集。")}</p>
