@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-11-04-v1 (Christmas hat and subtle snow)
+ * Version: 2026-11-04-v2 (scrolling Christmas hat)
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -521,7 +521,7 @@ class HomeHub extends HTMLElement {
     style.id = "icacademy-christmas-style";
     style.textContent = `
       #icacademy-christmas-snow{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;z-index:9998;pointer-events:none;opacity:.72}
-      .icacademy-santa-hat{position:fixed;width:44px;height:40px;z-index:10000;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(24,45,60,.18));transform:rotate(10deg);transform-origin:bottom center}
+      .icacademy-santa-hat{position:absolute;width:44px;height:40px;z-index:10000;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(24,45,60,.18));transform:rotate(10deg);transform-origin:bottom center}
       .icacademy-santa-hat svg{display:block;width:100%;height:100%}
     `;
     document.head.appendChild(style);
@@ -592,19 +592,17 @@ class HomeHub extends HTMLElement {
   _positionChristmasHat() {
     if (!this._xmasHat) return;
     const header = document.getElementById("SITE_HEADER") || document.querySelector("header");
-    if (!header) return;
-    const logo = header.querySelector('a[href="/"] img, a[href="https://www.icacademy.com.hk/"] img, img[alt*="logo" i]') || header.querySelector("img");
-    if (!logo) return;
+    const logo = header && (header.querySelector('a[href="/"] img, a[href="https://www.icacademy.com.hk/"] img, img[alt*="logo" i]') || header.querySelector("img"));
+    if (!logo) { this._xmasHat.style.display = "none"; return; }
     const rect = logo.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
+    if (!rect.width || !rect.height || rect.bottom < 0 || rect.top > window.innerHeight) { this._xmasHat.style.display = "none"; return; }
     const size = Math.max(32, Math.min(46, rect.width * .16));
     this._xmasHat.style.width = size + "px";
     this._xmasHat.style.height = (size * .91) + "px";
-    this._xmasHat.style.left = (rect.right - size * .68) + "px";
-    this._xmasHat.style.top = (rect.top - size * .36) + "px";
+    this._xmasHat.style.left = (rect.right - size * .68 + window.scrollX) + "px";
+    this._xmasHat.style.top = (rect.top - size * .36 + window.scrollY) + "px";
     this._xmasHat.style.display = "block";
   }
-
   _stopChristmasEffects() {
     if (this._xmasFrame) window.cancelAnimationFrame(this._xmasFrame);
     if (this._xmasResize) {
