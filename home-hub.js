@@ -1,7 +1,7 @@
 /**
  * IC Academy Home – Custom Element
  * Tag name: home-hub
- * Version: 2026-09-01-v1 (smaller mobile type)
+ * Version: 2026-11-04-v1 (Christmas hat and subtle snow)
  * Full homepage including hero slideshow.
  * Full-bleed uses viewport-centered margin (same as trial-class-hub) to avoid sideways shift.
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en).
@@ -512,8 +512,118 @@ class HomeHub extends HTMLElement {
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
   }
 
+
+  _startChristmasEffects() {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (document.getElementById("icacademy-christmas-snow")) return;
+
+    const style = document.createElement("style");
+    style.id = "icacademy-christmas-style";
+    style.textContent = `
+      #icacademy-christmas-snow{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;z-index:9998;pointer-events:none;opacity:.72}
+      .icacademy-santa-hat{position:fixed;width:44px;height:40px;z-index:10000;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(24,45,60,.18));transform:rotate(10deg);transform-origin:bottom center}
+      .icacademy-santa-hat svg{display:block;width:100%;height:100%}
+    `;
+    document.head.appendChild(style);
+
+    const canvas = document.createElement("canvas");
+    canvas.id = "icacademy-christmas-snow";
+    canvas.setAttribute("aria-hidden", "true");
+    canvas.style.pointerEvents = "none";
+    document.body.appendChild(canvas);
+    this._xmasCanvas = canvas;
+    this._xmasCtx = canvas.getContext("2d", { alpha: true });
+    this._xmasFlakes = [];
+    this._xmasHat = document.createElement("span");
+    this._xmasHat.className = "icacademy-santa-hat";
+    this._xmasHat.setAttribute("aria-hidden", "true");
+    this._xmasHat.innerHTML = '<svg viewBox="0 0 48 42" xmlns="http://www.w3.org/2000/svg"><path d="M5 30 18 7c2-4 7-4 9 0l12 23Z" fill="#d7353d"/><path d="M15 14 30 30h-9L11 22Z" fill="#ef5350"/><path d="M4 28c8-3 27-3 40 0l-1 7c-11-3-28-3-38 0Z" fill="#fff"/><path d="M5 31c10-3 28-3 38 0l-.4 4c-12-3-26-3-37 0Z" fill="#f5f2ee"/><circle cx="29.5" cy="5.5" r="5" fill="#fff"/></svg>';
+    document.body.appendChild(this._xmasHat);
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      this._xmasCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const count = w < 700 ? 32 : 72;
+      this._xmasFlakes = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: 1 + Math.random() * 2.2,
+        v: .35 + Math.random() * 1.05,
+        drift: (Math.random() - .5) * .55,
+        a: .24 + Math.random() * .52
+      }));
+      this._positionChristmasHat();
+    };
+    this._xmasResize = resize;
+    window.addEventListener("resize", resize, { passive: true });
+    this._xmasScroll = () => this._positionChristmasHat();
+    window.addEventListener("scroll", this._xmasScroll, { passive: true });
+    resize();
+
+    const tick = () => {
+      if (!this._xmasCtx || !this._xmasCanvas) return;
+      const ctx = this._xmasCtx;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      ctx.clearRect(0, 0, w, h);
+      for (const flake of this._xmasFlakes) {
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(255,255,255," + flake.a + ")";
+        ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
+        ctx.fill();
+        flake.y += flake.v;
+        flake.x += flake.drift + Math.sin(flake.y / 42) * .22;
+        if (flake.y > h + 6) { flake.y = -6; flake.x = Math.random() * w; }
+        if (flake.x < -6) flake.x = w + 6;
+        if (flake.x > w + 6) flake.x = -6;
+      }
+      this._xmasFrame = window.requestAnimationFrame(tick);
+    };
+    this._xmasTick = tick;
+    tick();
+  }
+
+  _positionChristmasHat() {
+    if (!this._xmasHat) return;
+    const header = document.getElementById("SITE_HEADER") || document.querySelector("header");
+    if (!header) return;
+    const logo = header.querySelector('a[href="/"] img, a[href="https://www.icacademy.com.hk/"] img, img[alt*="logo" i]') || header.querySelector("img");
+    if (!logo) return;
+    const rect = logo.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const size = Math.max(32, Math.min(46, rect.width * .16));
+    this._xmasHat.style.width = size + "px";
+    this._xmasHat.style.height = (size * .91) + "px";
+    this._xmasHat.style.left = (rect.right - size * .68) + "px";
+    this._xmasHat.style.top = (rect.top - size * .36) + "px";
+    this._xmasHat.style.display = "block";
+  }
+
+  _stopChristmasEffects() {
+    if (this._xmasFrame) window.cancelAnimationFrame(this._xmasFrame);
+    if (this._xmasResize) {
+      window.removeEventListener("resize", this._xmasResize);
+      window.removeEventListener("scroll", this._xmasScroll);
+    }
+    if (this._xmasCanvas) this._xmasCanvas.remove();
+    if (this._xmasHat) this._xmasHat.remove();
+    const style = document.getElementById("icacademy-christmas-style");
+    if (style) style.remove();
+    this._xmasCanvas = null;
+    this._xmasCtx = null;
+    this._xmasHat = null;
+    this._xmasFrame = null;
+  }
+
   connectedCallback() {
     this.render();
+    this._startChristmasEffects();
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._applyFullBleedCss);
     window.addEventListener("orientationchange", this._applyFullBleedCss);
@@ -524,6 +634,7 @@ class HomeHub extends HTMLElement {
   }
 
   disconnectedCallback() {
+    this._stopChristmasEffects();
     this.shadowRoot.removeEventListener("click", this._onClick);
     window.removeEventListener("resize", this._applyFullBleedCss);
     window.removeEventListener("orientationchange", this._applyFullBleedCss);
