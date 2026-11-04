@@ -900,6 +900,36 @@ class HomeHub extends HTMLElement {
           </div>
         </section>
 
+
+        <section class="section procreate-feature">
+          <style>
+            .procreate-promo{display:grid;grid-template-columns:1.1fr .8fr;gap:clamp(24px,5vw,56px);align-items:center;padding:clamp(24px,4vw,46px);border-radius:24px;background:linear-gradient(125deg,#fff6ee,#eef7f4);border:1px solid #e7eee9}
+            .procreate-promo h2{font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.18;margin:10px 0 14px}
+            .procreate-promo p{color:#58656a;line-height:1.7}
+            .procreate-badge{display:inline-block;padding:6px 12px;border-radius:99px;background:#fff;color:#167f7a;font-size:.84rem;font-weight:800}
+            .procreate-points{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 22px}
+            .procreate-points span{padding:7px 11px;border:1px solid #dce9e5;border-radius:99px;background:#ffffffc9;font-size:.86rem;font-weight:700;color:#385957}
+            .procreate-promo img{display:block;width:100%;max-height:420px;aspect-ratio:4/5;object-fit:cover;object-position:center;border-radius:18px;box-shadow:0 16px 38px #203b3c18}
+            @media(max-width:760px){.procreate-promo{grid-template-columns:1fr;gap:18px;padding:21px;border-radius:18px}.procreate-promo img{max-height:360px;aspect-ratio:4/4.2}.procreate-promo h2{font-size:1.75rem}.procreate-points span{font-size:.8rem}}
+          </style>
+          <div class="wrap">
+            <article class="procreate-promo">
+              <div>
+                <span class="procreate-badge">${t("Featured short-term course", "短期課程精選")}</span>
+                <h2>${t("Procreate Visual Arts Assessment Intensive", "Procreate 呈分試特訓課程")}</h2>
+                <p>${t("A 10-lesson course for students preparing for visual arts assessments. Practise iPad drawing, figure movement and original character design, then build a complete portfolio.", "共10堂，針對視覺藝術科呈分試要求，學習 iPad 電繪、人物動態與原創角色設計，逐步完成個人作品集。")}</p>
+                <div class="procreate-points">
+                  <span>${t("10 lessons · 2 + 4 + 4", "10堂 · 2 + 4 + 4")}</span>
+                  <span>${t("iPad + Procreate", "iPad + Procreate")}</span>
+                  <span>${t("Character design & turnaround", "角色設計與三視圖")}</span>
+                </div>
+                <a class="btn btn-navy" data-action="course" href="${this.path("/short-term-course/procreate-assessment-intensive")}">${t("View course details", "查看課程詳情")} →</a>
+              </div>
+              <img src="https://static.wixstatic.com/media/52f9c8_fcb4b9b1b0a24c54b0727f8f39145911~mv2.jpg" alt="${t("Procreate student character design and turnaround course artwork", "Procreate 原創角色設計及三視圖課程作品")}" loading="lazy" width="640" height="800">
+            </article>
+          </div>
+        </section>
+
         <section class="section">
           <div class="wrap">
             <p class="kicker">${t("How we compare", "我們的不同之處")}</p>
