@@ -2,12 +2,15 @@
  * ICAcademy Short-term Courses Hub – Custom Element
  * Tag name: short-term-courses-hub
  * Version: 2026-08-18-v4 (CNY + Easter programme cards linking to live workshop pages; smaller mobile type)
- * Routes: /short-term-courses (EN) | /zh/short-term-courses (ZH)
+ * Routes: /short-term-course (EN) | /zh/short-term-course (ZH)
  * Sub-pages: /short-term-course/2026cnyworkshop, /short-term-course/2026-easter-workshop
  * Design system: matches courses-hub / trial-class-hub (coral / teal).
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
+// Enable each URL only after the corresponding Wix page exists and has been verified.
+// PR #27 contains design previews, not published Wix pages.
+const CHRISTMAS_PAGE_URL = { en: "", zh: "" };
 
 /** Build a Wix Media Manager fill URL from a site media file id. */
 function mediaUrl(id, w, h, q = 70) {
@@ -64,6 +67,22 @@ const PROGRAMMES = [
     imageAlt: { en: "ICAcademy Chinese New Year workshop student Fook character painting", zh: "ICAcademy新年工作坊學生福字賀年畫" },
   },
   {
+    id: "procreate",
+    badge: { en: "10 lessons · 2 + 4 + 4", zh: "10 堂課程 · 2 + 4 + 4" },
+    name: { en: "Procreate Visual Arts Assessment Intensive", zh: "Procreate 呈分試特訓課程" },
+    desc: {
+      en: "Build digital drawing skills, understand figure structure and create an original game character portfolio in this focused 10-lesson course.",
+      zh: "針對視覺藝術科呈分試要求，結合數位繪圖技巧、人物結構與角色原創設計，幫助學生建立完整作品集。",
+    },
+    points: {
+      en: ["Procreate and efficient iPad drawing", "Figure movement, structure and perspective", "Original character design and turnaround sheets"],
+      zh: ["熟練運用 iPad 與 Procreate，提升繪畫效率與完成度", "以幾何骨架掌握肢體動作與透視", "設計原創角色、三視圖與動作延伸"],
+    },
+    hrefSlug: "/short-term-course/procreate-assessment-intensive",
+    image: "../public/images/procreate-characters.jpg",
+    imageAlt: { en: "Procreate original character design and three-view drawing course", zh: "Procreate 原創角色設計及三視圖課程作品" },
+  },
+  {
     id: "easter",
     badge: { en: "Easter holidays", zh: "復活節假期" },
     name: { en: "Easter Workshop", zh: "復活節短期課程" },
@@ -112,8 +131,8 @@ const STEPS = [
   {
     title: { en: "1. Pick a programme", zh: "1. 選擇課程系列" },
     desc: {
-      en: "Choose between the Summer Art Programme and New Year Festival Courses below.",
-      zh: "在下方選擇暑期藝術課程或新年特別節日短期課程。",
+      en: "Choose a seasonal workshop below and check its latest availability.",
+      zh: "在下方選擇節日工作坊，查詢最新名額。",
     },
   },
   {
@@ -373,6 +392,19 @@ h3 { font-size: 1.12rem; }
   color: var(--muted);
   font-size: 1.02rem;
 }
+
+/* Christmas feature */
+.christmas-feature { background: #f7efe8; }
+.christmas-panel { padding: clamp(24px, 4vw, 48px); border: 1px solid #e4d3c7; border-radius: 22px; background: #fffaf6; }
+.christmas-label { color: #8b2731; font-weight: 800; letter-spacing: .06em; margin: 0 0 10px; }
+.christmas-panel h2 { color: #243f32; font-size: clamp(1.6rem, 3vw, 2.3rem); }
+.christmas-panel p { max-width: 65ch; }
+.christmas-topics { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; margin: 18px 0 24px; }
+.christmas-topics li { background: #e6efe8; color: #243f32; padding: 5px 12px; border-radius: 999px; font-weight: 700; }
+.btn-christmas { background: #8b2731; color: #fff; }
+.btn-christmas:hover { background: #6d1c25; }
+.christmas-outline { background: #fff; color: #28513d; border: 2px solid #28513d; }
+.christmas-panel .btn:focus-visible { outline: 3px solid #243f32; outline-offset: 3px; }
 
 /* —— Programme feature cards —— */
 .programme-grid {
@@ -797,9 +829,9 @@ class ShortTermCoursesHub extends HTMLElement {
     if (!target) return;
     const action = target.dataset.action;
 
-    if (action === "scroll-programmes") {
+    if (action === "scroll-programmes" || action === "scroll-christmas") {
       event.preventDefault();
-      const sec = this.shadowRoot.getElementById("secProgrammes");
+      const sec = this.shadowRoot.getElementById(action === "scroll-christmas" ? "secChristmas" : "secProgrammes");
       if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
@@ -809,7 +841,7 @@ class ShortTermCoursesHub extends HTMLElement {
       return;
     }
 
-    if (action === "programme" || action === "hub") {
+    if (action === "programme" || action === "hub" || action === "christmas") {
       this._emitCta(action, target.getAttribute("href"));
     }
   }
@@ -899,13 +931,13 @@ class ShortTermCoursesHub extends HTMLElement {
               </div>
               <p class="hero-lead">
                 ${t(
-                  "ICAcademy short-term courses run during school holidays and special festivals — Chinese New Year and Easter themed workshops, plus other seasonal programmes. A flexible way for children to try art, practise intensively and create seasonal artwork.",
-                  "ICAcademy 短期課程於學校假期及特別節日期間開辦，包括新年及復活節等節日主題工作坊及其他季節課程，讓小朋友以靈活方式體驗藝術、集中練習，並創作節日作品。"
+                  "ICAcademy short-term courses run during school holidays and special festivals — Christmas, Chinese New Year and Easter themed workshops, plus other seasonal programmes. A flexible way for children to try art, practise intensively and create seasonal artwork.",
+                  "ICAcademy 短期課程於學校假期及特別節日期間開辦，包括聖誕、新年及復活節等節日主題工作坊及其他季節課程，讓小朋友以靈活方式體驗藝術、集中練習，並創作節日作品。"
                 )}
               </p>
               <div class="btn-row">
-                <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("WhatsApp enquiry", "WhatsApp 查詢")}</a>
-                <button type="button" class="btn btn-outline-teal" data-action="scroll-programmes">${t("View programmes", "查看課程系列")}</button>
+                <button type="button" class="btn btn-christmas" data-action="scroll-christmas">${t("Explore Christmas Workshop 2026", "探索 2026 聖誕工作坊")}</button>
+                <button type="button" class="btn btn-outline-teal" data-action="scroll-programmes">${t("View all programmes", "查看所有課程")}</button>
               </div>
             </div>
           </div>
@@ -934,6 +966,22 @@ class ShortTermCoursesHub extends HTMLElement {
     hub.insertAdjacentHTML(
       "beforeend",
       `
+        <section class="section christmas-feature" id="secChristmas" aria-labelledby="christmas-title">
+          <div class="wrap"><div class="christmas-panel">
+            <p class="christmas-label">${t("FEATURED · CHRISTMAS 2026", "精選課程 · 2026 聖誕")}</p>
+            <h2 id="christmas-title">${t("Christmas Art Workshops 2026", "2026 聖誕藝術工作坊")}</h2>
+            <p>${t("Discover eight festive creative workshops for children at IC Academy in Ho Man Tin. Explore clay, crafts, glass painting, acrylics, comics and digital art in small groups, with materials included.", "在何文田 IC Academy 探索 8 款兒童聖誕創作工作坊，體驗黏土、手作、玻璃畫、塑膠彩、漫畫及電繪；小班教學，材料全包。")}</p>
+            <ul class="christmas-topics" aria-label="${t("Workshop media", "工作坊創作媒介")}">
+              <li>${t("Clay & crafts", "黏土及手作")}</li>
+              <li>${t("Painting", "繪畫")}</li>
+              <li>${t("Comics & digital art", "漫畫及電繪")}</li>
+            </ul>
+            <div class="btn-row">
+              ${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"] ? `<a class="btn btn-christmas" data-action="christmas" href="${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"]}">${t("View Christmas workshops", "查看聖誕工作坊詳情")}</a>` : ""}
+              <a class="btn ${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"] ? "christmas-outline" : "btn-christmas"}" data-action="whatsapp" href="${this._waPrefill(t("Hello, I would like to enquire about Christmas Workshop 2026.", "你好，我想查詢 2026 聖誕工作坊的名額及報名。"))}" target="_blank" rel="noopener noreferrer">${t("Enquire about Christmas on WhatsApp", "WhatsApp 查詢聖誕工作坊")}</a>
+            </div>
+          </div></div>
+        </section>
         <section class="section" id="secProgrammes" aria-labelledby="programmes-title">
           <div class="wrap">
             <h2 class="section-title" id="programmes-title">${t("Short-term course series", "短期課程系列")}</h2>
