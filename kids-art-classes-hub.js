@@ -569,7 +569,7 @@ h3 { font-size: 1.12rem; }
   overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow);
   transition: opacity .2s ease;
 }
-.card.is-dimmed { opacity: 0.28; }
+.card.is-hidden { display: none; }
 .card-media { aspect-ratio: 16 / 10; background: #ececec; overflow: hidden; }
 .card-media img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 .card-body { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
@@ -924,7 +924,7 @@ class KidsArtClassesHub extends HTMLElement {
     });
     root.querySelectorAll("[data-course-card]").forEach((card) => {
       const show = this._matchesFilter(card, filter);
-      card.classList.toggle("is-dimmed", !show);
+      card.classList.toggle("is-hidden", !show);
       card.setAttribute("aria-hidden", show ? "false" : "true");
     });
   }

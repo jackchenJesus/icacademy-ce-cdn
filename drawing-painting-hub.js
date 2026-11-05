@@ -496,7 +496,7 @@ h3 { font-size: 1.12rem; }
   box-shadow: var(--shadow);
   transition: opacity .2s ease, transform .2s ease;
 }
-.card.is-dimmed { opacity: 0.35; }
+.card.is-hidden { display: none; }
 .card-media { aspect-ratio: 16 / 10; background: #ececec; overflow: hidden; }
 .card-media img { width: 100%; height: 100%; object-fit: cover; }
 .card-body { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
@@ -941,7 +941,7 @@ class DrawingPaintingHub extends HTMLElement {
     this.shadowRoot.querySelectorAll("[data-course-card]").forEach((card) => {
       const tags = (card.dataset.tags || "").split(",");
       const show = filter === "all" || tags.includes(filter);
-      card.classList.toggle("is-dimmed", !show);
+      card.classList.toggle("is-hidden", !show);
       card.setAttribute("aria-hidden", show ? "false" : "true");
     });
   }
