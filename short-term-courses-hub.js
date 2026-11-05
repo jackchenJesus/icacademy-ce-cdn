@@ -79,7 +79,7 @@ const PROGRAMMES = [
       zh: ["熟練運用 iPad 與 Procreate，提升繪畫效率與完成度", "以幾何骨架掌握肢體動作與透視", "設計原創角色、三視圖與動作延伸"],
     },
     hrefSlug: "/short-term-course/procreate-assessment-intensive",
-    image: "https://static.wixstatic.com/media/52f9c8_fcb4b9b1b0a24c54b0727f8f39145911~mv2.jpg/v1/fill/w_640,h_400,al_c,q_75,enc_auto/52f9c8_fcb4b9b1b0a24c54b0727f8f39145911~mv2.jpg",
+    image: mediaUrl("52f9c8_5002ce822f574cb7b31a8c676ce6b868~mv2.jpg", 640, 400, 75),
     imageAlt: { en: "Procreate original character design and three-view drawing course", zh: "Procreate 原創角色設計及三視圖課程作品" },
   },
   {
