@@ -373,6 +373,11 @@ const RELATED = [
     desc: { en: "Cartoon figures, character design and comic composition", zh: "8歲以上卡通、動漫人物及漫畫構圖課程" },
     hrefSlug: "/course/kids-art/comic-drawing-class",
   },
+  {
+    title: { en: "Christmas Art & Craft Workshops 2026", zh: "2026 聖誕藝術及手作工作坊" },
+    desc: { en: "Try Festive Metal Embossing, Stained Glass Light & Colour and Winter Snowman Wreath in short festive sessions.", zh: "參加 Festive Metal Embossing 節日金屬浮雕、Stained Glass Light & Colour 彩繪玻璃及 Winter Snowman Wreath 冬日雪人花環等節日短期工作坊。" },
+    hrefSlug: "/short-term-course/christmas-workshop-2026",
+  },
 ];
 
 const STYLES = `
