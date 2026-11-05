@@ -1,7 +1,7 @@
 /**
  * ICAcademy Short-term Courses Hub – Custom Element
  * Tag name: short-term-courses-hub
- * Version: 2026-08-18-v4 (CNY + Easter programme cards linking to live workshop pages; smaller mobile type)
+ * Version: 2026-11-05-v5 (Christmas visuals, Procreate image fix, regular course cards)
  * Routes: /short-term-course (EN) | /zh/short-term-course (ZH)
  * Sub-pages: /short-term-course/2026cnyworkshop, /short-term-course/2026-easter-workshop
  * Design system: matches courses-hub / trial-class-hub (coral / teal).
@@ -19,9 +19,9 @@ function mediaUrl(id, w, h, q = 70) {
 
 /** Photos sourced from IC Academy site Media Manager (already used on existing hubs). */
 const IMG = {
-  heroSm: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 640, 400, 70),
-  hero: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 960, 600, 75),
-  heroLg: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 1280, 800, 75),
+  heroSm: mediaUrl("52f9c8_50823390808c4caa8e160c694fc87127~mv2.webp", 640, 400, 70),
+  hero: mediaUrl("52f9c8_50823390808c4caa8e160c694fc87127~mv2.webp", 960, 600, 75),
+  heroLg: mediaUrl("52f9c8_50823390808c4caa8e160c694fc87127~mv2.webp", 1280, 800, 75),
   cny: mediaUrl("4ea940_2d5010ecfb1f4a8399e4f3ceb790972a~mv2.jpeg", 640, 400, 70),
   easter: mediaUrl("d5ba93_321804e3e45d4cc8ae34b02b4a4872bd~mv2.jpg", 640, 400, 70),
   detail: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 640, 800, 70),
@@ -79,7 +79,7 @@ const PROGRAMMES = [
       zh: ["熟練運用 iPad 與 Procreate，提升繪畫效率與完成度", "以幾何骨架掌握肢體動作與透視", "設計原創角色、三視圖與動作延伸"],
     },
     hrefSlug: "/short-term-course/procreate-assessment-intensive",
-    image: "../public/images/procreate-characters.jpg",
+    image: "https://static.wixstatic.com/media/52f9c8_fcb4b9b1b0a24c54b0727f8f39145911~mv2.jpg/v1/fill/w_640,h_400,al_c,q_75,enc_auto/52f9c8_fcb4b9b1b0a24c54b0727f8f39145911~mv2.jpg",
     imageAlt: { en: "Procreate original character design and three-view drawing course", zh: "Procreate 原創角色設計及三視圖課程作品" },
   },
   {
@@ -191,9 +191,28 @@ const FAQ = [
 
 const EXPLORE = [
   {
-    title: { en: "Regular Art Courses", zh: "恆常藝術課程" },
-    desc: { en: "Weekly classes for ages 3+ — drawing, comics, clay and more", zh: "每週恆常班：創意繪畫、漫畫、黏土等" },
-    hrefSlug: "/course-hub",
+    age: { en: "AGES 3–5", zh: "3–5 歲" },
+    title: { en: "Early Childhood Creative Art", zh: "幼兒創意美術" },
+    desc: { en: "A joyful first step into colour, drawing and making.", zh: "透過色彩、繪畫與手作，展開愉快的藝術初體驗。" },
+    hrefSlug: "/course/kids-art/visual-art-skills",
+    image: IMG.gallery1,
+    imageAlt: { en: "Young children’s creative painting at IC Academy", zh: "IC Academy 幼兒創意繪畫作品" },
+  },
+  {
+    age: { en: "AGES 6–12", zh: "6–12 歲" },
+    title: { en: "Creative Art & Character Design", zh: "創意美術與角色設計" },
+    desc: { en: "Explore drawing, comics, colour and original characters.", zh: "探索繪畫、漫畫、色彩與原創角色創作。" },
+    hrefSlug: "/course/kids-art/creative-art-classes",
+    image: IMG.gallery2,
+    imageAlt: { en: "IC Academy student comic character design", zh: "IC Academy 學生漫畫角色設計作品" },
+  },
+  {
+    age: { en: "SECONDARY +", zh: "中學及以上" },
+    title: { en: "Teen Portfolio & Visual Arts", zh: "青少年作品集與視覺藝術" },
+    desc: { en: "Build observation, technique and a confident art portfolio.", zh: "培養觀察力與繪畫技巧，逐步建立個人作品集。" },
+    hrefSlug: "/course/kids-art/visual-art-class",
+    image: IMG.gallery3,
+    imageAlt: { en: "IC Academy student sketching and visual arts work", zh: "IC Academy 學生素描及視覺藝術作品" },
   },
 ];
 
@@ -346,8 +365,14 @@ h3 { font-size: 1.12rem; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.82) 42%, rgba(255,255,255,.28) 72%, rgba(255,255,255,.12) 100%);
+  background: linear-gradient(90deg, rgba(248,247,236,.96) 0%, rgba(248,247,236,.88) 38%, rgba(248,247,236,.48) 64%, rgba(18,54,40,.08) 100%);
 }
+.hero { background: #244638; }
+.hero-eyebrow { color: #8b2731; }
+.hero-title-chip { background: rgba(255,250,242,.9); border: 1px solid rgba(255,255,255,.65); box-shadow: 0 12px 36px rgba(35,49,35,.12); }
+.hero::before, .hero::after { position: absolute; z-index: 1; pointer-events: none; }
+.hero::before { content: "❄"; color: #fff; opacity: .82; font-size: 4rem; left: 5%; top: 9%; text-shadow: 0 2px 12px #3a5946; }
+.hero::after { content: "⛄  🍭"; color: #fff; opacity: .94; font-size: clamp(2rem,4vw,3.5rem); right: 4%; bottom: 7%; text-shadow: 0 2px 12px #3a5946; }
 .hero .wrap {
   position: relative;
   z-index: 1;
@@ -395,7 +420,12 @@ h3 { font-size: 1.12rem; }
 
 /* Christmas feature */
 .christmas-feature { background: #f7efe8; }
-.christmas-panel { padding: clamp(24px, 4vw, 48px); border: 1px solid #e4d3c7; border-radius: 22px; background: #fffaf6; }
+.christmas-panel { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(280px,.9fr); align-items: stretch; gap: clamp(22px,4vw,48px); padding: clamp(22px,3.5vw,42px); border: 1px solid #e4d3c7; border-radius: 22px; background: #fffaf6; box-shadow: 0 14px 38px rgba(89,48,39,.08); }
+.christmas-copy { align-self: center; }
+.christmas-art { position: relative; min-height: 300px; overflow: hidden; border-radius: 18px; background: #e7e2d4; }
+.christmas-art img { width: 100%; height: 100%; min-height: 300px; object-fit: cover; position: absolute; inset: 0; }
+.christmas-art::after { content: "⛄  🍭  ❄"; position: absolute; right: 14px; bottom: 12px; padding: 7px 12px; border-radius: 999px; background: rgba(255,250,242,.92); font-size: 1.25rem; }
+@media (max-width: 760px) { .christmas-panel { grid-template-columns: 1fr; } .christmas-art, .christmas-art img { min-height: 220px; } }
 .christmas-label { color: #8b2731; font-weight: 800; letter-spacing: .06em; margin: 0 0 10px; }
 .christmas-panel h2 { color: #243f32; font-size: clamp(1.6rem, 3vw, 2.3rem); }
 .christmas-panel p { max-width: 65ch; }
@@ -557,27 +587,16 @@ h3 { font-size: 1.12rem; }
 }
 
 /* —— Explore cards —— */
-.explore-grid {
-  display: grid;
-  gap: 20px;
-}
-@media (min-width: 720px) {
-  .explore-grid { grid-template-columns: repeat(2, 1fr); }
-}
-.explore-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 36px 22px;
-  text-decoration: none;
-  text-align: center;
-  min-height: 120px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-  box-shadow: var(--shadow);
-  transition: transform .15s ease;
-}
+.explore-grid { display: grid; gap: 20px; }
+@media (min-width: 720px) { .explore-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (min-width: 1040px) { .explore-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+.explore-card { background: #fff; border-radius: 18px; overflow: hidden; padding: 0; text-decoration: none; text-align: center; min-height: 100%; display: flex; flex-direction: column; justify-content: flex-start; gap: 8px; box-shadow: var(--shadow); transition: transform .15s ease; }
+.explore-media { aspect-ratio: 16 / 10; width: 100%; overflow: hidden; background: #e7ece9; }
+.explore-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+.explore-card:hover .explore-media img { transform: scale(1.04); }
+.explore-copy { padding: 8px 22px 24px; display: flex; flex-direction: column; align-items: center; gap: 9px; }
+.explore-age { color: var(--coral-deep); background: var(--coral-soft); border-radius: 999px; padding: 3px 10px; font-size: .78rem; font-weight: 800; letter-spacing: .04em; }
+.explore-link { color: var(--teal-deep); font-weight: 800; margin-top: 2px; }
 .explore-card:hover { transform: translateY(-3px); }
 .explore-card h3 { margin: 0; font-size: 1.25rem; }
 .explore-card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
@@ -890,8 +909,13 @@ class ShortTermCoursesHub extends HTMLElement {
     return EXPLORE.map(
       (i) => `
       <a class="explore-card" data-action="hub" href="${this.path(i.hrefSlug)}">
-        <h3>${this.pick(i.title)}</h3>
-        <p>${this.pick(i.desc)}</p>
+        <div class="explore-media"><img src="${i.image}" alt="${this.pick(i.imageAlt)}" loading="lazy" decoding="async" width="640" height="400" /></div>
+        <div class="explore-copy">
+          <span class="explore-age">${this.pick(i.age)}</span>
+          <h3>${this.pick(i.title)}</h3>
+          <p>${this.pick(i.desc)}</p>
+          <span class="explore-link">${this.isEn ? "Explore regular classes →" : "了解恆常班 →"}</span>
+        </div>
       </a>`
     ).join("");
   }
@@ -924,15 +948,15 @@ class ShortTermCoursesHub extends HTMLElement {
           </div>
           <div class="wrap">
             <div class="hero-copy">
-              <p class="hero-eyebrow">${t("Ho Man Tin • Holiday & festival art • Small groups", "何文田 • 假期及節日藝術 • 小班教學")}</p>
+              <p class="hero-eyebrow">${t("Christmas 2026 · Ho Man Tin · Small groups", "2026 聖誕 · 何文田 · 小班教學")}</p>
               <div class="hero-title-chip">
-                <h1 id="hero-title">${t("Ho Man Tin ", "何文田")}<span class="accent">${t("Short-term", "短期")}</span>${t(" Art Courses", "藝術課程")}</h1>
-                <p class="hero-sub">${t("Seasonal programmes beyond regular classes", "恆常班以外的節日及假期課程")}</p>
+                <h1 id="hero-title">${t("Christmas Art Workshops", "聖誕藝術工作坊")} <span class="accent">2026</span></h1>
+                <p class="hero-sub">${t("Festive ideas, made by little hands", "小小雙手，創作滿滿節日驚喜")}</p>
               </div>
               <p class="hero-lead">
                 ${t(
-                  "ICAcademy short-term courses run during school holidays and special festivals — Christmas, Chinese New Year and Easter themed workshops, plus other seasonal programmes. A flexible way for children to try art, practise intensively and create seasonal artwork.",
-                  "ICAcademy 短期課程於學校假期及特別節日期間開辦，包括聖誕、新年及復活節等節日主題工作坊及其他季節課程，讓小朋友以靈活方式體驗藝術、集中練習，並創作節日作品。"
+                  "Make the holidays sparkle with eight Christmas art workshops in clay, crafts, painting, comics and digital art. Children create festive keepsakes in a warm, small-group studio.",
+                  "以八款聖誕藝術工作坊點亮假期，體驗黏土、手作、繪畫、漫畫及電繪；小班創作，帶走親手完成的節日作品。"
                 )}
               </p>
               <div class="btn-row">
@@ -968,18 +992,20 @@ class ShortTermCoursesHub extends HTMLElement {
       `
         <section class="section christmas-feature" id="secChristmas" aria-labelledby="christmas-title">
           <div class="wrap"><div class="christmas-panel">
-            <p class="christmas-label">${t("FEATURED · CHRISTMAS 2026", "精選課程 · 2026 聖誕")}</p>
-            <h2 id="christmas-title">${t("Christmas Art Workshops 2026", "2026 聖誕藝術工作坊")}</h2>
-            <p>${t("Discover eight festive creative workshops for children at IC Academy in Ho Man Tin. Explore clay, crafts, glass painting, acrylics, comics and digital art in small groups, with materials included.", "在何文田 IC Academy 探索 8 款兒童聖誕創作工作坊，體驗黏土、手作、玻璃畫、塑膠彩、漫畫及電繪；小班教學，材料全包。")}</p>
-            <ul class="christmas-topics" aria-label="${t("Workshop media", "工作坊創作媒介")}">
-              <li>${t("Clay & crafts", "黏土及手作")}</li>
-              <li>${t("Painting", "繪畫")}</li>
-              <li>${t("Comics & digital art", "漫畫及電繪")}</li>
-            </ul>
-            <div class="btn-row">
-              ${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"] ? `<a class="btn btn-christmas" data-action="christmas" href="${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"]}">${t("View Christmas workshops", "查看聖誕工作坊詳情")}</a>` : ""}
-              <a class="btn ${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"] ? "christmas-outline" : "btn-christmas"}" data-action="whatsapp" href="${this._waPrefill(t("Hello, I would like to enquire about Christmas Workshop 2026.", "你好，我想查詢 2026 聖誕工作坊的名額及報名。"))}" target="_blank" rel="noopener noreferrer">${t("Enquire about Christmas on WhatsApp", "WhatsApp 查詢聖誕工作坊")}</a>
+            <div class="christmas-copy">
+              <p class="christmas-label">${t("FEATURED · CHRISTMAS 2026", "精選課程 · 2026 聖誕")}</p>
+              <h2 id="christmas-title">${t("Christmas Art Workshops 2026", "2026 聖誕藝術工作坊")}</h2>
+              <p>${t("Discover eight festive creative workshops for children at IC Academy in Ho Man Tin. Explore clay, crafts, glass painting, acrylics, comics and digital art in small groups, with materials included.", "在何文田 IC Academy 探索 8 款兒童聖誕創作工作坊，體驗黏土、手作、玻璃畫、塑膠彩、漫畫及電繪；小班教學，材料全包。")}</p>
+              <ul class="christmas-topics" aria-label="${t("Workshop themes", "工作坊主題")}">
+                <li>⛄ ${t("Snowman & crafts", "雪人及手作")}</li>
+                <li>🍭 ${t("Candy-colour clay", "糖果色黏土")}</li>
+                <li>🎨 ${t("Painting & digital art", "繪畫及電繪")}</li>
+              </ul>
+              <div class="btn-row">
+                <a class="btn btn-christmas" data-action="whatsapp" href="${this._waPrefill(t("Hello, I would like to enquire about Christmas Workshop 2026.", "你好，我想查詢 2026 聖誕工作坊的課程及名額。"))}" target="_blank" rel="noopener noreferrer">${t("Enquire about Christmas on WhatsApp", "WhatsApp 查詢聖誕課程")}</a>
+              </div>
             </div>
+            <div class="christmas-art"><img src="${IMG.hero}" alt="${t("Christmas art scene with a handmade snowman, candy cane and painting brushes", "聖誕藝術場景：手作雪人、糖果杖與畫筆")}" loading="lazy" decoding="async" width="960" height="600" /></div>
           </div></div>
         </section>
         <section class="section" id="secProgrammes" aria-labelledby="programmes-title">
