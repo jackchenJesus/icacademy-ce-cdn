@@ -339,6 +339,11 @@ const RELATED = [
     desc: { en: "Ages 14+ · mixed media and more advanced art skill", zh: "適合14歲以上，透過不同媒介發展進階藝術技巧" },
     hrefSlug: "/course/kids-art/visual-art-class",
   },
+  {
+    title: { en: "Christmas Adventure Comic Art Workshop 2026", zh: "2026 Christmas Adventure 聖誕漫畫工作坊" },
+    desc: { en: "Create a festive comic art project in a short-term Christmas workshop.", zh: "參加 Christmas Adventure 聖誕冒險短期工作坊，創作節日主題漫畫作品。" },
+    hrefSlug: "/short-term-course/christmas-workshop-2026",
+  },
 ];
 
 const STYLES = `
