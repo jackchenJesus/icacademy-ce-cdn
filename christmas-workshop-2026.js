@@ -68,6 +68,13 @@
       .faq-item{padding:15px 0}
       .final{padding:38px 16px}
     }
+    /* Tighten the FAQ on narrow phones to match the compact page rhythm. */
+    @media(max-width:459px){
+      .faq h2{font-size:1.5rem;line-height:1.2;margin-bottom:18px}
+      .faq-item{margin:10px 0;padding:13px 14px;border-radius:16px}
+      .faq-item h3{font-size:.92rem;line-height:1.35;margin-bottom:5px}
+      .faq-item p{font-size:.84rem;line-height:1.45}
+    }
   `;
   class ChristmasWorkshop extends HTMLElement {
     static get observedAttributes() { return ['locale']; }
