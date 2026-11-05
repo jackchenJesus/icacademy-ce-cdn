@@ -10,7 +10,10 @@
 const WA_DEFAULT = "https://wa.me/85265808022";
 // Enable each URL only after the corresponding Wix page exists and has been verified.
 // PR #27 contains design previews, not published Wix pages.
-const CHRISTMAS_PAGE_URL = { en: "", zh: "" };
+const CHRISTMAS_PAGE_URL = {
+  en: "https://www.icacademy.com.hk/short-term-course/christmas-workshop-2026",
+  zh: "https://www.icacademy.com.hk/short-term-course/christmas-workshop-2026",
+};
 
 /** Build a Wix Media Manager fill URL from a site media file id. */
 function mediaUrl(id, w, h, q = 70) {
@@ -960,7 +963,7 @@ class ShortTermCoursesHub extends HTMLElement {
                 )}
               </p>
               <div class="btn-row">
-                <button type="button" class="btn btn-christmas" data-action="scroll-christmas">${t("Explore Christmas Workshop 2026", "探索 2026 聖誕工作坊")}</button>
+                <a class="btn btn-christmas" data-action="christmas" href="${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"]}">${t("Explore Christmas Workshop 2026", "探索 2026 聖誕工作坊")}</a>
                 <button type="button" class="btn btn-outline-teal" data-action="scroll-programmes">${t("View all programmes", "查看所有課程")}</button>
               </div>
             </div>
@@ -1002,7 +1005,8 @@ class ShortTermCoursesHub extends HTMLElement {
                 <li>🎨 ${t("Painting & digital art", "繪畫及電繪")}</li>
               </ul>
               <div class="btn-row">
-                <a class="btn btn-christmas" data-action="whatsapp" href="${this._waPrefill(t("Hello, I would like to enquire about Christmas Workshop 2026.", "你好，我想查詢 2026 聖誕工作坊的課程及名額。"))}" target="_blank" rel="noopener noreferrer">${t("Enquire about Christmas on WhatsApp", "WhatsApp 查詢聖誕課程")}</a>
+                <a class="btn btn-christmas" data-action="christmas" href="${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"]}">${t("View Christmas workshops", "查看聖誕工作坊詳情")}</a>
+                <a class="btn christmas-outline" data-action="whatsapp" href="${this._waPrefill(t("Hello, I would like to enquire about Christmas Workshop 2026.", "你好，我想查詢 2026 聖誕工作坊的課程及名額。"))}" target="_blank" rel="noopener noreferrer">${t("Enquire about Christmas on WhatsApp", "WhatsApp 查詢聖誕課程")}</a>
               </div>
             </div>
             <div class="christmas-art"><img src="${IMG.hero}" alt="${t("Christmas art scene with a handmade snowman, candy cane and painting brushes", "聖誕藝術場景：手作雪人、糖果杖與畫筆")}" loading="lazy" decoding="async" width="960" height="600" /></div>
