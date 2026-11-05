@@ -39,6 +39,35 @@
     /* Wix desktop preview runs the element in a 480px iframe, so use that viewport to identify desktop. */
     @media(min-width:460px){:host{width:100vw!important;max-width:100vw!important;left:50%!important;margin-left:-50vw!important;overflow-x:clip}.section,.hero,.final{width:100vw!important;max-width:none!important;left:auto!important;margin-left:0!important}.wrap{width:min(1320px,calc(100vw - 64px))!important}}
     @media(max-width:459px){.hero{min-height:430px;padding:48px 0}.hero h1{font-size:clamp(2rem,9vw,2.55rem)}.lead{font-size:1rem;padding:0 4px}.section{padding:46px 0}.section h2,.faq h2,.offer h2{font-size:2rem}.section-head{margin-bottom:28px}.grid{gap:18px}.art{height:165px;min-height:165px}.card-body{padding:20px}.card h3{font-size:1.15rem}.dates{font-size:.94rem;line-height:1.55}.card .button{font-size:.94rem}.offer{padding:24px;border-radius:22px}.offer-grid>div{padding:18px}.offer h3{font-size:1.2rem}.offer p,.note{font-size:.96rem}.faq-item{padding:18px}.faq-item h3{font-size:1.1rem}.faq-item p{font-size:.96rem}.final{padding:46px 16px}}
+    /* Compact iPhone layout: smaller type and tighter spacing while keeping tap targets comfortable. */
+    @media(max-width:459px){
+      .hero{min-height:360px;padding:30px 0 34px;background-position:64% center}
+      .hero .wrap{width:calc(100% - 32px)!important}
+      .hero-eyebrow,.eyebrow{font-size:.68rem;letter-spacing:.12em}
+      .hero h1{font-size:1.75rem;line-height:1.12;margin:10px 0}
+      .hero .lead{font-size:.88rem;line-height:1.45;margin-bottom:16px;padding:0 2px}
+      .actions{gap:8px}
+      .actions .button{width:auto;min-width:145px;min-height:40px;padding:9px 12px;font-size:.82rem}
+      .section{padding:34px 0}
+      .section h2,.faq h2,.offer h2{font-size:1.75rem;line-height:1.18}
+      .section-head{margin-bottom:22px}
+      .section-lead,.subtle{font-size:.92rem;line-height:1.5}
+      .grid{gap:14px}
+      .art{height:140px;min-height:140px}
+      .card-body{padding:16px}
+      .card h3{font-size:1.05rem;margin:8px 0 10px}
+      .tag{font-size:.72rem}
+      .sessions,.dates{font-size:.88rem;line-height:1.5}
+      .dates{margin:6px 0 14px}
+      .card .button{min-height:40px;font-size:.86rem;padding:8px 11px}
+      .offer{padding:22px;border-radius:22px}
+      .offer-grid{gap:16px}
+      .offer-grid>div{padding:16px}
+      .offer h3,.faq-item h3{font-size:1rem}
+      .offer p,.note,.faq-item p{font-size:.9rem;line-height:1.55}
+      .faq-item{padding:15px 0}
+      .final{padding:38px 16px}
+    }
   `;
   class ChristmasWorkshop extends HTMLElement {
     static get observedAttributes() { return ['locale']; }
