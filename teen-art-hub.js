@@ -17,6 +17,7 @@ function mediaUrl(id, w, h) {
 const IMG = {
   hero: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 1600, 1000),
   creative: mediaUrl("d5ba93_304dcc22214945caa340b35615e155e5~mv2.webp", 800, 600),
+  clay: mediaUrl("d5ba93_7602a3ff44a44704b17b3de5eeea5ee2~mv2.webp", 800, 600),
   visualArt: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 800, 600),
   sketch: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 800, 600),
   acrylic: mediaUrl("d5ba93_aec4524a6858434790b8df723f534a50~mv2.webp", 800, 600),
@@ -44,7 +45,7 @@ const COURSES = [
     },
     media: { en: "Light clay", zh: "輕黏土" },
     hrefSlug: "/course/kids-art/creative-art-and-clay-class",
-    image: IMG.creative,
+    image: IMG.clay,
     imageAlt: { en: "ICAcademy light clay student creation", zh: "ICAcademy輕黏土學生作品" },
   },
   {
