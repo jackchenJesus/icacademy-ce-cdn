@@ -31,6 +31,23 @@ const IMG = {
 /** Related programmes — ages / URLs audited from existing ICAcademy course pages 2026-08 */
 const COURSES = [
   {
+    id: "clay",
+    name: { en: "Light Clay Class", zh: "輕黏土班" },
+    age: { en: "Ages 3–16", zh: "3–16歲" },
+    focus: {
+      en: "Three-dimensional modelling, structure and colour through themed projects",
+      zh: "透過主題創作學習立體造型、結構及色彩",
+    },
+    points: {
+      en: ["Hands-on 3D making", "Build form and structure", "A finished creation to take home"],
+      zh: ["親手製作立體作品", "學習造型與結構", "完成作品可帶回家"],
+    },
+    media: { en: "Light clay", zh: "輕黏土" },
+    hrefSlug: "/course/kids-art/creative-art-and-clay-class",
+    image: IMG.creative,
+    imageAlt: { en: "ICAcademy light clay student creation", zh: "ICAcademy輕黏土學生作品" },
+  },
+  {
     id: "creative",
     name: { en: "Creative Art Level I–III", zh: "兒童創意美術 Level I–III" },
     age: { en: "Ages 7–14 · Level III 11–14", zh: "7–14歲 · Level III 11–14歲" },
