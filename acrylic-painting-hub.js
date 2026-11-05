@@ -290,6 +290,11 @@ const RELATED = [
     desc: { en: "Compare sketching, acrylic and mixed-media courses", zh: "比較素描、塑膠彩及綜合美術課程" },
     hrefSlug: "/course/drawing-and-painting",
   },
+  {
+    title: { en: "Christmas Eve Blessings Acrylic Workshop 2026", zh: "2026 Christmas Eve Blessings 聖誕塑膠彩工作坊" },
+    desc: { en: "Explore a seasonal acrylic painting project in the Christmas Eve Blessings short-term workshop.", zh: "在 Christmas Eve Blessings 聖誕祝福短期工作坊，體驗節日主題塑膠彩創作。" },
+    hrefSlug: "/short-term-course/christmas-workshop-2026",
+  },
 ];
 
 const STYLES = `
