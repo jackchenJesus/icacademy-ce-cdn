@@ -79,7 +79,7 @@ const PROGRAMMES = [
       zh: ["熟練運用 iPad 與 Procreate，提升繪畫效率與完成度", "以幾何骨架掌握肢體動作與透視", "設計原創角色、三視圖與動作延伸"],
     },
     hrefSlug: "/short-term-course/procreate-assessment-intensive",
-    image: mediaUrl("52f9c8_5002ce822f574cb7b31a8c676ce6b868~mv2.jpg", 640, 400, 75),
+    image: "https://static.wixstatic.com/media/52f9c8_5002ce822f574cb7b31a8c676ce6b868~mv2.jpg",
     imageAlt: { en: "Procreate original character design and three-view drawing course", zh: "Procreate 原創角色設計及三視圖課程作品" },
   },
   {
@@ -195,7 +195,7 @@ const EXPLORE = [
     title: { en: "Early Childhood Creative Art", zh: "幼兒創意美術" },
     desc: { en: "A joyful first step into colour, drawing and making.", zh: "透過色彩、繪畫與手作，展開愉快的藝術初體驗。" },
     hrefSlug: "/course/kids-art/visual-art-skills",
-    image: IMG.gallery1,
+    image: IMG.detail,
     imageAlt: { en: "Young children’s creative painting at IC Academy", zh: "IC Academy 幼兒創意繪畫作品" },
   },
   {
