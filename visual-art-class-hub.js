@@ -297,6 +297,11 @@ const RELATED = [
     desc: { en: "Ages 14+ · colour, brushwork and a finished painting", zh: "14歲以上 · 色彩、筆觸與完整畫作" },
     hrefSlug: "/course/drawing-and-painting/acrylic-painting-class",
   },
+  {
+    title: { en: "Procreate × Festive Towel Digital Art Workshop 2026", zh: "2026 Procreate 聖誕毛巾數碼藝術工作坊" },
+    desc: { en: "Try a seasonal Procreate project in a focused, short-term digital art workshop.", zh: "透過 Procreate × Festive Towel 短期數碼藝術工作坊，體驗節日主題 iPad 繪畫創作。" },
+    hrefSlug: "/short-term-course/christmas-workshop-2026",
+  },
 ];
 
 const STYLES = `
