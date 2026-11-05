@@ -53,7 +53,7 @@
       .section-head{margin-bottom:22px}
       .section-lead,.subtle{font-size:.92rem;line-height:1.5}
       .grid{gap:14px}
-      .art{height:140px;min-height:140px}
+      .art{height:140px;min-height:140px}.art.pdf-art{height:auto;min-height:0;aspect-ratio:300/260}
       .card-body{padding:16px}
       .card h3{font-size:1.05rem;margin:8px 0 10px}
       .tag{font-size:.72rem}
