@@ -294,6 +294,11 @@ const RELATED = [
     desc: { en: "Bilingual teaching · colour and a finished painting", zh: "雙語授課 · 創意與美感培養" },
     hrefSlug: "/course/drawing-and-painting/acrylic-painting-class",
   },
+  {
+    title: { en: "Christmas Clay Workshops 2026", zh: "2026 聖誕黏土創作工作坊" },
+    desc: { en: "Make festive clay creations in Dreamy Candy House and Magic Crystal Kaleidoscope, two short-term Christmas workshops.", zh: "透過 Dreamy Candy House 夢幻糖果屋及 Magic Crystal Kaleidoscope 魔法水晶萬花筒，體驗聖誕黏土創作。" },
+    hrefSlug: "/short-term-course/christmas-workshop-2026",
+  },
 ];
 
 const STYLES = `
