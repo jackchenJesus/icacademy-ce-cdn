@@ -1,1 +1,1 @@
-__LOAD_FILE__/workspace/public/custom-elements/about-hub.js
+/workspace/public/custom-elements/about-hub.js
