@@ -1,1 +1,1 @@
-__WORKSPACE_FILE__:/workspace/public/custom-elements/about-hub.js
+data:text/plain;base64,aGVsbG8gd29ybGQ=
