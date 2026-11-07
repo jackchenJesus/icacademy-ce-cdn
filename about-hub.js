@@ -1,5 +1,1 @@
-/**
- * IC Academy About Us – Custom Element
- * Tag name: about-hub
- */
-console.log('placeholder');
+/workspace/public/custom-elements/about-hub.js
