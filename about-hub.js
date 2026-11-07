@@ -1,1 +1,1 @@
-/** PLACEHOLDER_TEST_DELETE */
+file:///workspace/public/custom-elements/about-hub.js
