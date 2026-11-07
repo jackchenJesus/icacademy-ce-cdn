@@ -139,6 +139,38 @@ const IMG = {
     // ignore
   }
 })();
+function icScheduleHubRest(host, paintRest, imgSelector) {
+  const root = host && host.shadowRoot;
+  if (!root) return;
+  if (host._icRestTimer != null) {
+    try {
+      if (typeof cancelIdleCallback === "function") cancelIdleCallback(host._icRestTimer);
+    } catch (e) {}
+    clearTimeout(host._icRestTimer);
+    host._icRestTimer = null;
+  }
+  const start = () => {
+    const paint = () => {
+      try { paintRest(); } catch (e) {}
+    };
+    if (typeof requestIdleCallback === "function") {
+      host._icRestTimer = requestIdleCallback(paint, { timeout: 3200 });
+    } else {
+      host._icRestTimer = setTimeout(paint, 1200);
+    }
+  };
+  const img = imgSelector ? root.querySelector(imgSelector) : null;
+  if (img && !img.complete) {
+    img.addEventListener("load", start, { once: true });
+    host._icRestTimer = setTimeout(start, 2200);
+  } else start();
+}
+
+function icScheduleSoon(fn, timeoutMs) {
+  if (typeof requestIdleCallback === "function") requestIdleCallback(fn, { timeout: timeoutMs || 2000 });
+  else setTimeout(fn, 0);
+}
+
 
 const WHY = [
   {
@@ -608,6 +640,11 @@ class CreativeArtAndClayHub extends HTMLElement {
   }
 
   disconnectedCallback() {
+    if (this._icRestTimer != null) {
+      try { if (typeof cancelIdleCallback === "function") cancelIdleCallback(this._icRestTimer); } catch (e) {}
+      clearTimeout(this._icRestTimer);
+      this._icRestTimer = null;
+    }
     this.shadowRoot.removeEventListener("click", this._onClick);
     window.removeEventListener("resize", this._syncHeight);
     window.removeEventListener("resize", this._applyFullBleedCss);
@@ -825,9 +862,10 @@ class CreativeArtAndClayHub extends HTMLElement {
     if (h1.textContent !== text) h1.textContent = text;
   }
 
-  render() {
+  _paintHero() {
     const t = (en, zh) => (this.isEn ? en : zh);
-    this._applyFullBleedCss();
+    icScheduleSoon(() => this._applyFullBleedCss(), 1500);
+    this._t = t;
 
     const courseHubUrl = this.path("/course-hub");
     const siloUrl = this.path("/course/kids-art");
@@ -844,7 +882,9 @@ class CreativeArtAndClayHub extends HTMLElement {
       )
     );
 
+    
     this.shadowRoot.innerHTML = `
+
       <style>${STYLES}</style>
       <div class="hub">
         <section class="hero" aria-labelledby="hero-title">
@@ -889,7 +929,29 @@ class CreativeArtAndClayHub extends HTMLElement {
             </div>
           </div>
         </section>
+      </div>
+    `;
+    this._waPrefillCached = waPrefill;
+    this._courseHubUrl = courseHubUrl;
+    this._siloUrl = siloUrl;
+    this._trialUrl = trialUrl;
+    this._galleryUrl = galleryUrl;
+    this._homeUrl = homeUrl;
+    this._syncHeroTitleLightDom(
+      t("Kids’ Light Clay Class in Ho Man Tin", "何文田兒童輕黏土班 3D立體創作班｜ 專為 3-16 歲設計")
+    );
+    icScheduleSoon(() => this._applyFullBleedCss(), 1500);
+  }
 
+  _paintRest() {
+    if (this._restPainted) return;
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub, main.hub");
+    if (!hub) return;
+    this._restPainted = true;
+    const t = this._t || ((en, zh) => (this.isEn ? en : zh));
+    const waPrefill = this._waPrefillCached || this._waPrefill("");
+    const siloUrl = this._siloUrl || this.path("/course/kids-art");
+    hub.insertAdjacentHTML("beforeend", `
         <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="${t("Class facts", "課程重點")}">
           <div class="wrap">
             <div class="trust">
@@ -1085,14 +1147,15 @@ class CreativeArtAndClayHub extends HTMLElement {
             <a class="btn btn-outline-white" data-action="hub" href="${siloUrl}">${t("Back to Kids Art", "返回兒童美術")}</a>
           </div>
         </section>
-      </div>
-    `;
-
-    this._syncHeroTitleLightDom(
-      t("Kids’ Light Clay Class in Ho Man Tin", "何文田兒童輕黏土班 3D立體創作班｜ 專為 3-16 歲設計")
-    );
+    `);
     this._applyFullBleedCss();
     this._observeHeight();
+  }
+
+  render() {
+    this._restPainted = false;
+    this._paintHero();
+    if (this.isConnected) icScheduleHubRest(this, () => this._paintRest(), ".hero-bg img, .hero-photo");
   }
 }
 

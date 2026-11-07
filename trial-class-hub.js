@@ -1393,12 +1393,6 @@ class TrialClassHub extends HTMLElement {
       ).toLowerCase();
       if (lang.startsWith("zh")) return "zh";
     } catch (e) {}
-    try {
-      const htmlHead = (document.documentElement && document.documentElement.innerHTML)
-        ? document.documentElement.innerHTML.slice(0, 120000)
-        : "";
-      if (/userLanguage"\s*:\s*"zh"/i.test(htmlHead)) return "zh";
-    } catch (e) {}
     const attr = String(this.getAttribute("locale") || "").toLowerCase();
     if (attr.startsWith("zh")) return "zh";
     if (attr.startsWith("en")) return "en";

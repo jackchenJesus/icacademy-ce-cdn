@@ -41,6 +41,38 @@ const SLIDES = [IMG.heroLg, IMG.slide2, IMG.slide3, IMG.slide4, IMG.slide5];
     // ignore
   }
 })();
+function icScheduleHubRest(host, paintRest, imgSelector) {
+  const root = host && host.shadowRoot;
+  if (!root) return;
+  if (host._icRestTimer != null) {
+    try {
+      if (typeof cancelIdleCallback === "function") cancelIdleCallback(host._icRestTimer);
+    } catch (e) {}
+    clearTimeout(host._icRestTimer);
+    host._icRestTimer = null;
+  }
+  const start = () => {
+    const paint = () => {
+      try { paintRest(); } catch (e) {}
+    };
+    if (typeof requestIdleCallback === "function") {
+      host._icRestTimer = requestIdleCallback(paint, { timeout: 3200 });
+    } else {
+      host._icRestTimer = setTimeout(paint, 1200);
+    }
+  };
+  const img = imgSelector ? root.querySelector(imgSelector) : null;
+  if (img && !img.complete) {
+    img.addEventListener("load", start, { once: true });
+    host._icRestTimer = setTimeout(start, 2200);
+  } else start();
+}
+
+function icScheduleSoon(fn, timeoutMs) {
+  if (typeof requestIdleCallback === "function") requestIdleCallback(fn, { timeout: timeoutMs || 2000 });
+  else setTimeout(fn, 0);
+}
+
 
 const HIGHLIGHTS = [
   { en: "5-minute walk from Pui Ching Primary", zh: "培正小學附近，步行5分鐘" },
@@ -644,6 +676,7 @@ class HomeHub extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    icScheduleSoon(() => this._applyFullBleedCss(), 1500);
     this._startChristmasEffects();
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._applyFullBleedCss);
@@ -657,6 +690,11 @@ class HomeHub extends HTMLElement {
   }
 
   disconnectedCallback() {
+    if (this._icRestTimer != null) {
+      try { if (typeof cancelIdleCallback === "function") cancelIdleCallback(this._icRestTimer); } catch (e) {}
+      clearTimeout(this._icRestTimer);
+      this._icRestTimer = null;
+    }
     this._stopChristmasEffects();
     this.shadowRoot.removeEventListener("click", this._onClick);
     window.removeEventListener("resize", this._applyFullBleedCss);
@@ -924,7 +962,7 @@ class HomeHub extends HTMLElement {
     }
   }
 
-  render() {
+  _paintHero() {
     const t = (en, zh) => (this.isEn ? en : zh);
     const waText = t(
       "Hello IC Academy, I would like to book a trial class for my child.",
@@ -937,7 +975,9 @@ class HomeHub extends HTMLElement {
     const courseHref = this.path("/course-hub");
     const aboutHref = this.path("/about-us");
 
+    
     this.shadowRoot.innerHTML = `
+
       <style>${STYLES}</style>
       <div class="hub">
         <section class="hero" aria-label="${t("Homepage slideshow", "首頁圖片輪播")}">
@@ -976,7 +1016,20 @@ class HomeHub extends HTMLElement {
             ).join("")}
           </div>
         </section>
+      </div>
+    `;
+    this._waPrefillCached = waPrefill;
+    icScheduleSoon(() => this._applyFullBleedCss(), 1500);
+  }
 
+  _paintRest() {
+    if (this._restPainted) return;
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub, main.hub");
+    if (!hub) return;
+    this._restPainted = true;
+    const t = this._t || ((en, zh) => (this.isEn ? en : zh));
+    const waPrefill = this._waPrefillCached || this._waPrefill("");
+    hub.insertAdjacentHTML("beforeend", `
         <section class="section">
           <div class="wrap">
             <p class="kicker">${t("Why IC Academy", "為什麼選擇我們?")}</p>
@@ -1212,12 +1265,17 @@ class HomeHub extends HTMLElement {
             <a class="btn btn-outline-white" data-action="hub" href="${trialHref}">${t("Trial class details", "了解試堂詳情")}</a>
           </div>
         </section>
-      </div>
-    `;
+    `);
 
     this._applyFullBleedCss();
     this._collapseTrailingGap();
     this._goSlide(this._slide);
+  }
+
+  render() {
+    this._restPainted = false;
+    this._paintHero();
+    if (this.isConnected) icScheduleHubRest(this, () => this._paintRest(), ".hero-bg img, .hero-photo");
   }
 }
 

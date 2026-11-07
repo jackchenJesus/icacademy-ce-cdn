@@ -55,6 +55,46 @@ const IMG = {
   }
 })();
 
+/** Defer below-the-fold hub paint until after hero img can load (cuts render-blocking). */
+function icScheduleHubRest(host, paintRest, imgSelector) {
+  const root = host && host.shadowRoot;
+  if (!root) return;
+  if (host._icRestTimer != null) {
+    try {
+      if (typeof cancelIdleCallback === "function") cancelIdleCallback(host._icRestTimer);
+    } catch (e) {}
+    clearTimeout(host._icRestTimer);
+    host._icRestTimer = null;
+  }
+  const start = () => {
+    const paint = () => {
+      try {
+        paintRest();
+      } catch (e) {}
+    };
+    if (typeof requestIdleCallback === "function") {
+      host._icRestTimer = requestIdleCallback(paint, { timeout: 3200 });
+    } else {
+      host._icRestTimer = setTimeout(paint, 1200);
+    }
+  };
+  const img = imgSelector ? root.querySelector(imgSelector) : null;
+  if (img && !img.complete) {
+    img.addEventListener("load", start, { once: true });
+    host._icRestTimer = setTimeout(start, 2200);
+  } else {
+    start();
+  }
+}
+
+function icScheduleSoon(fn, timeoutMs) {
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(fn, { timeout: timeoutMs || 2000 });
+  } else {
+    setTimeout(fn, 0);
+  }
+}
+
 /** Verified course catalogue (names / ages / URLs audited 2026-08) */
 const COURSES = [
   {
@@ -882,6 +922,9 @@ h3 { font-size: 1.12rem; }
 }
 `;
 
+const STYLES_HERO = STYLES.substring(0, STYLES.indexOf("/* —— Filters —— */"));
+const STYLES_REST = STYLES.substring(STYLES.indexOf("/* —— Filters —— */"));
+
 class CoursesHub extends HTMLElement {
   static get observedAttributes() {
     return ["wa-url", "locale"];
@@ -895,6 +938,8 @@ class CoursesHub extends HTMLElement {
     this._onKeydown = this._onKeydown.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
     this._restPainted = false;
+    this._restChunk2 = false;
+    this._icRestTimer = null;
   }
 
   connectedCallback() {
@@ -918,6 +963,13 @@ class CoursesHub extends HTMLElement {
   }
 
   disconnectedCallback() {
+    if (this._icRestTimer != null) {
+      try {
+        if (typeof cancelIdleCallback === "function") cancelIdleCallback(this._icRestTimer);
+      } catch (e) {}
+      clearTimeout(this._icRestTimer);
+      this._icRestTimer = null;
+    }
     this.shadowRoot.removeEventListener("click", this._onClick);
     this.shadowRoot.removeEventListener("keydown", this._onKeydown);
     window.removeEventListener("resize", this._applyFullBleedCss);
@@ -950,12 +1002,6 @@ class CoursesHub extends HTMLElement {
         (document.documentElement && (document.documentElement.getAttribute("lang") || document.documentElement.lang)) || ""
       ).toLowerCase();
       if (lang.startsWith("zh")) return "zh";
-    } catch (e) {}
-    try {
-      const htmlHead = (document.documentElement && document.documentElement.innerHTML)
-        ? document.documentElement.innerHTML.slice(0, 120000)
-        : "";
-      if (/userLanguage"\s*:\s*"zh"/i.test(htmlHead)) return "zh";
     } catch (e) {}
     const attr = String(this.getAttribute("locale") || "").toLowerCase();
     if (attr.startsWith("zh")) return "zh";
@@ -1273,7 +1319,7 @@ class CoursesHub extends HTMLElement {
     this._waPrefillCached = waPrefill;
 
     this.shadowRoot.innerHTML = `
-      <style>${STYLES}</style>
+      <style>${STYLES_HERO}</style>
       <div class="hub">
         <section class="hero" aria-labelledby="hero-title">
           <div class="hero-bg" aria-hidden="true">
@@ -1310,7 +1356,16 @@ class CoursesHub extends HTMLElement {
         </section>
       </div>
     `;
-    this._applyFullBleedCss();
+    icScheduleSoon(() => this._applyFullBleedCss(), 1500);
+  }
+
+  _ensureRestStyles() {
+    const root = this.shadowRoot;
+    if (!root || root.querySelector("style[data-rest-styles]")) return;
+    const style = document.createElement("style");
+    style.setAttribute("data-rest-styles", "1");
+    style.textContent = STYLES_REST;
+    root.insertBefore(style, root.firstChild);
   }
 
   _paintRest() {
@@ -1318,6 +1373,8 @@ class CoursesHub extends HTMLElement {
     const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
     if (!hub) return;
     this._restPainted = true;
+    this._restChunk2 = false;
+    this._ensureRestStyles();
     const t = this._t || ((en, zh) => (this.isEn ? en : zh));
     const waPrefill = this._waPrefillCached || this._waPrefill(
       t(
@@ -1354,12 +1411,14 @@ class CoursesHub extends HTMLElement {
       `
     );
     this._applyFilter(this._filter || "all");
-    this._paintRestMore(t, waPrefill, galleryUrl, trialUrl);
+    icScheduleHubRest(this, () => this._paintRestChunk2(t, waPrefill, galleryUrl, trialUrl), null);
   }
 
-  _paintRestMore(t, waPrefill, galleryUrl, trialUrl) {
+  _paintRestChunk2(t, waPrefill, galleryUrl, trialUrl) {
+    if (this._restChunk2) return;
     const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
-    if (!hub || hub.querySelector(".final")) return;
+    if (!hub || hub.querySelector(".detail")) return;
+    this._restChunk2 = true;
     hub.insertAdjacentHTML(
       "beforeend",
       `
@@ -1381,7 +1440,7 @@ class CoursesHub extends HTMLElement {
                 <a class="btn btn-coral" data-action="whatsapp" href="${waPrefill}" target="_blank" rel="noopener noreferrer">${t("Ask about courses", "查詢課程詳情")}</a>
               </div>
               <div class="detail-media">
-                <img src="${IMG.detail}" alt="${t("ICAcademy student artwork example", "ICAcademy學生藝術作品示例")}" width="800" height="1000" loading="lazy" />
+                <img src="${IMG.detail}" alt="${t("ICAcademy student artwork example", "ICAcademy學生藝術作品示例")}" width="800" height="1000" loading="lazy" decoding="async" />
               </div>
             </div>
           </div>
@@ -1395,7 +1454,17 @@ class CoursesHub extends HTMLElement {
             ${this._compareMobileHtml()}
           </div>
         </section>
+      `
+    );
+    icScheduleHubRest(this, () => this._paintRestChunk3(t, waPrefill, galleryUrl, trialUrl), null);
+  }
 
+  _paintRestChunk3(t, waPrefill, galleryUrl, trialUrl) {
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub");
+    if (!hub || hub.querySelector(".final")) return;
+    hub.insertAdjacentHTML(
+      "beforeend",
+      `
         <section class="section section-soft" aria-labelledby="gallery-title">
           <div class="wrap">
             <h2 class="section-title" id="gallery-title">${t("See artwork by students of different ages", "看看不同年齡學生的創作")}</h2>
@@ -1466,8 +1535,11 @@ class CoursesHub extends HTMLElement {
 
   render() {
     this._restPainted = false;
+    this._restChunk2 = false;
     this._paintHero();
-    this._paintRest();
+    if (this.isConnected) {
+      icScheduleHubRest(this, () => this._paintRest(), ".hero-bg img");
+    }
   }
 }
 
