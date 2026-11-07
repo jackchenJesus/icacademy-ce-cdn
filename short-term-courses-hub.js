@@ -79,6 +79,14 @@ function icScheduleHubRest(host, paintRest, imgSelector) {
   }
 }
 
+function icScheduleSoon(fn, timeoutMs) {
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(fn, { timeout: timeoutMs || 2000 });
+  } else {
+    setTimeout(fn, 0);
+  }
+}
+
 /** Seasonal programme silos — links point to the live workshop pages on the site. */
 const PROGRAMMES = [
   {
