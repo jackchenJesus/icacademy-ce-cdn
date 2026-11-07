@@ -106,13 +106,33 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  hero: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 1600, 1000),
+  heroSm: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 640, 400, 70),
+
+  hero: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 960, 600, 75),
+
+  heroLg: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 1280, 800, 75),
   gallery1: mediaUrl("b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg", 800, 800),
   gallery2: mediaUrl("b98cc9_a62d943a779d4ddb8e85227dc0872726~mv2.jpg", 800, 800),
   gallery3: mediaUrl("b98cc9_5d9714fc876f42ba8b02b5b5d4b08923~mv2.jpg", 800, 800),
   gallery4: mediaUrl("b98cc9_bcc7d1f85fd7431c933ad24f568c4a9b~mv2.jpg", 800, 800),
   detail: mediaUrl("b98cc9_a62d943a779d4ddb8e85227dc0872726~mv2.jpg", 800, 1000),
 };
+
+
+(function preloadHeroLcp() {
+  try {
+    if (document.querySelector("link[data-comic-drawing-hub-hero-preload]")) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = IMG.heroSm;
+    link.setAttribute("fetchpriority", "high");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
+    link.setAttribute("imagesizes", "100vw");
+    link.setAttribute("data-comic-drawing-hub-hero-preload", "1");
+    document.head.appendChild(link);
+  } catch (e) {}
+})();
 
 const WHY = [
   {
@@ -872,7 +892,11 @@ class ComicDrawingHub extends HTMLElement {
       <style>${STYLES}</style>
       <main class="hub">
         <section class="hero" aria-labelledby="hero-title">
-          <img class="hero-photo" src="${IMG.hero}" alt="${t("Kids comic drawing class character design work at IC Academy Ho Man Tin", "何文田IC Academy兒童漫畫班角色設計學員作品")}" width="1600" height="1000" fetchpriority="high" decoding="async" />
+          <img class="hero-photo" src="${IMG.heroSm}"
+              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
+              sizes="100vw"
+              alt="${t("Kids comic drawing class character design work at IC Academy Ho Man Tin", "何文田IC Academy兒童漫畫班角色設計學員作品")}"
+              width="640" height="400" fetchpriority="high" decoding="async" />
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">

@@ -106,13 +106,35 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  hero: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 1600, 1000),
+  heroSm: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 640, 400, 70),
+
+  hero: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 960, 600, 75),
+
+  heroLg: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 1280, 800, 75),
   gallery1: mediaUrl("b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg", 800, 800),
   gallery2: mediaUrl("52f9c8_ceb5f3d8e3894373b80e0ec12a9e03a1~mv2.jpg", 800, 800),
   gallery3: mediaUrl("52f9c8_7ac3b5f599f74cf58c9702404485e283~mv2.jpg", 800, 800),
   gallery4: mediaUrl("b98cc9_938e779278dc4be38ad8c06a48102fc1~mv2.jpg", 800, 800),
   detail: mediaUrl("52f9c8_ceb5f3d8e3894373b80e0ec12a9e03a1~mv2.jpg", 800, 1000),
 };
+
+
+(function preloadHeroLcp() {
+  try {
+    if (document.querySelector("link[data-acrylic-painting-hub-hero-preload]")) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = IMG.heroSm;
+    link.setAttribute("fetchpriority", "high");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
+    link.setAttribute("imagesizes", "100vw");
+    link.setAttribute("data-acrylic-painting-hub-hero-preload", "1");
+    document.head.appendChild(link);
+  } catch (e) {
+    // ignore
+  }
+})();
 
 const WHY = [
   {
@@ -388,8 +410,15 @@ h3 { font-size: 1.12rem; }
   display: flex; align-items: center; overflow: hidden; background: #f3f3f3;
 }
 .hero-bg {
-  position: absolute; inset: 0;
-  background-image: var(--hero-img); background-size: cover; background-position: center 30%;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
 }
 .hero-bg::after {
   content: ""; position: absolute; inset: 0;
@@ -798,8 +827,19 @@ class AcrylicPaintingHub extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
       <div class="hub">
-        <section class="hero" aria-labelledby="hero-title" style="--hero-img:url('${IMG.hero}')">
-          <div class="hero-bg" aria-hidden="true"></div>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-bg" aria-hidden="true">
+            <img
+              src="${IMG.heroSm}"
+              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
+              sizes="100vw"
+              width="640"
+              height="400"
+              alt=""
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">

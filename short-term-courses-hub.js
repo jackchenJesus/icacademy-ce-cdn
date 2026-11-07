@@ -920,6 +920,7 @@ class ShortTermCoursesHub extends HTMLElement {
               height="400"
               alt=""
               fetchpriority="high"
+              decoding="async"
             />
           </div>
           <div class="wrap">
