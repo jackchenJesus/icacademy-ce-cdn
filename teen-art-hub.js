@@ -15,7 +15,11 @@ function mediaUrl(id, w, h) {
 }
 
 const IMG = {
-  hero: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 1600, 1000),
+  heroSm: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 640, 400, 70),
+
+  hero: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 960, 600, 75),
+
+  heroLg: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 1280, 800, 75),
   creative: mediaUrl("d5ba93_304dcc22214945caa340b35615e155e5~mv2.webp", 800, 600),
   clay: mediaUrl("d5ba93_7602a3ff44a44704b17b3de5eeea5ee2~mv2.webp", 800, 600),
   visualArt: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 800, 600),
@@ -28,6 +32,24 @@ const IMG = {
   gallery4: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 800, 800),
   detail: mediaUrl("d5ba93_708bccb2e11c419a9d89bf932fb8a36a~mv2.webp", 800, 1000),
 };
+
+
+(function preloadHeroLcp() {
+  try {
+    if (document.querySelector("link[data-teen-art-hub-hero-preload]")) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = IMG.heroSm;
+    link.setAttribute("fetchpriority", "high");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
+    link.setAttribute("imagesizes", "100vw");
+    link.setAttribute("data-teen-art-hub-hero-preload", "1");
+    document.head.appendChild(link);
+  } catch (e) {
+    // ignore
+  }
+})();
 
 /** Related programmes — ages / URLs audited from existing ICAcademy course pages 2026-08 */
 const COURSES = [
@@ -396,9 +418,13 @@ h3 { font-size: 1.12rem; }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: var(--hero-img);
-  background-size: cover;
-  background-position: 68% center;
+  overflow: hidden;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 68% center;
   filter: grayscale(0.05);
 }
 .hero-bg::after {
@@ -1103,8 +1129,19 @@ class TeenArtHub extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
       <div class="hub">
-        <section class="hero" aria-labelledby="hero-title" style="--hero-img:url('${IMG.hero}')">
-          <div class="hero-bg" aria-hidden="true"></div>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-bg" aria-hidden="true">
+            <img
+              src="${IMG.heroSm}"
+              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
+              sizes="100vw"
+              width="640"
+              height="400"
+              alt=""
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">

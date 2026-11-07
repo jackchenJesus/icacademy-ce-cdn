@@ -106,7 +106,11 @@ function mediaUrl(id, w, h, q = 65) {
 }
 
 const IMG = {
-  hero: mediaUrl("d5ba93_8164c17fe84e4b9896c5e2f06cdc569f~mv2.webp", 640, 400, 65),
+  heroSm: mediaUrl("d5ba93_8164c17fe84e4b9896c5e2f06cdc569f~mv2.webp", 640, 400, 65),
+
+  hero: mediaUrl("d5ba93_8164c17fe84e4b9896c5e2f06cdc569f~mv2.webp", 960, 600, 65),
+
+  heroLg: mediaUrl("d5ba93_8164c17fe84e4b9896c5e2f06cdc569f~mv2.webp", 1280, 800, 65),
   gallery1: mediaUrl("d5ba93_6b8642c3db6945b59c18849170a01e4e~mv2.webp", 320, 320, 65),
   gallery2: mediaUrl("d5ba93_496cce51829544519d319756b735484c~mv2.webp", 320, 320, 65),
   gallery3: mediaUrl("b98cc9_ebe4308b54a24d24b9be7d03605ac494~mv2.jpg", 320, 320, 65),
@@ -116,13 +120,15 @@ const IMG = {
 
 (function preloadHeroLcp() {
   try {
-    if (document.querySelector("link[data-vas-hero-preload]")) return;
+    if (document.querySelector("link[data-visual-art-skills-hub-hero-preload]")) return;
     const link = document.createElement("link");
     link.rel = "preload";
     link.as = "image";
-    link.href = IMG.hero;
+    link.href = IMG.heroSm;
     link.setAttribute("fetchpriority", "high");
-    link.setAttribute("data-vas-hero-preload", "1");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
+    link.setAttribute("imagesizes", "100vw");
+    link.setAttribute("data-visual-art-skills-hub-hero-preload", "1");
     document.head.appendChild(link);
   } catch (e) {}
 })();
@@ -981,7 +987,11 @@ class VisualArtSkillsHub extends HTMLElement {
       <style>${STYLES}</style>
       <main class="hub">
         <section class="hero" aria-labelledby="hero-title">
-          <img class="hero-photo" src="${IMG.hero}" alt="${t("Ages 3–7 kids drawing class student artwork at IC Academy Ho Man Tin", "何文田IC Academy 3–7歲幼兒畫畫班學員作品")}" width="640" height="400" fetchpriority="high" decoding="async" />
+          <img class="hero-photo" src="${IMG.heroSm}"
+              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
+              sizes="100vw"
+              alt="${t("Ages 3–7 kids drawing class student artwork at IC Academy Ho Man Tin", "何文田IC Academy 3–7歲幼兒畫畫班學員作品")}"
+              width="640" height="400" fetchpriority="high" decoding="async" />
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">

@@ -108,7 +108,11 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  hero: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 1600, 1000),
+  heroSm: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 640, 400, 70),
+
+  hero: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 960, 600, 75),
+
+  heroLg: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 1280, 800, 75),
   prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 640, 400, 70),
   foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 640, 400, 70),
   creativeI: mediaUrl("b98cc9_9c6e5138d1fa40a7815d12218f642440~mv2.jpg", 640, 400, 70),
@@ -123,6 +127,24 @@ const IMG = {
   gallery4: mediaUrl("b98cc9_5d9714fc876f42ba8b02b5b5d4b08923~mv2.jpg", 800, 800),
   detail: mediaUrl("b98cc9_9c6489b3ccfa47f0adc205c472aa87e7~mv2.jpg", 800, 1000),
 };
+
+
+(function preloadHeroLcp() {
+  try {
+    if (document.querySelector("link[data-kids-art-classes-hub-hero-preload]")) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = IMG.heroSm;
+    link.setAttribute("fetchpriority", "high");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
+    link.setAttribute("imagesizes", "100vw");
+    link.setAttribute("data-kids-art-classes-hub-hero-preload", "1");
+    document.head.appendChild(link);
+  } catch (e) {
+    // ignore
+  }
+})();
 
 const COURSES = [
   {
@@ -513,8 +535,15 @@ h3 { font-size: 1.12rem; }
   display: flex; align-items: center; overflow: hidden; background: #f3f3f3;
 }
 .hero-bg {
-  position: absolute; inset: 0;
-  background-image: var(--hero-img); background-size: cover; background-position: center 30%;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
 }
 .hero-bg::after {
   content: ""; position: absolute; inset: 0;
@@ -1030,8 +1059,19 @@ class KidsArtClassesHub extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
       <div class="hub">
-        <section class="hero" aria-labelledby="hero-title" style="--hero-img:url('${IMG.hero}')">
-          <div class="hero-bg" aria-hidden="true"></div>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-bg" aria-hidden="true">
+            <img
+              src="${IMG.heroSm}"
+              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
+              sizes="100vw"
+              width="640"
+              height="400"
+              alt=""
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">

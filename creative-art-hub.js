@@ -106,7 +106,11 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  hero: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 1600, 1000),
+  heroSm: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 640, 400, 70),
+
+  hero: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 960, 600, 75),
+
+  heroLg: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 1280, 800, 75),
   gallery1: mediaUrl("d5ba93_e55fc3aa23d3477eb7d1a12cf8904758~mv2.webp", 800, 800),
   gallery2: mediaUrl("d5ba93_8ba279abdfb445da9e47fd50eb19e282~mv2.webp", 800, 800),
   gallery3: mediaUrl("d5ba93_304dcc22214945caa340b35615e155e5~mv2.webp", 800, 800),
@@ -116,6 +120,22 @@ const IMG = {
   levelII: mediaUrl("d5ba93_8ba279abdfb445da9e47fd50eb19e282~mv2.webp", 640, 400, 70),
   levelIII: mediaUrl("d5ba93_304dcc22214945caa340b35615e155e5~mv2.webp", 640, 400, 70),
 };
+
+
+(function preloadHeroLcp() {
+  try {
+    if (document.querySelector("link[data-creative-art-hub-hero-preload]")) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = IMG.heroSm;
+    link.setAttribute("fetchpriority", "high");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
+    link.setAttribute("imagesizes", "100vw");
+    link.setAttribute("data-creative-art-hub-hero-preload", "1");
+    document.head.appendChild(link);
+  } catch (e) {}
+})();
 
 const WHY = [
   {
@@ -926,7 +946,11 @@ class CreativeArtHub extends HTMLElement {
       <style>${STYLES}</style>
       <main class="hub">
         <section class="hero" aria-labelledby="hero-title">
-          <img class="hero-photo" src="${IMG.hero}" alt="${t("Ages 7–14 creative art class student work at IC Academy Ho Man Tin", "何文田IC Academy 7–14歲兒童創意美術班學員作品")}" width="1600" height="1000" fetchpriority="high" decoding="async" />
+          <img class="hero-photo" src="${IMG.heroSm}"
+              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
+              sizes="100vw"
+              alt="${t("Ages 7–14 creative art class student work at IC Academy Ho Man Tin", "何文田IC Academy 7–14歲兒童創意美術班學員作品")}"
+              width="640" height="400" fetchpriority="high" decoding="async" />
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">

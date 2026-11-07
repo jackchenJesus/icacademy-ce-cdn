@@ -13,8 +13,9 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  heroSm: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 960, 540, 70),
-  hero: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 1600, 900, 75),
+  heroSm: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 640, 360, 70),
+  hero: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 960, 540, 75),
+  heroLg: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 1280, 720, 75),
   slide2: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 1280, 900, 75),
   slide3: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 1280, 900, 75),
   slide4: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 1280, 900, 75),
@@ -22,7 +23,24 @@ const IMG = {
   why: mediaUrl("d5ba93_6b8642c3db6945b59c18849170a01e4e~mv2.webp", 800, 1000, 75),
 };
 
-const SLIDES = [IMG.hero, IMG.slide2, IMG.slide3, IMG.slide4, IMG.slide5];
+const SLIDES = [IMG.heroLg, IMG.slide2, IMG.slide3, IMG.slide4, IMG.slide5];
+
+(function preloadHeroLcp() {
+  try {
+    if (document.querySelector("link[data-home-hub-hero-preload]")) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = IMG.heroSm;
+    link.setAttribute("fetchpriority", "high");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 640w, ${IMG.hero} 960w, ${IMG.heroLg} 1280w`);
+    link.setAttribute("imagesizes", "100vw");
+    link.setAttribute("data-home-hub-hero-preload", "1");
+    document.head.appendChild(link);
+  } catch (e) {
+    // ignore
+  }
+})();
 
 const HIGHLIGHTS = [
   { en: "5-minute walk from Pui Ching Primary", zh: "培正小學附近，步行5分鐘" },
@@ -630,7 +648,9 @@ class HomeHub extends HTMLElement {
     this.shadowRoot.addEventListener("click", this._onClick);
     window.addEventListener("resize", this._applyFullBleedCss);
     window.addEventListener("orientationchange", this._applyFullBleedCss);
-    this._startSlideshow();
+    const startSlideshow = () => this._startSlideshow();
+    if (typeof requestIdleCallback === "function") requestIdleCallback(startSlideshow, { timeout: 8000 });
+    else window.setTimeout(startSlideshow, 4000);
     window.setTimeout(() => this._collapseTrailingGap(), 50);
     window.setTimeout(() => this._collapseTrailingGap(), 400);
     window.setTimeout(() => this._collapseTrailingGap(), 1200);
@@ -922,10 +942,12 @@ class HomeHub extends HTMLElement {
       <div class="hub">
         <section class="hero" aria-label="${t("Homepage slideshow", "首頁圖片輪播")}">
           <div class="hero-slides">
-            ${SLIDES.map(
-              (src, i) =>
-                `<img src="${src}" alt="" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} class="${i === this._slide ? "is-active" : ""}" width="1600" height="900" />`
-            ).join("")}
+            ${SLIDES.map((src, i) => {
+              if (i === 0) {
+                return `<img src="${IMG.heroSm}" srcset="${IMG.heroSm} 640w, ${IMG.hero} 960w, ${IMG.heroLg} 1280w" sizes="100vw" alt="" fetchpriority="high" decoding="async" class="${i === this._slide ? "is-active" : ""}" width="1280" height="720" />`;
+              }
+              return `<img src="${src}" alt="" loading="lazy" decoding="async" class="${i === this._slide ? "is-active" : ""}" width="1280" height="900" />`;
+            }).join("")}
           </div>
           <button class="hero-arrow prev" type="button" data-action="prev" aria-label="${t("Previous", "上一張")}">‹</button>
           <button class="hero-arrow next" type="button" data-action="next" aria-label="${t("Next", "下一張")}">›</button>

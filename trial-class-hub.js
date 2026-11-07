@@ -108,7 +108,11 @@ function mediaUrl(id, w, h, align) {
 }
 
 const IMG = {
-  hero: mediaUrl("b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg", 1600, 1000),
+  heroSm: mediaUrl("b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg", 640, 400, 70),
+
+  hero: mediaUrl("b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg", 960, 600, 75),
+
+  heroLg: mediaUrl("b98cc9_37d03a2a33974076b01befe1d515bf0d~mv2.jpg", 1280, 800, 75),
   prep: mediaUrl("b98cc9_ad34c2bb0fca4f8186d9e43bb8e1909c~mv2.jpg", 800, 600),
   foundation: mediaUrl("b98cc9_c966f659ad4c45939096573490e41e6b~mv2.jpg", 800, 600),
   creativeI: mediaUrl("b98cc9_9c6e5138d1fa40a7815d12218f642440~mv2.jpg", 800, 600),
@@ -125,6 +129,24 @@ const IMG = {
   gallery4: mediaUrl("b98cc9_5d9714fc876f42ba8b02b5b5d4b08923~mv2.jpg", 800, 800),
   experience: mediaUrl("b98cc9_9c6489b3ccfa47f0adc205c472aa87e7~mv2.jpg", 800, 1000),
 };
+
+
+(function preloadHeroLcp() {
+  try {
+    if (document.querySelector("link[data-trial-class-hub-hero-preload]")) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = IMG.heroSm;
+    link.setAttribute("fetchpriority", "high");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
+    link.setAttribute("imagesizes", "100vw");
+    link.setAttribute("data-trial-class-hub-hero-preload", "1");
+    document.head.appendChild(link);
+  } catch (e) {
+    // ignore
+  }
+})();
 
 /** Active programmes from Kids Art + Drawing hubs (audited catalogue). */
 const COURSES = [
@@ -704,9 +726,13 @@ h3 { font-size: 1.12rem; }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: var(--hero-img);
-  background-size: cover;
-  background-position: 68% center;
+  overflow: hidden;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 68% center;
   filter: grayscale(0.05);
 }
 .hero-bg::after {
@@ -1123,7 +1149,7 @@ h3 { font-size: 1.12rem; }
     min-height: 0;
     align-items: stretch;
   }
-  .hero-bg { background-position: 70% center; }
+  .hero-bg img { object-position: 70% center; }
   .hero-bg::after {
     background: linear-gradient(
       180deg,
@@ -1766,8 +1792,19 @@ class TrialClassHub extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
       <div class="hub">
-        <section class="hero" aria-labelledby="hero-title" style="--hero-img:url('${IMG.hero}')">
-          <div class="hero-bg" aria-hidden="true"></div>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-bg" aria-hidden="true">
+            <img
+              src="${IMG.heroSm}"
+              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
+              sizes="100vw"
+              width="640"
+              height="400"
+              alt=""
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">

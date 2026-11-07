@@ -105,7 +105,11 @@ function mediaUrl(id, w, h, align) {
 
 /** ICA-MEDIA-P2: 課程Courses artwork (aligned with ICA-MEDIA-P1 course hubs) */
 const IMG = {
-  hero: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 1600, 1000),
+  heroSm: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 640, 400, 70),
+
+  hero: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 960, 600, 75),
+
+  heroLg: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 1280, 800, 75),
   prep: mediaUrl("d5ba93_8164c17fe84e4b9896c5e2f06cdc569f~mv2.webp", 800, 600),
   foundation: mediaUrl("d5ba93_4f5b7608c6f14584832aa0db691df84b~mv2.webp", 800, 600),
   creativeI: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 800, 600),
@@ -121,6 +125,24 @@ const IMG = {
   gallery4: mediaUrl("d5ba93_8fb5945d369549a7b101fd279e72b803~mv2.webp", 800, 800),
   detail: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 800, 1000),
 };
+
+
+(function preloadHeroLcp() {
+  try {
+    if (document.querySelector("link[data-kids-art-hub-hero-preload]")) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = IMG.heroSm;
+    link.setAttribute("fetchpriority", "high");
+    link.setAttribute("imagesrcset", `${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w`);
+    link.setAttribute("imagesizes", "100vw");
+    link.setAttribute("data-kids-art-hub-hero-preload", "1");
+    document.head.appendChild(link);
+  } catch (e) {
+    // ignore
+  }
+})();
 
 /** Children's programmes only — ages / URLs audited from Course Hub catalogue 2026-08 */
 const COURSES = [
@@ -540,9 +562,13 @@ h3 { font-size: 1.12rem; }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: var(--hero-img);
-  background-size: cover;
-  background-position: 68% center;
+  overflow: hidden;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 68% center;
   filter: grayscale(0.05);
 }
 .hero-bg::after {
@@ -1375,8 +1401,19 @@ class KidsArtHub extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
       <div class="hub">
-        <section class="hero" aria-labelledby="hero-title" style="--hero-img:url('${IMG.hero}')">
-          <div class="hero-bg" aria-hidden="true"></div>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-bg" aria-hidden="true">
+            <img
+              src="${IMG.heroSm}"
+              srcset="${IMG.heroSm} 800w, ${IMG.hero} 1200w, ${IMG.heroLg} 1600w"
+              sizes="100vw"
+              width="640"
+              height="400"
+              alt=""
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
           <div class="wrap">
             <div class="hero-copy">
               <nav class="crumbs" aria-label="${t("Breadcrumb", "麵包屑")}">
