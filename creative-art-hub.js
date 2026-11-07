@@ -136,6 +136,38 @@ const IMG = {
     document.head.appendChild(link);
   } catch (e) {}
 })();
+function icScheduleHubRest(host, paintRest, imgSelector) {
+  const root = host && host.shadowRoot;
+  if (!root) return;
+  if (host._icRestTimer != null) {
+    try {
+      if (typeof cancelIdleCallback === "function") cancelIdleCallback(host._icRestTimer);
+    } catch (e) {}
+    clearTimeout(host._icRestTimer);
+    host._icRestTimer = null;
+  }
+  const start = () => {
+    const paint = () => {
+      try { paintRest(); } catch (e) {}
+    };
+    if (typeof requestIdleCallback === "function") {
+      host._icRestTimer = requestIdleCallback(paint, { timeout: 3200 });
+    } else {
+      host._icRestTimer = setTimeout(paint, 1200);
+    }
+  };
+  const img = imgSelector ? root.querySelector(imgSelector) : null;
+  if (img && !img.complete) {
+    img.addEventListener("load", start, { once: true });
+    host._icRestTimer = setTimeout(start, 2200);
+  } else start();
+}
+
+function icScheduleSoon(fn, timeoutMs) {
+  if (typeof requestIdleCallback === "function") requestIdleCallback(fn, { timeout: timeoutMs || 2000 });
+  else setTimeout(fn, 0);
+}
+
 
 const WHY = [
   {
@@ -710,6 +742,11 @@ class CreativeArtHub extends HTMLElement {
   }
 
   disconnectedCallback() {
+    if (this._icRestTimer != null) {
+      try { if (typeof cancelIdleCallback === "function") cancelIdleCallback(this._icRestTimer); } catch (e) {}
+      clearTimeout(this._icRestTimer);
+      this._icRestTimer = null;
+    }
     this.shadowRoot.removeEventListener("click", this._onClick);
     window.removeEventListener("resize", this._syncHeight);
     window.removeEventListener("resize", this._applyFullBleedCss);
@@ -923,9 +960,10 @@ class CreativeArtHub extends HTMLElement {
     }
   }
 
-  render() {
+  _paintHero() {
     const t = (en, zh) => (this.isEn ? en : zh);
-    this._applyFullBleedCss();
+    icScheduleSoon(() => this._applyFullBleedCss(), 1500);
+    this._t = t;
 
     const courseHubUrl = this.path("/course-hub");
     const siloUrl = this.path("/course/kids-art");
@@ -942,7 +980,9 @@ class CreativeArtHub extends HTMLElement {
       )
     );
 
+    
     this.shadowRoot.innerHTML = `
+
       <style>${STYLES}</style>
       <main class="hub">
         <section class="hero" aria-labelledby="hero-title">
@@ -985,7 +1025,20 @@ class CreativeArtHub extends HTMLElement {
             </div>
           </div>
         </section>
+      </div>
+    `;
+    this._waPrefillCached = waPrefill;
+    icScheduleSoon(() => this._applyFullBleedCss(), 1500);
+  }
 
+  _paintRest() {
+    if (this._restPainted) return;
+    const hub = this.shadowRoot && this.shadowRoot.querySelector(".hub, main.hub");
+    if (!hub) return;
+    this._restPainted = true;
+    const t = this._t || ((en, zh) => (this.isEn ? en : zh));
+    const waPrefill = this._waPrefillCached || this._waPrefill("");
+    hub.insertAdjacentHTML("beforeend", `
         <section class="section decide" aria-labelledby="decide-title">
           <div class="wrap">
             <div class="decide-panel">
@@ -1203,10 +1256,16 @@ class CreativeArtHub extends HTMLElement {
           </div>
         </section>
       </main>
-    `;
+    `);
 
     this._applyFullBleedCss();
     this._observeHeight();
+  }
+
+  render() {
+    this._restPainted = false;
+    this._paintHero();
+    if (this.isConnected) icScheduleHubRest(this, () => this._paintRest(), ".hero-bg img, .hero-photo");
   }
 }
 

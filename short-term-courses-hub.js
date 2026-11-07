@@ -48,6 +48,45 @@ const IMG = {
   }
 })();
 
+function icScheduleHubRest(host, paintRest, imgSelector) {
+  const root = host && host.shadowRoot;
+  if (!root) return;
+  if (host._icRestTimer != null) {
+    try {
+      if (typeof cancelIdleCallback === "function") cancelIdleCallback(host._icRestTimer);
+    } catch (e) {}
+    clearTimeout(host._icRestTimer);
+    host._icRestTimer = null;
+  }
+  const start = () => {
+    const paint = () => {
+      try {
+        paintRest();
+      } catch (e) {}
+    };
+    if (typeof requestIdleCallback === "function") {
+      host._icRestTimer = requestIdleCallback(paint, { timeout: 3200 });
+    } else {
+      host._icRestTimer = setTimeout(paint, 1200);
+    }
+  };
+  const img = imgSelector ? root.querySelector(imgSelector) : null;
+  if (img && !img.complete) {
+    img.addEventListener("load", start, { once: true });
+    host._icRestTimer = setTimeout(start, 2200);
+  } else {
+    start();
+  }
+}
+
+function icScheduleSoon(fn, timeoutMs) {
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(fn, { timeout: timeoutMs || 2000 });
+  } else {
+    setTimeout(fn, 0);
+  }
+}
+
 /** Seasonal programme silos — links point to the live workshop pages on the site. */
 const PROGRAMMES = [
   {
@@ -639,6 +678,7 @@ class ShortTermCoursesHub extends HTMLElement {
     this._onClick = this._onClick.bind(this);
     this._applyFullBleedCss = this._applyFullBleedCss.bind(this);
     this._restPainted = false;
+    this._icRestTimer = null;
   }
 
   connectedCallback() {
@@ -649,6 +689,13 @@ class ShortTermCoursesHub extends HTMLElement {
   }
 
   disconnectedCallback() {
+    if (this._icRestTimer != null) {
+      try {
+        if (typeof cancelIdleCallback === "function") cancelIdleCallback(this._icRestTimer);
+      } catch (e) {}
+      clearTimeout(this._icRestTimer);
+      this._icRestTimer = null;
+    }
     this.shadowRoot.removeEventListener("click", this._onClick);
     window.removeEventListener("resize", this._applyFullBleedCss);
     window.removeEventListener("orientationchange", this._applyFullBleedCss);
@@ -674,12 +721,6 @@ class ShortTermCoursesHub extends HTMLElement {
         (document.documentElement && (document.documentElement.getAttribute("lang") || document.documentElement.lang)) || ""
       ).toLowerCase();
       if (lang.startsWith("zh")) return "zh";
-    } catch (e) {}
-    try {
-      const htmlHead = (document.documentElement && document.documentElement.innerHTML)
-        ? document.documentElement.innerHTML.slice(0, 120000)
-        : "";
-      if (/userLanguage"\s*:\s*"zh"/i.test(htmlHead)) return "zh";
     } catch (e) {}
     const attr = String(this.getAttribute("locale") || "").toLowerCase();
     if (attr.startsWith("zh")) return "zh";
@@ -945,7 +986,7 @@ class ShortTermCoursesHub extends HTMLElement {
         </section>
       </div>
     `;
-    this._applyFullBleedCss();
+    icScheduleSoon(() => this._applyFullBleedCss(), 1500);
   }
 
   _paintRest() {
@@ -1099,7 +1140,9 @@ class ShortTermCoursesHub extends HTMLElement {
   render() {
     this._restPainted = false;
     this._paintHero();
-    this._paintRest();
+    if (this.isConnected) {
+      icScheduleHubRest(this, () => this._paintRest(), ".hero-bg img");
+    }
   }
 }
 
