@@ -53,7 +53,7 @@ function icScheduleHubRest(host, paintRest, imgSelector) {
   }
   const start = () => {
     const paint = () => {
-      try { paintRest(); } catch (e) {}
+      try { paintRest(); } catch (e) { try { console.error("[ic-hub] deferred paint failed", e); } catch (_) {} }
     };
     if (typeof requestIdleCallback === "function") {
       host._icRestTimer = requestIdleCallback(paint, { timeout: 3200 });
@@ -1029,6 +1029,11 @@ class HomeHub extends HTMLElement {
     this._restPainted = true;
     const t = this._t || ((en, zh) => (this.isEn ? en : zh));
     const waPrefill = this._waPrefillCached || this._waPrefill("");
+    // Values below are declared in _paintHero(); recompute them so the deferred paint does not throw.
+    const stories = this.isEn ? STORIES_EN : STORIES_ZH;
+    const faqs = this.isEn ? FAQ_EN : FAQ_ZH;
+    const trialHref = this.path("/homantin-children-art-trial");
+    const aboutHref = this.path("/about-us");
     hub.insertAdjacentHTML("beforeend", `
         <section class="section">
           <div class="wrap">
