@@ -330,6 +330,13 @@ const FAQ = [
       zh: "非常歡迎預約試堂體驗！由於小班學位非常有限，請直接點擊網頁按鈕或透過 WhatsApp 聯絡我們，課程顧問會即時為您安排最適合孩子的體驗時段。",
     },
   },
+  {
+    q: { en: "Is this a light clay or paper clay class?", zh: "課程用輕黏土定紙黏土？" },
+    a: {
+      en: "Classes mainly use Amos Korean light clay, with other professional clays added when a project needs them. To ask about a specific material, WhatsApp us.",
+      zh: "課程主要使用韓國 Amos 輕黏土，按作品需要再配合其他專業黏土。如想了解個別材料，歡迎 WhatsApp 查詢。",
+    },
+  },
 ];
 
 const RELATED = [

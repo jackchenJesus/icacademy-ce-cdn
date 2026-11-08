@@ -326,6 +326,13 @@ const FAQ = [
       zh: "可以預約體驗。名額及適合時段請透過 WhatsApp 與課程顧問確認。",
     },
   },
+  {
+    q: { en: "Should I choose acrylic painting or the adult art class (Paint Square)?", zh: "我應該揀塑膠彩班定成人繪畫班（Paint Square）？" },
+    a: {
+      en: "Acrylic painting focuses on acrylic technique for ages 14+. Paint Square is our adult painting class with more open choice of subject and medium, such as watercolour, sketching or illustration. If you mainly want to learn acrylic, choose this class; WhatsApp us if you are unsure.",
+      zh: "塑膠彩班專注塑膠彩技法，適合14歲或以上；Paint Square 是成人繪畫課程，題材及媒介選擇較自由，例如水彩、素描或插畫。如主要想學塑膠彩，可選本課程；未肯定的話歡迎 WhatsApp 查詢。",
+    },
+  },
 ];
 
 const RELATED = [
