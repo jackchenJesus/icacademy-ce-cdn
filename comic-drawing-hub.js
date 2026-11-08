@@ -373,6 +373,20 @@ const FAQ = [
       zh: "每堂約1小時。現有星期一、三、五、六。最新時間及收費請WhatsApp查詢。",
     },
   },
+  {
+    q: { en: "How is the comic class different from a general kids art class?", zh: "漫畫班同一般兒童畫班有咩分別？" },
+    a: {
+      en: "The comic class focuses specifically on comic skills: figure proportion, facial features, expressions, character design and comic composition, rather than general drawing and painting.",
+      zh: "漫畫班專門教授漫畫技巧，包括人物比例、五官表情、角色設計及漫畫構圖，而不是一般繪畫課程。",
+    },
+  },
+  {
+    q: { en: "Can adults learn comic drawing?", zh: "成人想學漫畫可以報讀嗎？" },
+    a: {
+      en: "This class is for ages 8+ (children and teens). Adults and older teens can learn comics and illustration in Paint Square, our adult painting class.",
+      zh: "本課程適合8歲或以上的兒童及青少年；成人及較年長青少年可報讀成人繪畫課程 Paint Square，學習漫畫及插畫。",
+    },
+  },
 ];
 
 const RELATED = [
