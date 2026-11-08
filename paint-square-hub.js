@@ -177,7 +177,7 @@ function icScheduleHubRest(host, paintRest, imgSelector) {
   }
   const start = () => {
     const paint = () => {
-      try { paintRest(); } catch (e) {}
+      try { paintRest(); } catch (e) { try { console.error("[ic-hub] deferred paint failed", e); } catch (_) {} }
     };
     if (typeof requestIdleCallback === "function") {
       host._icRestTimer = requestIdleCallback(paint, { timeout: 3200 });
@@ -967,6 +967,8 @@ class PaintSquareHub extends HTMLElement {
     const trialUrl = this._trialUrl || this.path("/homantin-children-art-trial");
     const siloUrl = this._siloUrl || this.path("/course/drawing-and-painting");
     const galleryUrl = this._galleryUrl || "https://www.icacademy.com.hk/studentartwork";
+    // Values below are declared in _paintHero(); recompute them so the deferred paint does not throw.
+    const courseHubUrl = this.path("/course-hub");
     hub.insertAdjacentHTML("beforeend", `
         <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="${t("Class facts", "課程重點")}">
           <div class="wrap">

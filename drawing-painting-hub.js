@@ -58,7 +58,7 @@ function icScheduleHubRest(host, paintRest, imgSelector) {
   }
   const start = () => {
     const paint = () => {
-      try { paintRest(); } catch (e) {}
+      try { paintRest(); } catch (e) { try { console.error("[ic-hub] deferred paint failed", e); } catch (_) {} }
     };
     if (typeof requestIdleCallback === "function") {
       host._icRestTimer = requestIdleCallback(paint, { timeout: 3200 });
@@ -1414,6 +1414,14 @@ class DrawingPaintingHub extends HTMLElement {
     this._restPainted = true;
     const t = this._t || ((en, zh) => (this.isEn ? en : zh));
     const waPrefill = this._waPrefillCached || this._waPrefill("");
+    // Values below are declared in _paintHero(); recompute them so the deferred paint does not throw.
+    const courseHubUrl = this.path("/course-hub");
+    const kidsArtUrl = this.path("/course/kids-art");
+    const kidsListingUrl = this.path("/course/kids-art");
+    const trialUrl = this.path("/homantin-children-art-trial");
+    const galleryUrl = this.isEn
+      ? "https://www.icacademy.com.hk/studentartwork"
+      : "https://www.icacademy.com.hk/zh/studentartwork";
     hub.insertAdjacentHTML("beforeend", `
         <section class="section" id="secSelector" aria-labelledby="selector-title">
           <div class="wrap">

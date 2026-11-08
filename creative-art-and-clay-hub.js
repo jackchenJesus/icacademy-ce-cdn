@@ -151,7 +151,7 @@ function icScheduleHubRest(host, paintRest, imgSelector) {
   }
   const start = () => {
     const paint = () => {
-      try { paintRest(); } catch (e) {}
+      try { paintRest(); } catch (e) { try { console.error("[ic-hub] deferred paint failed", e); } catch (_) {} }
     };
     if (typeof requestIdleCallback === "function") {
       host._icRestTimer = requestIdleCallback(paint, { timeout: 3200 });
@@ -958,6 +958,12 @@ class CreativeArtAndClayHub extends HTMLElement {
     const t = this._t || ((en, zh) => (this.isEn ? en : zh));
     const waPrefill = this._waPrefillCached || this._waPrefill("");
     const siloUrl = this._siloUrl || this.path("/course/kids-art");
+    // Values below are declared in _paintHero(); recompute them so the deferred paint does not throw.
+    const courseHubUrl = this.path("/course-hub");
+    const trialUrl = this.path("/homantin-children-art-trial");
+    const galleryUrl = this.isEn
+      ? "https://www.icacademy.com.hk/studentartwork"
+      : "https://www.icacademy.com.hk/zh/studentartwork";
     hub.insertAdjacentHTML("beforeend", `
         <section class="section" style="padding-top:0;padding-bottom:40px" aria-label="${t("Class facts", "課程重點")}">
           <div class="wrap">

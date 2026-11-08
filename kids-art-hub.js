@@ -155,7 +155,7 @@ function icScheduleHubRest(host, paintRest, imgSelector) {
   }
   const start = () => {
     const paint = () => {
-      try { paintRest(); } catch (e) {}
+      try { paintRest(); } catch (e) { try { console.error("[ic-hub] deferred paint failed", e); } catch (_) {} }
     };
     if (typeof requestIdleCallback === "function") {
       host._icRestTimer = requestIdleCallback(paint, { timeout: 3200 });
