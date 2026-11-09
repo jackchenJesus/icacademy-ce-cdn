@@ -24,6 +24,7 @@ const IMG = {
   heroLg: mediaUrl("d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp", 1280, 800, 75),
   cny: mediaUrl("4ea940_2d5010ecfb1f4a8399e4f3ceb790972a~mv2.jpeg", 640, 400, 70),
   easter: mediaUrl("d5ba93_321804e3e45d4cc8ae34b02b4a4872bd~mv2.jpg", 640, 400, 70),
+  procreate: mediaUrl("52f9c8_fcb4b9b1b0a24c54b0727f8f39145911~mv2.jpg", 640, 400, 70),
   detail: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 640, 800, 70),
   gallery1: mediaUrl("d5ba93_ecb183209c8e40aaa71fb4d0a53bb2bc~mv2.webp", 480, 480, 70),
   gallery2: mediaUrl("d5ba93_7602a3ff44a44704b17b3de5eeea5ee2~mv2.webp", 480, 480, 70),
@@ -118,7 +119,7 @@ const PROGRAMMES = [
       zh: ["熟練運用 iPad 與 Procreate，提升繪畫效率與完成度", "以幾何骨架掌握肢體動作與透視", "設計原創角色、三視圖與動作延伸"],
     },
     hrefSlug: "/short-term-course/procreate-assessment-intensive",
-    image: "../public/images/procreate-characters.jpg",
+    image: IMG.procreate,
     imageAlt: { en: "Procreate original character design and three-view drawing course", zh: "Procreate 原創角色設計及三視圖課程作品" },
   },
   {
