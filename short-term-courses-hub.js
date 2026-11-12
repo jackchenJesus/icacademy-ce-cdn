@@ -10,7 +10,10 @@
 const WA_DEFAULT = "https://wa.me/85265808022";
 // Enable each URL only after the corresponding Wix page exists and has been verified.
 // PR #27 contains design previews, not published Wix pages.
-const CHRISTMAS_PAGE_URL = { en: "", zh: "" };
+const CHRISTMAS_PAGE_URL = {
+  en: "https://www.icacademy.com.hk/short-term-course/christmas-workshop-2026",
+  zh: "https://www.icacademy.com.hk/zh/short-term-course/christmas-workshop-2026",
+};
 
 /** Build a Wix Media Manager fill URL from a site media file id. */
 function mediaUrl(id, w, h, q = 70) {
@@ -25,6 +28,7 @@ const IMG = {
   cny: mediaUrl("4ea940_2d5010ecfb1f4a8399e4f3ceb790972a~mv2.jpeg", 640, 400, 70),
   easter: mediaUrl("d5ba93_321804e3e45d4cc8ae34b02b4a4872bd~mv2.jpg", 640, 400, 70),
   procreate: mediaUrl("52f9c8_fcb4b9b1b0a24c54b0727f8f39145911~mv2.jpg", 640, 400, 70),
+  christmas: mediaUrl("52f9c8_660ad1c3fec745b3a6d999821da2b22c~mv2.webp", 640, 400, 70),
   detail: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 640, 800, 70),
   gallery1: mediaUrl("d5ba93_ecb183209c8e40aaa71fb4d0a53bb2bc~mv2.webp", 480, 480, 70),
   gallery2: mediaUrl("d5ba93_7602a3ff44a44704b17b3de5eeea5ee2~mv2.webp", 480, 480, 70),
@@ -137,6 +141,22 @@ const PROGRAMMES = [
     hrefSlug: "/short-term-course/2026-easter-workshop",
     image: IMG.easter,
     imageAlt: { en: "ICAcademy Easter workshop clay bunny and rainbow artwork", zh: "ICAcademy復活節工作坊黏土小兔彩虹作品" },
+  },
+  {
+    id: "christmas",
+    badge: { en: "Christmas holidays", zh: "聖誕假期" },
+    name: { en: "Christmas Art Workshops 2026", zh: "2026 聖誕藝術工作坊" },
+    desc: {
+      en: "Celebrate the festive season with eight creative workshops for children: clay, crafts, glass painting, acrylic painting, comics and digital art. Small-group teaching, with materials included.",
+      zh: "讓小朋友用創意迎接聖誕！8 款節日主題黏土、手作、玻璃畫、塑膠彩、漫畫及電繪工作坊。小班教學，材料全包。",
+    },
+    points: {
+      en: ["Eight festive themes across clay, crafts and painting", "Small groups — materials included", "WhatsApp to check places and sessions"],
+      zh: ["8 款聖誕創作主題，涵蓋黏土、手作及繪畫", "小班教學，材料全包", "WhatsApp 查詢名額及時段"],
+    },
+    hrefSlug: "/short-term-course/christmas-workshop-2026",
+    image: IMG.christmas,
+    imageAlt: { en: "IC Academy Christmas art workshops for children", zh: "IC Academy 兒童聖誕藝術工作坊" },
   },
 ];
 
