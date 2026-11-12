@@ -43,6 +43,25 @@ const VERBATIM_ZH = [
 const FOOTER_ZH =
   "🌟 小班教學・專業指導・材料全包 — 多款聖誕主題工作坊，讓孩子在輕鬆愉快的氣氛中探索不同藝術媒介，享受由構思到完成作品的滿足感！";
 
+const VERIFIED_RELATED_PATHS = [
+  "/short-term-course",
+  "/short-term-course/christmas-workshop-2026",
+  "/short-term-course/procreate-assessment-intensive",
+  "/course/kids-art/creative-art-and-clay-class",
+  "/course/kids-art/creative-art-classes",
+  "/course/kids-art/comic-drawing-class",
+  "/course/drawing-and-painting",
+  "/course/drawing-and-painting/acrylic-painting-class",
+  "/comicsanddigitalart",
+];
+
+function assertPathsInAllowlist(paths) {
+  for (const p of paths) {
+    assert.ok(VERIFIED_RELATED_PATHS.includes(p), `href not in allowlist: ${p}`);
+    assert.ok(courseSrc.includes(p), `courseSrc missing allowlisted path: ${p}`);
+  }
+}
+
 test("short-term-courses-hub: CHRISTMAS_PAGE_URL is non-empty", () => {
   assert.match(hubSrc, /CHRISTMAS_PAGE_URL\s*=\s*\{[^}]+\}/);
   assert.doesNotMatch(hubSrc, /CHRISTMAS_PAGE_URL\s*=\s*\{\s*en:\s*""/);
@@ -81,11 +100,34 @@ for (const slug of SLUGS) {
       assert.ok(html.includes("返回 2026 聖誕藝術工作坊") || html.includes("Back to Christmas Art Workshops 2026"));
       assert.ok(html.includes(lang === "zh" ? "創作及製作內容" : "What you will create"));
       assert.ok(html.includes("wa.me/85265808022"));
+      assert.ok(html.includes(lang === "zh" ? "相關課程" : "Related courses"));
+      const relatedSection = el.shadowRoot.querySelector(".related-courses");
+      assert.ok(relatedSection, `${slug}: related-courses section missing`);
+      const regularGroup = relatedSection.querySelector(".related-group");
+      assert.ok(regularGroup, `${slug}: regular group missing`);
+      const regularLinks = relatedSection.querySelectorAll(".related-group")[0]?.querySelectorAll("a") || [];
+      const shortLinks = relatedSection.querySelectorAll(".related-group")[1]?.querySelectorAll("a") || [];
+      assert.ok(regularLinks.length >= 1, `${slug}: needs >=1 regular link`);
+      assert.ok(shortLinks.length >= 1, `${slug}: needs >=1 short-term link`);
+      const relatedHrefs = [...relatedSection.querySelectorAll("a")].map((a) =>
+        String(a.getAttribute("href") || "").replace(/^\/zh/, "")
+      );
+      assertPathsInAllowlist(relatedHrefs);
+      assert.doesNotMatch(relatedSection.innerHTML, /2025-christmas/);
       await win.happyDOM.abort();
       win.close();
     });
   }
 }
+
+test("christmas-workshop-course: VERIFIED_RELATED_PATHS live EN+ZH", async () => {
+  for (const path of VERIFIED_RELATED_PATHS) {
+    const en = await fetch(`https://www.icacademy.com.hk${path}`, { method: "HEAD" });
+  assert.equal(en.status, 200, `EN ${path}`);
+    const zh = await fetch(`https://www.icacademy.com.hk/zh${path}`, { method: "HEAD" });
+  assert.equal(zh.status, 200, `ZH ${path}`);
+  }
+});
 
 test("christmas-workshop-2026: detail links for 7 courses only", () => {
   for (const slug of SLUGS) {

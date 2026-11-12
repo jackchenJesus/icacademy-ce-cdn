@@ -15,6 +15,91 @@
   ];
 
   const PARENT_SLUG = "/short-term-course/christmas-workshop-2026";
+
+  /** Paths verified HTTP 200 on live site (EN + /zh mirror) via pages-sitemap.xml — 2026-11-12 */
+  const VERIFIED_RELATED_PATHS = [
+    "/short-term-course",
+    "/short-term-course/christmas-workshop-2026",
+    "/short-term-course/procreate-assessment-intensive",
+    "/course/kids-art/creative-art-and-clay-class",
+    "/course/kids-art/creative-art-classes",
+    "/course/kids-art/comic-drawing-class",
+    "/course/drawing-and-painting",
+    "/course/drawing-and-painting/acrylic-painting-class",
+    "/comicsanddigitalart",
+  ];
+
+  const SHORT_TERM_HUB = {
+    href: "/short-term-course",
+    label: { en: "Short-term Art Courses", zh: "何文田短期藝術課程" },
+  };
+  const SHORT_TERM_CHRISTMAS = {
+    href: "/short-term-course/christmas-workshop-2026",
+    label: { en: "Christmas Art Workshops 2026", zh: "2026 聖誕藝術工作坊" },
+  };
+  const SHORT_TERM_PROCREATE = {
+    href: "/short-term-course/procreate-assessment-intensive",
+    label: { en: "Procreate Visual Arts Assessment Intensive", zh: "Procreate 呈分試特訓課程" },
+  };
+
+  const REGULAR_CLAY = {
+    href: "/course/kids-art/creative-art-and-clay-class",
+    label: { en: "Soft Clay Class", zh: "輕黏土課程" },
+  };
+  const REGULAR_CREATIVE_ART = {
+    href: "/course/kids-art/creative-art-classes",
+    label: { en: "Creative Art Classes for Ages 7–14", zh: "7–14歲兒童創意美術班" },
+  };
+  const REGULAR_DRAWING_PAINTING = {
+    href: "/course/drawing-and-painting",
+    label: { en: "Drawing & Painting Courses", zh: "繪畫及素描課程" },
+  };
+  const REGULAR_ACRYLIC = {
+    href: "/course/drawing-and-painting/acrylic-painting-class",
+    label: { en: "Acrylic Painting Class", zh: "塑膠彩班" },
+  };
+  const REGULAR_COMIC = {
+    href: "/course/kids-art/comic-drawing-class",
+    label: {
+      en: "Kids Comic Drawing Class Ages 8+",
+      zh: "8歲以上兒童漫畫班｜卡通及動漫繪畫課程",
+    },
+  };
+  const REGULAR_DIGITAL = {
+    href: "/comicsanddigitalart",
+    label: { en: "Comics & Digital Art Courses", zh: "漫畫及電繪課程" },
+  };
+
+  const RELATED_LINKS = {
+    "dreamy-candy-house": {
+      regular: [REGULAR_CLAY],
+      shortTerm: [SHORT_TERM_HUB, SHORT_TERM_CHRISTMAS],
+    },
+    "magic-crystal-kaleidoscope": {
+      regular: [REGULAR_CLAY],
+      shortTerm: [SHORT_TERM_HUB, SHORT_TERM_CHRISTMAS],
+    },
+    "festive-metal-embossing": {
+      regular: [REGULAR_CREATIVE_ART],
+      shortTerm: [SHORT_TERM_HUB, SHORT_TERM_CHRISTMAS],
+    },
+    "stained-glass-light-colour": {
+      regular: [REGULAR_DRAWING_PAINTING],
+      shortTerm: [SHORT_TERM_HUB, SHORT_TERM_CHRISTMAS],
+    },
+    "christmas-eve-blessings-acrylic": {
+      regular: [REGULAR_ACRYLIC, REGULAR_DRAWING_PAINTING],
+      shortTerm: [SHORT_TERM_HUB, SHORT_TERM_CHRISTMAS],
+    },
+    "christmas-adventure-board-game": {
+      regular: [REGULAR_COMIC],
+      shortTerm: [SHORT_TERM_HUB, SHORT_TERM_CHRISTMAS],
+    },
+    "christmas-fairytale-illustration-towel": {
+      regular: [REGULAR_DIGITAL],
+      shortTerm: [SHORT_TERM_HUB, SHORT_TERM_CHRISTMAS, SHORT_TERM_PROCREATE],
+    },
+  };
   const FOOTER_ZH =
     "🌟 小班教學・專業指導・材料全包 — 多款聖誕主題工作坊，讓孩子在輕鬆愉快的氣氛中探索不同藝術媒介，享受由構思到完成作品的滿足感！";
   const FOOTER_EN =
@@ -177,10 +262,12 @@
     .button{appearance:none;border:2px solid #a42e38;background:#a42e38;color:white;border-radius:999px;padding:14px 22px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;margin-top:8px}
     .button:hover{background:#84242d;border-color:#84242d}
     .footer-note{font-size:1.02rem;color:#3d4f42;margin:32px 0 0;padding:20px 22px;background:#fff9ec;border:1px solid #efe2c8;border-radius:18px}
-    .related{margin-top:40px}.related h2{font-size:1.35rem;margin-bottom:16px}
-    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-    .related a{display:block;padding:14px 16px;background:#fff;border:1px solid #e5e0d5;border-radius:14px;text-decoration:none;font-weight:700;font-size:.92rem;line-height:1.35}
-    .related a:hover{border-color:#a42e38;background:#fffaf5}
+    .related,.related-courses{margin-top:40px;max-width:100%}
+    .related h2,.related-courses>h2{font-size:1.35rem;margin-bottom:16px}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:12px}
+    .related a,.related-group a{display:block;padding:14px 16px;background:#fff;border:1px solid #e5e0d5;border-radius:14px;text-decoration:none;font-weight:700;font-size:.92rem;line-height:1.35;word-break:break-word}
+    .related a:hover,.related-group a:hover{border-color:#a42e38;background:#fffaf5}
+    .related-group{margin-top:22px}.related-group h3{font-size:1.05rem;color:#536458;margin:0 0 12px;font-weight:800}
     .page{padding:clamp(40px,6vw,72px) 0 clamp(56px,8vw,90px)}
     .unknown{padding:80px 20px;text-align:center;color:#536458}
     @media(max-width:459px){.wrap{width:calc(100% - 32px)!important}h1{font-size:1.65rem}.section p,.footer-note{font-size:.95rem}.related-grid{grid-template-columns:1fr}}
@@ -257,6 +344,12 @@
         .map((item) => `<li>${item}</li>`)
         .join("");
 
+      const related = RELATED_LINKS[slug] || { regular: [], shortTerm: [] };
+      const linkCard = (item) =>
+        `<a href="${this.path(item.href)}">${zh ? item.label.zh : item.label.en}</a>`;
+      const regularLinks = related.regular.map(linkCard).join("");
+      const shortTermLinks = related.shortTerm.map(linkCard).join("");
+
       const sessionsBlock =
         Array.isArray(course.sessions) && course.sessions.length
           ? `<div class="section"><h2>${t("Session options", "上課時段")}</h2><ul class="materials">${course.sessions
@@ -295,6 +388,17 @@
               <h2>${t("Other Christmas workshops", "其他聖誕工作坊")}</h2>
               <div class="related-grid">${others}</div>
             </div>
+            <div class="related-courses" aria-labelledby="related-courses-heading">
+              <h2 id="related-courses-heading">${t("Related courses", "相關課程")}</h2>
+              <div class="related-group">
+                <h3>${t("Regular courses", "常規課程")}</h3>
+                <div class="related-grid">${regularLinks}</div>
+              </div>
+              <div class="related-group">
+                <h3>${t("Short-term courses", "短期課程")}</h3>
+                <div class="related-grid">${shortTermLinks}</div>
+              </div>
+            </div>
           </div>
         </div>`;
     }
@@ -303,4 +407,6 @@
   customElements.define("christmas-workshop-course", ChristmasWorkshopCourse);
   window.__icChristmasCourseSlugs = COURSE_SLUGS;
   window.__icChristmasCoursesBySlug = coursesBySlug;
+  window.__icChristmasRelatedLinks = RELATED_LINKS;
+  window.__icChristmasVerifiedRelatedPaths = VERIFIED_RELATED_PATHS;
 })();
