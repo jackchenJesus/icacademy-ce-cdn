@@ -114,11 +114,30 @@ for (const slug of SLUGS) {
       );
       assertPathsInAllowlist(relatedHrefs);
       assert.doesNotMatch(relatedSection.innerHTML, /2025-christmas/);
+      const cardImgs = [...el.shadowRoot.querySelectorAll(".link-card img")];
+      assert.ok(cardImgs.length >= 3, `${slug}: expected image cards on page`);
+      for (const img of cardImgs) {
+        const alt = String(img.getAttribute("alt") || "").trim();
+        const src = String(img.getAttribute("src") || "");
+        assert.ok(alt.length > 0, `${slug}: card image missing alt (${src})`);
+        assert.ok(src.includes("static.wixstatic.com/media/"), `${slug}: unexpected image host ${src}`);
+      }
       await win.happyDOM.abort();
       win.close();
     });
   }
 }
+
+test("christmas-workshop-course: all link-card thumbnails return image/*", async () => {
+  const ids = [...new Set([...courseSrc.matchAll(/imageId:\s*"([^"]+)"/g)].map((x) => x[1]))];
+  for (const id of ids) {
+    const url = `https://static.wixstatic.com/media/${id}/v1/fill/w_640,h_400,al_c,q_72,enc_auto/${id}`;
+    const res = await fetch(url, { method: "HEAD" });
+    assert.equal(res.status, 200, url);
+    const type = res.headers.get("content-type") || "";
+    assert.match(type, /^image\//i, `expected image/* for ${id}, got ${type}`);
+  }
+});
 
 test("christmas-workshop-course: VERIFIED_RELATED_PATHS live EN+ZH", async () => {
   for (const path of VERIFIED_RELATED_PATHS) {

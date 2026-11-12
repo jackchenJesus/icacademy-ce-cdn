@@ -19,6 +19,8 @@ const pages = [
   { name: "candy-zh", tag: "christmas-workshop-course", path: "/zh/short-term-course/christmas-workshop-2026/dreamy-candy-house", file: "christmas-workshop-course.js" },
   { name: "kaleidoscope-en", tag: "christmas-workshop-course", path: "/short-term-course/christmas-workshop-2026/magic-crystal-kaleidoscope", file: "christmas-workshop-course.js" },
   { name: "kaleidoscope-zh", tag: "christmas-workshop-course", path: "/zh/short-term-course/christmas-workshop-2026/magic-crystal-kaleidoscope", file: "christmas-workshop-course.js" },
+  { name: "towel-en", tag: "christmas-workshop-course", path: "/short-term-course/christmas-workshop-2026/christmas-fairytale-illustration-towel", file: "christmas-workshop-course.js" },
+  { name: "towel-zh", tag: "christmas-workshop-course", path: "/zh/short-term-course/christmas-workshop-2026/christmas-fairytale-illustration-towel", file: "christmas-workshop-course.js" },
 ];
 
 const widths = [1280, 390];

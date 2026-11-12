@@ -29,34 +29,51 @@
     "/comicsanddigitalart",
   ];
 
+  const CARD_IMG_W = 640;
+  const CARD_IMG_H = 400;
+
   const SHORT_TERM_HUB = {
     href: "/short-term-course",
     label: { en: "Short-term Art Courses", zh: "何文田短期藝術課程" },
+    imageId: "d5ba93_c04fed8fe4254ef7b5c65968e209d7f4~mv2.webp",
+    imageSource: "/short-term-course",
   };
   const SHORT_TERM_CHRISTMAS = {
     href: "/short-term-course/christmas-workshop-2026",
     label: { en: "Christmas Art Workshops 2026", zh: "2026 聖誕藝術工作坊" },
+    imageId: "52f9c8_660ad1c3fec745b3a6d999821da2b22c~mv2.webp",
+    imageSource: "/short-term-course/christmas-workshop-2026",
   };
   const SHORT_TERM_PROCREATE = {
     href: "/short-term-course/procreate-assessment-intensive",
     label: { en: "Procreate Visual Arts Assessment Intensive", zh: "Procreate 呈分試特訓課程" },
+    imageId: "52f9c8_fcb4b9b1b0a24c54b0727f8f39145911~mv2.jpg",
+    imageSource: "/short-term-course/procreate-assessment-intensive",
   };
 
   const REGULAR_CLAY = {
     href: "/course/kids-art/creative-art-and-clay-class",
     label: { en: "Soft Clay Class", zh: "輕黏土課程" },
+    imageId: "b98cc9_f417962750fd4399b1ee38c775da9a4e~mv2.jpeg",
+    imageSource: "/course/kids-art/creative-art-and-clay-class",
   };
   const REGULAR_CREATIVE_ART = {
     href: "/course/kids-art/creative-art-classes",
     label: { en: "Creative Art Classes for Ages 7–14", zh: "7–14歲兒童創意美術班" },
+    imageId: "b98cc9_9c6e5138d1fa40a7815d12218f642440~mv2.jpg",
+    imageSource: "/course/kids-art/creative-art-classes",
   };
   const REGULAR_DRAWING_PAINTING = {
     href: "/course/drawing-and-painting",
     label: { en: "Drawing & Painting Courses", zh: "繪畫及素描課程" },
+    imageId: "d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp",
+    imageSource: "/course/drawing-and-painting",
   };
   const REGULAR_ACRYLIC = {
     href: "/course/drawing-and-painting/acrylic-painting-class",
     label: { en: "Acrylic Painting Class", zh: "塑膠彩班" },
+    imageId: "b98cc9_4207ae71d0a44db99d86eeadc8e54f33~mv2.jpeg",
+    imageSource: "/course/drawing-and-painting/acrylic-painting-class",
   };
   const REGULAR_COMIC = {
     href: "/course/kids-art/comic-drawing-class",
@@ -64,10 +81,14 @@
       en: "Kids Comic Drawing Class Ages 8+",
       zh: "8歲以上兒童漫畫班｜卡通及動漫繪畫課程",
     },
+    imageId: "b98cc9_37e0184c611f48fb96bae9a1fa37dc05~mv2.jpg",
+    imageSource: "/course/kids-art/comic-drawing-class",
   };
   const REGULAR_DIGITAL = {
     href: "/comicsanddigitalart",
     label: { en: "Comics & Digital Art Courses", zh: "漫畫及電繪課程" },
+    imageId: "d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp",
+    imageSource: "/comicsanddigitalart",
   };
 
   const RELATED_LINKS = {
@@ -107,6 +128,26 @@
 
   function mediaUrl(id, w, h, q = 78) {
     return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
+  }
+
+  function escapeHtml(text) {
+    return String(text || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function imageCard(item, zh, hrefFor) {
+    const label = zh ? item.label.zh : item.label.en;
+    const alt = label;
+    const src = mediaUrl(item.imageId, CARD_IMG_W, CARD_IMG_H, 72);
+    return `<a class="link-card" href="${escapeHtml(hrefFor(item.href))}"><div class="link-card-media"><img src="${src}" alt="${escapeHtml(alt)}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" loading="lazy" decoding="async"></div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
+  }
+
+  function workshopCard(course, zh, href) {
+    const label = zh ? course.name.zh : course.name.en;
+    const src = mediaUrl(course.imageId, CARD_IMG_W, CARD_IMG_H, 72);
+    return `<a class="link-card" href="${escapeHtml(href)}"><div class="link-card-media"><img src="${src}" alt="${escapeHtml(label)}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" loading="lazy" decoding="async"></div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
   }
 
   const coursesBySlug = {
@@ -262,15 +303,19 @@
     .button{appearance:none;border:2px solid #a42e38;background:#a42e38;color:white;border-radius:999px;padding:14px 22px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;margin-top:8px}
     .button:hover{background:#84242d;border-color:#84242d}
     .footer-note{font-size:1.02rem;color:#3d4f42;margin:32px 0 0;padding:20px 22px;background:#fff9ec;border:1px solid #efe2c8;border-radius:18px}
-    .related,.related-courses{margin-top:40px;max-width:100%}
+    .related,.related-courses{margin-top:40px;max-width:100%;overflow-x:clip}
     .related h2,.related-courses>h2{font-size:1.35rem;margin-bottom:16px}
-    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:12px}
-    .related a,.related-group a{display:block;padding:14px 16px;background:#fff;border:1px solid #e5e0d5;border-radius:14px;text-decoration:none;font-weight:700;font-size:.92rem;line-height:1.35;word-break:break-word}
-    .related a:hover,.related-group a:hover{border-color:#a42e38;background:#fffaf5}
+    .related-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:100%}
+    .link-card{display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #e5e0d5;border-radius:16px;text-decoration:none;color:#284c37;box-shadow:0 6px 18px rgba(39,74,41,.08);max-width:100%}
+    .link-card:hover{border-color:#a42e38;transform:translateY(-2px)}
+    .link-card-media{aspect-ratio:16/10;background:#ececec;overflow:hidden}
+    .link-card-media img{width:100%;height:100%;object-fit:cover;display:block}
+    .link-card-label{display:block;padding:12px 14px;font-weight:700;font-size:.9rem;line-height:1.35;word-break:break-word}
     .related-group{margin-top:22px}.related-group h3{font-size:1.05rem;color:#536458;margin:0 0 12px;font-weight:800}
     .page{padding:clamp(40px,6vw,72px) 0 clamp(56px,8vw,90px)}
     .unknown{padding:80px 20px;text-align:center;color:#536458}
-    @media(max-width:459px){.wrap{width:calc(100% - 32px)!important}h1{font-size:1.65rem}.section p,.footer-note{font-size:.95rem}.related-grid{grid-template-columns:1fr}}
+    @media(max-width:767px){.related-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.link-card-label{font-size:.84rem;padding:10px 12px}}
+    @media(max-width:459px){.wrap{width:calc(100% - 32px)!important}h1{font-size:1.65rem}.section p,.footer-note{font-size:.95rem}}
     :host{width:100%!important;max-width:100%!important;left:auto!important;margin-left:0!important;overflow-x:clip}
     @media(min-width:768px){:host{width:100vw!important;max-width:100vw!important;left:50%!important;margin-left:-50vw!important}}
   `;
@@ -336,7 +381,7 @@
         .map((s) => {
           const c = coursesBySlug[s];
           const href = `${this.path(PARENT_SLUG)}/${s}`;
-          return `<a href="${href}">${zh ? c.name.zh : c.name.en}</a>`;
+          return workshopCard(c, zh, href);
         })
         .join("");
 
@@ -345,10 +390,9 @@
         .join("");
 
       const related = RELATED_LINKS[slug] || { regular: [], shortTerm: [] };
-      const linkCard = (item) =>
-        `<a href="${this.path(item.href)}">${zh ? item.label.zh : item.label.en}</a>`;
-      const regularLinks = related.regular.map(linkCard).join("");
-      const shortTermLinks = related.shortTerm.map(linkCard).join("");
+      const hrefPath = (p) => this.path(p);
+      const regularLinks = related.regular.map((item) => imageCard(item, zh, hrefPath)).join("");
+      const shortTermLinks = related.shortTerm.map((item) => imageCard(item, zh, hrefPath)).join("");
 
       const sessionsBlock =
         Array.isArray(course.sessions) && course.sessions.length
@@ -409,4 +453,33 @@
   window.__icChristmasCoursesBySlug = coursesBySlug;
   window.__icChristmasRelatedLinks = RELATED_LINKS;
   window.__icChristmasVerifiedRelatedPaths = VERIFIED_RELATED_PATHS;
+  window.__icChristmasLinkImageSources = {
+    "/short-term-course": { imageId: SHORT_TERM_HUB.imageId, source: SHORT_TERM_HUB.imageSource },
+    "/short-term-course/christmas-workshop-2026": {
+      imageId: SHORT_TERM_CHRISTMAS.imageId,
+      source: SHORT_TERM_CHRISTMAS.imageSource,
+    },
+    "/short-term-course/procreate-assessment-intensive": {
+      imageId: SHORT_TERM_PROCREATE.imageId,
+      source: SHORT_TERM_PROCREATE.imageSource,
+    },
+    "/course/kids-art/creative-art-and-clay-class": {
+      imageId: REGULAR_CLAY.imageId,
+      source: REGULAR_CLAY.imageSource,
+    },
+    "/course/kids-art/creative-art-classes": {
+      imageId: REGULAR_CREATIVE_ART.imageId,
+      source: REGULAR_CREATIVE_ART.imageSource,
+    },
+    "/course/kids-art/comic-drawing-class": { imageId: REGULAR_COMIC.imageId, source: REGULAR_COMIC.imageSource },
+    "/course/drawing-and-painting": {
+      imageId: REGULAR_DRAWING_PAINTING.imageId,
+      source: REGULAR_DRAWING_PAINTING.imageSource,
+    },
+    "/course/drawing-and-painting/acrylic-painting-class": {
+      imageId: REGULAR_ACRYLIC.imageId,
+      source: REGULAR_ACRYLIC.imageSource,
+    },
+    "/comicsanddigitalart": { imageId: REGULAR_DIGITAL.imageId, source: REGULAR_DIGITAL.imageSource },
+  };
 })();
