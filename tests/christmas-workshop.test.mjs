@@ -109,9 +109,12 @@ for (const slug of SLUGS) {
       const shortLinks = relatedSection.querySelectorAll(".related-group")[1]?.querySelectorAll("a") || [];
       assert.ok(regularLinks.length >= 1, `${slug}: needs >=1 regular link`);
       assert.ok(shortLinks.length >= 1, `${slug}: needs >=1 short-term link`);
-      const relatedHrefs = [...relatedSection.querySelectorAll("a")].map((a) =>
-        String(a.getAttribute("href") || "").replace(/^\/zh/, "")
-      );
+      const relatedHrefs = [...relatedSection.querySelectorAll("a")].map((a) => {
+        assert.equal(a.getAttribute("target"), "_top", `${slug}: related link missing target=_top`);
+        return String(a.getAttribute("href") || "")
+          .replace(/^https:\/\/www\.icacademy\.com\.hk/, "")
+          .replace(/^\/zh/, "");
+      });
       assertPathsInAllowlist(relatedHrefs);
       assert.doesNotMatch(relatedSection.innerHTML, /2025-christmas/);
       const cardImgs = [...el.shadowRoot.querySelectorAll(".link-card img")];
@@ -121,6 +124,25 @@ for (const slug of SLUGS) {
         const src = String(img.getAttribute("src") || "");
         assert.ok(alt.length > 0, `${slug}: card image missing alt (${src})`);
         assert.ok(src.includes("static.wixstatic.com/media/"), `${slug}: unexpected image host ${src}`);
+        assert.ok(src.includes("/v1/fit/"), `${slug}: card thumbnail should use fit, not crop (${src})`);
+      }
+      const heroImg = el.shadowRoot.querySelector(".hero-photo img");
+      assert.ok(heroImg, `${slug}: hero image missing`);
+      assert.ok(String(heroImg.getAttribute("src") || "").includes("/v1/fit/"), `${slug}: hero should use fit URL`);
+      const waBtn = el.shadowRoot.querySelector(".cta a.button");
+      assert.ok(waBtn, `${slug}: centered WhatsApp CTA missing`);
+      assert.equal(waBtn.getAttribute("target"), "_blank");
+      assert.match(waBtn.getAttribute("href") || "", /^https:\/\/wa\.me\/85265808022\?text=/);
+      if (slug === "christmas-fairytale-illustration-towel") {
+        const digital = [...regularLinks].find((a) =>
+          /Comics & Digital Art|漫畫及電繪課程/.test(a.textContent || "")
+        );
+        assert.ok(digital, `${slug}: Comics & Digital Art card missing`);
+        assert.equal(
+          digital.getAttribute("href"),
+          `https://www.icacademy.com.hk${pathPrefix}/comicsanddigitalart`
+        );
+        assert.equal(digital.getAttribute("target"), "_top");
       }
       await win.happyDOM.abort();
       win.close();
@@ -131,12 +153,22 @@ for (const slug of SLUGS) {
 test("christmas-workshop-course: all link-card thumbnails return image/*", async () => {
   const ids = [...new Set([...courseSrc.matchAll(/imageId:\s*"([^"]+)"/g)].map((x) => x[1]))];
   for (const id of ids) {
-    const url = `https://static.wixstatic.com/media/${id}/v1/fill/w_640,h_400,al_c,q_72,enc_auto/${id}`;
+    const url = `https://static.wixstatic.com/media/${id}/v1/fit/w_800,h_800,al_c,q_72,enc_auto/${id}`;
     const res = await fetch(url, { method: "HEAD" });
     assert.equal(res.status, 200, url);
     const type = res.headers.get("content-type") || "";
     assert.match(type, /^image\//i, `expected image/* for ${id}, got ${type}`);
   }
+});
+
+test("christmas-workshop-course: hero, cards and CTA use uncropped professional styles", () => {
+  assert.match(courseSrc, /\.hero-photo img\{[^}]*object-fit:contain/);
+  assert.match(courseSrc, /\.link-card-media img\{[^}]*object-fit:contain/);
+  assert.match(courseSrc, /\.cta\{display:flex;justify-content:center/);
+  assert.match(courseSrc, /\.button\{[^}]*font-size:1rem/);
+  assert.match(courseSrc, /\.button\{[^}]*padding:14px 28px/);
+  assert.ok(courseSrc.includes('href: "/comicsanddigitalart"'));
+  assert.doesNotMatch(courseSrc, /REGULAR_DIGITAL[\s\S]{0,200}href:\s*"\/course\/kids-art\/comic-drawing-class"/);
 });
 
 test("christmas-workshop-course: VERIFIED_RELATED_PATHS live EN+ZH", async () => {
