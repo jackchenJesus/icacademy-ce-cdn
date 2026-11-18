@@ -29,8 +29,8 @@
     "/comicsanddigitalart",
   ];
 
-  const CARD_IMG_W = 640;
-  const CARD_IMG_H = 400;
+  const CARD_IMG_W = 800;
+  const CARD_IMG_H = 800;
 
   const SHORT_TERM_HUB = {
     href: "/short-term-course",
@@ -85,7 +85,7 @@
     imageSource: "/course/kids-art/comic-drawing-class",
   };
   const REGULAR_DIGITAL = {
-    href: "/comicsanddigitalart",
+    href: "/course/kids-art/comic-drawing-class",
     label: { en: "Comics & Digital Art Courses", zh: "漫畫及電繪課程" },
     imageId: "d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp",
     imageSource: "/comicsanddigitalart",
@@ -130,6 +130,14 @@
     return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
   }
 
+  function mediaFitUrl(id, w, h, q = 84) {
+    return `https://static.wixstatic.com/media/${id}/v1/fit/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
+  }
+
+  function siteUrl(pathname, zh) {
+    return `https://www.icacademy.com.hk${zh ? "/zh" : ""}${pathname}`;
+  }
+
   function escapeHtml(text) {
     return String(text || "")
       .replace(/&/g, "&amp;")
@@ -140,20 +148,22 @@
   function imageCard(item, zh, hrefFor) {
     const label = zh ? item.label.zh : item.label.en;
     const alt = label;
-    const src = mediaUrl(item.imageId, CARD_IMG_W, CARD_IMG_H, 72);
-    return `<a class="link-card" href="${escapeHtml(hrefFor(item.href))}"><div class="link-card-media"><img src="${src}" alt="${escapeHtml(alt)}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" loading="lazy" decoding="async"></div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
+    const src = mediaFitUrl(item.imageId, 800, 800, 72);
+    return `<a class="link-card" href="${escapeHtml(hrefFor(item.href))}" target="_top"><div class="link-card-media"><img src="${src}" alt="${escapeHtml(alt)}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" loading="lazy" decoding="async"></div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
   }
 
   function workshopCard(course, zh, href) {
     const label = zh ? course.name.zh : course.name.en;
-    const src = mediaUrl(course.imageId, CARD_IMG_W, CARD_IMG_H, 72);
-    return `<a class="link-card" href="${escapeHtml(href)}"><div class="link-card-media"><img src="${src}" alt="${escapeHtml(label)}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" loading="lazy" decoding="async"></div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
+    const src = mediaFitUrl(course.imageId, 800, 800, 72);
+    return `<a class="link-card" href="${escapeHtml(href)}" target="_top"><div class="link-card-media"><img src="${src}" alt="${escapeHtml(label)}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" loading="lazy" decoding="async"></div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
   }
 
   const coursesBySlug = {
     "dreamy-candy-house": {
       slug: "dreamy-candy-house",
       imageId: "d5ba93_78630a5e577e4bf58d7d00582b6965ea~mv2.webp",
+      imageWidth: 2304,
+      imageHeight: 4096,
       name: { en: "Dreamy Candy House", zh: "夢幻甜蜜糖果屋（黏土）" },
       creation: {
         zh: "以小屋為主題，打造獨一無二的夢幻糖果屋。學習利用奶油黏土及輕黏土調色技巧，製作多種精緻糖果與逼真積雪，並加入燈飾與小飾物配襯，打造充滿節日歡樂氣氛的立體作品。",
@@ -168,6 +178,8 @@
     "magic-crystal-kaleidoscope": {
       slug: "magic-crystal-kaleidoscope",
       imageId: "d5ba93_7ebc15a01e094bc1aa042aa3f0b27f46~mv2.png",
+      imageWidth: 3213,
+      imageHeight: 5712,
       name: { en: "Magic Crystal Kaleidoscope", zh: "魔法水晶萬花筒（黏土）" },
       creation: {
         // TODO(owner): confirm 並親體驗 vs 親身體驗
@@ -183,6 +195,8 @@
     "festive-metal-embossing": {
       slug: "festive-metal-embossing",
       imageId: "d5ba93_f5794d85282d4618987d0184eef3e839~mv2.webp",
+      imageWidth: 4096,
+      imageHeight: 2304,
       name: { en: "Festive Metal Embossing", zh: "金屬浮雕報佳音（手工）" },
       creation: {
         zh: "利用金屬錫紙的延展性與亮面質感，透過專用工具精細推壓線條與圖案，創造出如同金屬雕刻般的立體浮雕效果。將平凡材料變成精緻的聖誕藝術裝飾，體驗充滿成就感的手作樂趣。",
@@ -197,6 +211,8 @@
     "stained-glass-light-colour": {
       slug: "stained-glass-light-colour",
       imageId: "d5ba93_bf70341f41b04467b73c9ed53104b441~mv2.webp",
+      imageWidth: 768,
+      imageHeight: 1007,
       name: { en: "Stained Glass Light & Colour", zh: "幻彩玻璃光影趣（玻璃畫）" },
       creation: {
         zh: "將傳統教堂彩繪玻璃藝術結合現代精靈主題。自由選擇喜愛的角色與色彩，運用彩繪玻璃顏料的透光特性與塑膠彩的高飽和度，營造獨特的反差效果。當冬日陽光或燭光穿透玻璃時，絢麗色彩映照室內，打造滿滿節日氛圍。",
@@ -211,6 +227,8 @@
     "christmas-eve-blessings-acrylic": {
       slug: "christmas-eve-blessings-acrylic",
       imageId: "d5ba93_5a60fddf1e514d9b9a0b6553430c4bb1~mv2.webp",
+      imageWidth: 1238,
+      imageHeight: 1600,
       name: { en: "Christmas Eve Blessings", zh: "主恩滿溢平安夜（塑膠彩繪畫）" },
       creation: {
         zh: "在畫布上記錄聖誕的真諦與祝福。學習扇形油彩筆運用技巧，並巧用棉花棒、海綿、氣球等生活工具打造富個人特色的視覺效果；最後以金屬閃彩寫上聖經金句，讓學員從畫面設計到選色，深度體會聖誕節背後的奇異恩典。",
@@ -225,6 +243,8 @@
     "christmas-adventure-board-game": {
       slug: "christmas-adventure-board-game",
       imageId: "d5ba93_95b1363e941e489e91475108342bbde2~mv2.webp",
+      imageWidth: 4096,
+      imageHeight: 2304,
       name: { en: "Christmas Adventure", zh: "聖誕歷奇大冒險（動漫漫畫）" },
       creation: {
         zh: "發揮創意設計專屬的聖誕主題桌遊地圖！結合送禮大使角色扮演、融入驚險的雪崩與迷路情境；當走到「耶穌誕生」格時更能獲得「恩典禮物」。作品搭配微型積木棋子與立體紙卡城堡，全面提升空間美感與手作樂趣。",
@@ -239,6 +259,8 @@
     "christmas-fairytale-illustration-towel": {
       slug: "christmas-fairytale-illustration-towel",
       imageId: "d5ba93_1b5a2283038842298e2318f9f9d5852d~mv2.webp",
+      imageWidth: 1333,
+      imageHeight: 800,
       name: {
         en: "Christmas Fairytale · Original Illustration Towel",
         zh: "聖誕夢幻童話 · 原創插畫毛巾（數位繪圖）",
@@ -291,8 +313,8 @@
     .crumbs{font-size:.88rem;color:#536458;margin:0 0 18px}.crumbs a{text-decoration:none}.crumbs a:hover{text-decoration:underline}
   .back{display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;margin:0 0 28px;color:#31563e}
   .back:hover{text-decoration:underline}
-    .hero-photo{margin:0 0 36px;border-radius:22px;overflow:hidden;border:1px solid #e5e0d5;box-shadow:0 14px 34px rgba(39,74,41,.12)}
-    .hero-photo img{display:block;width:100%;max-height:min(520px,70vh);object-fit:cover}
+    .hero-photo{margin:0 0 36px;border-radius:22px;overflow:hidden;border:1px solid #e5e0d5;box-shadow:0 14px 34px rgba(39,74,41,.12);background:#f3eee4;display:flex;justify-content:center;align-items:center}
+    .hero-photo img{display:block;width:auto;height:auto;max-width:100%;max-height:min(680px,70vh);object-fit:contain;object-position:center}
     .eyebrow{font-size:.75rem;letter-spacing:.18em;font-weight:800;color:#a32934;text-transform:uppercase}
     h1{font-family:Georgia,'Noto Serif TC',serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:500;color:#284c37;margin:10px 0 28px}
     .section{padding:clamp(36px,5vw,56px) 0;border-top:1px solid #e8e2d6}.section h2{font-family:Georgia,'Noto Serif TC',serif;font-size:clamp(1.5rem,2.8vw,2.15rem);color:#284c37;margin:0 0 14px}
@@ -300,7 +322,8 @@
     .materials{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}
     .materials li{padding:10px 14px;background:#fff;border:1px solid #ebe5da;border-radius:12px;font-size:.98rem}
     .materials li:before{content:'✦ ';color:#a42e38}
-    .button{appearance:none;border:2px solid #a42e38;background:#a42e38;color:white;border-radius:999px;padding:14px 22px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;margin-top:8px}
+    .cta{display:flex;justify-content:center;margin-top:16px}
+    .button{appearance:none;border:2px solid #a42e38;background:#a42e38;color:white;border-radius:999px;padding:14px 28px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;font:inherit;font-size:1rem;font-weight:700;text-decoration:none;cursor:pointer}
     .button:hover{background:#84242d;border-color:#84242d}
     .footer-note{font-size:1.02rem;color:#3d4f42;margin:32px 0 0;padding:20px 22px;background:#fff9ec;border:1px solid #efe2c8;border-radius:18px}
     .related,.related-courses{margin-top:40px;max-width:100%;overflow-x:clip}
@@ -308,8 +331,8 @@
     .related-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:100%}
     .link-card{display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #e5e0d5;border-radius:16px;text-decoration:none;color:#284c37;box-shadow:0 6px 18px rgba(39,74,41,.08);max-width:100%}
     .link-card:hover{border-color:#a42e38;transform:translateY(-2px)}
-    .link-card-media{aspect-ratio:16/10;background:#ececec;overflow:hidden}
-    .link-card-media img{width:100%;height:100%;object-fit:cover;display:block}
+    .link-card-media{aspect-ratio:1/1;background:#f3eee4;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .link-card-media img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
     .link-card-label{display:block;padding:12px 14px;font-weight:700;font-size:.9rem;line-height:1.35;word-break:break-word}
     .related-group{margin-top:22px}.related-group h3{font-size:1.05rem;color:#536458;margin:0 0 12px;font-weight:800}
     .page{padding:clamp(40px,6vw,72px) 0 clamp(56px,8vw,90px)}
@@ -347,7 +370,7 @@
       return (document.documentElement.lang || "").toLowerCase().startsWith("zh");
     }
     path(slug) {
-      return this.zh ? `/zh${slug}` : slug;
+      return siteUrl(slug, this.zh);
     }
     render() {
       const zh = this.zh;
@@ -359,7 +382,7 @@
         this.shadowRoot.innerHTML = `<style>${styles}</style><div class="wrap unknown"><p>${t(
           "Course not found. Please open a workshop detail page from Christmas Art Workshops 2026.",
           "找不到課程，請從 2026 聖誕藝術工作坊頁面進入課程詳情。"
-        )}</p><a class="back" href="${this.path(PARENT_SLUG)}">${t(
+        )}</p><a class="back" href="${this.path(PARENT_SLUG)}" target="_top">${t(
           "← Back to Christmas Art Workshops 2026",
           "← 返回 2026 聖誕藝術工作坊"
         )}</a></div>`;
@@ -367,7 +390,9 @@
       }
 
       const parentHref = this.path(PARENT_SLUG);
-      const img = mediaUrl(course.imageId, 1200, 800, 80);
+      const img = mediaFitUrl(course.imageId, 2000, 2000, 84);
+      const imgW = course.imageWidth || 1200;
+      const imgH = course.imageHeight || 800;
       const wa =
         "https://wa.me/85265808022?text=" +
         encodeURIComponent(
@@ -406,17 +431,17 @@
         <div class="page" lang="${zh ? "zh-Hant" : "en"}">
           <div class="wrap">
             <nav class="crumbs" aria-label="${t("Breadcrumb", "路徑")}">
-              <a href="${this.path("/short-term-course")}">${t("Short-term courses", "短期課程")}</a>
-              · <a href="${parentHref}">${t("Christmas Art Workshops 2026", "2026 聖誕藝術工作坊")}</a>
+              <a href="${this.path("/short-term-course")}" target="_top">${t("Short-term courses", "短期課程")}</a>
+              · <a href="${parentHref}" target="_top">${t("Christmas Art Workshops 2026", "2026 聖誕藝術工作坊")}</a>
               · <span aria-current="page">${zh ? course.name.zh : course.name.en}</span>
             </nav>
-            <a class="back" href="${parentHref}">${t(
+            <a class="back" href="${parentHref}" target="_top">${t(
         "← Back to Christmas Art Workshops 2026",
         "← 返回 2026 聖誕藝術工作坊"
       )}</a>
             <p class="eyebrow">IC Academy · Christmas Workshop 2026</p>
             <h1>${zh ? course.name.zh : course.name.en}</h1>
-            <figure class="hero-photo"><img src="${img}" alt="${zh ? course.name.zh : course.name.en}" width="1200" height="800" fetchpriority="high" decoding="async"></figure>
+            <figure class="hero-photo"><img src="${img}" alt="${zh ? course.name.zh : course.name.en}" width="${imgW}" height="${imgH}" fetchpriority="high" decoding="async"></figure>
             <section class="section" aria-labelledby="creation-heading">
               <h2 id="creation-heading">${t("What you will create and make", "創作及製作內容")}</h2>
               <p>${zh ? course.creation.zh : course.creation.en}</p>
@@ -427,7 +452,7 @@
             </section>
             ${sessionsBlock}
             <p class="footer-note">${zh ? FOOTER_ZH : FOOTER_EN}</p>
-            <a class="button" href="${wa}" target="_blank" rel="noopener noreferrer">${t("Enquire on WhatsApp", "WhatsApp 查詢名額")}</a>
+            <div class="cta"><a class="button" href="${wa}" target="_blank" rel="noopener noreferrer">${t("Enquire on WhatsApp", "WhatsApp 查詢名額")}</a></div>
             <div class="related">
               <h2>${t("Other Christmas workshops", "其他聖誕工作坊")}</h2>
               <div class="related-grid">${others}</div>
