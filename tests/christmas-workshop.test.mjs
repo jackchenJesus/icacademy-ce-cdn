@@ -153,10 +153,78 @@ test("christmas-workshop-2026: detail links for 7 courses only", () => {
     assert.ok(parentSrc.includes(`slug: '${slug}'`), `parent missing slug ${slug}`);
   }
   assert.ok(parentSrc.includes("/short-term-course/christmas-workshop-2026/${course.slug}"));
-  assert.ok(parentSrc.includes("查看詳情") || parentSrc.includes("View details"));
+  assert.ok(parentSrc.includes("https://www.icacademy.com.hk"));
+  assert.ok(parentSrc.includes("target=\"_top\""));
+  assert.ok(parentSrc.includes("View course details →"));
+  assert.ok(parentSrc.includes("查看課程詳情 →"));
   const snowmanBlock = parentSrc.split("Winter Snowman Wreath")[1]?.split("customElements.define")[0] || "";
   assert.doesNotMatch(snowmanBlock, /slug:\s*'/);
 });
+
+async function renderChristmasWorkshop(pathname) {
+  const win = new Window({
+    url: `https://www.icacademy.com.hk${pathname}`,
+    settings: { disableIframePageLoading: true },
+  });
+  win.eval(parentSrc);
+  const el = win.document.createElement("christmas-workshop-2026");
+  win.document.body.appendChild(el);
+  return { win, el };
+}
+
+for (const [lang, pathPrefix] of [
+  ["en", ""],
+  ["zh", "/zh"],
+]) {
+  test(`christmas-workshop-2026 cards link to the 7 course pages (${lang})`, async () => {
+    const { win, el } = await renderChristmasWorkshop(`${pathPrefix}/short-term-course/christmas-workshop-2026`);
+    const cards = [...el.shadowRoot.querySelectorAll("article.card")];
+    assert.equal(cards.length, 8, "expected 8 workshop cards");
+
+    for (let i = 0; i < SLUGS.length; i++) {
+      const href = `https://www.icacademy.com.hk${pathPrefix}/short-term-course/christmas-workshop-2026/${SLUGS[i]}`;
+      const card = cards[i];
+      const media = card.querySelector("a.card-media-link");
+      const title = card.querySelector("h3 a.card-title-link");
+      const details = [...card.querySelectorAll("a.button")].find((a) =>
+        /View course details|查看課程詳情/.test(a.textContent || "")
+      );
+      assert.ok(media, `${SLUGS[i]}: media link missing`);
+      assert.ok(title, `${SLUGS[i]}: title link missing`);
+      assert.ok(details, `${SLUGS[i]}: view-details button missing`);
+      assert.match(details.textContent || "", /→/);
+      for (const a of [media, title, details]) {
+        assert.equal(a.getAttribute("href"), href, `${SLUGS[i]}: unexpected href`);
+        assert.equal(a.getAttribute("target"), "_top", `${SLUGS[i]}: expected target=_top`);
+      }
+      const waBtn = [...card.querySelectorAll("a.button")].find((a) =>
+        /Ask about availability|查詢名額/.test(a.textContent || "")
+      );
+      assert.ok(waBtn, `${SLUGS[i]}: WhatsApp button missing`);
+      assert.match(waBtn.getAttribute("href") || "", /^https:\/\/wa\.me\/85265808022\?text=/);
+      assert.equal(waBtn.getAttribute("target"), "_blank");
+    }
+
+    const snowman = cards[7];
+    assert.match(snowman.textContent || "", /Winter Snowman Wreath|冬日雪人雪花環/);
+    assert.equal(snowman.querySelectorAll("a.card-media-link, a.card-title-link").length, 0);
+    assert.ok(
+      ![...snowman.querySelectorAll("a")].some((a) =>
+        /View course details|查看課程詳情|christmas-workshop-2026\//.test(
+          `${a.textContent || ""}${a.getAttribute("href") || ""}`
+        )
+      ),
+      "Winter Snowman Wreath should have no course-page link or details button"
+    );
+    const snowmanWa = [...snowman.querySelectorAll("a.button")].find((a) =>
+      /Ask about availability|查詢名額/.test(a.textContent || "")
+    );
+    assert.ok(snowmanWa, "Snowman WhatsApp button missing");
+    assert.match(snowmanWa.getAttribute("href") || "", /^https:\/\/wa\.me\/85265808022\?text=/);
+    await win.happyDOM.abort();
+    win.close();
+  });
+}
 
 test("christmas-workshop: all course images return HTTP 200", async () => {
   for (const id of IMAGE_IDS) {
