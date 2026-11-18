@@ -8,8 +8,7 @@
  * Locale via URL /zh, html lang, or attribute locale="en"|"zh" (default en = site primary).
  */
 const WA_DEFAULT = "https://wa.me/85265808022";
-// Enable each URL only after the corresponding Wix page exists and has been verified.
-// PR #27 contains design previews, not published Wix pages.
+// Verified live 18 Nov 2026: EN and ZH Christmas hub pages exist and render christmas-workshop-2026.
 const CHRISTMAS_PAGE_URL = {
   en: "https://www.icacademy.com.hk/short-term-course/christmas-workshop-2026",
   zh: "https://www.icacademy.com.hk/zh/short-term-course/christmas-workshop-2026",
@@ -458,13 +457,24 @@ h3 { font-size: 1.12rem; }
 .christmas-panel { padding: clamp(24px, 4vw, 48px); border: 1px solid #e4d3c7; border-radius: 22px; background: #fffaf6; }
 .christmas-label { color: #8b2731; font-weight: 800; letter-spacing: .06em; margin: 0 0 10px; }
 .christmas-panel h2 { color: #243f32; font-size: clamp(1.6rem, 3vw, 2.3rem); }
+.christmas-title-link {
+  color: inherit;
+  text-decoration: none;
+  display: inline;
+  border-radius: 4px;
+}
+.christmas-title-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
 .christmas-panel p { max-width: 65ch; }
 .christmas-topics { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; margin: 18px 0 24px; }
 .christmas-topics li { background: #e6efe8; color: #243f32; padding: 5px 12px; border-radius: 999px; font-weight: 700; }
 .btn-christmas { background: #8b2731; color: #fff; }
 .btn-christmas:hover { background: #6d1c25; }
 .christmas-outline { background: #fff; color: #28513d; border: 2px solid #28513d; }
-.christmas-panel .btn:focus-visible { outline: 3px solid #243f32; outline-offset: 3px; }
+.christmas-panel .btn:focus-visible,
+.christmas-title-link:focus-visible { outline: 3px solid #243f32; outline-offset: 3px; }
 
 /* —— Programme feature cards —— */
 .programme-grid {
@@ -968,6 +978,7 @@ class ShortTermCoursesHub extends HTMLElement {
     );
     this._t = t;
     this._waPrefillCached = waPrefill;
+    const xmasHref = CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"];
 
     this.shadowRoot.innerHTML = `
       <style>${STYLES}</style>
@@ -999,7 +1010,7 @@ class ShortTermCoursesHub extends HTMLElement {
                 )}
               </p>
               <div class="btn-row">
-                <button type="button" class="btn btn-christmas" data-action="scroll-christmas">${t("Explore Christmas Workshop 2026", "探索 2026 聖誕工作坊")}</button>
+                ${xmasHref ? `<a class="btn btn-christmas" data-action="christmas" href="${xmasHref}">${t("Explore Christmas Workshop 2026", "探索 2026 聖誕工作坊")}</a>` : `<button type="button" class="btn btn-christmas" data-action="scroll-christmas">${t("Explore Christmas Workshop 2026", "探索 2026 聖誕工作坊")}</button>`}
                 <button type="button" class="btn btn-outline-teal" data-action="scroll-programmes">${t("View all programmes", "查看所有課程")}</button>
               </div>
             </div>
@@ -1025,6 +1036,7 @@ class ShortTermCoursesHub extends HTMLElement {
     const galleryUrl = this.isEn
       ? "https://www.icacademy.com.hk/studentartwork"
       : "https://www.icacademy.com.hk/zh/studentartwork";
+    const xmasHref = CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"];
 
     hub.insertAdjacentHTML(
       "beforeend",
@@ -1032,7 +1044,7 @@ class ShortTermCoursesHub extends HTMLElement {
         <section class="section christmas-feature" id="secChristmas" aria-labelledby="christmas-title">
           <div class="wrap"><div class="christmas-panel">
             <p class="christmas-label">${t("FEATURED · CHRISTMAS 2026", "精選課程 · 2026 聖誕")}</p>
-            <h2 id="christmas-title">${t("Christmas Art Workshops 2026", "2026 聖誕藝術工作坊")}</h2>
+            <h2 id="christmas-title">${xmasHref ? `<a class="christmas-title-link" data-action="christmas" href="${xmasHref}">${t("Christmas Art Workshops 2026", "2026 聖誕藝術工作坊")}</a>` : t("Christmas Art Workshops 2026", "2026 聖誕藝術工作坊")}</h2>
             <p>${t("Discover eight festive creative workshops for children at IC Academy in Ho Man Tin. Explore clay, crafts, glass painting, acrylics, comics and digital art in small groups, with materials included.", "在何文田 IC Academy 探索 8 款兒童聖誕創作工作坊，體驗黏土、手作、玻璃畫、塑膠彩、漫畫及電繪；小班教學，材料全包。")}</p>
             <ul class="christmas-topics" aria-label="${t("Workshop media", "工作坊創作媒介")}">
               <li>${t("Clay & crafts", "黏土及手作")}</li>
@@ -1040,8 +1052,8 @@ class ShortTermCoursesHub extends HTMLElement {
               <li>${t("Comics & digital art", "漫畫及電繪")}</li>
             </ul>
             <div class="btn-row">
-              ${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"] ? `<a class="btn btn-christmas" data-action="christmas" href="${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"]}">${t("View Christmas workshops", "查看聖誕工作坊詳情")}</a>` : ""}
-              <a class="btn ${CHRISTMAS_PAGE_URL[this.isEn ? "en" : "zh"] ? "christmas-outline" : "btn-christmas"}" data-action="whatsapp" href="${this._waPrefill(t("Hello, I would like to enquire about Christmas Workshop 2026.", "你好，我想查詢 2026 聖誕工作坊的名額及報名。"))}" target="_blank" rel="noopener noreferrer">${t("Enquire about Christmas on WhatsApp", "WhatsApp 查詢聖誕工作坊")}</a>
+              ${xmasHref ? `<a class="btn btn-christmas" data-action="christmas" href="${xmasHref}">${t("View Christmas workshops →", "查看聖誕工作坊詳情 →")}</a>` : ""}
+              <a class="btn ${xmasHref ? "christmas-outline" : "btn-christmas"}" data-action="whatsapp" href="${this._waPrefill(t("Hello, I would like to enquire about Christmas Workshop 2026.", "你好，我想查詢 2026 聖誕工作坊的名額及報名。"))}" target="_blank" rel="noopener noreferrer">${t("Enquire about Christmas on WhatsApp", "WhatsApp 查詢聖誕工作坊")}</a>
             </div>
           </div></div>
         </section>

@@ -164,3 +164,65 @@ test("christmas-workshop: all course images return HTTP 200", async () => {
     assert.equal(res.status, 200, `image ${id}`);
   }
 });
+
+async function renderShortTermHub(pathname) {
+  const win = new Window({
+    url: `https://www.icacademy.com.hk${pathname}`,
+    settings: { disableIframePageLoading: true },
+  });
+  win.eval(hubSrc);
+  const el = win.document.createElement("short-term-courses-hub");
+  el.setAttribute("wa-url", "https://wa.me/85265808022");
+  win.document.body.appendChild(el);
+  el._restPainted = false;
+  el._paintRest();
+  return { win, el };
+}
+
+const FEATURED_HREF = {
+  en: "https://www.icacademy.com.hk/short-term-course/christmas-workshop-2026",
+  zh: "https://www.icacademy.com.hk/zh/short-term-course/christmas-workshop-2026",
+};
+
+for (const [lang, path] of [
+  ["en", "/short-term-course"],
+  ["zh", "/zh/short-term-course"],
+]) {
+  test(`short-term-courses-hub featured card links to the live Christmas page (${lang})`, async () => {
+    const { win, el } = await renderShortTermHub(path);
+    const href = FEATURED_HREF[lang];
+    const heroBtn = el.shadowRoot.querySelector(".hero a.btn-christmas, .hero [data-action='christmas']");
+    assert.ok(heroBtn, "hero Explore Christmas button should link to the Christmas page");
+    assert.equal(heroBtn.tagName, "A");
+    assert.equal(heroBtn.getAttribute("href"), href);
+    assert.equal(heroBtn.getAttribute("data-action"), "christmas");
+    assert.match(heroBtn.textContent, lang === "zh" ? /探索 2026 聖誕工作坊/ : /Explore Christmas Workshop 2026/);
+    const programmesBtn = el.shadowRoot.querySelector(".hero [data-action='scroll-programmes']");
+    assert.ok(programmesBtn, "View all programmes should remain an in-page scroll control");
+
+    const titleLink = el.shadowRoot.querySelector("#christmas-title a.christmas-title-link");
+    assert.ok(titleLink, "featured title should be a link");
+    assert.equal(titleLink.getAttribute("href"), href);
+    assert.equal(titleLink.getAttribute("data-action"), "christmas");
+    assert.match(titleLink.textContent, lang === "zh" ? /2026 聖誕藝術工作坊/ : /Christmas Art Workshops 2026/);
+
+    const viewBtn = [...el.shadowRoot.querySelectorAll("#secChristmas a.btn")].find((a) =>
+      /View Christmas workshops|查看聖誕工作坊詳情/.test(a.textContent || "")
+    );
+    assert.ok(viewBtn, "primary View Christmas workshops button missing");
+    assert.equal(viewBtn.getAttribute("href"), href);
+    assert.equal(viewBtn.getAttribute("data-action"), "christmas");
+    assert.match(viewBtn.textContent, /→/);
+
+    const waBtn = [...el.shadowRoot.querySelectorAll("#secChristmas a.btn")].find((a) =>
+      /Enquire about Christmas on WhatsApp|WhatsApp 查詢聖誕工作坊/.test(a.textContent || "")
+    );
+    assert.ok(waBtn, "WhatsApp CTA missing");
+    assert.equal(waBtn.getAttribute("data-action"), "whatsapp");
+    assert.match(waBtn.getAttribute("href") || "", /^https:\/\/wa\.me\/85265808022\?text=/);
+    assert.doesNotMatch(el.shadowRoot.innerHTML, /tel:/i);
+    assert.doesNotMatch(el.shadowRoot.innerHTML, /2711\s*3006/);
+    await win.happyDOM.abort();
+    win.close();
+  });
+}
