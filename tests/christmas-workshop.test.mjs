@@ -140,7 +140,7 @@ for (const slug of SLUGS) {
         assert.ok(digital, `${slug}: Comics & Digital Art card missing`);
         assert.equal(
           digital.getAttribute("href"),
-          `https://www.icacademy.com.hk${pathPrefix}/comicsanddigitalart`
+          `https://www.icacademy.com.hk${pathPrefix}/course/kids-art/comic-drawing-class`
         );
         assert.equal(digital.getAttribute("target"), "_top");
       }
@@ -163,12 +163,14 @@ test("christmas-workshop-course: all link-card thumbnails return image/*", async
 
 test("christmas-workshop-course: hero, cards and CTA use uncropped professional styles", () => {
   assert.match(courseSrc, /\.hero-photo img\{[^}]*object-fit:contain/);
+  assert.match(courseSrc, /\.link-card-media\{[^}]*aspect-ratio:1\/1/);
   assert.match(courseSrc, /\.link-card-media img\{[^}]*object-fit:contain/);
   assert.match(courseSrc, /\.cta\{display:flex;justify-content:center/);
   assert.match(courseSrc, /\.button\{[^}]*font-size:1rem/);
   assert.match(courseSrc, /\.button\{[^}]*padding:14px 28px/);
-  assert.ok(courseSrc.includes('href: "/comicsanddigitalart"'));
-  assert.doesNotMatch(courseSrc, /REGULAR_DIGITAL[\s\S]{0,200}href:\s*"\/course\/kids-art\/comic-drawing-class"/);
+  assert.ok(courseSrc.includes('href: "/course/kids-art/comic-drawing-class"'));
+  assert.match(courseSrc, /REGULAR_DIGITAL[\s\S]{0,160}href:\s*"\/course\/kids-art\/comic-drawing-class"/);
+  assert.doesNotMatch(courseSrc, /REGULAR_DIGITAL[\s\S]{0,160}href:\s*"\/comicsanddigitalart"/);
 });
 
 test("christmas-workshop-course: VERIFIED_RELATED_PATHS live EN+ZH", async () => {

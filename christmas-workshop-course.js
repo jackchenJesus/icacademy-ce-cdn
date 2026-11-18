@@ -29,8 +29,8 @@
     "/comicsanddigitalart",
   ];
 
-  const CARD_IMG_W = 640;
-  const CARD_IMG_H = 400;
+  const CARD_IMG_W = 800;
+  const CARD_IMG_H = 800;
 
   const SHORT_TERM_HUB = {
     href: "/short-term-course",
@@ -85,7 +85,7 @@
     imageSource: "/course/kids-art/comic-drawing-class",
   };
   const REGULAR_DIGITAL = {
-    href: "/comicsanddigitalart",
+    href: "/course/kids-art/comic-drawing-class",
     label: { en: "Comics & Digital Art Courses", zh: "漫畫及電繪課程" },
     imageId: "d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp",
     imageSource: "/comicsanddigitalart",
@@ -331,7 +331,7 @@
     .related-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:100%}
     .link-card{display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #e5e0d5;border-radius:16px;text-decoration:none;color:#284c37;box-shadow:0 6px 18px rgba(39,74,41,.08);max-width:100%}
     .link-card:hover{border-color:#a42e38;transform:translateY(-2px)}
-    .link-card-media{aspect-ratio:16/10;background:#f3eee4;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .link-card-media{aspect-ratio:1/1;background:#f3eee4;overflow:hidden;display:flex;align-items:center;justify-content:center}
     .link-card-media img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
     .link-card-label{display:block;padding:12px 14px;font-weight:700;font-size:.9rem;line-height:1.35;word-break:break-word}
     .related-group{margin-top:22px}.related-group h3{font-size:1.05rem;color:#536458;margin:0 0 12px;font-weight:800}
