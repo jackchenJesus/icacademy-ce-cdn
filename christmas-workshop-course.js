@@ -30,7 +30,20 @@
   ];
 
   const CARD_IMG_W = 800;
-  const CARD_IMG_H = 800;
+  const CARD_IMG_H = 1000;
+
+  /** Per-course object-position for 4:5 cover crops. Landscape photos are nudged to keep the subject. */
+  const IMAGE_OBJECT_POSITION = {
+    "dreamy-candy-house": "center center",
+    "magic-crystal-kaleidoscope": "center 62%",
+    "festive-metal-embossing": "center center",
+    "stained-glass-light-colour": "center center",
+    "christmas-eve-blessings-acrylic": "center center",
+    "christmas-adventure-board-game": "40% center",
+    "christmas-fairytale-illustration-towel": "58% center",
+  };
+  const HERO_IMG_MAX_SIDE = 1600;
+  const CARD_IMG_MAX_SIDE = 1000;
 
   const SHORT_TERM_HUB = {
     href: "/short-term-course",
@@ -130,8 +143,17 @@
     return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
   }
 
-  function mediaFitUrl(id, w, h, q = 84) {
-    return `https://static.wixstatic.com/media/${id}/v1/fit/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
+  function mediaFillUrl(id, srcW, srcH, maxSide, q = 84) {
+    const w = Number(srcW) || maxSide;
+    const h = Number(srcH) || Math.round((maxSide * 5) / 4);
+    const scale = Math.min(1, maxSide / Math.max(w, h));
+    const dw = Math.max(1, Math.round(w * scale));
+    const dh = Math.max(1, Math.round(h * scale));
+    return mediaUrl(id, dw, dh, q);
+  }
+
+  function photoPosition(slug) {
+    return IMAGE_OBJECT_POSITION[slug] || "center center";
   }
 
   function siteUrl(pathname, zh) {
@@ -148,14 +170,15 @@
   function imageCard(item, zh, hrefFor) {
     const label = zh ? item.label.zh : item.label.en;
     const alt = label;
-    const src = mediaFitUrl(item.imageId, 800, 800, 72);
+    const src = mediaUrl(item.imageId, CARD_IMG_W, CARD_IMG_H, 78);
     return `<a class="link-card" href="${escapeHtml(hrefFor(item.href))}" target="_top"><div class="link-card-media"><img src="${src}" alt="${escapeHtml(alt)}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" loading="lazy" decoding="async"></div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
   }
 
   function workshopCard(course, zh, href) {
     const label = zh ? course.name.zh : course.name.en;
-    const src = mediaFitUrl(course.imageId, 800, 800, 72);
-    return `<a class="link-card" href="${escapeHtml(href)}" target="_top"><div class="link-card-media"><img src="${src}" alt="${escapeHtml(label)}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" loading="lazy" decoding="async"></div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
+    const src = mediaFillUrl(course.imageId, course.imageWidth, course.imageHeight, CARD_IMG_MAX_SIDE, 80);
+    const pos = photoPosition(course.slug);
+    return `<a class="link-card" href="${escapeHtml(href)}" target="_top"><div class="link-card-media"><img src="${src}" alt="${escapeHtml(label)}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" style="object-position:${escapeHtml(pos)}" loading="lazy" decoding="async"></div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
   }
 
   const coursesBySlug = {
@@ -313,8 +336,8 @@
     .crumbs{font-size:.88rem;color:#536458;margin:0 0 18px}.crumbs a{text-decoration:none}.crumbs a:hover{text-decoration:underline}
   .back{display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;margin:0 0 28px;color:#31563e}
   .back:hover{text-decoration:underline}
-    .hero-photo{margin:0 0 36px;border-radius:22px;overflow:hidden;border:1px solid #e5e0d5;box-shadow:0 14px 34px rgba(39,74,41,.12);background:#f3eee4;display:flex;justify-content:center;align-items:center}
-    .hero-photo img{display:block;width:auto;height:auto;max-width:100%;max-height:min(680px,70vh);object-fit:contain;object-position:center}
+    .hero-photo{margin:0 auto 36px;width:100%;max-width:520px;aspect-ratio:4/5;border-radius:22px;overflow:hidden;border:1px solid #e5e0d5;box-shadow:0 14px 34px rgba(39,74,41,.12);background:#f3eee4}
+    .hero-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
     .eyebrow{font-size:.75rem;letter-spacing:.18em;font-weight:800;color:#a32934;text-transform:uppercase}
     h1{font-family:Georgia,'Noto Serif TC',serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:500;color:#284c37;margin:10px 0 28px}
     .section{padding:clamp(36px,5vw,56px) 0;border-top:1px solid #e8e2d6}.section h2{font-family:Georgia,'Noto Serif TC',serif;font-size:clamp(1.5rem,2.8vw,2.15rem);color:#284c37;margin:0 0 14px}
@@ -331,13 +354,13 @@
     .related-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:100%}
     .link-card{display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #e5e0d5;border-radius:16px;text-decoration:none;color:#284c37;box-shadow:0 6px 18px rgba(39,74,41,.08);max-width:100%}
     .link-card:hover{border-color:#a42e38;transform:translateY(-2px)}
-    .link-card-media{aspect-ratio:1/1;background:#f3eee4;overflow:hidden;display:flex;align-items:center;justify-content:center}
-    .link-card-media img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
+    .link-card-media{aspect-ratio:4/5;background:#f3eee4;overflow:hidden}
+    .link-card-media img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
     .link-card-label{display:block;padding:12px 14px;font-weight:700;font-size:.9rem;line-height:1.35;word-break:break-word}
     .related-group{margin-top:22px}.related-group h3{font-size:1.05rem;color:#536458;margin:0 0 12px;font-weight:800}
     .page{padding:clamp(40px,6vw,72px) 0 clamp(56px,8vw,90px)}
     .unknown{padding:80px 20px;text-align:center;color:#536458}
-    @media(max-width:767px){.related-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.link-card-label{font-size:.84rem;padding:10px 12px}}
+    @media(max-width:767px){.hero-photo{max-width:100%}.related-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.link-card-label{font-size:.84rem;padding:10px 12px}}
     @media(max-width:459px){.wrap{width:calc(100% - 32px)!important}h1{font-size:1.65rem}.section p,.footer-note{font-size:.95rem}}
     :host{width:100%!important;max-width:100%!important;left:auto!important;margin-left:0!important;overflow-x:clip}
     @media(min-width:768px){:host{width:100vw!important;max-width:100vw!important;left:50%!important;margin-left:-50vw!important}}
@@ -390,9 +413,7 @@
       }
 
       const parentHref = this.path(PARENT_SLUG);
-      const img = mediaFitUrl(course.imageId, 2000, 2000, 84);
-      const imgW = course.imageWidth || 1200;
-      const imgH = course.imageHeight || 800;
+      const img = mediaFillUrl(course.imageId, course.imageWidth, course.imageHeight, HERO_IMG_MAX_SIDE, 84);
       const wa =
         "https://wa.me/85265808022?text=" +
         encodeURIComponent(
@@ -441,7 +462,7 @@
       )}</a>
             <p class="eyebrow">IC Academy · Christmas Workshop 2026</p>
             <h1>${zh ? course.name.zh : course.name.en}</h1>
-            <figure class="hero-photo"><img src="${img}" alt="${zh ? course.name.zh : course.name.en}" width="${imgW}" height="${imgH}" fetchpriority="high" decoding="async"></figure>
+            <figure class="hero-photo"><img src="${img}" alt="${zh ? course.name.zh : course.name.en}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" style="object-position:${escapeHtml(photoPosition(slug))}" fetchpriority="high" decoding="async"></figure>
             <section class="section" aria-labelledby="creation-heading">
               <h2 id="creation-heading">${t("What you will create and make", "創作及製作內容")}</h2>
               <p>${zh ? course.creation.zh : course.creation.en}</p>
