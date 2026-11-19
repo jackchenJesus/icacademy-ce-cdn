@@ -32,18 +32,20 @@
   const CARD_IMG_W = 800;
   const CARD_IMG_H = 1000;
 
-  /** Per-course object-position for 4:5 cover crops. Landscape photos are nudged to keep the subject. */
-  const IMAGE_OBJECT_POSITION = {
-    "dreamy-candy-house": "center center",
-    "magic-crystal-kaleidoscope": "center 62%",
-    "festive-metal-embossing": "center center",
-    "stained-glass-light-colour": "center center",
-    "christmas-eve-blessings-acrylic": "center center",
-    "christmas-adventure-board-game": "40% center",
-    "christmas-fairytale-illustration-towel": "58% center",
-  };
-  const HERO_IMG_MAX_SIDE = 1600;
-  const CARD_IMG_MAX_SIDE = 1000;
+  /** Same hub-card sprite and slot map as christmas-workshop-2026.js .pdf-art
+   *  (and christmas-workshop-art.js). Tiles are 300×260; 4:5 frames cover-crop the sides. */
+  const WORKSHOP_ART_SPRITE =
+    "https://cdn.jsdelivr.net/gh/jackchenJesus/icacademy-ce-cdn@7862c4aba25ed4aaf11f1fe10f1b717a5ba3ab76/christmas-pdf-artwork.webp";
+  const WORKSHOP_ART_SLUGS = [
+    "dreamy-candy-house",
+    "magic-crystal-kaleidoscope",
+    "festive-metal-embossing",
+    "stained-glass-light-colour",
+    "christmas-eve-blessings-acrylic",
+    "christmas-adventure-board-game",
+    "christmas-fairytale-illustration-towel",
+    "winter-snowman-wreath",
+  ];
 
   const SHORT_TERM_HUB = {
     href: "/short-term-course",
@@ -143,17 +145,15 @@
     return `https://static.wixstatic.com/media/${id}/v1/fill/w_${w},h_${h},al_c,q_${q},enc_auto/${id}`;
   }
 
-  function mediaFillUrl(id, srcW, srcH, maxSide, q = 84) {
-    const w = Number(srcW) || maxSide;
-    const h = Number(srcH) || Math.round((maxSide * 5) / 4);
-    const scale = Math.min(1, maxSide / Math.max(w, h));
-    const dw = Math.max(1, Math.round(w * scale));
-    const dh = Math.max(1, Math.round(h * scale));
-    return mediaUrl(id, dw, dh, q);
+  function workshopArtPosition(slug) {
+    const index = WORKSHOP_ART_SLUGS.indexOf(slug);
+    const i = index >= 0 ? index : 0;
+    return `${(i % 4) * 100 / 3}% ${i < 4 ? 0 : 100}%`;
   }
 
-  function photoPosition(slug) {
-    return IMAGE_OBJECT_POSITION[slug] || "center center";
+  function workshopArt(slug, alt) {
+    const pos = workshopArtPosition(slug);
+    return `<div class="workshop-art" role="img" aria-label="${escapeHtml(alt)}" style="background-position:${escapeHtml(pos)}"></div>`;
   }
 
   function siteUrl(pathname, zh) {
@@ -176,9 +176,7 @@
 
   function workshopCard(course, zh, href) {
     const label = zh ? course.name.zh : course.name.en;
-    const src = mediaFillUrl(course.imageId, course.imageWidth, course.imageHeight, CARD_IMG_MAX_SIDE, 80);
-    const pos = photoPosition(course.slug);
-    return `<a class="link-card" href="${escapeHtml(href)}" target="_top"><div class="link-card-media"><img src="${src}" alt="${escapeHtml(label)}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" style="object-position:${escapeHtml(pos)}" loading="lazy" decoding="async"></div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
+    return `<a class="link-card" href="${escapeHtml(href)}" target="_top"><div class="link-card-media">${workshopArt(course.slug, label)}</div><span class="link-card-label">${escapeHtml(label)}</span></a>`;
   }
 
   const coursesBySlug = {
@@ -336,8 +334,9 @@
     .crumbs{font-size:.88rem;color:#536458;margin:0 0 18px}.crumbs a{text-decoration:none}.crumbs a:hover{text-decoration:underline}
   .back{display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;margin:0 0 28px;color:#31563e}
   .back:hover{text-decoration:underline}
-    .hero-photo{margin:0 auto 36px;width:100%;max-width:520px;aspect-ratio:4/5;border-radius:22px;overflow:hidden;border:1px solid #e5e0d5;box-shadow:0 14px 34px rgba(39,74,41,.12);background:#f3eee4}
+    .hero-photo{margin:0 auto 36px;width:100%;max-width:520px;aspect-ratio:4/5;border-radius:22px;overflow:hidden;border:1px solid #e5e0d5;box-shadow:0 14px 34px rgba(39,74,41,.12);background:#f3eee4;position:relative}
     .hero-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+    .workshop-art{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);height:100%;width:auto;aspect-ratio:300/260;background-image:url('${WORKSHOP_ART_SPRITE}');background-size:400% 200%;background-repeat:no-repeat;background-color:#f3eee4}
     .eyebrow{font-size:.75rem;letter-spacing:.18em;font-weight:800;color:#a32934;text-transform:uppercase}
     h1{font-family:Georgia,'Noto Serif TC',serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:500;color:#284c37;margin:10px 0 28px}
     .section{padding:clamp(36px,5vw,56px) 0;border-top:1px solid #e8e2d6}.section h2{font-family:Georgia,'Noto Serif TC',serif;font-size:clamp(1.5rem,2.8vw,2.15rem);color:#284c37;margin:0 0 14px}
@@ -354,7 +353,7 @@
     .related-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:100%}
     .link-card{display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #e5e0d5;border-radius:16px;text-decoration:none;color:#284c37;box-shadow:0 6px 18px rgba(39,74,41,.08);max-width:100%}
     .link-card:hover{border-color:#a42e38;transform:translateY(-2px)}
-    .link-card-media{aspect-ratio:4/5;background:#f3eee4;overflow:hidden}
+    .link-card-media{aspect-ratio:4/5;background:#f3eee4;overflow:hidden;position:relative}
     .link-card-media img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
     .link-card-label{display:block;padding:12px 14px;font-weight:700;font-size:.9rem;line-height:1.35;word-break:break-word}
     .related-group{margin-top:22px}.related-group h3{font-size:1.05rem;color:#536458;margin:0 0 12px;font-weight:800}
@@ -413,7 +412,6 @@
       }
 
       const parentHref = this.path(PARENT_SLUG);
-      const img = mediaFillUrl(course.imageId, course.imageWidth, course.imageHeight, HERO_IMG_MAX_SIDE, 84);
       const wa =
         "https://wa.me/85265808022?text=" +
         encodeURIComponent(
@@ -462,7 +460,7 @@
       )}</a>
             <p class="eyebrow">IC Academy · Christmas Workshop 2026</p>
             <h1>${zh ? course.name.zh : course.name.en}</h1>
-            <figure class="hero-photo"><img src="${img}" alt="${zh ? course.name.zh : course.name.en}" width="${CARD_IMG_W}" height="${CARD_IMG_H}" style="object-position:${escapeHtml(photoPosition(slug))}" fetchpriority="high" decoding="async"></figure>
+            <figure class="hero-photo">${workshopArt(slug, zh ? course.name.zh : course.name.en)}</figure>
             <section class="section" aria-labelledby="creation-heading">
               <h2 id="creation-heading">${t("What you will create and make", "創作及製作內容")}</h2>
               <p>${zh ? course.creation.zh : course.creation.en}</p>
