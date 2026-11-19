@@ -124,11 +124,25 @@ for (const slug of SLUGS) {
         const src = String(img.getAttribute("src") || "");
         assert.ok(alt.length > 0, `${slug}: card image missing alt (${src})`);
         assert.ok(src.includes("static.wixstatic.com/media/"), `${slug}: unexpected image host ${src}`);
-        assert.ok(src.includes("/v1/fit/"), `${slug}: card thumbnail should use fit, not crop (${src})`);
+        assert.ok(src.includes("/v1/fill/"), `${slug}: card thumbnail should use fill (${src})`);
+        assert.ok(!src.includes("/v1/fit/"), `${slug}: card thumbnail should not use fit (${src})`);
       }
       const heroImg = el.shadowRoot.querySelector(".hero-photo img");
       assert.ok(heroImg, `${slug}: hero image missing`);
-      assert.ok(String(heroImg.getAttribute("src") || "").includes("/v1/fit/"), `${slug}: hero should use fit URL`);
+      const heroSrc = String(heroImg.getAttribute("src") || "");
+      assert.ok(heroSrc.includes("/v1/fill/"), `${slug}: hero should use fill URL`);
+      assert.ok(!heroSrc.includes("/v1/fit/"), `${slug}: hero should not use fit URL`);
+      const heroPos = heroImg.getAttribute("style") || "";
+      assert.match(heroPos, /object-position:/, `${slug}: hero missing object-position`);
+      if (slug === "christmas-adventure-board-game") {
+        assert.match(heroPos, /40%\s*center/, `${slug}: expected left-biased object-position`);
+      }
+      if (slug === "christmas-fairytale-illustration-towel") {
+        assert.match(heroPos, /58%\s*center/, `${slug}: expected right-biased object-position`);
+      }
+      if (slug === "magic-crystal-kaleidoscope") {
+        assert.match(heroPos, /center\s*62%/, `${slug}: expected lower-biased object-position`);
+      }
       const waBtn = el.shadowRoot.querySelector(".cta a.button");
       assert.ok(waBtn, `${slug}: centered WhatsApp CTA missing`);
       assert.equal(waBtn.getAttribute("target"), "_blank");
@@ -153,7 +167,7 @@ for (const slug of SLUGS) {
 test("christmas-workshop-course: all link-card thumbnails return image/*", async () => {
   const ids = [...new Set([...courseSrc.matchAll(/imageId:\s*"([^"]+)"/g)].map((x) => x[1]))];
   for (const id of ids) {
-    const url = `https://static.wixstatic.com/media/${id}/v1/fit/w_800,h_800,al_c,q_72,enc_auto/${id}`;
+    const url = `https://static.wixstatic.com/media/${id}/v1/fill/w_800,h_1000,al_c,q_78,enc_auto/${id}`;
     const res = await fetch(url, { method: "HEAD" });
     assert.equal(res.status, 200, url);
     const type = res.headers.get("content-type") || "";
@@ -161,10 +175,16 @@ test("christmas-workshop-course: all link-card thumbnails return image/*", async
   }
 });
 
-test("christmas-workshop-course: hero, cards and CTA use uncropped professional styles", () => {
-  assert.match(courseSrc, /\.hero-photo img\{[^}]*object-fit:contain/);
-  assert.match(courseSrc, /\.link-card-media\{[^}]*aspect-ratio:1\/1/);
-  assert.match(courseSrc, /\.link-card-media img\{[^}]*object-fit:contain/);
+test("christmas-workshop-course: hero, cards and CTA use 4:5 cover fill styles", () => {
+  assert.match(courseSrc, /\.hero-photo\{[^}]*aspect-ratio:4\/5/);
+  assert.match(courseSrc, /\.hero-photo\{[^}]*max-width:520px/);
+  assert.match(courseSrc, /\.hero-photo img\{[^}]*object-fit:cover/);
+  assert.match(courseSrc, /\.link-card-media\{[^}]*aspect-ratio:4\/5/);
+  assert.match(courseSrc, /\.link-card-media img\{[^}]*object-fit:cover/);
+  assert.match(courseSrc, /@media\(max-width:767px\)\{\.hero-photo\{max-width:100%\}/);
+  assert.match(courseSrc, /"christmas-adventure-board-game": "40% center"/);
+  assert.match(courseSrc, /"christmas-fairytale-illustration-towel": "58% center"/);
+  assert.match(courseSrc, /"magic-crystal-kaleidoscope": "center 62%"/);
   assert.match(courseSrc, /\.cta\{display:flex;justify-content:center/);
   assert.match(courseSrc, /\.button\{[^}]*font-size:1rem/);
   assert.match(courseSrc, /\.button\{[^}]*padding:14px 28px/);
@@ -328,3 +348,78 @@ for (const [lang, path] of [
     win.close();
   });
 }
+
+const HIGHLIGHT_TITLES = [
+  "超級英雄戰鬥車（黏土）",
+  "浮滑絨禮物盒（黏土）",
+  "雪地小企鵝（黏土）",
+  "亞克力立牌·聖誕篇（漫畫）",
+  "冬日微景觀雪球（手工）",
+  "彩虹之約·重生（手工）",
+  "松鼠花環彩繪（塑膠彩繪）",
+  "冬日聖誕手套派對（塑膠彩繪）",
+  "冬日雪人夢幻夜（塑膠彩繪）",
+  "Procreate x 水彩聖誕卡",
+  "「袋」表心意（針織）",
+  "甜甜蛋糕聖誕（肌理畫）",
+];
+
+for (const [lang, pathPrefix] of [
+  ["en", ""],
+  ["zh", "/zh"],
+]) {
+  test(`christmas-workshop-2026: 2025 highlights gallery (${lang})`, async () => {
+    const { win, el } = await renderChristmasWorkshop(`${pathPrefix}/short-term-course/christmas-workshop-2026`);
+    const root = el.shadowRoot;
+    const section = root.querySelector("#highlights-2025");
+    assert.ok(section, "highlights section missing");
+    assert.equal(
+      section.querySelector("h2").textContent,
+      lang === "zh" ? "2025 聖誕工作坊作品回顧" : "2025 Christmas Workshop Highlights"
+    );
+    const workshops = root.querySelector("#workshops");
+    const offer = root.querySelector(".offer");
+    assert.ok(workshops.compareDocumentPosition(section) & 4, "gallery must follow workshop cards");
+    assert.ok(section.compareDocumentPosition(offer) & 4, "gallery must precede offers/FAQ/final CTA");
+    const imgs = [...section.querySelectorAll(".highlights-grid img")];
+    assert.equal(imgs.length, 12);
+    imgs.forEach((img, i) => {
+      const src = img.getAttribute("src") || "";
+      assert.match(src, /^https:\/\/static\.wixstatic\.com\/media\/d5ba93_[0-9a-f]+~mv2\.png\/v1\/fill\/w_540,h_675,/);
+      assert.equal(img.getAttribute("loading"), "lazy");
+      const alt = img.getAttribute("alt");
+      assert.equal(
+        alt,
+        lang === "zh"
+          ? `${HIGHLIGHT_TITLES[i]}｜2025 聖誕工作坊作品`
+          : `2025 Christmas workshop student artwork – ${HIGHLIGHT_TITLES[i]}`
+      );
+    });
+    assert.equal(section.querySelectorAll("figcaption").length, 0, "posters carry their own titles");
+    const box = root.querySelector("#hl-lightbox");
+    assert.ok(box.hidden);
+    section.querySelectorAll("[data-highlight-open]")[2].click();
+    assert.equal(box.hidden, false);
+    assert.match(box.querySelector("img").getAttribute("src"), /w_1080,h_1350/);
+    win.document.dispatchEvent(new win.KeyboardEvent("keydown", { key: "Escape" }));
+    assert.equal(box.hidden, true, "Esc closes lightbox");
+    assert.doesNotMatch(section.innerHTML, /tel:/i);
+    await win.happyDOM.abort();
+    win.close();
+  });
+}
+
+test("christmas-workshop-2026: highlights CSS is 4:5 cover, 4/2 columns", () => {
+  assert.match(parentSrc, /\.highlights-grid\{display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
+  assert.match(parentSrc, /\.highlights-item img\{[^}]*aspect-ratio:4\/5;object-fit:cover/);
+  assert.match(parentSrc, /@media\(max-width:950px\)\{\.highlights-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+});
+
+test("christmas-workshop-2026: 2025 highlight images return HTTP 200", async () => {
+  const ids = [...parentSrc.matchAll(/imageId: '(d5ba93_[^']+)'/g)].map((m) => m[1]);
+  assert.equal(ids.length, 12);
+  for (const id of ids) {
+    const res = await fetch(`https://static.wixstatic.com/media/${id}/v1/fill/w_540,h_675,al_c,q_80,enc_auto/${id}`, { method: "HEAD" });
+    assert.equal(res.status, 200, id);
+  }
+});

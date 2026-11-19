@@ -15,6 +15,24 @@
   ];
   const photos = ["d5ba93_78630a5e577e4bf58d7d00582b6965ea~mv2.webp", "d5ba93_7ebc15a01e094bc1aa042aa3f0b27f46~mv2.png", "d5ba93_a96701493fad4b2d8c9434228fb76071~mv2.webp", "d5ba93_bf70341f41b04467b73c9ed53104b441~mv2.webp", "d5ba93_5a60fddf1e514d9b9a0b6553430c4bb1~mv2.webp", "d5ba93_95b1363e941e489e91475108342bbde2~mv2.webp", "d5ba93_1b5a2283038842298e2318f9f9d5852d~mv2.webp", "d5ba93_f5794d85282d4618987d0184eef3e839~mv2.webp"];
   const HERO_IMAGE = 'https://static.wixstatic.com/media/52f9c8_660ad1c3fec745b3a6d999821da2b22c~mv2.webp';
+
+  const HIGHLIGHTS_2025 = [
+    { imageId: 'd5ba93_29dac7ba47534e3486c0797a28090490~mv2.png', title: '超級英雄戰鬥車（黏土）' },
+    { imageId: 'd5ba93_962bcd04e1af45e9907a4146487f0424~mv2.png', title: '浮滑絨禮物盒（黏土）' },
+    { imageId: 'd5ba93_10d6e9fcbc0c41fea1c0579550043359~mv2.png', title: '雪地小企鵝（黏土）' },
+    { imageId: 'd5ba93_7a28c89eabfc42468a15318c313f8560~mv2.png', title: '亞克力立牌·聖誕篇（漫畫）' },
+    { imageId: 'd5ba93_531fec5fe5994b5dae80054353572432~mv2.png', title: '冬日微景觀雪球（手工）' },
+    { imageId: 'd5ba93_7d4be0fe891848209adcc4895cd69d0c~mv2.png', title: '彩虹之約·重生（手工）' },
+    { imageId: 'd5ba93_3da78ff065c24f02b00346ad21a1f114~mv2.png', title: '松鼠花環彩繪（塑膠彩繪）' },
+    { imageId: 'd5ba93_b35ea66f0f18416fadb3eaecdf882285~mv2.png', title: '冬日聖誕手套派對（塑膠彩繪）' },
+    { imageId: 'd5ba93_82fbb8d9f7bf4efa863151f846a98586~mv2.png', title: '冬日雪人夢幻夜（塑膠彩繪）' },
+    { imageId: 'd5ba93_6b9cd29aeaa8475b903547c7fc7aa781~mv2.png', title: 'Procreate x 水彩聖誕卡' },
+    { imageId: 'd5ba93_fa890943211248f083859427f318dfc4~mv2.png', title: '「袋」表心意（針織）' },
+    { imageId: 'd5ba93_daad466fa9514b8ba8aad0c953d4a290~mv2.png', title: '甜甜蛋糕聖誕（肌理畫）' }
+  ];
+  function highlightUrl(id, w, h, q) {
+    return 'https://static.wixstatic.com/media/' + id + '/v1/fill/w_' + w + ',h_' + h + ',al_c,q_' + q + ',enc_auto/' + id;
+  }
   const styles = `
     :host{display:block;width:100vw!important;max-width:100vw!important;position:relative;left:50%;margin-left:-50vw!important;color:#283b30;background:#faf7ef;font-family:system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.65}
     *,*::before,*::after{box-sizing:border-box} h1,h2,h3,p{margin-top:0} h1,h2,h3{line-height:1.22} a{color:inherit} .wrap{width:min(1160px,calc(100% - 40px));margin:auto}
@@ -81,12 +99,29 @@
     .card-media-link:focus-visible,.card-title-link:focus-visible{outline:3px solid #bb7b19;outline-offset:-3px}
     .card-actions{margin-top:auto;display:flex;flex-direction:column;gap:8px;width:100%}
     .card .button{margin-top:0;width:100%}
+    .highlights-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+    .highlights-item{margin:0;border-radius:16px;overflow:hidden;background:#f3eee4;border:1px solid #e5e0d5;box-shadow:0 8px 22px rgba(39,74,41,.08)}
+    .highlights-item button{appearance:none;display:block;width:100%;margin:0;padding:0;border:0;background:transparent;cursor:zoom-in}
+    .highlights-item button:focus-visible{outline:3px solid #bb7b19;outline-offset:-3px}
+    .highlights-item img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;display:block;vertical-align:middle}
+    @media(max-width:950px){.highlights-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:520px){.highlights-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+    .hl-lightbox{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(20,28,22,.88)}
+    .hl-lightbox[hidden]{display:none}
+    .hl-lightbox-inner{position:relative;max-width:min(1080px,96vw);max-height:92vh}
+    .hl-lightbox img{display:block;max-width:96vw;max-height:86vh;width:auto;height:auto;aspect-ratio:4/5;object-fit:contain;border-radius:12px;box-shadow:0 18px 48px rgba(0,0,0,.35)}
+    .hl-close,.hl-nav{appearance:none;position:absolute;border:0;background:#fff;color:#284c37;width:44px;height:44px;border-radius:999px;font:inherit;font-size:1.4rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+    .hl-close{top:-8px;right:-8px}
+    .hl-prev{left:-8px;top:50%;transform:translateY(-50%)}
+    .hl-next{right:-8px;top:50%;transform:translateY(-50%)}
+    .hl-close:focus-visible,.hl-nav:focus-visible{outline:3px solid #bb7b19;outline-offset:2px}
+    @media(max-width:767px){.hl-prev{left:4px}.hl-next{right:4px}.hl-close{top:4px;right:4px}}
   `;
   class ChristmasWorkshop extends HTMLElement {
     static get observedAttributes() { return ['locale']; }
-    constructor() { super(); this.attachShadow({mode:'open'}); this.onClick = this.onClick.bind(this); }
+    constructor() { super(); this.attachShadow({mode:'open'}); this.onClick = this.onClick.bind(this); this.onKeydown = this.onKeydown.bind(this); }
     connectedCallback() { this.render(); this.shadowRoot.addEventListener('click', this.onClick); }
-    disconnectedCallback() { this.shadowRoot.removeEventListener('click', this.onClick); }
+    disconnectedCallback() { this.closeHighlight(); this.shadowRoot.removeEventListener('click', this.onClick); }
     attributeChangedCallback() { if (this.isConnected) this.render(); }
     get zh() {
       const explicit = (this.getAttribute('locale') || '').toLowerCase();
@@ -96,7 +131,63 @@
     }
     onClick(event) {
       const button = event.target.closest('[data-scroll]');
-      if (button) this.shadowRoot.getElementById('workshops').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+      if (button) {
+        this.shadowRoot.getElementById('workshops').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+        return;
+      }
+      const opener = event.target.closest('[data-highlight-open]');
+      if (opener) { this.openHighlight(Number(opener.getAttribute('data-index'))); return; }
+      if (event.target.closest('[data-highlight-step]')) {
+        this.stepHighlight(Number(event.target.closest('[data-highlight-step]').getAttribute('data-highlight-step')));
+        return;
+      }
+      if (event.target.hasAttribute('data-highlight-close') || event.target.closest('[data-highlight-close-btn]')) this.closeHighlight();
+    }
+    onKeydown(event) {
+      const box = this.shadowRoot && this.shadowRoot.getElementById('hl-lightbox');
+      if (!box || box.hidden) return;
+      if (event.key === 'Escape') { event.preventDefault(); this.closeHighlight(); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); this.stepHighlight(1); }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); this.stepHighlight(-1); }
+    }
+    highlightSrc(index, large) {
+      const item = HIGHLIGHTS_2025[index];
+      return highlightUrl(item.imageId, large ? 1080 : 540, large ? 1350 : 675, large ? 84 : 80);
+    }
+    highlightAlt(index, zh) {
+      const title = HIGHLIGHTS_2025[index].title;
+      return zh ? title + '｜2025 聖誕工作坊作品' : '2025 Christmas workshop student artwork – ' + title;
+    }
+    openHighlight(index) {
+      const box = this.shadowRoot.getElementById('hl-lightbox');
+      if (!box) return;
+      this._hlIndex = (index + HIGHLIGHTS_2025.length) % HIGHLIGHTS_2025.length;
+      this._hlPrevFocus = this.shadowRoot.activeElement;
+      this.paintHighlight();
+      box.hidden = false;
+      document.addEventListener('keydown', this.onKeydown);
+      const closeBtn = box.querySelector('.hl-close');
+      if (closeBtn) closeBtn.focus();
+    }
+    stepHighlight(delta) {
+      this._hlIndex = ((this._hlIndex || 0) + delta + HIGHLIGHTS_2025.length) % HIGHLIGHTS_2025.length;
+      this.paintHighlight();
+    }
+    paintHighlight() {
+      const box = this.shadowRoot.getElementById('hl-lightbox');
+      if (!box) return;
+      const img = box.querySelector('img');
+      const zh = this.zh;
+      const index = this._hlIndex || 0;
+      img.src = this.highlightSrc(index, true);
+      img.alt = this.highlightAlt(index, zh);
+    }
+    closeHighlight() {
+      const box = this.shadowRoot && this.shadowRoot.getElementById('hl-lightbox');
+      if (box && !box.hidden) box.hidden = true;
+      document.removeEventListener('keydown', this.onKeydown);
+      if (this._hlPrevFocus && this._hlPrevFocus.focus) this._hlPrevFocus.focus();
+      this._hlPrevFocus = null;
     }
     render() {
       const zh = this.zh;
@@ -112,7 +203,12 @@
         const detailBtn = detailHref ? `<a class="button secondary" href="${detailHref}" target="_top">${t('View course details →', '查看課程詳情 →')}</a>` : '';
         return `<article class="card">${media}<div class="card-body"><div class="tag">${String(index + 1).padStart(2, '0')} / ${course.category[zh ? 1 : 0]}</div>${heading}<div class="sessions">${t('Session options', '上課時段')}</div><ul class="dates">${course.dates.map((date) => `<li>${date}</li>`).join('')}</ul><div class="card-actions">${detailBtn}<a class="button" href="${wa(zh ? course.zh : course.en)}" target="_blank" rel="noopener noreferrer">${t('Ask about availability', '查詢名額')}</a></div></div></article>`;
       }).join('');
-      this.shadowRoot.innerHTML = `<style>${styles}</style><div lang="${zh?'zh-Hant':'en'}"><div class="notice">${t('Preview only: schedule and offers are awaiting verification against the original workshop PDF.','預覽版本：課程時間及優惠仍待與原始工作坊 PDF 核對。')}</div><section class="hero"><div class="wrap"><div class="eyebrow">IC Academy · Christmas Workshop 2026</div><h1>${t('Christmas Art Workshops','聖誕藝術工作坊')}</h1><p class="lead">${t('Celebrate the festive season with eight creative workshops for children: clay, crafts, glass painting, acrylic painting, comics and digital art. Small-group teaching, with materials included.','讓小朋友用創意迎接聖誕！8 款節日主題黏土、手作、玻璃畫、塑膠彩、漫畫及電繪工作坊。小班教學，材料全包。')}</p><div class="actions"><button class="button secondary" type="button" data-scroll>${t('Explore workshops','探索工作坊')}</button><a class="button" href="${wa()}" target="_blank" rel="noopener noreferrer">${t('Enquire on WhatsApp','WhatsApp 查詢')}</a></div></div></section><section class="section" id="workshops"><div class="wrap"><div class="section-head"><div class="eyebrow">Festive creations</div><h2>${t('Eight festive workshops','8 款聖誕創作主題')}</h2><p class="subtle">${t('Find a favourite and enquire about available places.','揀選心儀主題，查詢最新名額。')}</p></div><div class="grid">${cards}</div><p class="note">${t('Dates shown are December 2026 and January 2027. Please reconfirm sessions and availability.','所列日期為 2026 年 12 月及 2027 年 1 月；請查詢以確認時段及名額。')}</p></div></section><section class="section"><div class="wrap"><div class="offer"><div class="eyebrow">Christmas 2026</div><h2>${t('Early-bird offers','聖誕早鳥優惠')}</h2><div class="offer-grid"><div><h3>${t('Returning students','舊生優惠')}</h3><p>${t('Enrol in any workshop and receive a HK$100 workshop coupon.','報讀任何一個 Workshop，即送 HK$100 Workshop Coupon。')}</p><p>${t('Enrol in two workshops at the same time and enjoy 50% off the second workshop.','同時報讀兩個 Workshop，第二個享半價。')}</p></div><div><h3>${t('New students','新生優惠')}</h3><p>${t('10% off individual enrolment.','單獨報讀享 9 折。')}</p><p>${t('Two new students enrolling together each receive 15% off.','兩位新生同行，各享 85 折。')}</p></div></div><p class="note">${t('Each student may use each offer once. Offers cannot be combined with other discounts. Please enquire for full terms.','每位學生每個優惠只可使用一次；優惠不可與其他折扣同時使用。詳細條款請向學院查詢。')}</p></div></div></section><section class="section"><div class="wrap faq"><h2>${t('Frequently asked questions','常見問題')}</h2><div class="faq-item"><h3>${t('Are materials included?','需要自備材料嗎？')}</h3><p>${t('Yes. All workshops use small-group teaching, and materials are included.','不用。所有工作坊均採用小班教學，材料全包。')}</p></div><div class="faq-item"><h3>${t('How do I register?','如何報名？')}</h3><p>${t('Contact us on WhatsApp at 6580 8022 to check session availability.','請 WhatsApp 6580 8022 查詢心儀課程的最新名額及報名安排。')}</p></div><div class="faq-item"><h3>${t('Where is IC Academy?','上課地點？')}</h3><p>${t('Shop 3, G/F, No. 79F Waterloo Road, Kowloon, Hong Kong.','九龍窩打老道 79F 號地下 3 號舖。')}</p></div></div></section><section class="final"><h2>${t('Make something magical this Christmas','一起創造聖誕回憶')}</h2><p>${t('Office','電話')}: 2711 3006 · WhatsApp: 6580 8022</p><a class="button" href="${wa()}" target="_blank" rel="noopener noreferrer">${t('Enquire now','立即查詢')}</a></section></div>`;
+      const highlightItems = HIGHLIGHTS_2025.map((item, index) => {
+        const alt = this.highlightAlt(index, zh).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+        return `<figure class="highlights-item"><button type="button" data-highlight-open data-index="${index}"><img src="${this.highlightSrc(index, false)}" alt="${alt}" width="540" height="675" loading="lazy" decoding="async"></button></figure>`;
+      }).join('');
+      const lightboxLabel = t('2025 Christmas Workshop Highlights', '2025 聖誕工作坊作品回顧');
+      this.shadowRoot.innerHTML = `<style>${styles}</style><div lang="${zh?'zh-Hant':'en'}"><div class="notice">${t('Preview only: schedule and offers are awaiting verification against the original workshop PDF.','預覽版本：課程時間及優惠仍待與原始工作坊 PDF 核對。')}</div><section class="hero"><div class="wrap"><div class="eyebrow">IC Academy · Christmas Workshop 2026</div><h1>${t('Christmas Art Workshops','聖誕藝術工作坊')}</h1><p class="lead">${t('Celebrate the festive season with eight creative workshops for children: clay, crafts, glass painting, acrylic painting, comics and digital art. Small-group teaching, with materials included.','讓小朋友用創意迎接聖誕！8 款節日主題黏土、手作、玻璃畫、塑膠彩、漫畫及電繪工作坊。小班教學，材料全包。')}</p><div class="actions"><button class="button secondary" type="button" data-scroll>${t('Explore workshops','探索工作坊')}</button><a class="button" href="${wa()}" target="_blank" rel="noopener noreferrer">${t('Enquire on WhatsApp','WhatsApp 查詢')}</a></div></div></section><section class="section" id="workshops"><div class="wrap"><div class="section-head"><div class="eyebrow">Festive creations</div><h2>${t('Eight festive workshops','8 款聖誕創作主題')}</h2><p class="subtle">${t('Find a favourite and enquire about available places.','揀選心儀主題，查詢最新名額。')}</p></div><div class="grid">${cards}</div><p class="note">${t('Dates shown are December 2026 and January 2027. Please reconfirm sessions and availability.','所列日期為 2026 年 12 月及 2027 年 1 月；請查詢以確認時段及名額。')}</p></div></section><section class="section" id="highlights-2025"><div class="wrap"><div class="section-head"><div class="eyebrow">Christmas 2025</div><h2>${t('2025 Christmas Workshop Highlights','2025 聖誕工作坊作品回顧')}</h2><p class="subtle">${t('Artwork made by our students last Christmas','去年學員嘅聖誕作品')}</p></div><div class="highlights-grid">${highlightItems}</div></div></section><section class="section"><div class="wrap"><div class="offer"><div class="eyebrow">Christmas 2026</div><h2>${t('Early-bird offers','聖誕早鳥優惠')}</h2><div class="offer-grid"><div><h3>${t('Returning students','舊生優惠')}</h3><p>${t('Enrol in any workshop and receive a HK$100 workshop coupon.','報讀任何一個 Workshop，即送 HK$100 Workshop Coupon。')}</p><p>${t('Enrol in two workshops at the same time and enjoy 50% off the second workshop.','同時報讀兩個 Workshop，第二個享半價。')}</p></div><div><h3>${t('New students','新生優惠')}</h3><p>${t('10% off individual enrolment.','單獨報讀享 9 折。')}</p><p>${t('Two new students enrolling together each receive 15% off.','兩位新生同行，各享 85 折。')}</p></div></div><p class="note">${t('Each student may use each offer once. Offers cannot be combined with other discounts. Please enquire for full terms.','每位學生每個優惠只可使用一次；優惠不可與其他折扣同時使用。詳細條款請向學院查詢。')}</p></div></div></section><section class="section"><div class="wrap faq"><h2>${t('Frequently asked questions','常見問題')}</h2><div class="faq-item"><h3>${t('Are materials included?','需要自備材料嗎？')}</h3><p>${t('Yes. All workshops use small-group teaching, and materials are included.','不用。所有工作坊均採用小班教學，材料全包。')}</p></div><div class="faq-item"><h3>${t('How do I register?','如何報名？')}</h3><p>${t('Contact us on WhatsApp at 6580 8022 to check session availability.','請 WhatsApp 6580 8022 查詢心儀課程的最新名額及報名安排。')}</p></div><div class="faq-item"><h3>${t('Where is IC Academy?','上課地點？')}</h3><p>${t('Shop 3, G/F, No. 79F Waterloo Road, Kowloon, Hong Kong.','九龍窩打老道 79F 號地下 3 號舖。')}</p></div></div></section><section class="final"><h2>${t('Make something magical this Christmas','一起創造聖誕回憶')}</h2><p>${t('Office','電話')}: 2711 3006 · WhatsApp: 6580 8022</p><a class="button" href="${wa()}" target="_blank" rel="noopener noreferrer">${t('Enquire now','立即查詢')}</a></section><div class="hl-lightbox" id="hl-lightbox" hidden role="dialog" aria-modal="true" aria-label="${lightboxLabel}" data-highlight-close><div class="hl-lightbox-inner"><button type="button" class="hl-close" data-highlight-close-btn aria-label="${t('Close','關閉')}">×</button><button type="button" class="hl-nav hl-prev" data-highlight-step="-1" aria-label="${t('Previous artwork','上一幅作品')}">‹</button><img alt="" width="1080" height="1350"><button type="button" class="hl-nav hl-next" data-highlight-step="1" aria-label="${t('Next artwork','下一幅作品')}">›</button></div></div></div>`;
     }
   }
   customElements.define('christmas-workshop-2026', ChristmasWorkshop);
