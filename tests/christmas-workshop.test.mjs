@@ -4,6 +4,11 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { Window } from "happy-dom";
+import {
+  WORKSHOP_ART_SPRITE,
+  WORKSHOP_ART_SLUGS,
+  workshopArtPosition,
+} from "../christmas-workshop-art.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const hubSrc = readFileSync(join(root, "short-term-courses-hub.js"), "utf8");
@@ -127,21 +132,17 @@ for (const slug of SLUGS) {
         assert.ok(src.includes("/v1/fill/"), `${slug}: card thumbnail should use fill (${src})`);
         assert.ok(!src.includes("/v1/fit/"), `${slug}: card thumbnail should not use fit (${src})`);
       }
-      const heroImg = el.shadowRoot.querySelector(".hero-photo img");
-      assert.ok(heroImg, `${slug}: hero image missing`);
-      const heroSrc = String(heroImg.getAttribute("src") || "");
-      assert.ok(heroSrc.includes("/v1/fill/"), `${slug}: hero should use fill URL`);
-      assert.ok(!heroSrc.includes("/v1/fit/"), `${slug}: hero should not use fit URL`);
-      const heroPos = heroImg.getAttribute("style") || "";
-      assert.match(heroPos, /object-position:/, `${slug}: hero missing object-position`);
-      if (slug === "christmas-adventure-board-game") {
-        assert.match(heroPos, /40%\s*center/, `${slug}: expected left-biased object-position`);
-      }
-      if (slug === "christmas-fairytale-illustration-towel") {
-        assert.match(heroPos, /58%\s*center/, `${slug}: expected right-biased object-position`);
-      }
-      if (slug === "magic-crystal-kaleidoscope") {
-        assert.match(heroPos, /center\s*62%/, `${slug}: expected lower-biased object-position`);
+      const heroArt = el.shadowRoot.querySelector(".hero-photo .workshop-art");
+      assert.ok(heroArt, `${slug}: hero workshop art missing`);
+      const heroPos = heroArt.getAttribute("style") || "";
+      assert.match(heroPos, /background-position:/, `${slug}: hero missing background-position`);
+      const expectedPos = workshopArtPosition(slug);
+      assert.match(heroPos, new RegExp(expectedPos.replace("%", "\\%").replace(".", "\\.")), `${slug}: expected hub slot ${expectedPos}, got ${heroPos}`);
+      const othersArt = [...el.shadowRoot.querySelectorAll(".related .workshop-art")];
+      assert.equal(othersArt.length, 6, `${slug}: expected 6 other-workshop cards`);
+      for (const art of othersArt) {
+        const style = art.getAttribute("style") || "";
+        assert.match(style, /background-position:/, `${slug}: related workshop card missing background-position`);
       }
       const waBtn = el.shadowRoot.querySelector(".cta a.button");
       assert.ok(waBtn, `${slug}: centered WhatsApp CTA missing`);
@@ -175,16 +176,36 @@ test("christmas-workshop-course: all link-card thumbnails return image/*", async
   }
 });
 
+test("christmas-workshop-course uses the same hub-card artwork map", () => {
+  assert.deepEqual(
+    [...courseSrc.match(/const WORKSHOP_ART_SLUGS = \[([^\]]+)\]/)[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]),
+    WORKSHOP_ART_SLUGS
+  );
+  for (const slug of WORKSHOP_ART_SLUGS.slice(0, 7)) {
+    const pos = workshopArtPosition(slug);
+    assert.ok(pos.includes("%"), slug);
+  }
+  assert.equal(workshopArtPosition("magic-crystal-kaleidoscope"), `${(1 % 4) * 100 / 3}% 0%`);
+  assert.equal(workshopArtPosition("christmas-adventure-board-game"), `${(5 % 4) * 100 / 3}% 100%`);
+  // Hub still paints cards from the sprite, not the unused photos[] ids.
+  assert.match(parentSrc, /const art = `<div class="art pdf-art"/);
+});
+
 test("christmas-workshop-course: hero, cards and CTA use 4:5 cover fill styles", () => {
   assert.match(courseSrc, /\.hero-photo\{[^}]*aspect-ratio:4\/5/);
   assert.match(courseSrc, /\.hero-photo\{[^}]*max-width:520px/);
-  assert.match(courseSrc, /\.hero-photo img\{[^}]*object-fit:cover/);
   assert.match(courseSrc, /\.link-card-media\{[^}]*aspect-ratio:4\/5/);
-  assert.match(courseSrc, /\.link-card-media img\{[^}]*object-fit:cover/);
+  assert.match(courseSrc, /\.workshop-art\{[^}]*aspect-ratio:300\/260/);
+  assert.match(courseSrc, /\.workshop-art\{[\s\S]*?background-size:400% 200%/);
   assert.match(courseSrc, /@media\(max-width:767px\)\{\.hero-photo\{max-width:100%\}/);
-  assert.match(courseSrc, /"christmas-adventure-board-game": "40% center"/);
-  assert.match(courseSrc, /"christmas-fairytale-illustration-towel": "58% center"/);
-  assert.match(courseSrc, /"magic-crystal-kaleidoscope": "center 62%"/);
+  assert.equal((courseSrc.match(/WORKSHOP_ART_SPRITE/) || []).length >= 1, true);
+  assert.ok(courseSrc.includes(WORKSHOP_ART_SPRITE), "course page must use the hub sprite URL");
+  assert.ok(parentSrc.includes(WORKSHOP_ART_SPRITE), "hub must keep the same sprite URL");
+  assert.match(parentSrc, /\.pdf-art\{[^}]*background-size:400% 200%/);
+  assert.match(parentSrc, /class="art pdf-art"/);
+  assert.doesNotMatch(courseSrc, /IMAGE_OBJECT_POSITION/);
+  assert.doesNotMatch(courseSrc, /"christmas-adventure-board-game": "40% center"/);
+  assert.doesNotMatch(courseSrc, /"magic-crystal-kaleidoscope": "center 62%"/);
   assert.match(courseSrc, /\.cta\{display:flex;justify-content:center/);
   assert.match(courseSrc, /\.button\{[^}]*font-size:1rem/);
   assert.match(courseSrc, /\.button\{[^}]*padding:14px 28px/);
