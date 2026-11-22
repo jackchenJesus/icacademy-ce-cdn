@@ -985,7 +985,7 @@ class HomeHub extends HTMLElement {
           <div class="hero-slides">
             ${SLIDES.map((src, i) => {
               if (i === 0) {
-                return `<img src="${IMG.heroSm}" srcset="${IMG.heroSm} 640w, ${IMG.hero} 960w, ${IMG.heroLg} 1280w" sizes="100vw" alt="" fetchpriority="high" decoding="async" class="${i === this._slide ? "is-active" : ""}" width="1280" height="720" />`;
+                return `<img src="${IMG.heroSm}" srcset="${IMG.heroSm} 640w, ${IMG.hero} 960w, ${IMG.heroLg} 1280w" sizes="100vw" alt="" fetchpriority="high" decoding="async" class="${i === this._slide ? "is-active" : ""}" width="1280" height="720" style="object-position:center 78%" />`;
               }
               return `<img src="${src}" alt="" loading="lazy" decoding="async" class="${i === this._slide ? "is-active" : ""}" width="1280" height="900" />`;
             }).join("")}
