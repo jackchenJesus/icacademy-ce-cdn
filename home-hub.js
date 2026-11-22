@@ -13,14 +13,14 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  heroSm: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 640, 360, 70),
-  hero: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 960, 540, 75),
-  heroLg: mediaUrl("d5ba93_877f09bf5689458abf71f4826d75757e~mv2.webp", 1280, 720, 75),
-  slide2: mediaUrl("d5ba93_248741ebd74c4292991838fe0f92ab9f~mv2.webp", 1280, 900, 75),
-  slide3: mediaUrl("d5ba93_d93c6f740500464aa89e65a8e2e68d76~mv2.webp", 1280, 900, 75),
-  slide4: mediaUrl("d5ba93_afa4d4c135f84fa78b7ff23ab0183220~mv2.webp", 1280, 900, 75),
-  slide5: mediaUrl("d5ba93_ecb183209c8e40aaa71fb4d0a53bb2bc~mv2.webp", 1280, 900, 75),
-  why: mediaUrl("d5ba93_6b8642c3db6945b59c18849170a01e4e~mv2.webp", 800, 1000, 75),
+  heroSm: mediaUrl("52f9c8_acddadfcc06c418eb615f04ada74af7c~mv2.webp", 640, 360, 70),
+  hero: mediaUrl("52f9c8_acddadfcc06c418eb615f04ada74af7c~mv2.webp", 960, 540, 75),
+  heroLg: mediaUrl("52f9c8_acddadfcc06c418eb615f04ada74af7c~mv2.webp", 1280, 720, 75),
+  slide2: mediaUrl("52f9c8_b9bb1788d34745399a3f911317a0d04c~mv2.webp", 1280, 900, 75),
+  slide3: mediaUrl("52f9c8_4df76b0d433f44a497ac2d27599f5ab4~mv2.webp", 1280, 900, 75),
+  slide4: mediaUrl("52f9c8_fd533d189d654afb95c35e1673655f14~mv2.webp", 1280, 900, 75),
+  slide5: mediaUrl("52f9c8_be5caf8324ad4f1ba7a9669560d6effd~mv2.webp", 1280, 900, 75),
+  why: mediaUrl("52f9c8_e1f33e0934044b63af811d93578e25c5~mv2.webp", 800, 1000, 75),
 };
 
 const SLIDES = [IMG.heroLg, IMG.slide2, IMG.slide3, IMG.slide4, IMG.slide5];
