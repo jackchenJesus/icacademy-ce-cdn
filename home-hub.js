@@ -572,7 +572,7 @@ class HomeHub extends HTMLElement {
     style.id = "icacademy-christmas-style";
     style.textContent = `
       #icacademy-christmas-snow{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;z-index:9998;pointer-events:none;opacity:.72}
-      .icacademy-santa-hat{position:absolute;width:44px;height:40px;z-index:10000;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(24,45,60,.18));transform:rotate(10deg);transform-origin:bottom center}
+      .icacademy-santa-hat{position:absolute;width:44px;height:40px;z-index:10000;pointer-events:auto;cursor:pointer;filter:drop-shadow(0 2px 2px rgba(24,45,60,.18));transform:rotate(10deg);transform-origin:bottom center}
       .icacademy-santa-hat svg{display:block;width:100%;height:100%}
     `;
     document.head.appendChild(style);
@@ -585,9 +585,10 @@ class HomeHub extends HTMLElement {
     this._xmasCanvas = canvas;
     this._xmasCtx = canvas.getContext("2d", { alpha: true });
     this._xmasFlakes = [];
-    this._xmasHat = document.createElement("span");
+    this._xmasHat = document.createElement("a");
     this._xmasHat.className = "icacademy-santa-hat";
-    this._xmasHat.setAttribute("aria-hidden", "true");
+    this._xmasHat.href = (this.isEn ? "" : "/zh") + "/short-term-course/christmas-workshop-2026";
+    this._xmasHat.setAttribute("aria-label", this.isEn ? "Christmas workshops" : "聖誕工作坊");
     this._xmasHat.innerHTML = '<svg viewBox="0 0 48 42" xmlns="http://www.w3.org/2000/svg"><path d="M5 30 18 7c2-4 7-4 9 0l12 23Z" fill="#d7353d"/><path d="M15 14 30 30h-9L11 22Z" fill="#ef5350"/><path d="M4 28c8-3 27-3 40 0l-1 7c-11-3-28-3-38 0Z" fill="#fff"/><path d="M5 31c10-3 28-3 38 0l-.4 4c-12-3-26-3-37 0Z" fill="#f5f2ee"/><circle cx="29.5" cy="5.5" r="5" fill="#fff"/></svg>';
 
     const resize = () => {
