@@ -17,6 +17,7 @@ const IMG = {
   hero: mediaUrl("52f9c8_acddadfcc06c418eb615f04ada74af7c~mv2.webp", 960, 540, 75),
   heroLg: mediaUrl("52f9c8_acddadfcc06c418eb615f04ada74af7c~mv2.webp", 1280, 720, 75),
   slide2: mediaUrl("52f9c8_b9bb1788d34745399a3f911317a0d04c~mv2.webp", 1280, 900, 75),
+  slide2Portrait: mediaUrl("52f9c8_b9bb1788d34745399a3f911317a0d04c~mv2.webp", 1280, 2048, 82),
   slide3: mediaUrl("52f9c8_4df76b0d433f44a497ac2d27599f5ab4~mv2.webp", 1280, 900, 75),
   slide4: mediaUrl("52f9c8_fd533d189d654afb95c35e1673655f14~mv2.webp", 1280, 900, 75),
   slide5: mediaUrl("52f9c8_be5caf8324ad4f1ba7a9669560d6effd~mv2.webp", 1280, 900, 75),
