@@ -1044,8 +1044,8 @@ class HomeHub extends HTMLElement {
               "在香港的學制壓力下，呈分試已成為小五、小六學生的精神重擔。傳統興趣班填滿課表，卻少有真正關注孩子的內心世界。IC Academy 從另一個角度出發——藝術，是孩子最安全、最自由的情緒出口。"
             )}</p>
             <p class="section-lead" style="margin-top:-16px">${t(
-              "We do not grade artwork or rank students. In every session, our teachers observe each child's creative process — gently guiding self-expression, building a sense of achievement, and giving children a genuine space to breathe beyond academic demands.",
-              "我們不設排名，不比較作品優劣。每堂課，老師會觀察孩子的創作狀態，引導孩子表達自我、建立成就感。這是一個讓孩子在學業壓力以外，真正「喘一口氣」的地方。"
+              "We value the learning process and help each child discover their unique gifts. In every session, our teachers observe each child's creative process, guiding self-expression and building a sense of achievement. It is a space where children can truly breathe beyond academic pressure.",
+              "我們重視學習過程，發掘孩子獨特的恩賜。每堂課，老師會觀察孩子的創作狀態，引導孩子表達自我、建立成就感。這是一個讓孩子在學業壓力以外，真正「喘一口氣」的地方。"
             )}</p>
             <div class="why-grid">
               ${WHY_CARDS.map(
