@@ -13,9 +13,9 @@ function mediaUrl(id, w, h, q = 75) {
 }
 
 const IMG = {
-  heroSm: mediaUrl("52f9c8_acddadfcc06c418eb615f04ada74af7c~mv2.webp", 640, 360, 70),
-  hero: mediaUrl("52f9c8_acddadfcc06c418eb615f04ada74af7c~mv2.webp", 960, 540, 75),
-  heroLg: mediaUrl("52f9c8_acddadfcc06c418eb615f04ada74af7c~mv2.webp", 1280, 720, 75),
+  heroSm: mediaUrl("52f9c8_b9bb1788d34745399a3f911317a0d04c~mv2.webp", 640, 960, 82),
+  hero: mediaUrl("52f9c8_b9bb1788d34745399a3f911317a0d04c~mv2.webp", 960, 1440, 82),
+  heroLg: mediaUrl("52f9c8_b9bb1788d34745399a3f911317a0d04c~mv2.webp", 1280, 1920, 82),
   slide2: mediaUrl("52f9c8_b9bb1788d34745399a3f911317a0d04c~mv2.webp", 1280, 900, 75),
   slide2Portrait: mediaUrl("52f9c8_b9bb1788d34745399a3f911317a0d04c~mv2.webp", 1280, 2048, 82),
   slide3: mediaUrl("52f9c8_4df76b0d433f44a497ac2d27599f5ab4~mv2.webp", 1280, 900, 75),
@@ -985,7 +985,7 @@ class HomeHub extends HTMLElement {
           <div class="hero-slides">
             ${SLIDES.map((src, i) => {
               if (i === 0) {
-                return `<img src="${IMG.heroSm}" srcset="${IMG.heroSm} 640w, ${IMG.hero} 960w, ${IMG.heroLg} 1280w" sizes="100vw" alt="" fetchpriority="high" decoding="async" class="${i === this._slide ? "is-active" : ""}" width="1280" height="720" style="object-position:center 78%" />`;
+                return `<img src="${IMG.heroSm}" srcset="${IMG.heroSm} 640w, ${IMG.hero} 960w, ${IMG.heroLg} 1280w" sizes="100vw" alt="" fetchpriority="high" decoding="async" class="${i === this._slide ? "is-active" : ""}" width="1280" height="1920" style="object-fit:contain;object-position:center center;background:#e9e7e3" />`;
               }
               return `<img src="${src}" alt="" loading="lazy" decoding="async" class="${i === this._slide ? "is-active" : ""}" width="1280" height="900" />`;
             }).join("")}
